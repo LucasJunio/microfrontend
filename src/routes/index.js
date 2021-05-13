@@ -1,20 +1,22 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, Footer, Home, About, Contact } from "../components";
-function App() {
+import React from 'react'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+
+import Home from '../pages/home'
+import Login from '../pages/login'
+
+const Routes =() => {
   return (
-    <div className="App">
-      <Router>
-        <Navigation />
-        <Switch>
-          <Route path="/" exact component={() => <Home />} />
-          <Route path="/about" exact component={() => <About />} />
-          <Route path="/contact" exact component={() => <Contact />} />
-        </Switch>
-        {/* <Footer /> */}
-      </Router>
-    </div>
+   <Router>
+     <Switch>
+     <Route exact path='/'>
+      <Home/>
+     </Route>
+     <Route path='/login'>
+      <Login/>
+     </Route>  
+     </Switch>  
+   </Router>
   );
 }
 
-export default App;
+export default Routes;
