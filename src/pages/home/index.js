@@ -2,7 +2,7 @@ import React from 'react'
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 import Background from '../../assets/images/bg2.jpg'
 
-import { Form, Input, Card, CardHeader, CardBody } from 'reactstrap';
+import { Form, Input, Card, CardBody } from 'reactstrap';
 
 import {
    Classlogotipo
@@ -20,10 +20,11 @@ const home =() => {
       <ContainerCard>
 
       <Card>
-      <CardHeader>Cadastro</CardHeader>
+ 
       <CardBody>
 
       <Form>
+        
       <Input id='nome' name='nome' placeholder="Nome Completo" />
       <Input id='email' name='email' placeholder="E-mail" />
        
