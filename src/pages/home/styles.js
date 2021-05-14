@@ -20,8 +20,6 @@ width:100%;
 z-index:2
 `
 
-
-
 export const ContainerCard = styled.div`
 left:33%;
 position: absolute;
@@ -30,20 +28,6 @@ min-width:35%;
 margin-top:10%;
 z-index:10
 `
-
-export const DarkBackground = styled.div`
-position:absolute;
-width:100%;
-height:100%;
-opacity:0.7;
-background-attachment: fixed;
- background-repeat: no-repeat;
- background-size: cover;
- -moz-background-size: cover;
- overflow-x: hidden;
- overflow-y: hidden;
-`
-
 
 export const ClassBackground = styled.div`
 background-image:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),url(${Background});
