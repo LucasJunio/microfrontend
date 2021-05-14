@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
-import Background from '../../assets/images/bg2.jpg'
+
 
 import { Form, Input, Card, CardBody } from 'reactstrap';
 
@@ -24,7 +24,7 @@ const home =() => {
       <CardBody>
 
       <Form>
-        
+
       <Input id='nome' name='nome' placeholder="Nome Completo" />
       <Input id='email' name='email' placeholder="E-mail" />
        
@@ -32,10 +32,9 @@ const home =() => {
       </CardBody>
       </Card>
 
-
       </ContainerCard>
 
-    <ClassBackground style={{backgroundImage:`url(${Background})`}}></ClassBackground>
+      <ClassBackground ></ClassBackground>
 
 
      </>

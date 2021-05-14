@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import Background from '../../assets/images/bg2.jpg'
+
 export const Classlogotipo = styled.div`
 position: absolute;
 margin:30px;
@@ -29,12 +31,25 @@ margin-top:10%;
 z-index:10
 `
 
-
-export const ClassBackground = styled.div`
+export const DarkBackground = styled.div`
 position:absolute;
 width:100%;
 height:100%;
 opacity:0.7;
+background-attachment: fixed;
+ background-repeat: no-repeat;
+ background-size: cover;
+ -moz-background-size: cover;
+ overflow-x: hidden;
+ overflow-y: hidden;
+`
+
+
+export const ClassBackground = styled.div`
+background-image:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),url(${Background});
+position:absolute;
+width:100%;
+height:100%;
 background-attachment: fixed;
  background-repeat: no-repeat;
  background-size: cover;
