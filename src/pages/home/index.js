@@ -1,5 +1,7 @@
 import React from 'react'
 import $ from "jquery";
+import axios from "axios"
+
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,12 +21,10 @@ import CardBody from "components/Card/CardBody.js";
 // import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
+import Email from '@material-ui/icons/EmailOutlined';
+import People from "@material-ui/icons/PeopleAltOutlined";
 import Phone from "@material-ui/icons/PhoneIphone"
-import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
+ 
 // import { Form, Input, Card, CardBody } from 'reactstrap';
 
 import {
@@ -47,17 +47,10 @@ const home =() => {
 
   const classes = useStyles();
 
-    const [checked, setChecked] = React.useState([24, 22]);
+    const [checked, setChecked] = React.useState('false');
     const handleToggle = value => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+    checked.indexOf(value) === -1 ? setChecked('true'):setChecked('false')
     }
-    setChecked(newChecked);
-    };
 
  
     const [Nome, setNome] = React.useState(''); 
@@ -88,11 +81,39 @@ const home =() => {
     const [ColorInputClass, setColorInputClass] = React.useState(false); 
     const OnchangeSenha = v =>{
     setSenha(v);
-    if((/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(v)){
+    if((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)){
     setIconSenha('check_Outline');setColorInputClass(true);$('#descriptionpassword').html('')
-    }else{setIconSenha('lock_Outline');setColorInputClass(false);$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> um número e um caractere especial`)}
+    }else{setIconSenha('lock_Outline');setColorInputClass(false);$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`)}
     }
 
+    const Register =()=>{
+ 
+    if(Nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || Celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)){
+      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
+    }else{
+       checked ==='false' ? alert('Favor leira os termos e clique em confirmar!') : submit()
+    }
+
+    function submit(){
+      
+      axios({
+        method: 'post',
+        url: 'http://',
+        data: {
+          nome: Nome,
+          email: email,
+          celular:Celular,
+          senha:senha
+        }
+      }).then(function (response) {
+        alert(response) 
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+    }
+
+  }
     return (
      <>      
       <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo> 
@@ -149,7 +170,7 @@ const home =() => {
 
 
               <CustomInput
-                labelText="Celular (99) 99999-9999"
+                labelText="Celular"
                 id="celular"
                 name="celular"
                 formControlProps={{
@@ -191,7 +212,7 @@ const home =() => {
               />
                
             <DescriptionText>
-            <div id="descriptionpassword"></div>
+            <div id="descriptionpassword">A senha deve conter mínimo de oito caracteres, <br></br> pelo menos, uma letra maiúscula, uma letra minúscula, <br></br> um número e um caractere especial </div>
             </DescriptionText>
 
         <div className={classes.checkboxAndRadio + " " + classes.checkboxAndRadioHorizontal}/>
@@ -199,7 +220,7 @@ const home =() => {
           control={
             <Checkbox
               tabIndex={-1}
-              onClick={() => handleToggle(21)}
+              onClick={() => handleToggle('true')}
               checkedIcon={<Check className={classes.checkedIcon} />}
               icon={<Check className={classes.uncheckedIcon} />}
               classes={{
@@ -218,9 +239,10 @@ const home =() => {
                 // simple
                 color="primary"
                 size="lg"
-                href="#"
-                target="_blank"
+                // href="#"
+                // target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => Register()}
               >
                 Crie sua Conta
               </Button>
