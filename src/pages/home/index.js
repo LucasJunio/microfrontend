@@ -85,12 +85,15 @@ const home =() => {
 
     const [senha, setSenha] = React.useState(''); 
     const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
+    const [ColorInputClass, setColorInputClass] = React.useState(false); 
+
+    
 
     const OnchangeSenha = v =>{
     setSenha(v);
     if((/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(v)){
-    setIconSenha('check_Outline');$('#descriptionpassword').html('')
-    }else{setIconSenha('lock_Outline');$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> um número e um caractere especial`)}
+    setIconSenha('check_Outline');setColorInputClass(true);$('#descriptionpassword').html('')
+    }else{setIconSenha('lock_Outline');setColorInputClass(false);$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> um número e um caractere especial`)}
     }
 
     return (
@@ -169,17 +172,17 @@ const home =() => {
                 }}
               />
               <DescriptionText><div id="descriptioncelular"></div></DescriptionText>
-
+               
               <CustomInput
                 labelText="Senha"
                 id="password"
                 name="password"
+                success={ColorInputClass}
                 formControlProps={{
                   fullWidth: true,
                 }}
                 inputProps={{
                   type: "password",
-                  color:"success",
                   onChange: (e) => OnchangeSenha(e.target.value),
                   endAdornment: (
                     <InputAdornment position="end">
@@ -189,10 +192,9 @@ const home =() => {
                   autoComplete: "off",
                 }}
               />
-
+               
             <DescriptionText>
             <div id="descriptionpassword"></div>
-            {/* <div id="descriptionpassword2"></div> */}
             </DescriptionText>
 
         <div className={classes.checkboxAndRadio + " " + classes.checkboxAndRadioHorizontal}/>
