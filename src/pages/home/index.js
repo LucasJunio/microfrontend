@@ -1,4 +1,5 @@
 import React from 'react'
+import $ from "jquery";
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,6 +22,8 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
 import Phone from "@material-ui/icons/PhoneIphone"
+import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 // import { Form, Input, Card, CardBody } from 'reactstrap';
 
@@ -44,9 +47,8 @@ const home =() => {
 
   const classes = useStyles();
 
-
-  const [checked, setChecked] = React.useState([24, 22]);
-  const handleToggle = value => {
+    const [checked, setChecked] = React.useState([24, 22]);
+    const handleToggle = value => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
     if (currentIndex === -1) {
@@ -55,18 +57,41 @@ const home =() => {
       newChecked.splice(currentIndex, 1);
     }
     setChecked(newChecked);
-  };
+    };
 
  
+    const [Nome, setNome] = React.useState(''); 
+    const OnchangeNome = v =>{
+    setNome(v);
+    (/^[A-Za-z-ç]+$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')
+    }
+
+    const [email, setEmail] = React.useState(''); 
+    const OnchangeEmail = v =>{
+    setEmail(v);
+    (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(v) || v.length < 1 ? $('#descriptionemail').html('') : $('#descriptionemail').html('Digite um email válido')
+    }
  
-  // const [Name, setName] = React.useState('');
-  // const [Email, setEmail] = React.useState('');
-  // const [Mobile, setMobile] = React.useState('');
-  const [Password, setPassword] = React.useState(''); 
-  const OnchangePassword = v =>{
-    setPassword(v)
-    console.log('valor passwo: ' + Password)
-  }
+    const [Celular, setCelular] = React.useState(''); 
+    const OnchangeCelular = v =>{
+      function maskcel(v){
+        v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
+        v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+        v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+        return v;
+      }
+    setCelular(maskcel(v))
+    }
+
+    const [senha, setSenha] = React.useState(''); 
+    const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
+
+    const OnchangeSenha = v =>{
+    setSenha(v);
+    if((/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(v)){
+    setIconSenha('check_Outline');$('#descriptionpassword').html('')
+    }else{setIconSenha('lock_Outline');$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> um número e um caractere especial`)}
+    }
 
     return (
      <>      
@@ -75,11 +100,9 @@ const home =() => {
       <TitleWelcome>Gateway de Pagamentos Vileve</TitleWelcome>
 
 
-
       <ContainerCard>
       <ContainerCardSize>
-      <Card>
-        
+      <Card>        
 
             <CardBody>
 
@@ -92,6 +115,8 @@ const home =() => {
                 }}
                 inputProps={{
                   type: "text",
+                  onChange: (e) => OnchangeNome(e.target.value),
+                  autoComplete: "off",
                   endAdornment: (
                     <InputAdornment position="end">
                       <People className={classes.inputIconsColor} />
@@ -99,6 +124,9 @@ const home =() => {
                   ),
                 }}
               />
+              <DescriptionText><div id="descriptionnome"></div></DescriptionText>
+
+
               <CustomInput
                 labelText="E-mail"
                 id="email"
@@ -108,6 +136,8 @@ const home =() => {
                 }}
                 inputProps={{
                   type: "email",
+                  onChange: (e) => OnchangeEmail(e.target.value),
+                  autoComplete: "off",
                   endAdornment: (
                     <InputAdornment position="end">
                       <Email className={classes.inputIconsColor} />
@@ -115,19 +145,22 @@ const home =() => {
                   ),
                 }}
               />
-              <DescriptionText>Preencha um e-mail válido</DescriptionText>
+              <DescriptionText><div id="descriptionemail"></div></DescriptionText>
 
 
               <CustomInput
-                labelText="Celular"
+                labelText="Celular (99) 99999-9999"
                 id="celular"
                 name="celular"
                 formControlProps={{
                   fullWidth: true,
                 }}
                 inputProps={{
-                  type: "number",
-                  onChange: (e) => OnchangeMobile(e.target.value),
+                  type: "text",
+                  onChange: (e) => OnchangeCelular(e.target.value),
+                  value: Celular,
+                  autoComplete: "off",
+                  inputProps: { maxLength: 15 },
                   endAdornment: (
                     <InputAdornment position="end">
                       <Phone className={classes.inputIconsColor} />
@@ -135,6 +168,8 @@ const home =() => {
                   ),
                 }}
               />
+              <DescriptionText><div id="descriptioncelular"></div></DescriptionText>
+
               <CustomInput
                 labelText="Senha"
                 id="password"
@@ -144,19 +179,21 @@ const home =() => {
                 }}
                 inputProps={{
                   type: "password",
-                  onChange: (e) => OnchangePassword(e.target.value),
+                  color:"success",
+                  onChange: (e) => OnchangeSenha(e.target.value),
                   endAdornment: (
                     <InputAdornment position="end">
-                      <Icon className={classes.inputIconsColor}>
-                        lock_outline
-                            </Icon>
+                    <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>                      
                     </InputAdornment>
                   ),
                   autoComplete: "off",
                 }}
               />
 
-        <DescriptionText>Sua senha deve conter no mínimo 6 caractéres...</DescriptionText>
+            <DescriptionText>
+            <div id="descriptionpassword"></div>
+            {/* <div id="descriptionpassword2"></div> */}
+            </DescriptionText>
 
         <div className={classes.checkboxAndRadio + " " + classes.checkboxAndRadioHorizontal}/>
         <FormControlLabel
