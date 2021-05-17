@@ -86,9 +86,6 @@ const home =() => {
     const [senha, setSenha] = React.useState(''); 
     const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
     const [ColorInputClass, setColorInputClass] = React.useState(false); 
-
-    
-
     const OnchangeSenha = v =>{
     setSenha(v);
     if((/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(v)){
