@@ -95,21 +95,42 @@ const signup =() => {
     }
 
     function submit(){
-      
-      axios({
-        method: 'post',
-        url: 'http://',
-        data: {
-          nome: Nome,
-          email: email,
-          celular:Celular,
-          senha:senha
+
+      const data= {
+            nome: Nome,
+            email: email,
+            celular:Celular,
+            senha:senha
+          }      
+
+      $.ajax({
+        url: 'http://localhost:5000/',
+        type:'POST',
+        data: data , 
+        crossDomain: true,
+        cache: false,
+        success : function(result) {
+        return eval(result);
+        },
+        error: function(xhr, resp, text) {
+        console.log(xhr, resp, text);
         }
-      }).then(function (response) {
-        alert(response) 
-      }).catch(function (error) {
-        console.log(error);
-      });
+        })
+      
+      // axios({
+      //   method: 'post',
+      //   url: 'http://localhost:5000/',
+      //   data: {
+      //     nome: Nome,
+      //     email: email,
+      //     celular:Celular,
+      //     senha:senha
+      //   }
+      // }).then(function (response) {
+      //   alert(response) 
+      // }).catch(function (error) {
+      //   console.log(error);
+      // });
 
     }
 
