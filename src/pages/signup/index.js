@@ -96,7 +96,7 @@ const signup =() => {
 
     function submit(){
 
-      const data= {
+      const data = {
             nome: Nome,
             email: email,
             celular:Celular,

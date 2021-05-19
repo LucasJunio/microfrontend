@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import Background from '../../assets/images/bg0.jpg'
+import Background from '../../assets/images/bg2.jpg'
 
 export const Classlogotipo = styled.div`
 position: absolute;
@@ -39,7 +39,7 @@ max-width:85%;
 
 
 export const ClassBackground = styled.div`
-background-image:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.2)),url(${Background});
+background-image:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1)),url(${Background});
 position:absolute;
 width:100%;
 height:100%;
