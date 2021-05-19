@@ -136,8 +136,10 @@ export default function MiniDrawer() {
             // margin="dense"
             id="name"
             label="Token"
-            type="email"
-            autoComplete="false"
+            type="text"
+            autoComplete="off"
+            variant="outlined"
+            inputProps={{ maxLength: 6 }}
             // fullWidth
           />
         </DialogContent>

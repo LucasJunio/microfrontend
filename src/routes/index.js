@@ -2,22 +2,23 @@ import React from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Home from '../pages/home'
 import Login from '../pages/login'
-import Sigup from '../pages/signup'
+import Signup from '../pages/signup'
 
+import PrivateRoute from './privateroute'
 
 const Routes =() => {
   return (
    <Router>
      <Switch>
      <Route exact path='/'>
-      <Sigup/>
+      <Signup/>
      </Route>
      <Route path='/login'>
       <Login/>
      </Route>  
-     <Route path='/home'>
+     <PrivateRoute path='/home'>
       <Home/>
-     </Route>  
+     </PrivateRoute>  
      </Switch>  
    </Router>
   );
