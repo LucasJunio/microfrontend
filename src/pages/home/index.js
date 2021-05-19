@@ -18,6 +18,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import AppsIcon from '@material-ui/icons/Apps';
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -126,6 +131,12 @@ export default function MiniDrawer() {
     setOpenmodal(false);
   };
 
+  const getIconRender = i =>{
+    if(i === 0) return <HomeIcon />
+    if(i === 1) return <AssignmentIndIcon />
+    if(i === 2) return <AppsIcon /> 
+  }
+
   return (
 
     <>
@@ -177,7 +188,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h7" noWrap>
             Bem Vindo ao Gateway de Pagamentos Vileve
           </Typography>
         </Toolbar>
@@ -205,22 +216,26 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Home', 'Cadastro', 'Meus Produtos'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{
+              getIconRender(index)    
+              }</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
+
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['Logout'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon> <ExitToAppIcon /> </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
+
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
