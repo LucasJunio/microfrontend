@@ -28,15 +28,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import Alert from '@material-ui/lab/Alert';
 
+import logotipo from '../../assets/images/logo-vileve-pay-cor-140px.png'
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 
- 
-
-
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,12 +97,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  // root: {
-  //   width: '100%',
-  //   '& > * + *': {
-  //     marginTop: theme.spacing(2),
-  //   },
-  // },
+  logotipo:{
+    width:'100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 }));
 
 export default function MiniDrawer() {
@@ -197,7 +196,9 @@ export default function MiniDrawer() {
           }),
         }}
       >
+        
         <div className={classes.toolbar}>
+        <div className={classes.logotipo} ><img src={logotipo} width="100px"></img></div>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
