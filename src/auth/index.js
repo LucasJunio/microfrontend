@@ -1,2 +1,2 @@
-const isLogged =() => false
+const isLogged =() => true
 export {isLogged};

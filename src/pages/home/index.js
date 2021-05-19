@@ -26,6 +26,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Alert from '@material-ui/lab/Alert';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -97,6 +98,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  // root: {
+  //   width: '100%',
+  //   '& > * + *': {
+  //     marginTop: theme.spacing(2),
+  //   },
+  // },
 }));
 
 export default function MiniDrawer() {
@@ -220,6 +227,11 @@ export default function MiniDrawer() {
         <h3>Gateway de Pagamentos Vileve</h3>
           Seja bem vindo à área de administração do seu gateway de pagamentos vileve.
         </Typography>
+ 
+
+      <div className={classes.root}>
+      <Alert severity="warning"><b>Atenção:</b> Complete seu cadastro! <a href='#'>Clique aqui para acessar o formulário!</a> </Alert>
+     </div>
  
       </main>
     </div>
