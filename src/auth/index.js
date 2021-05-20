@@ -1,2 +1,2 @@
-const isLogged =() => true
+const isLogged =() =>  !!localStorage.getItem('token') 
 export {isLogged};

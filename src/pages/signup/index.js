@@ -58,7 +58,7 @@ const signup =() => {
     const [Nome, setNome] = React.useState(''); 
     const OnchangeNome = v =>{
     setNome(v);
-    (/^[A-Za-z-ç]+$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')
+    (/^[A-Za-z-ç.-]+(\s*[A-Za-z-ç.-]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')
     }
 
     const [email, setEmail] = React.useState(''); 
