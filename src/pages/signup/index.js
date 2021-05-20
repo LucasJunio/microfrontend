@@ -36,6 +36,8 @@ import {
   ,PositionButton
   ,PositionFooter
   ,DescriptionText
+  ,Loading
+  ,Spinner
 } from './styles'
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
@@ -77,6 +79,7 @@ const signup =() => {
     }
 
     const [senha, setSenha] = React.useState(''); 
+    const [Showloading, setShowloading] = React.useState('none');
     const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
     const [ColorInputClass, setColorInputClass] = React.useState(false); 
     const OnchangeSenha = v =>{
@@ -95,7 +98,7 @@ const signup =() => {
     }
 
     function submit(){
-
+      setShowloading('')
       const data = {
             nome: Nome,
             email: email,
@@ -111,6 +114,7 @@ const signup =() => {
         crossDomain: true,
         cache: false,
         success : function(result) {
+        setShowloading('none')
         eval(result);
         },
         error: function(xhr, resp, text) {
@@ -124,7 +128,9 @@ const signup =() => {
 
   }
     return (
-     <>      
+     <>  
+      <Loading style={{display:Showloading}}><Spinner/></Loading>    
+
       <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo> 
 
       <TitleWelcome>Gateway de Pagamentos Vileve</TitleWelcome>
