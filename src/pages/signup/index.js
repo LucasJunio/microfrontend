@@ -103,6 +103,7 @@ const signup =() => {
             senha:senha
           }      
 
+
       $.ajax({
         url: 'http://localhost:5000/',
         type:'POST',
@@ -110,27 +111,14 @@ const signup =() => {
         crossDomain: true,
         cache: false,
         success : function(result) {
-        return eval(result);
+        eval(result);
         },
         error: function(xhr, resp, text) {
         console.log(xhr, resp, text);
         }
         })
       
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:5000/',
-      //   data: {
-      //     nome: Nome,
-      //     email: email,
-      //     celular:Celular,
-      //     senha:senha
-      //   }
-      // }).then(function (response) {
-      //   alert(response) 
-      // }).catch(function (error) {
-      //   console.log(error);
-      // });
+      
 
     }
 
