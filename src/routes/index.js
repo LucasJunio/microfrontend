@@ -22,6 +22,6 @@ const Routes =() => {
      </Switch>  
    </Router>
   );
-}
+} 
 
 export default Routes;
