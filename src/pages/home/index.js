@@ -246,7 +246,7 @@ export default function MiniDrawer() {
  
 
       <div className={classes.root}>
-      <Alert severity="warning"><b>Atenção:</b> Complete seu cadastro! <a href='#'>Clique aqui para acessar o formulário!</a> </Alert>
+      <Alert severity="warning"><b>Atenção:</b> Complete    seu cadastro! <a href='#'>Clique aqui para acessar o formulário!</a> </Alert>
      </div>
  
       </main>
