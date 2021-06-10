@@ -108,7 +108,7 @@ const signup =() => {
 
 
       $.ajax({
-        url: 'http://localhost:5000/',
+        url: 'http://52.90.194.130:3000/',
         type:'POST',
         data: data , 
         crossDomain: true,
