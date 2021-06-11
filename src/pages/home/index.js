@@ -240,7 +240,7 @@ export default function MiniDrawer() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
-        <h3>Gateway de Pagamentos Vileve</h3>
+        <h3>Gateway de Pagamentos Vileve Pay</h3>
           Seja bem vindo à área de administração do seu gateway de pagamentos vileve.
         </Typography>
  
