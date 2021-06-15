@@ -143,7 +143,7 @@ const signup =() => {
             <CardBody>
 
               <CustomInput
-                labelText="Nome Completo Alexandre"
+                labelText="Nome Completo"
                 id="nome"
                 name="nome"
                 formControlProps={{
@@ -245,7 +245,7 @@ const signup =() => {
             />
           }
           classes={{ label: classes.label }}
-          label="Concordo com os termos Vileve"
+          label="Concordo com os termos Vileve Pay"
         />
      
 
