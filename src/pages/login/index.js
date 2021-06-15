@@ -2,7 +2,7 @@ import React from 'react'
 const login =() => {
     return (
      <>
-     <h1>welcome to gateway Login2</h1>
+     <h1>welcome to gateway Login</h1>
      </>
     );
   }
