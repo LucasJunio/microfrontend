@@ -102,12 +102,13 @@ const signup =() => {
 
     function submit(){
       setShowloading('')
+      let senha256 = sha256(senha).toString()
       setSenha(sha256(senha).toString())
       const data = {
             nome: Nome,
             email: email,
             celular:Celular,
-            senha:sha256(senha).toString()
+            senha:senha256
       }     
       $.ajax({
         url: 'http://3.233.0.255:3000/',
