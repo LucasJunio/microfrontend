@@ -109,7 +109,7 @@ const signup =() => {
             senha:sha256(senha).toString()
       }     
       $.ajax({
-        url: 'http://52.90.194.130:3000/',
+        url: 'http://3.233.0.255:3000/',
         type:'POST',
         data: data , 
         crossDomain: true,
