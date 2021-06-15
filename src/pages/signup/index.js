@@ -102,6 +102,8 @@ const signup =() => {
 
     function submit(){
       setShowloading('')
+      setSenha(sha256(senha).toString())
+      console.log(sha256(senha).toString())
       const data = {
             nome: Nome,
             email: email,
@@ -220,6 +222,7 @@ const signup =() => {
                 inputProps={{
                   type: "password",
                   onChange: (e) => OnchangeSenha(e.target.value),
+                  value: senha,
                   endAdornment: (
                     <InputAdornment position="end">
                     <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>                      
