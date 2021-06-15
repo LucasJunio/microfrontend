@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from "jquery";
-import axios from "axios"
+
 
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 
@@ -26,6 +26,8 @@ import People from "@material-ui/icons/PeopleAltOutlined";
 import Phone from "@material-ui/icons/PhoneIphone"
  
 // import { Form, Input, Card, CardBody } from 'reactstrap';
+
+import sha256 from 'crypto-js/sha256';
 
 import {
    Classlogotipo
@@ -82,6 +84,7 @@ const signup =() => {
     const [Showloading, setShowloading] = React.useState('none');
     const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
     const [ColorInputClass, setColorInputClass] = React.useState(false); 
+
     const OnchangeSenha = v =>{
     setSenha(v);
     if((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)){
@@ -103,10 +106,8 @@ const signup =() => {
             nome: Nome,
             email: email,
             celular:Celular,
-            senha:senha
-          }      
-
-
+            senha:sha256(senha).toString()
+      }     
       $.ajax({
         url: 'http://52.90.194.130:3000/',
         type:'POST',
@@ -118,7 +119,9 @@ const signup =() => {
         eval(result);
         },
         error: function(xhr, resp, text) {
-        console.log(xhr, resp, text);
+        setShowloading('none')
+        alert('Erro no envio tente novamente em alguns minutos...')
+        //console.log(xhr, resp, text);
         }
         })
       
@@ -143,7 +146,7 @@ const signup =() => {
             <CardBody>
 
               <CustomInput
-                labelText="Nome Completo Alexandre"
+                labelText="Nome Completo"
                 id="nome"
                 name="nome"
                 formControlProps={{
