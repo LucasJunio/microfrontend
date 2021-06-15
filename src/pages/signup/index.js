@@ -143,7 +143,7 @@ const signup =() => {
             <CardBody>
 
               <CustomInput
-                labelText="Nome Completo"
+                labelText="Nome Completo Alexandre"
                 id="nome"
                 name="nome"
                 formControlProps={{
