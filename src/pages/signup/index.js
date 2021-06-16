@@ -251,7 +251,7 @@ const signup =() => {
             />
           }
           classes={{ label: classes.label }}
-          label="Concordo com os termos Vileve"
+          label="Concordo com os termos Vileve Pay"
         />
      
 
