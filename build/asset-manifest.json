@@ -1,24 +1,23 @@
 {
   "files": {
     "main.css": "/static/css/main.32bb39e4.chunk.css",
-    "main.js": "/static/js/main.95db8182.chunk.js",
-    "main.js.map": "/static/js/main.95db8182.chunk.js.map",
+    "main.js": "/static/js/main.b5147646.chunk.js",
+    "main.js.map": "/static/js/main.b5147646.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.1cad435e.js",
     "runtime-main.js.map": "/static/js/runtime-main.1cad435e.js.map",
-    "static/js/2.be456794.chunk.js": "/static/js/2.be456794.chunk.js",
-    "static/js/2.be456794.chunk.js.map": "/static/js/2.be456794.chunk.js.map",
+    "static/js/2.4bf02a81.chunk.js": "/static/js/2.4bf02a81.chunk.js",
+    "static/js/2.4bf02a81.chunk.js.map": "/static/js/2.4bf02a81.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.32bb39e4.chunk.css.map": "/static/css/main.32bb39e4.chunk.css.map",
-    "static/js/2.be456794.chunk.js.LICENSE.txt": "/static/js/2.be456794.chunk.js.LICENSE.txt",
-    "static/js/main.95db8182.chunk.js.LICENSE.txt": "/static/js/main.95db8182.chunk.js.LICENSE.txt",
+    "static/js/2.4bf02a81.chunk.js.LICENSE.txt": "/static/js/2.4bf02a81.chunk.js.LICENSE.txt",
     "static/media/bg2.2ffb4e65.jpg": "/static/media/bg2.2ffb4e65.jpg",
     "static/media/bg_card_assistencia.f79267a7.jpg": "/static/media/bg_card_assistencia.f79267a7.jpg",
     "static/media/bg_card_vilevepay.5deca73d.jpg": "/static/media/bg_card_vilevepay.5deca73d.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.1cad435e.js",
-    "static/js/2.be456794.chunk.js",
+    "static/js/2.4bf02a81.chunk.js",
     "static/css/main.32bb39e4.chunk.css",
-    "static/js/main.95db8182.chunk.js"
+    "static/js/main.b5147646.chunk.js"
   ]
 }
