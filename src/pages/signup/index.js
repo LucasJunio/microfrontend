@@ -102,28 +102,28 @@ const signup =() => {
 
     function submit(){
       setShowloading('')
-      let senha256 = sha256(senha).toString()
       setSenha(sha256(senha).toString())
       const data = {
             nome: Nome,
             email: email,
             celular:Celular,
-            senha:senha256
+            senha:sha256(senha).toString()
       }     
       $.ajax({
-        url: 'http://3.233.0.255:3000/',
+        url: 'http://54.235.227.102:3000/signup',
         type:'POST',
-        data: data , 
+        data: data, 
+        dataType: "json",
         crossDomain: true,
         cache: false,
         success : function(result) {
         setShowloading('none')
-        eval(result);
+        console.log(result);
         },
         error: function(xhr, resp, text) {
         setShowloading('none')
         alert('Erro no envio tente novamente em alguns minutos...')
-        //console.log(xhr, resp, text);
+        console.log(xhr, resp, text);
         }
         })
       
