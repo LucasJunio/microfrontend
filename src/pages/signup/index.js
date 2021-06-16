@@ -110,15 +110,17 @@ const signup =() => {
             senha:sha256(senha).toString()
       }     
       $.ajax({
-        url: 'http://54.235.227.102:3000/signup',
+        url: 'http://3.86.192.150:3000/signup',
         type:'POST',
         data: data, 
         dataType: "json",
         crossDomain: true,
         cache: false,
         success : function(result) {
-        setShowloading('none')
-        console.log(result);
+        setShowloading('none');
+        alert('Cadastro realizado com sucesso! Verifique seu email para confirmação!');
+        localStorage.setItem('token', result.token );
+        top.location.href='/home';
         },
         error: function(xhr, resp, text) {
         setShowloading('none')
