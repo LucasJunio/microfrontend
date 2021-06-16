@@ -110,7 +110,7 @@ const signup =() => {
             senha:sha256(senha).toString()
       }     
       $.ajax({
-        url: 'http://3.86.192.150:3000/signup',
+        url: 'http://18.204.215.95:3000/signup',
         type:'POST',
         data: data, 
         dataType: "json",
