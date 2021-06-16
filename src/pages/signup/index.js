@@ -100,27 +100,38 @@ const signup =() => {
     function submit(){
       setShowloading('')
       const data = {
-            nome: Nome,
-            email: email,
-            celular:Celular,
-            senha:senha
+            "nome": `${ Nome}`,
+            "email": `${ email}`,
+            "celular": `${Celular}`,
+            "senha": `${senha}`
           }      
 
+          const api = axios.create({
+            baseURL: 'http://localhost:3000',
+          });
+          api.post('/signup', data)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
-      $.ajax({
-        url: 'http://52.90.194.130:3000/',
-        type:'POST',
-        data: data , 
-        crossDomain: true,
-        cache: false,
-        success : function(result) {
-        setShowloading('none')
-        eval(result);
-        },
-        error: function(xhr, resp, text) {
-        console.log(xhr, resp, text);
-        }
-        })
+      // $.ajax({
+      //   url: 'http://localhost:3000/signup',
+      //   type: "POST",
+      //   data: data , 
+      //   datatype : "application/json",
+      //   crossDomain: true,
+      //   cache: false,
+      //   success : function(result) {
+      //   setShowloading('none')
+      //   eval(result);
+      //   },
+      //   error: function(xhr, resp, text) {
+      //   console.log(xhr, resp, text);
+      //   }
+      //   })
       
       
 
