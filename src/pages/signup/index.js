@@ -23,7 +23,7 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Email from '@material-ui/icons/EmailOutlined';
 import People from "@material-ui/icons/PeopleAltOutlined";
 import Phone from "@material-ui/icons/PhoneIphone"
- 
+
 // import { Form, Input, Card, CardBody } from 'reactstrap';
 
 import TextField from '@material-ui/core/TextField';
@@ -33,7 +33,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
- 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -41,180 +41,123 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 import sha256 from 'crypto-js/sha256';
 
 import {
-   Classlogotipo
-  ,ClassBackground
-  ,TitleWelcome
-  ,ContainerCard
-  ,ContainerCardSize
-  ,PositionButton
-  ,PositionFooter
-  ,DescriptionText
-  ,Loading
-  ,Spinner
+  Classlogotipo
+  , ClassBackground
+  , TitleWelcome
+  , ContainerCard
+  , ContainerCardSize
+  , PositionButton
+  , PositionFooter
+  , DescriptionText
+  , Loading
+  , Spinner
 } from './styles'
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
+import { signupRequest } from '../../store/modules/signup/actions';
+
 const useStyles = makeStyles(styles);
 
+export default function Signup() {
 
-const signup =() => { 
+  const dispatch = useDispatch();
+
+  var loading = useSelector(state => state.signup.loading);
+  var signed = useSelector(state => state.signup.signed);
 
   const classes = useStyles();
 
-    const [checked, setChecked] = React.useState('false');
-    const handleToggle = value => {
-    checked.indexOf(value) === -1 ? setChecked('true'):setChecked('false')
-    }
+  const [checked, setChecked] = React.useState('false');
+  const handleToggle = value => {
+    checked.indexOf(value) === -1 ? setChecked('true') : setChecked('false')
+  }
 
- 
-    const [Nome, setNome] = React.useState(''); 
-    const OnchangeNome = v =>{
+
+  const [nome, setNome] = React.useState('');
+  const OnchangeNome = v => {
     setNome(v);
     (/^[A-Za-z-ç.-]+(\s*[A-Za-z-ç.-]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')
-    }
+  }
 
-    const [email, setEmail] = React.useState(''); 
-    const OnchangeEmail = v =>{
+  const [email, setEmail] = React.useState('');
+  const OnchangeEmail = v => {
     setEmail(v);
     (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(v) || v.length < 1 ? $('#descriptionemail').html('') : $('#descriptionemail').html('Digite um email válido')
-    }
- 
-    const [Celular, setCelular] = React.useState(''); 
-    const OnchangeCelular = v =>{
-      function maskcel(v){
-        v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
-        v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-        v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
-        return v;
-      }
-    setCelular(maskcel(v))
-    }
-
-    const [senha, setSenha] = React.useState(''); 
-    const [Showloading, setShowloading] = React.useState('none');
-    const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
-    const [ColorInputClass, setColorInputClass] = React.useState(false); 
-
-    const OnchangeSenha = v =>{
-    setSenha(v);
-    if((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)){
-    setIconSenha('check_Outline');setColorInputClass(true);$('#descriptionpassword').html('')
-    }else{setIconSenha('lock_Outline');setColorInputClass(false);$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`)}
-    }
-
-    const [openmodal, setOpenmodal] = React.useState(false);
-     const handleClose = () => {
-      top.location.href='/home';
-      setOpenmodal(false);
-    };
-
-
-    const Register =()=>{
- 
-    if(Nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || Celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)){
-      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
-    }else{
-       checked ==='false' ? alert('Favor leia os termos e clique em confirmar!') : submit()
-    }
-
-    function submit(){
-      setShowloading('')
-      setSenha(sha256(senha).toString())
-      const data = {
-<<<<<<< HEAD
-            "nome": `${ Nome}`,
-            "email": `${ email}`,
-            "celular": `${Celular}`,
-            "senha": `${senha}`
-          }      
-
-          const api = axios.create({
-            baseURL: 'http://localhost:3000',
-          });
-          api.post('/signup', data)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-      // $.ajax({
-      //   url: 'http://localhost:3000/signup',
-      //   type: "POST",
-      //   data: data , 
-      //   datatype : "application/json",
-      //   crossDomain: true,
-      //   cache: false,
-      //   success : function(result) {
-      //   setShowloading('none')
-      //   eval(result);
-      //   },
-      //   error: function(xhr, resp, text) {
-      //   console.log(xhr, resp, text);
-      //   }
-      //   })
-      
-      
-=======
-            nome: Nome,
-            email: email,
-            celular:Celular,
-            senha:sha256(senha).toString()
-      }     
-      $.ajax({
-        url: 'http://18.204.215.95:3000/signup',
-        type:'POST',
-        data: data, 
-        dataType: "json",
-        crossDomain: true,
-        cache: false,
-        success : function(result) {
-        setShowloading('none');
-        setOpenmodal(true)
-        //localStorage.setItem('token', result.token );
-        },
-        error: function(xhr, resp, text) {
-        setShowloading('none')
-        alert('Erro no envio tente novamente em alguns minutos...')
-        console.log(xhr, resp, text);
-        }
-        })     
->>>>>>> f58b98abcdca1b5acf5d224169ec277f7d937c21
-
-    }
-
-
   }
-    return (
-     <>  
-      <Loading style={{display:Showloading}}><Spinner/></Loading>    
+
+  const [celular, setCelular] = React.useState('');
+  const OnchangeCelular = v => {
+    function maskcel(v) {
+      v = v.replace(/\D/g, "");             //Remove tudo o que não é dígito
+      v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+      v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+      return v;
+    }
+    setCelular(maskcel(v))
+  }
+
+  const [senha, setSenha] = React.useState('');
+  const [Iconsenha, setIconSenha] = React.useState('lock_Outline');
+  const [ColorInputClass, setColorInputClass] = React.useState(false);
+
+  const OnchangeSenha = v => {
+    setSenha(v);
+    if ((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)) {
+      setIconSenha('check_Outline'); setColorInputClass(true); $('#descriptionpassword').html('')
+    } else { setIconSenha('lock_Outline'); setColorInputClass(false); $('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`) }
+  }
+
+  const handleClose = () => {
+    top.location.href = '/home';
+    setOpenmodal(false);
+  };
 
 
-      <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title"><span class="material-icons" style={{marginTop:15, marginRight:5}}>mail</span> Confirme seu e-mail</DialogTitle>
+  const Register = () => {
+
+    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
+    } else {
+      checked === 'false' ? alert('Favor leia os termos e clique em confirmar!') : submit()
+    }
+
+    function submit() {
+      setSenha(sha256(senha).toString())
+      dispatch(signupRequest({ nome, email, celular, senha }));
+    }
+  }
+
+  return (
+    <>
+      <Loading style={{ display: loading }}><Spinner /></Loading>
+
+
+      {/* <Dialog open={signed} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title"><span class="material-icons" style={{ marginTop: 15, marginRight: 5 }}>mail</span> Confirme seu e-mail</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          <b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.
-          </DialogContentText>           
+            <b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="success">
             Ok
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
 
 
-      <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo> 
+      <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo>
 
-      <TitleWelcome>Gateway de Pagamentos Vileve</TitleWelcome>
+      <TitleWelcome>Gateway de Pagamentos Vileve Pay</TitleWelcome>
 
 
       <ContainerCard>
-      <ContainerCardSize>
-      <Card>        
+        <ContainerCardSize>
+          <Card>
 
             <CardBody>
 
@@ -270,7 +213,7 @@ const signup =() => {
                 inputProps={{
                   type: "text",
                   onChange: (e) => OnchangeCelular(e.target.value),
-                  value: Celular,
+                  value: celular,
                   autoComplete: "off",
                   inputProps: { maxLength: 15 },
                   endAdornment: (
@@ -281,7 +224,7 @@ const signup =() => {
                 }}
               />
               <DescriptionText><div id="descriptioncelular"></div></DescriptionText>
-               
+
               <CustomInput
                 labelText="Senha"
                 id="password"
@@ -296,65 +239,63 @@ const signup =() => {
                   value: senha,
                   endAdornment: (
                     <InputAdornment position="end">
-                    <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>                      
+                      <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>
                     </InputAdornment>
                   ),
                   autoComplete: "off",
                 }}
               />
-               
-            <DescriptionText>
-            <div id="descriptionpassword">A senha deve conter mínimo de oito caracteres, <br></br> pelo menos, uma letra maiúscula, uma letra minúscula, <br></br> um número e um caractere especial </div>
-            </DescriptionText>
 
-        <div className={classes.checkboxAndRadio + " " + classes.checkboxAndRadioHorizontal}/>
-        <FormControlLabel
-          control={
-            <Checkbox
-              tabIndex={-1}
-              onClick={() => handleToggle('true')}
-              checkedIcon={<Check className={classes.checkedIcon} />}
-              icon={<Check className={classes.uncheckedIcon} />}
-              classes={{
-                checked: classes.checked,
-                root: classes.checkRoot
-              }}
-            />
-          }
-          classes={{ label: classes.label }}
-          label="Concordo com os termos Vileve Pay"
-        />
-     
+              <DescriptionText>
+                <div id="descriptionpassword">A senha deve conter mínimo de oito caracteres, <br></br> pelo menos, uma letra maiúscula, uma letra minúscula, <br></br> um número e um caractere especial </div>
+              </DescriptionText>
+
+              <div className={classes.checkboxAndRadio + " " + classes.checkboxAndRadioHorizontal} />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    tabIndex={-1}
+                    onClick={() => handleToggle('true')}
+                    checkedIcon={<Check className={classes.checkedIcon} />}
+                    icon={<Check className={classes.uncheckedIcon} />}
+                    classes={{
+                      checked: classes.checked,
+                      root: classes.checkRoot
+                    }}
+                  />
+                }
+                classes={{ label: classes.label }}
+                label="Concordo com os termos Vileve Pay"
+              />
+
 
               <PositionButton>
-              <Button
-                // simple
-                color="primary"
-                size="lg"
-                // href="#"
-                // target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => Register()}
-              >
-                Crie sua Conta
-              </Button>
+                <Button
+                  // simple
+                  color="primary"
+                  size="lg"
+                  // href="#"
+                  // target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => Register()}
+                >
+                  Crie sua Conta
+                </Button>
               </PositionButton>
 
-                </CardBody>
+            </CardBody>
 
-      </Card>
-      </ContainerCardSize>
+          </Card>
+        </ContainerCardSize>
       </ContainerCard>
 
       <ClassBackground ></ClassBackground>
-        
-      <PositionFooter><Footer/></PositionFooter>
-      
+
+      <PositionFooter><Footer /></PositionFooter>
 
 
-     </>
-    );
-  }
-  
-  export default signup;
-  
+
+    </>
+  );
+}
+
