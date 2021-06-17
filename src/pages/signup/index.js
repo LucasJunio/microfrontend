@@ -1,7 +1,6 @@
 import React from 'react'
 import $ from "jquery";
 
-
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,6 +26,18 @@ import Phone from "@material-ui/icons/PhoneIphone"
  
 // import { Form, Input, Card, CardBody } from 'reactstrap';
 
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+ 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
 import sha256 from 'crypto-js/sha256';
 
 import {
@@ -43,7 +54,7 @@ import {
 } from './styles'
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
-import { func } from 'prop-types';
+
 const useStyles = makeStyles(styles);
 
 
@@ -92,12 +103,19 @@ const signup =() => {
     }else{setIconSenha('lock_Outline');setColorInputClass(false);$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`)}
     }
 
+    const [openmodal, setOpenmodal] = React.useState(false);
+     const handleClose = () => {
+      top.location.href='/home';
+      setOpenmodal(false);
+    };
+
+
     const Register =()=>{
  
     if(Nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || Celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)){
       alert('Todos os campos são obrigatórios, favor revise seu formulário!')
     }else{
-       checked ==='false' ? alert('Favor leira os termos e clique em confirmar!') : submit()
+       checked ==='false' ? alert('Favor leia os termos e clique em confirmar!') : submit()
     }
 
     function submit(){
@@ -118,25 +136,39 @@ const signup =() => {
         cache: false,
         success : function(result) {
         setShowloading('none');
-        alert('Cadastro realizado com sucesso! Verifique seu email para confirmação!');
-        localStorage.setItem('token', result.token );
-        top.location.href='/home';
+        setOpenmodal(true)
+        //localStorage.setItem('token', result.token );
         },
         error: function(xhr, resp, text) {
         setShowloading('none')
         alert('Erro no envio tente novamente em alguns minutos...')
         console.log(xhr, resp, text);
         }
-        })
-      
-      
+        })     
 
     }
+
 
   }
     return (
      <>  
       <Loading style={{display:Showloading}}><Spinner/></Loading>    
+
+
+      <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title"><span class="material-icons" style={{marginTop:15, marginRight:5}}>mail</span> Confirme seu e-mail</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          <b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.
+          </DialogContentText>           
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="success">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+
 
       <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo> 
 
