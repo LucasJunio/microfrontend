@@ -56,8 +56,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
+import history from '../../services/history';
 
-import { signupRequest } from '../../store/modules/signup/actions';
+import { signupRequest, signupSuccess } from '../../store/modules/signup/actions';
 
 const useStyles = makeStyles(styles);
 
@@ -66,7 +67,7 @@ export default function Signup() {
   const dispatch = useDispatch();
 
   var loading = useSelector(state => state.signup.loading);
-  var signed = useSelector(state => state.signup.signed);
+  var modal = useSelector(state => state.signup.modal);
 
   const classes = useStyles();
 
@@ -111,8 +112,8 @@ export default function Signup() {
   }
 
   const handleClose = () => {
-    top.location.href = '/home';
-    setOpenmodal(false);
+    dispatch(signupSuccess());
+    history.push('/');
   };
 
 
@@ -126,7 +127,7 @@ export default function Signup() {
 
     function submit() {
       setSenha(sha256(senha).toString())
-      dispatch(signupRequest({ nome, email, celular, senha }));
+      dispatch(signupRequest({ nome, email, celular, senha }));      
     }
   }
 
@@ -135,7 +136,7 @@ export default function Signup() {
       <Loading style={{ display: loading }}><Spinner /></Loading>
 
 
-      {/* <Dialog open={signed} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={modal} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title"><span class="material-icons" style={{ marginTop: 15, marginRight: 5 }}>mail</span> Confirme seu e-mail</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -147,7 +148,7 @@ export default function Signup() {
             Ok
           </Button>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
 
 
       <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo>
@@ -292,8 +293,6 @@ export default function Signup() {
       <ClassBackground ></ClassBackground>
 
       <PositionFooter><Footer /></PositionFooter>
-
-
 
     </>
   );

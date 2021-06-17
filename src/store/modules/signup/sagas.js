@@ -1,6 +1,5 @@
 import { takeLatest, call, all, put } from 'redux-saga/effects';
 
-import history from '../../../services/history';
 import api from '../../../services/api';
 
 import { returnSignupRequest } from './actions';
@@ -14,9 +13,7 @@ export function* Signup({ payload }) {
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(returnSignupRequest(response.data))
-    
-    history.push('/');
+    yield put(returnSignupRequest(response.data))      
 
   } catch (error) {
     console.log(error.response.data);

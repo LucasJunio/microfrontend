@@ -11,3 +11,10 @@ export function returnSignupRequest(object) {
         payload: { object }
     };
 }
+
+export function signupSuccess() {
+    return {
+      type: '@auth/SIGNUP_SUCCESS'
+    };
+  }
+  
