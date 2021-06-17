@@ -1,23 +1,33 @@
-import React from 'react'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Home from '../pages/home'
-import Login from '../pages/login'
-import Signup from '../pages/signup'
-import Products from '../pages/products'
+import React from 'react';
+// import { Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import { Provider } from 'react-redux'
 
-import PrivateRoute from './privateroute'
 
-const Routes =() => {
+import store from '../store'
+import Route from './Route'
+import history from '../services/history';
+
+import Signup from '../pages/Signup';
+import Login from '../pages/Login';
+import Home from '../pages/Home';
+
+export default function Routes() {
+
   return (
-   <Router>
-     <Switch>
-     <Route exact path='/'><Signup/></Route>
-     <Route path='/login'><Login/></Route>
-     <Route path='/products'><Products/></Route>    
-     <PrivateRoute path='/home'><Home/></PrivateRoute>  
-     </Switch>  
-   </Router>
-  );
-} 
+    <>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Route path="/signup" exact component={Signup} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/" exact component={Home} isPrivate />
 
-export default Routes;
+          {/* Pode-se usar o switch para um componente completamente montado */}
+          {/* <Switch> */}
+          {/* </Switch> */}
+
+        </ConnectedRouter>
+      </Provider>
+    </>
+  );
+}
