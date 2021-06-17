@@ -1,6 +1,5 @@
 import React from 'react'
 import $ from "jquery";
-import axios from "axios"
 
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 
@@ -27,6 +26,20 @@ import Phone from "@material-ui/icons/PhoneIphone"
  
 // import { Form, Input, Card, CardBody } from 'reactstrap';
 
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+ 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
+import sha256 from 'crypto-js/sha256';
+
 import {
    Classlogotipo
   ,ClassBackground
@@ -41,7 +54,7 @@ import {
 } from './styles'
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
-import { func } from 'prop-types';
+
 const useStyles = makeStyles(styles);
 
 
@@ -82,6 +95,7 @@ const signup =() => {
     const [Showloading, setShowloading] = React.useState('none');
     const [Iconsenha, setIconSenha] = React.useState('lock_Outline'); 
     const [ColorInputClass, setColorInputClass] = React.useState(false); 
+
     const OnchangeSenha = v =>{
     setSenha(v);
     if((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)){
@@ -89,17 +103,26 @@ const signup =() => {
     }else{setIconSenha('lock_Outline');setColorInputClass(false);$('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`)}
     }
 
+    const [openmodal, setOpenmodal] = React.useState(false);
+     const handleClose = () => {
+      top.location.href='/home';
+      setOpenmodal(false);
+    };
+
+
     const Register =()=>{
  
     if(Nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || Celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)){
       alert('Todos os campos são obrigatórios, favor revise seu formulário!')
     }else{
-       checked ==='false' ? alert('Favor leira os termos e clique em confirmar!') : submit()
+       checked ==='false' ? alert('Favor leia os termos e clique em confirmar!') : submit()
     }
 
     function submit(){
       setShowloading('')
+      setSenha(sha256(senha).toString())
       const data = {
+<<<<<<< HEAD
             "nome": `${ Nome}`,
             "email": `${ email}`,
             "celular": `${Celular}`,
@@ -134,13 +157,55 @@ const signup =() => {
       //   })
       
       
+=======
+            nome: Nome,
+            email: email,
+            celular:Celular,
+            senha:sha256(senha).toString()
+      }     
+      $.ajax({
+        url: 'http://18.204.215.95:3000/signup',
+        type:'POST',
+        data: data, 
+        dataType: "json",
+        crossDomain: true,
+        cache: false,
+        success : function(result) {
+        setShowloading('none');
+        setOpenmodal(true)
+        //localStorage.setItem('token', result.token );
+        },
+        error: function(xhr, resp, text) {
+        setShowloading('none')
+        alert('Erro no envio tente novamente em alguns minutos...')
+        console.log(xhr, resp, text);
+        }
+        })     
+>>>>>>> f58b98abcdca1b5acf5d224169ec277f7d937c21
 
     }
+
 
   }
     return (
      <>  
       <Loading style={{display:Showloading}}><Spinner/></Loading>    
+
+
+      <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title"><span class="material-icons" style={{marginTop:15, marginRight:5}}>mail</span> Confirme seu e-mail</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          <b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.
+          </DialogContentText>           
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="success">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+
 
       <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo> 
 
@@ -228,6 +293,7 @@ const signup =() => {
                 inputProps={{
                   type: "password",
                   onChange: (e) => OnchangeSenha(e.target.value),
+                  value: senha,
                   endAdornment: (
                     <InputAdornment position="end">
                     <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>                      
