@@ -153,7 +153,7 @@ export default function Signup() {
 
       <Classlogotipo><img src={logo} alt="logotipo"></img></Classlogotipo>
 
-      <TitleWelcome>Gateway de Pagamentos Vileve Pay</TitleWelcome>
+      <TitleWelcome>Bem vindo ao Vileve Way</TitleWelcome>
 
 
       <ContainerCard>
