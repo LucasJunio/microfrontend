@@ -15,13 +15,13 @@ export default function RouteWrapper({
 
   let validation = useSelector(state => state.signup.signed)
 
-    if (!validation && isPrivate) {
-      return <Redirect to="/signup" />;
-    }
+  if (!validation && isPrivate) {
+    return <Redirect to="/signup" />;
+  }
 
-    if (validation && !isPrivate) {
-      return <Redirect to="/" />;
-    }
+  if (validation && !isPrivate) {
+    return <Redirect to="/" />;
+  }
 
     return (
       <Route
