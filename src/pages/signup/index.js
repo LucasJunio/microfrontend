@@ -158,7 +158,11 @@ export default function Signup() {
 
       <ContainerCard>
         <ContainerCardSize>
+<<<<<<< HEAD
           <Card>
+=======
+          <Card style={{opacity:0.7}}>
+>>>>>>> develop
 
             <CardBody>
 

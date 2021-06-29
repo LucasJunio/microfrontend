@@ -16,27 +16,32 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AppsIcon from '@material-ui/icons/Apps';
 
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Card from "components/Card/Card.js";
+import CardBody from "components/Card/CardBody.js";
+import Button from "components/CustomButtons/Button.js";
 
-import Alert from '@material-ui/lab/Alert';
+ 
+
+// import Button from '@material-ui/core/Button';
+// import TextField from '@material-ui/core/TextField';
+// import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogTitle from '@material-ui/core/DialogTitle';
+
+// import Alert from '@material-ui/lab/Alert';
 
 import logotipo from '../../assets/images/logo-vileve-pay-cor-140px.png'
-
+ 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -125,13 +130,7 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const [openmodal, setOpenmodal] = React.useState(true);
-  const handleClickOpen = () => {
-    setOpenmodal(true);
-  };
-  const handleClose = () => {
-    setOpenmodal(false);
-  };
+   
 
   const getIconRender = i =>{
     if(i === 0) return <HomeIcon />
@@ -142,34 +141,7 @@ export default function MiniDrawer() {
   return (
 
     <>
-
-      <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Informe o Token enviado por SMS</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Informe o token enviado para seu celular para que confirme sua conta no gateway de pagamentos Vileve.
-          </DialogContentText>
-
-          <TextField
-            autoFocus
-            // margin="dense"
-            id="name"
-            label="Token"
-            type="text"
-            autoComplete="off"
-            variant="outlined"
-            inputProps={{ maxLength: 6 }}
-            // fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Enviar
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-    
+   
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -191,7 +163,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h7" noWrap>
-            Bem Vindo ao Gateway de Pagamentos Vileve
+            Bem Vindo à Plataforma Vileve
           </Typography>
         </Toolbar>
       </AppBar>
@@ -254,20 +226,10 @@ export default function MiniDrawer() {
         </Link>
 
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-        <h3>Gateway de Pagamentos Vileve Pay</h3>
-          Seja bem vindo à área de administração do seu gateway de pagamentos vileve.
-        </Typography>
+
+    </div>
  
 
-      <div className={classes.root}>
-      <Alert severity="warning"><b>Atenção:</b> Complete    seu cadastro! <a href='#'>Clique aqui para acessar o formulário!</a> </Alert>
-     </div>
- 
-      </main>
-    </div>
     </>
   );
 }
