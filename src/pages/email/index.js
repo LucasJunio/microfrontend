@@ -33,7 +33,7 @@ const Email =() => {
         <DialogTitle id="form-dialog-title"><ThumbUpAltOutlinedIcon style={{ marginTop: 15, marginRight: 5 }}/>  Seja Bem Vindo ao Grupo Vileve</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <b>Seja bem vindo à Vileve,</b> seu <b>email foi confirmado</b>, agora você está pronto pra começar, vamos lá?
+            <b>Seja bem vindo à Vileve,</b> seu <b>email foi confirmado</b>, agora você está pronto pra começar!.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
