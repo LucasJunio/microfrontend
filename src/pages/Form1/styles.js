@@ -81,3 +81,10 @@ margin-right:20px;
 float:left;
 `
 
+export const DescriptionText = styled.div`
+position:relative;
+font-size:11px;
+color:#9C27B0;
+margin-top:-10px
+`
+

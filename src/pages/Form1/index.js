@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-// import $ from "jquery";
+import $ from "jquery";
 // react component for creating beautiful carousel
 import Carousel from "react-slick";
 // material-ui components
@@ -15,7 +15,6 @@ import image2 from "assets/img/bg2.jpg";
 import image3 from "assets/img/bg3.jpg";
 
 import CustomInput from "components/CustomInput/CustomInput.js";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import People from "@material-ui/icons/PeopleAltOutlined";
 
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -23,9 +22,15 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SaveIcon from '@material-ui/icons/Save';
 
 import { makeStyles } from "@material-ui/core/styles";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Icon from "@material-ui/core/Icon";
+
+
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import logo from '../../assets/images/logo-vileve-pay-cor-140px.png'
 import Button from "components/CustomButtons/Button.js";
+
+
 
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -42,10 +47,13 @@ import {
   Imageleft2,
   Containerright,
   PositionButton,
-  MarginField
+  MarginField,
+  DescriptionText 
 } from './styles'
 
 import styles2 from "assets/jss/material-kit-react/customCheckboxRadioSwitch.js";
+
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles(styles);
 const useStyles2 = makeStyles(styles2);
@@ -71,14 +79,80 @@ export default function SectionCarousel() {
   };
 
 
-  
-   const [selectedEnabled, setSelectedEnabled] = React.useState(false);
-   const [disabledfields, setdisabledfields] = React.useState(true)
+  const dispatch = useDispatch();
+
+  var loading = useSelector(state => state.signup.loading);
+  var modal = useSelector(state => state.signup.modal);
+
+
+  const [selectedEnabled, setSelectedEnabled] = React.useState(false);
+  const [disabledfields, setdisabledfields] = React.useState(true)
 
   useEffect(() => {
-    selectedEnabled ? setdisabledfields(false) : setdisabledfields(true) 
+    selectedEnabled ? setdisabledfields(false) : setdisabledfields(true)
   }, [selectedEnabled]);
 
+
+
+  const [nome, setNome] = React.useState('');
+  const OnchangeNOME = v => {
+    setNome(v);
+    (/^[A-Za-z-ç.-]+(\s*[A-Za-z-ç.-]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')
+  }
+
+  const [email, setEmail] = React.useState('');
+  const OnchangeEMAIL = v => {
+    setEmail(v);
+    (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(v) || v.length < 1 ? $('#descriptionemail').html('') : $('#descriptionemail').html('Digite um email válido')
+  }
+
+  const [celular, setCelular] = React.useState('');
+  const OnchangeCELULAR = v => {
+    function maskcel(v) {
+      v = v.replace(/\D/g, "");             //Remove tudo o que não é dígito
+      v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+      v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+      return v;
+    }
+    setCelular(maskcel(v))
+  }
+
+
+  const [cpf, setCPF] = React.useState('');
+  const OnchangeCPF = v => {
+    function maskcpf(v) {
+      v = v.replace(/\D/g, "");
+      v = v.replace(/^(\d{3})/g, "$1.");
+      v = v.replace(/(\d{3})(\d{3})/g, "$1.$2-");
+      return v;
+    }
+    setCPF(maskcpf(v))
+  }
+
+  const [senha, setSenha] = React.useState('');
+  const [Iconsenha, setIconSenha] = React.useState('lock_Outline');
+  const [ColorInputClass, setColorInputClass] = React.useState(false);
+
+  const OnchangeSENHA = v => {
+    setSenha(v);
+    if ((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)) {
+      setIconSenha('check_Outline'); setColorInputClass(true); $('#descriptionpassword').html('')
+    } else { setIconSenha('lock_Outline'); setColorInputClass(false); $('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`) }
+  }
+
+  const Register = () => {
+
+    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
+    } else {
+      checked === 'false' ? alert('Favor leia os termos e clique em confirmar!') : submit()
+    }
+
+    function submit() {
+      setSenha(sha256(senha).toString())
+      dispatch(signupRequest({ nome, email, celular, senha }));
+    }
+  }
 
   return (
 
@@ -115,6 +189,7 @@ export default function SectionCarousel() {
                           autoComplete: "off",
                         }}
                       />
+                      <DescriptionText><div id="descriptionnome"></div></DescriptionText>
                     </MarginField>
 
 
@@ -130,7 +205,7 @@ export default function SectionCarousel() {
                           autoComplete: "off",
                         }}
                       />
-                      <small id="EMAILHelp" style={{color:'#9C27B0'}} className="form-text text-muted">Favor, insira um email válido pois será necessário confirmação.</small>
+                      <DescriptionText><div id="descriptionemail"></div></DescriptionText>
 
                     </MarginField>
 
@@ -141,8 +216,9 @@ export default function SectionCarousel() {
                         name="CPF"
                         formControlProps={{ fullWidth: false }}
                         inputProps={{
-                          type: "text",
                           onChange: (e) => OnchangeCPF(e.target.value),
+                          value: cpf,
+                          inputProps: { maxLength: 14 },
                           autoComplete: "off",
                         }}
                       />
@@ -150,13 +226,15 @@ export default function SectionCarousel() {
 
                     <MarginField >
                       <CustomInput
-                        labelText="TELEFONE"
+                        labelText="CELULAR"
                         // id="TELEFONE"
-                        name="TELEFONE"
+                        name="CELULAR"
                         formControlProps={{ fullWidth: false }}
                         inputProps={{
                           type: "text",
-                          onChange: (e) => OnchangeTELEFONE(e.target.value),
+                          onChange: (e) => OnchangeCELULAR(e.target.value),
+                          value: celular,
+                          inputProps: { maxLength: 15 },
                           autoComplete: "off",
                         }}
                       />
@@ -168,23 +246,35 @@ export default function SectionCarousel() {
                         // id="SENHA"
                         name="SENHA"
                         formControlProps={{ fullWidth: false }}
+                        success={ColorInputClass}
                         inputProps={{
-                          type: "text",
+                          type: "password",
                           onChange: (e) => OnchangeSENHA(e.target.value),
+                          value: senha,
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>
+                            </InputAdornment>
+                          ),
                           autoComplete: "off",
                         }}
                       />
+                      <DescriptionText>
+                        <div id="descriptionpassword">A senha deve conter mínimo de oito caracteres,  pelo menos, uma letra maiúscula, uma letra minúscula, um número e um caractere especial </div>
+                      </DescriptionText>
+
+
                     </MarginField>
 
 
-                    
+
 
 
                     <PositionButton>
                       <Button
                         // simple
                         color="primary"
-                        size="md"
+                        size="sm"
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
@@ -326,14 +416,14 @@ export default function SectionCarousel() {
                       <Button
                         // simple
                         color="warning"
-                        size="md"
+                        size="sm"
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => slickRef.current.slickPrev()}
                       >
-                        
-                        <ArrowBackIcon style={{ marginRight: 10}} />
+
+                        <ArrowBackIcon style={{ marginRight: 10 }} />
                         Anterior
                       </Button>
                     </PositionButton>
@@ -344,7 +434,7 @@ export default function SectionCarousel() {
                       <Button
                         // simple
                         color="primary"
-                        size="md"
+                        size="sm"
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
@@ -389,7 +479,7 @@ export default function SectionCarousel() {
                       control={
                         <Radio
                           checked={selectedEnabled === true}
-                          onChange={() => setSelectedEnabled(true)  }
+                          onChange={() => setSelectedEnabled(true)}
                           value="true"
                           name="radio button enabled"
                           aria-label="A"
@@ -418,7 +508,7 @@ export default function SectionCarousel() {
                       control={
                         <Radio
                           checked={selectedEnabled === false}
-                          onChange={() => setSelectedEnabled(false) }
+                          onChange={() => setSelectedEnabled(false)}
                           value="false"
                           name="radio button enabled"
                           aria-label="B"
@@ -495,14 +585,14 @@ export default function SectionCarousel() {
                       <Button
                         // simple
                         color="warning"
-                        size="md"
+                        size="sm"
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => slickRef.current.slickPrev()}
                       >
-                        
-                        <ArrowBackIcon style={{ marginRight: 10}} />
+
+                        <ArrowBackIcon style={{ marginRight: 10 }} />
                         Anterior
                       </Button>
                     </PositionButton>
@@ -512,7 +602,7 @@ export default function SectionCarousel() {
                       <Button
                         // simple
                         color="primary"
-                        size="md"
+                        size="sm"
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
