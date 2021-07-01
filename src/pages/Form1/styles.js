@@ -3,6 +3,9 @@ import Background from '../../assets/images/White-Abstract.jpg'
 import imagelef1 from '../../assets/images/register.png'
 import imagelef2 from '../../assets/images/register.png'
 
+import bg_card_vileve from '../../assets/images/bg_card_assistencia.jpg'
+import bg_card_gateway from '../../assets/images/bg_card_vilevepay.jpg'
+
 export const Classlogotipo = styled.div`
 position: absolute;
 margin:30px;
@@ -39,6 +42,20 @@ src:`${imagelef2}`
 align-self:center;
 width:90%;
 `
+
+export const ImagecardPJ = styled.img.attrs({
+src:`${bg_card_gateway}`
+})`
+width:100%;
+`
+
+export const ImagecardPF = styled.img.attrs({
+src:`${bg_card_vileve}`
+})`
+width:100%;
+height:100%
+`
+
 
 export const ClassBackground = styled.div`
 background-image:url(${Background});
