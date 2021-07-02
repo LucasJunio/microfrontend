@@ -361,7 +361,7 @@ export default function SectionCarousel() {
 
           <div>
             <ContainerCard>
-              <Card style={{ width: '70%', padding: 20 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
 
                 {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 1/5</TitleWelcome> */}
 
@@ -411,7 +411,7 @@ export default function SectionCarousel() {
 
 
 
-                    <MarginField >
+                    {/* <MarginField >
                       <CustomInput
                         labelText="NICKNAME"
                         // id="SENHA"
@@ -425,7 +425,7 @@ export default function SectionCarousel() {
                           autoComplete: "off",
                         }}
                       />
-                    </MarginField>
+                    </MarginField> */}
 
                     <MarginField >
                       <CustomInput
@@ -485,7 +485,7 @@ export default function SectionCarousel() {
 
           <div>
             <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: '70%', padding: 20 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
 
                 {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 2/5</TitleWelcome> */}
 
@@ -575,7 +575,7 @@ export default function SectionCarousel() {
 
           <div>
             <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: '70%', padding: 20 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
 
 
                 <Containerform>
@@ -946,7 +946,7 @@ export default function SectionCarousel() {
 
           <div>
             <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: '70%', padding: 20 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
 
                 {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 3/5</TitleWelcome> */}
 
@@ -1196,7 +1196,7 @@ export default function SectionCarousel() {
 
           <div>
             <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: '70%', padding: 20 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
 
                 {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 3/5</TitleWelcome> */}
 
