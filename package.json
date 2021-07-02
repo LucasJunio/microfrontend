@@ -19,7 +19,7 @@
     "immer": "^8.0.1",
     "jquery": "^3.6.0",
     "moment": "2.29.1",
-    "node-sass": "6.0.0",
+    "node-sass": "^6.0.0",
     "nouislider": "15.1.0",
     "prop-types": "15.7.2",
     "react": "17.0.2",

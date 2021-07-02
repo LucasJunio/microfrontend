@@ -14,18 +14,18 @@ z-index:2
 `
 export const Containerform = styled.div`
 display:flex;
-padding:20px;
+padding:10px;
 width:100%;
 height:100%;
 `
 export const Containerleft = styled.div`
 display: flex;
-width:50%;
+width:40%;
 height:100%;
 `
 
 export const Containerright = styled.div`
-width:50%;
+width:60%;
 height:100%;
 padding-left:40px
 `
@@ -79,10 +79,10 @@ height:600px;
 `
 
 export const TitleWelcome = styled.div`
-color:#125984;
+color:#999;
 font-size:15px;
 font-weight:400;
-margin-left:20px
+margin-left:0px
 /* text-shadow: 0 0 3px #ccc; */
 `
 
@@ -105,3 +105,12 @@ color:#9C27B0;
 margin-top:-10px
 `
 
+export const Pagination = styled.div`
+position:absolute;
+z-index:999;
+justify-content:center;
+margin-top:7.2%;
+display:flex;
+width:100%;
+height:30px
+`
