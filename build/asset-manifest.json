@@ -1,22 +1,30 @@
 {
   "files": {
-    "main.css": "/static/css/main.32bb39e4.chunk.css",
-    "main.js": "/static/js/main.31262360.chunk.js",
-    "main.js.map": "/static/js/main.31262360.chunk.js.map",
+    "main.css": "/static/css/main.ec8952c6.chunk.css",
+    "main.js": "/static/js/main.5469b322.chunk.js",
+    "main.js.map": "/static/js/main.5469b322.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.784543ff.js",
     "runtime-main.js.map": "/static/js/runtime-main.784543ff.js.map",
-    "static/js/2.f8815ed1.chunk.js": "/static/js/2.f8815ed1.chunk.js",
-    "static/js/2.f8815ed1.chunk.js.map": "/static/js/2.f8815ed1.chunk.js.map",
+    "static/js/2.b9d69da8.chunk.js": "/static/js/2.b9d69da8.chunk.js",
+    "static/js/2.b9d69da8.chunk.js.map": "/static/js/2.b9d69da8.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.32bb39e4.chunk.css.map": "/static/css/main.32bb39e4.chunk.css.map",
-    "static/js/2.f8815ed1.chunk.js.LICENSE.txt": "/static/js/2.f8815ed1.chunk.js.LICENSE.txt",
+    "static/css/main.ec8952c6.chunk.css.map": "/static/css/main.ec8952c6.chunk.css.map",
+    "static/js/2.b9d69da8.chunk.js.LICENSE.txt": "/static/js/2.b9d69da8.chunk.js.LICENSE.txt",
+    "static/media/White-Abstract.804244a6.jpg": "/static/media/White-Abstract.804244a6.jpg",
     "static/media/backgroundpresentation.a75986e8.png": "/static/media/backgroundpresentation.a75986e8.png",
-    "static/media/bg2.2ffb4e65.jpg": "/static/media/bg2.2ffb4e65.jpg"
+    "static/media/bg.527ceab2.jpg": "/static/media/bg.527ceab2.jpg",
+    "static/media/bg2.2ffb4e65.jpg": "/static/media/bg2.2ffb4e65.jpg",
+    "static/media/bg2.adb0a4f1.jpg": "/static/media/bg2.adb0a4f1.jpg",
+    "static/media/bg3.6584b707.jpg": "/static/media/bg3.6584b707.jpg",
+    "static/media/bg_card_assistencia.0a3066b1.jpg": "/static/media/bg_card_assistencia.0a3066b1.jpg",
+    "static/media/bg_card_vilevepay.b990363f.jpg": "/static/media/bg_card_vilevepay.b990363f.jpg",
+    "static/media/logo_vileve_way.154c5d89.png": "/static/media/logo_vileve_way.154c5d89.png",
+    "static/media/register.9b190449.png": "/static/media/register.9b190449.png"
   },
   "entrypoints": [
     "static/js/runtime-main.784543ff.js",
-    "static/js/2.f8815ed1.chunk.js",
-    "static/css/main.32bb39e4.chunk.css",
-    "static/js/main.31262360.chunk.js"
+    "static/js/2.b9d69da8.chunk.js",
+    "static/css/main.ec8952c6.chunk.css",
+    "static/js/main.5469b322.chunk.js"
   ]
 }
