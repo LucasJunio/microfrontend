@@ -64,6 +64,7 @@ import styles2 from "assets/jss/material-kit-react/customCheckboxRadioSwitch.js"
 import { useDispatch, useSelector } from 'react-redux';
 
 import "./stylepagination.scss";
+import { SignalCellularConnectedNoInternet1BarSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 const useStyles2 = makeStyles(styles2);
@@ -130,7 +131,7 @@ export default function SectionCarousel() {
   const [celular, setCelular] = React.useState('');
   const OnchangeCELULAR = v => {
     function maskcel(v) {
-      v = v.replace(/\D/g, "");             //Remove tudo o que não é dígito
+      v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
       v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
       v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
       return v;
@@ -142,7 +143,7 @@ export default function SectionCarousel() {
   const [cpf, setCPF] = React.useState('');
   const OnchangeCPF = v => {
     function maskcpf(v) {
-      v = v.replace(/\D/g, "");
+      v = v.replace(/\D/g, '');
       v = v.replace(/^(\d{3})/g, "$1.");
       v = v.replace(/(\d{3})(\d{3})/g, "$1.$2-");
       return v;
@@ -163,7 +164,7 @@ export default function SectionCarousel() {
   
   
   const [cep, setCEP] = React.useState('');
-  const OnchangeCEP = v => {setCEP(maskcep(v.replace(/\D/g, "")))}
+  const OnchangeCEP = v => {setCEP(maskcep(v.replace(/\D/g, '')))}
 
   const [nascimento, setNASCIMENTO] = React.useState('');
   const OnchangeNASCIMENTO = v => { setNASCIMENTO(v) }
@@ -184,7 +185,7 @@ export default function SectionCarousel() {
   const OnchangeENDERECO = v => { setENDERECO(v) }
 
   const [numero, setNUMERO] = React.useState('');
-  const OnchangeNUMERO = v => {setNUMERO(masknumero(v.replace(/\D/g, "")))}
+  const OnchangeNUMERO = v => {setNUMERO(masknumero(v.replace(/\D/g, '')))}
 
   const [bairro, setBAIRRO] = React.useState('');
   const OnchangeBAIRRO = v => { setBAIRRO(v) }
@@ -196,16 +197,23 @@ export default function SectionCarousel() {
   const OnchangeCIDADE = v => { setCIDADE(v) }
 
   const [estado, setESTADO] = React.useState('');
-  const OnchangeESTADO = v => { setESTADO(v.replace(/[^a-zA-Z]/g, "")) }
+  const OnchangeESTADO = v => { setESTADO(v.replace(/[^a-zA-Z]/g, '')) }
 
   const [estadocivil, setESTADOCIVIL] = React.useState('');
-  const OnchangeESTADOCIVIL = v => { setESTADOCIVIL(v.replace(/[^a-zA-Z]/g, "")) }
+  const OnchangeESTADOCIVIL = v => { setESTADOCIVIL(v.replace(/[^a-zA-Z]/g, '')) }
 
   const [naturalidade, setNATURALIDADE] = React.useState('');
-  const OnchangeNATURALIDADE = v => { setNATURALIDADE(v.replace(/[^a-zA-Z]/g, "")) }
+  const OnchangeNATURALIDADE = v => { setNATURALIDADE(v.replace(/[^a-zA-Z]/g, '')) }
 
   const [nacionalidade, setNACIONALIDADE] = React.useState('');
-  const OnchangeNACIONALIDADE = v => { setNACIONALIDADE(v.replace(/[^a-zA-Z]/g, "")) }
+  const OnchangeNACIONALIDADE = v => { setNACIONALIDADE(v.replace(/[^a-zA-Z]/g, '')) }
+
+  const [mae, setMAE] = React.useState('');
+  const OnchangeMAE = v => { setMAE(v.replace(/[^a-zA-Z]/g, '')) }
+
+  const [pai, setPAI] = React.useState('');
+  const OnchangePAI = v => { setPAI(v.replace(/[^a-zA-Z]/g, '')) }
+
 
   const [razaosocial, setRAZAOSOCIAL] = React.useState('');
   const OnchangeRAZAOSOCIAL = v => { setRAZAOSOCIAL(v) }
@@ -216,8 +224,8 @@ export default function SectionCarousel() {
   const [cnpj, setCNPJ] = React.useState('');
   const OnchangeCNPJ = v => {
     function maskcnpj(v) {
-      v = v.replace(/\D/g, "");
-      // v = v.replace(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/g,"")
+      v = v.replace(/\D/g, '');
+      // v = v.replace(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/g,'')
       v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3\/\$4-$5");
       return v;
     }
@@ -228,7 +236,7 @@ export default function SectionCarousel() {
   const [telefone, setTELEFONE] = React.useState('');
   const OnchangeTELEFONE = v => {
     function masktelefone(v) {
-      v = v.replace(/\D/g, "");             //Remove tudo o que não é dígito
+      v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
       v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
       v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
       return v;
@@ -241,16 +249,16 @@ export default function SectionCarousel() {
   const OnchangeSITE = v => { setSITE(v) }
 
   const [ceppj, setCEPPJ] = React.useState('');
-  const OnchangeCEPPJ = v => {setCEPPJ(maskceppj(v.replace(/\D/g, "")))}
+  const OnchangeCEPPJ = v => {setCEPPJ(maskceppj(v.replace(/\D/g, '')))}
 
   const [cnae, setCNAE] = React.useState('');
-  const OnchangeCNAE = v => {setCNAE(maskcnae(v.replace(/\D/g, "")))}
+  const OnchangeCNAE = v => {setCNAE(maskcnae(v.replace(/\D/g, '')))}
 
   const [enderecopj, setENDERECOPJ] = React.useState('');
   const OnchangeENDERECOPJ = v => { setENDERECOPJ(v) }
 
   const [numeropj, setNUMEROPJ] = React.useState('');
-  const OnchangeNUMEROPJ = v => {setNUMEROPJ(masknumeropj(v.replace(/\D/g, "")))}
+  const OnchangeNUMEROPJ = v => {setNUMEROPJ(masknumeropj(v.replace(/\D/g, '')))}
 
   const [bairropj, setBAIRROPJ] = React.useState('');
   const OnchangeBAIRROPJ = v => { setBAIRROPJ(v) }
@@ -284,52 +292,98 @@ export default function SectionCarousel() {
   const [dot4, setDOT4] = React.useState(dotInactive);
   const [dot5, setDOT5] = React.useState(dotInactive);
 
-  const Register = () => {
-    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || celular.length != 15 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+  const Step1NEXT = () => {
+    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
       alert('Todos os campos são obrigatórios, favor revise seu formulário!')
     } else {
-      // checked === 'false' ? alert('Favor leia os termos e clique em confirmar!') : submit()
-      submit()
+      //vai para o próximo slide depois coloca o marcardo1 como incativo e o marcador2 como ativo
+      slickRef.current.slickNext();setDOT1(dotInactive);setDOT2(dotActive)
     }
+  }
 
-    function submit() {
+  const Step2PJ = () => {
+    slickRef.current.slickNext();setDOT2(dotInactive);setDOT3(dotActive)
+  }
 
+  const Step2PF = () => {
+  }
+
+  const Step2PREV = () => {
+    slickRef.current.slickPrev();setDOT2(dotInactive);setDOT1(dotActive)
+  }
+
+  const Step3PREV = () => {
+    slickRef.current.slickPrev();setDOT3(dotInactive);setDOT2(dotActive)
+  }
+
+  const Step3NEXT = () => {
+    slickRef.current.slickNext();setDOT3(dotInactive);setDOT4(dotActive)
+  }
+
+  const Step4PREV = () => {
+    slickRef.current.slickPrev();setDOT4(dotInactive);setDOT3(dotActive)
+  }
+
+  const Step4NEXT = () => {
+    slickRef.current.slickNext();setDOT4(dotInactive);setDOT5(dotActive)
+  }
+
+  const Step5PREV = () => {
+    slickRef.current.slickPrev();setDOT5(dotInactive);setDOT4(dotActive)
+  }
+
+  const Step5NEXT = () => {
+    slickRef.current.slickNext();setDOT5(dotInactive);setDOT6(dotActive)
+  }
+
+
+  const Register = () => {
+
+    const submit =()=> {
       const objectJSONPJ = {
-        nome: nome,
-        email: email,
-        cpf: cpf.replace(/\D/g, ""),
-        celular: celular.replace(/\D/g, ""),
-        senha: sha256(senha).toString(),
-        cep: cep.replace(/\D/g, ""),
-        endereco: endereco,
-        numero: numero,
-        bairro: bairro,
-        complemento: complemento,
-        cidade: cidade,
-        estado: estado,
-
-
-        cnpj: cnpj.replace(/\D/g, ""),
-        telefone: telefone,
-        site: site,
-        razaosocial: razaosocial,
-        cnae: cnae,
-        nomefantasia: nomefantasia,
-
-        ceppj: ceppj,
-        enderecopj: enderecopj,
-        numeropj: numeropj,
-        bairropj: bairropj,
-        complementopj: complementopj,
-
-        bancopj: bancopj,
-        agenciapj: agenciapj,
-        pixpj: pixpj,
-        operacaopj: operacaopj
+        usuario: {
+          nome: nome,
+          email: email,
+          senha: sha256(senha).toString()	
+        },
+        pessoa: {
+          cpf: cpf.replace(/\D/g, ''),
+          celular:  celular.replace(/\D/g, '')
+        },
+        empresa: {
+          cnpj:  cnpj.replace(/\D/g, ''),
+          cnae: cnae,
+          razao_social: razaosocial,
+          telefone_fixo: telefone,
+          celular: celular.replace(/\D/g, ''),
+          nome_fantasia: nomefantasia,
+          site: site
+        },
+        conta: {
+          banco: bancopj,
+          agencia: agenciapj.replace(/\D/g, ''),
+          conta: contapj.replace(/\D/g, ''),
+          operacao: operacaopj.replace(/\D/g, ''),
+          pix: pixpj
+        },
+        endereco_cnpj: {
+          cep: ceppj.replace(/\D/g, ''),
+          complemento: complementopj,
+          endereco: enderecopj,
+          numero: numeropj.replace(/\D/g, ''),
+          bairro: bairropj
+        },
+        endereco_cpf: { 
+          cep: cep.replace(/\D/g, ''),
+          complemento: complemento,
+          endereco: endereco,
+          bairro: bairro
+        }
 
       }
 
       console.log(objectJSONPJ)
+      dispatch(signupRequest(objectJSONPJ));
       // dispatch(signupRequest({ nome, email, celular, senha }));
     }
   }
@@ -363,8 +417,7 @@ export default function SectionCarousel() {
             <ContainerCard>
               <Card style={{ width: '80%', padding: 20 }}>
 
-                {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 1/5</TitleWelcome> */}
-
+ 
                 <Containerform>
 
                   <Containerleft>
@@ -465,7 +518,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickNext();setDOT1(dotInactive);setDOT2(dotActive)}}
+                        onClick={() => Step1NEXT()}
                       >
                         Próximo
                         <ArrowForwardIcon style={{ marginLeft: 10 }} />
@@ -487,8 +540,7 @@ export default function SectionCarousel() {
             <ContainerCard style={{ opacity: 0.99 }}>
               <Card style={{ width: '80%', padding: 20 }}>
 
-                {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 2/5</TitleWelcome> */}
-
+ 
                 <Containerform>
 
                   <Containerleft>
@@ -516,7 +568,7 @@ export default function SectionCarousel() {
                             <p>Contrate a sua Plataforma de pagamentos online.</p>
                             {/* <Button color="info" onClick={() => slickRef.current.slickNext()} size="sm">Pessoa Jurídica</Button> */}
                          
-                            <Button color="info" onClick={() => {slickRef.current.slickNext();setDOT2(dotInactive);setDOT3(dotActive)}} size="sm">Pessoa Jurídica</Button>
+                            <Button color="info" onClick={() => Step2PJ()} size="sm">Pessoa Jurídica</Button>
                          
                           </CardBody>
                         </Card>
@@ -531,7 +583,7 @@ export default function SectionCarousel() {
                           <CardBody>
                             <h4 className={classes.cardTitle}><b>Para Você</b></h4>
                             <p>Clique abaixo para contratar o produto Vileve Assitência.</p>
-                            <Button color="success" size="sm">Pessoa Física</Button>
+                            <Button color="success" onClick={() => Step2PF()} size="sm">Pessoa Física</Button>
                           </CardBody>
                         </Card>
 
@@ -551,7 +603,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickPrev();setDOT2(dotInactive);setDOT1(dotActive)}}
+                        onClick={() => Step2PREV()}
 
                       >
 
@@ -587,11 +639,28 @@ export default function SectionCarousel() {
                   <Containerright>
 
                   <TitleWelcome>Informe os dados do <span style={{color:'#9D2AB1'}}>Representante Legal</span></TitleWelcome>
+                   
+                   
+                   <MarginField>
+                      <CustomInput
+                        labelText="CELULAR"
+                        // id="CELULAR"
+                        name="CELULAR"
+                        formControlProps={{ fullWidth: false }}
+                        inputProps={{
+                          type: "text",
+                          value: celular,
+                          onChange: (e) => OnchangeCELULAR(e.target.value),
+                          inputProps: { maxLength: 15},
+                          autoComplete: "off",
+                        }}
+                      />
+                    </MarginField>
+             
+                     
 
-
-                  {/* <p style={{ position:"absolute", textAlign:"right", width:'60%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
-
-                  <MarginField style={{ width: '20%' }}>
+                  
+                  <MarginField style={{ width: '20%', clear:'both' }}>
                       <CustomInput
                         labelText="NASCIMENTO"
                         // id="NASCIMENTO"
@@ -602,6 +671,55 @@ export default function SectionCarousel() {
                           value: nascimento,
                           onChange: (e) => OnchangeNASCIMENTO(e.target.value),
                           inputProps: { maxLength: 15},
+                          autoComplete: "off",
+                        }}
+                      />
+                    </MarginField>
+
+                    <MarginField style={{ width: '20%' }}>
+                      <CustomInput
+                        labelText="NATURALIDADE"
+                        // id="ESTADOCIVIL"
+                        name="NATURALIDADE"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: naturalidade,
+                          onChange: (e) => OnchangeNATURALIDADE(e.target.value),
+                          inputProps: { maxLength: 2 },
+                          autoComplete: "off",
+                        }}
+                      />
+                    </MarginField>
+
+
+                    <MarginField style={{ width: '20%' }}>
+                      <CustomInput
+                        labelText="NACIONALIDADE"
+                        // id="ESTADOCIVIL"
+                        name="NACIONALIDADE"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: nacionalidade,
+                          onChange: (e) => OnchangeNACIONALIDADE(e.target.value),
+                          inputProps: { maxLength: 2 },
+                          autoComplete: "off",
+                        }}
+                      />
+                    </MarginField>
+
+                    <MarginField style={{ width: '20%' }}>
+                      <CustomInput
+                        labelText="ESTADO CIVIL"
+                        // id="ESTADOCIVIL"
+                        name="ESTADOCIVIL"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: estadocivil,
+                          onChange: (e) => OnchangeESTADOCIVIL(e.target.value),
+                          inputProps: { maxLength: 2 },
                           autoComplete: "off",
                         }}
                       />
@@ -676,16 +794,16 @@ export default function SectionCarousel() {
 
 
 
-                    <MarginField style={{ width: '45%' }}>
+                    <MarginField style={{ width: '85%' }}>
                       <CustomInput
                         labelText="NOME DA MÃE"
                         // id="CEP"
-                        name="CEP"
+                        name="MAE"
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
-                          value: cep,
-                          onChange: (e) => OnchangeCEP(e.target.value),
+                          value: mae,
+                          onChange: (e) => OnchangeMAE(e.target.value),
                           inputProps: { maxLength: 8},
                           autoComplete: "off",
                         }}
@@ -693,16 +811,16 @@ export default function SectionCarousel() {
                     </MarginField>
 
 
-                    <MarginField style={{ width: '45%' }}>
+                    <MarginField style={{ width: '85%', clear:'both' }}>
                       <CustomInput
                         labelText="NOME DO PAI"
                         // id="CEP"
-                        name="CEP"
+                        name="PAI"
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
-                          value: cep,
-                          onChange: (e) => OnchangeCEP(e.target.value),
+                          value: pai,
+                          onChange: (e) => OnchangePAI(e.target.value),
                           inputProps: { maxLength: 8},
                           autoComplete: "off",
                         }}
@@ -710,7 +828,7 @@ export default function SectionCarousel() {
                     </MarginField>
 
 
-
+{/* 
 
                     <MarginField style={{ width: '15%' }}>
                       <CustomInput
@@ -820,75 +938,16 @@ export default function SectionCarousel() {
                           autoComplete: "off",
                         }}
                       />
-                    </MarginField>
-
-                    <MarginField >
-                      <CustomInput
-                        labelText="CELULAR"
-                        // id="CELULAR"
-                        name="CELULAR"
-                        formControlProps={{ fullWidth: false }}
-                        inputProps={{
-                          type: "text",
-                          value: celular,
-                          onChange: (e) => OnchangeCELULAR(e.target.value),
-                          inputProps: { maxLength: 15},
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-
-                    <MarginField style={{ width: '20%' }}>
-                      <CustomInput
-                        labelText="ESTADO CIVIL"
-                        // id="ESTADOCIVIL"
-                        name="ESTADOCIVIL"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: estadocivil,
-                          onChange: (e) => OnchangeESTADOCIVIL(e.target.value),
-                          inputProps: { maxLength: 2 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
+                    </MarginField> */}
 
 
 
-                    <MarginField style={{ width: '20%' }}>
-                      <CustomInput
-                        labelText="NATURALIDADE"
-                        // id="ESTADOCIVIL"
-                        name="NATURALIDADE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: naturalidade,
-                          onChange: (e) => OnchangeNATURALIDADE(e.target.value),
-                          inputProps: { maxLength: 2 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
 
 
-                    <MarginField style={{ width: '20%' }}>
-                      <CustomInput
-                        labelText="NACIONALIDADE"
-                        // id="ESTADOCIVIL"
-                        name="NACIONALIDADE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: nacionalidade,
-                          onChange: (e) => OnchangeNACIONALIDADE(e.target.value),
-                          inputProps: { maxLength: 2 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
+
+
+
+                    
 
 
 
@@ -902,7 +961,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickPrev();setDOT3(dotInactive);setDOT2(dotActive)}}
+                        onClick={() => Step3PREV() }
 
                       >
 
@@ -921,7 +980,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickNext();setDOT3(dotInactive);setDOT4(dotActive)}}
+                        onClick={() => Step3NEXT()}
 
                       >
                         Próximo
@@ -948,7 +1007,6 @@ export default function SectionCarousel() {
             <ContainerCard style={{ opacity: 0.99 }}>
               <Card style={{ width: '80%', padding: 20 }}>
 
-                {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 3/5</TitleWelcome> */}
 
                 <Containerform>
 
@@ -1152,7 +1210,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickPrev();setDOT4(dotInactive);setDOT3(dotActive)}}
+                        onClick={() => Step4PREV()}
 
                       >
 
@@ -1171,7 +1229,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickNext();setDOT4(dotInactive);setDOT5(dotActive)}}
+                        onClick={() => Step4NEXT()}
 
                       >
                         Próximo
@@ -1198,8 +1256,7 @@ export default function SectionCarousel() {
             <ContainerCard style={{ opacity: 0.99 }}>
               <Card style={{ width: '80%', padding: 20 }}>
 
-                {/* <TitleWelcome>Bem-vindo ao Vileve Way - Etapa 3/5</TitleWelcome> */}
-
+ 
                 <Containerform>
 
                   <Containerleft>
@@ -1208,8 +1265,7 @@ export default function SectionCarousel() {
 
                   <Containerright>
 
-                  {/* <p style={{ position:"absolute", textAlign:"center", width:'43%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
-                  <TitleWelcome>Ainda sobre o seu negócio, quais os <span style={{color:'#9D2AB1'}}>dados bancários da sua empresa?</span></TitleWelcome>
+                   <TitleWelcome>Ainda sobre o seu negócio, quais os <span style={{color:'#9D2AB1'}}>dados bancários da sua empresa?</span></TitleWelcome>
 
                     
 
@@ -1309,7 +1365,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => {slickRef.current.slickPrev();setDOT5(dotInactive);setDOT4(dotActive)}}
+                        onClick={() => Step5PREV()}
 
                       >
 
@@ -1328,7 +1384,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        // onClick={() => {slickRef.current.slickNext();setDOT3(dotInactive);setDOT4(dotActive)}}
+                        onClick={() => Step5NEXT()}
 
                       >
                         Salvar
