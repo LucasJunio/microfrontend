@@ -8,9 +8,12 @@ import LocationOn from "@material-ui/icons/LocationOn";
 // core components
 // import GridContainer from "components/Grid/GridContainer.js";
 // import GridItem from "components/Grid/GridItem.js";
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import Typography from '@material-ui/core/Typography';
 import bg_card_vileve from '../../assets/images/bg_card_assistencia.jpg'
 import bg_card_gateway from '../../assets/images/bg_card_vilevepay.jpg'
 
@@ -68,6 +71,7 @@ import { SignalCellularConnectedNoInternet1BarSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 const useStyles2 = makeStyles(styles2);
+ 
 
 
 export default function SectionCarousel() {
@@ -75,6 +79,7 @@ export default function SectionCarousel() {
   const slickRef = useRef();
   const classes = useStyles();
   const classes2 = useStyles2();
+ 
 
   const settings = {
     dots: false,
@@ -97,77 +102,98 @@ export default function SectionCarousel() {
   var loading = useSelector(state => state.signup.loading);
   var modal = useSelector(state => state.signup.modal);
 
-
   const [selectedEnabled, setSelectedEnabled] = React.useState(false);
   const [disabledfields, setdisabledfields] = React.useState(false)
   const [enablepj, setenablepj] = React.useState('none')
   const [enablepf, setenablepf] = React.useState('none')
-
   const [choicemodule, setchoice] = React.useState('')
 
-  // useEffect(() => {
-  //   if (selectedEnabled) {
-  //     $("#choiceform").fadeOut('fast', () => { $("#formpj").fadeIn('fast') })
-  //   } else {
-  //     setenablepj('none')
-  //     setchoice('')
-  //   }
-  // }, [selectedEnabled]);
 
+  const maskdate = (v) => {
+    v = v.replace(/\D/g, '');
+    v = v.replace(/^(\d{2})(\d)/g, "$1/$2");
+    v = v.replace(/(\d)(\d{4})$/, "$1/$2");
+    return v;
+  }
 
+  const maskcel = (v) => {
+    v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+    return v;
+  }
+
+  const maskcpf = (v) => {
+    v = v.replace(/\D/g, '');
+    v = v.replace(/^(\d{3})/g, "$1.");
+    v = v.replace(/(\d{3})(\d{3})/g, "$1.$2-");
+    return v;
+  }
+
+  const maskcnpj = (v) => {
+    v = v.replace(/\D/g, '');
+    v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3\/\$4-$5");
+    return v;
+  }
+
+  const masktelefone = (v) => {
+    v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+    return v;
+  }
+
+  const maskcep = (v) => {
+    v = v.replace(/\D/g, '');
+    // v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$3\/\$4-$5");
+    return v;
+  }
+
+  const masknumero = (v) =>{
+    v = v.replace(/\D/g, '');
+    return v;
+  }
 
   const [nome, setNome] = React.useState('');
-  const OnchangeNOME = v => {
-    setNome(v);
-    (/^[A-Za-z-ç.-]+(\s*[A-Za-z-ç.-]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')
-  }
+  const OnchangeNOME = v => {setNome(v);(/^[A-Za-z-ç.-]+(\s*[A-Za-z-ç.-]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!')}
 
   const [email, setEmail] = React.useState('');
-  const OnchangeEMAIL = v => {
-    setEmail(v);
-    (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(v) || v.length < 1 ? $('#descriptionemail').html('') : $('#descriptionemail').html('Digite um email válido')
-  }
+  const OnchangeEMAIL = v => {setEmail(v);(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(v) || v.length < 1 ? $('#descriptionemail').html('') : $('#descriptionemail').html('Digite um email válido')}
 
   const [celular, setCelular] = React.useState('');
-  const OnchangeCELULAR = v => {
-    function maskcel(v) {
-      v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
-      v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-      v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
-      return v;
-    }
-    setCelular(maskcel(v))
-  }
-
+  const OnchangeCELULAR = v => {setCelular(maskcel(v))}
 
   const [cpf, setCPF] = React.useState('');
-  const OnchangeCPF = v => {
-    function maskcpf(v) {
-      v = v.replace(/\D/g, '');
-      v = v.replace(/^(\d{3})/g, "$1.");
-      v = v.replace(/(\d{3})(\d{3})/g, "$1.$2-");
-      return v;
-    }
-    setCPF(maskcpf(v))
-  }
+  const OnchangeCPF = v => {setCPF(maskcpf(v))}
 
   const [senha, setSenha] = React.useState('');
+  const [senha2, setSenha2] = React.useState('');
   const [Iconsenha, setIconSenha] = React.useState('lock_Outline');
   const [ColorInputClass, setColorInputClass] = React.useState(false);
+  const [ColorInputClass2, setColorInputClass2] = React.useState(false);
 
-  const OnchangeSENHA = v => {
-    setSenha(v);
+  const OnchangeSENHA = v => {setSenha(v);
     if ((/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(v)) {
       setIconSenha('check_Outline'); setColorInputClass(true); $('#descriptionpassword').html('')
     } else { setIconSenha('lock_Outline'); setColorInputClass(false); $('#descriptionpassword').html(`A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`) }
   }
-  
-  
+
+  const OnchangeSENHA2 = v => {
+    setSenha2(v);
+    if (senha == v) {
+      setColorInputClass2(true)
+      $('#descriptionpassword2').html('')
+    } else {
+      setColorInputClass2(false)
+      $('#descriptionpassword2').html(`Sua senha não corresponde à anterior, verifique sua digitação!`)
+    }
+  }
+
   const [cep, setCEP] = React.useState('');
-  const OnchangeCEP = v => {setCEP(maskcep(v.replace(/\D/g, '')))}
+  const OnchangeCEP = v => { setCEP(maskcep(v)) }
 
   const [nascimento, setNASCIMENTO] = React.useState('');
-  const OnchangeNASCIMENTO = v => { setNASCIMENTO(v) }
+  const OnchangeNASCIMENTO = v => { setNASCIMENTO(maskdate(v)) }
 
   const [rg, setRG] = React.useState('');
   const OnchangeRG = v => { setRG(v) }
@@ -176,7 +202,7 @@ export default function SectionCarousel() {
   const OnchangeEMISSOR = v => { setEMISSOR(v) }
 
   const [emissao, setEMISSAO] = React.useState('');
-  const OnchangeEMISSAO = v => { setEMISSAO(v) }
+  const OnchangeEMISSAO = v => { setEMISSAO(maskdate(v)) }
 
   const [sexo, setSEXO] = React.useState('');
   const OnchangeSEXO = v => { setSEXO(v) }
@@ -185,7 +211,7 @@ export default function SectionCarousel() {
   const OnchangeENDERECO = v => { setENDERECO(v) }
 
   const [numero, setNUMERO] = React.useState('');
-  const OnchangeNUMERO = v => {setNUMERO(masknumero(v.replace(/\D/g, '')))}
+  const OnchangeNUMERO = v => { setNUMERO(masknumero(v)) }
 
   const [bairro, setBAIRRO] = React.useState('');
   const OnchangeBAIRRO = v => { setBAIRRO(v) }
@@ -222,43 +248,25 @@ export default function SectionCarousel() {
   const OnchangeNOMEFANTASIA = v => { setNOMEFANTASIA(v) }
 
   const [cnpj, setCNPJ] = React.useState('');
-  const OnchangeCNPJ = v => {
-    function maskcnpj(v) {
-      v = v.replace(/\D/g, '');
-      // v = v.replace(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/g,'')
-      v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3\/\$4-$5");
-      return v;
-    }
-    setCNPJ(maskcnpj(v))
-  }
-
+  const OnchangeCNPJ = v => {setCNPJ(maskcnpj(v))}
 
   const [telefone, setTELEFONE] = React.useState('');
-  const OnchangeTELEFONE = v => {
-    function masktelefone(v) {
-      v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
-      v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-      v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
-      return v;
-    }
-    setTELEFONE(masktelefone(v))
-  }
-
+  const OnchangeTELEFONE = v => {setTELEFONE(masktelefone(v))}
 
   const [site, setSITE] = React.useState('');
   const OnchangeSITE = v => { setSITE(v) }
 
   const [ceppj, setCEPPJ] = React.useState('');
-  const OnchangeCEPPJ = v => {setCEPPJ(maskceppj(v.replace(/\D/g, '')))}
+  const OnchangeCEPPJ = v => { setCEPPJ(masknumero(v)) }
 
   const [cnae, setCNAE] = React.useState('');
-  const OnchangeCNAE = v => {setCNAE(maskcnae(v.replace(/\D/g, '')))}
+  const OnchangeCNAE = v => { setCNAE(masknumero(v)) }
 
   const [enderecopj, setENDERECOPJ] = React.useState('');
   const OnchangeENDERECOPJ = v => { setENDERECOPJ(v) }
 
   const [numeropj, setNUMEROPJ] = React.useState('');
-  const OnchangeNUMEROPJ = v => {setNUMEROPJ(masknumeropj(v.replace(/\D/g, '')))}
+  const OnchangeNUMEROPJ = v => { setNUMEROPJ(masknumero(v)) }
 
   const [bairropj, setBAIRROPJ] = React.useState('');
   const OnchangeBAIRROPJ = v => { setBAIRROPJ(v) }
@@ -281,9 +289,8 @@ export default function SectionCarousel() {
   const [operacaopj, setOPERACAOPJ] = React.useState('');
   const OnchangeOPERACAOPJ = v => { setOPERACAOPJ(v) }
 
-  const [nickname, setNICKNAME] = React.useState('');
-  const OnchangeNICKNAME = v => { setNICKNAME(v) }
-
+  // const [nickname, setNICKNAME] = React.useState('');
+  // const OnchangeNICKNAME = v => { setNICKNAME(v) }
   const dotActive = 'pagination__link'
   const dotInactive = 'pagination__link is_active'
   const [dot1, setDOT1] = React.useState(dotActive);
@@ -291,67 +298,88 @@ export default function SectionCarousel() {
   const [dot3, setDOT3] = React.useState(dotInactive);
   const [dot4, setDOT4] = React.useState(dotInactive);
   const [dot5, setDOT5] = React.useState(dotInactive);
+  const [dot6, setDOT6] = React.useState(dotInactive);
 
   const Step1NEXT = () => {
     if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
       alert('Todos os campos são obrigatórios, favor revise seu formulário!')
     } else {
       //vai para o próximo slide depois coloca o marcardo1 como incativo e o marcador2 como ativo
-      slickRef.current.slickNext();setDOT1(dotInactive);setDOT2(dotActive)
+      slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
     }
   }
 
   const Step2PJ = () => {
-    slickRef.current.slickNext();setDOT2(dotInactive);setDOT3(dotActive)
+    slickRef.current.slickNext(); setDOT2(dotInactive); setDOT3(dotActive)
   }
 
   const Step2PF = () => {
   }
 
   const Step2PREV = () => {
-    slickRef.current.slickPrev();setDOT2(dotInactive);setDOT1(dotActive)
+    slickRef.current.slickPrev(); setDOT2(dotInactive); setDOT1(dotActive)
   }
 
   const Step3PREV = () => {
-    slickRef.current.slickPrev();setDOT3(dotInactive);setDOT2(dotActive)
+    slickRef.current.slickPrev(); setDOT3(dotInactive); setDOT2(dotActive)
   }
 
   const Step3NEXT = () => {
-    slickRef.current.slickNext();setDOT3(dotInactive);setDOT4(dotActive)
+    slickRef.current.slickNext(); setDOT3(dotInactive); setDOT4(dotActive)
   }
 
   const Step4PREV = () => {
-    slickRef.current.slickPrev();setDOT4(dotInactive);setDOT3(dotActive)
+    slickRef.current.slickPrev(); setDOT4(dotInactive); setDOT3(dotActive)
   }
 
   const Step4NEXT = () => {
-    slickRef.current.slickNext();setDOT4(dotInactive);setDOT5(dotActive)
+    slickRef.current.slickNext(); setDOT4(dotInactive); setDOT5(dotActive)
   }
 
   const Step5PREV = () => {
-    slickRef.current.slickPrev();setDOT5(dotInactive);setDOT4(dotActive)
+    slickRef.current.slickPrev(); setDOT5(dotInactive); setDOT4(dotActive)
   }
 
   const Step5NEXT = () => {
-    slickRef.current.slickNext();setDOT5(dotInactive);setDOT6(dotActive)
+    slickRef.current.slickNext(); setDOT5(dotInactive); setDOT6(dotActive)
   }
+
+  const Step6PREV = () => {
+    slickRef.current.slickPrev(); setDOT6(dotInactive); setDOT5(dotActive)
+  }
+
+  const Step6NEXT = () => {
+    // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
+  }
+
+
 
 
   const Register = () => {
 
-    const submit =()=> {
+    const submit = () => {
       const objectJSONPJ = {
         usuario: {
           nome: nome,
           email: email,
-          senha: sha256(senha).toString()	
+          senha: sha256(senha).toString()
         },
         pessoa: {
           cpf: cpf.replace(/\D/g, ''),
-          celular:  celular.replace(/\D/g, '')
+          celular: celular.replace(/\D/g, ''),
+          nascimento: nascimento,
+          naturalidade: naturalidade,
+          nacionalidade: nacionalidade,
+          estadocivil: estadocivil,
+          rg: rg,
+          emissor: emissor,
+          emissao: emissao,
+          sexo: sexo,
+          mae: mae,
+          pai: pai
         },
         empresa: {
-          cnpj:  cnpj.replace(/\D/g, ''),
+          cnpj: cnpj.replace(/\D/g, ''),
           cnae: cnae,
           razao_social: razaosocial,
           telefone_fixo: telefone,
@@ -373,7 +401,7 @@ export default function SectionCarousel() {
           numero: numeropj.replace(/\D/g, ''),
           bairro: bairropj
         },
-        endereco_cpf: { 
+        endereco_cpf: {
           cep: cep.replace(/\D/g, ''),
           complemento: complemento,
           endereco: endereco,
@@ -392,21 +420,22 @@ export default function SectionCarousel() {
 
     <>
 
-    <Pagination>
-    <div style={{position: 'absolute', width: '70%'}}>
-    <div style={{position: 'absolute', right:0}}>
-    <div className="wrapper">
-      <ul className="pagination">
-        <li className="pagination__item"><a href="#" className={dot1}></a></li>
-        <li className="pagination__item"><a href="#" className={dot2}></a></li>
-        <li className="pagination__item"><a href="#" className={dot3}></a></li>
-        <li className="pagination__item"><a href="#" className={dot4}></a></li>
-        <li className="pagination__item"><a href="#" className={dot5}></a></li>
-      </ul>
-    </div>
-    </div>
-    </div>
-    </Pagination>
+      <Pagination>
+        <div style={{ position: 'absolute', width: '70%' }}>
+          <div style={{ position: 'absolute', right: 0 }}>
+            <div className="wrapper">
+              <ul className="pagination">
+                <li className="pagination__item"><a href="#" className={dot1}></a></li>
+                <li className="pagination__item"><a href="#" className={dot2}></a></li>
+                <li className="pagination__item"><a href="#" className={dot3}></a></li>
+                <li className="pagination__item"><a href="#" className={dot4}></a></li>
+                <li className="pagination__item"><a href="#" className={dot5}></a></li>
+                <li className="pagination__item"><a href="#" className={dot6}></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Pagination>
 
       <Classlogotipo><img src={logo} style={{ width: 150 }} alt="logotipo"></img></Classlogotipo>
 
@@ -417,7 +446,7 @@ export default function SectionCarousel() {
             <ContainerCard>
               <Card style={{ width: '80%', padding: 20 }}>
 
- 
+
                 <Containerform>
 
                   <Containerleft>
@@ -426,7 +455,7 @@ export default function SectionCarousel() {
 
                   <Containerright>
 
-                  <TitleWelcome>Informe os dados de <span style={{color:'#9D2AB1'}}>Usuário</span></TitleWelcome>
+                    <TitleWelcome>Informe os dados de <span style={{ color: '#9D2AB1' }}>Usuário</span></TitleWelcome>
 
 
                     <MarginField style={{ width: '100%' }}>
@@ -502,12 +531,32 @@ export default function SectionCarousel() {
                       <DescriptionText>
                         <div id="descriptionpassword">A senha deve conter mínimo de oito caracteres,  pelo menos, uma letra maiúscula, uma letra minúscula, um número e um caractere especial </div>
                       </DescriptionText>
-
-
                     </MarginField>
 
 
-
+                    <MarginField >
+                      <CustomInput
+                        labelText="CONFIRME SUA SENHA"
+                        // id="SENHA"
+                        name="SENHA2"
+                        formControlProps={{ fullWidth: false }}
+                        success={ColorInputClass2}
+                        inputProps={{
+                          type: "password",
+                          onChange: (e) => OnchangeSENHA2(e.target.value),
+                          value: senha2,
+                          // endAdornment: (
+                          //   <InputAdornment position="end">
+                          //     <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>
+                          //   </InputAdornment>
+                          // ),
+                          autoComplete: "off",
+                        }}
+                      />
+                      <DescriptionText>
+                        <div id="descriptionpassword2">Confirme sua senha </div>
+                      </DescriptionText>
+                    </MarginField>
 
 
                     <PositionButton>
@@ -540,7 +589,7 @@ export default function SectionCarousel() {
             <ContainerCard style={{ opacity: 0.99 }}>
               <Card style={{ width: '80%', padding: 20 }}>
 
- 
+
                 <Containerform>
 
                   <Containerleft>
@@ -567,9 +616,9 @@ export default function SectionCarousel() {
                             <h4 className={classes.cardTitle}><b>Para Sua Empresa</b></h4>
                             <p>Contrate a sua Plataforma de pagamentos online.</p>
                             {/* <Button color="info" onClick={() => slickRef.current.slickNext()} size="sm">Pessoa Jurídica</Button> */}
-                         
+
                             <Button color="info" onClick={() => Step2PJ()} size="sm">Pessoa Jurídica</Button>
-                         
+
                           </CardBody>
                         </Card>
 
@@ -638,10 +687,27 @@ export default function SectionCarousel() {
 
                   <Containerright>
 
-                  <TitleWelcome>Informe os dados do <span style={{color:'#9D2AB1'}}>Representante Legal</span></TitleWelcome>
-                   
-                   
-                   <MarginField>
+                    <TitleWelcome>Informe os dados do <span style={{ color: '#9D2AB1' }}>Representante Legal</span></TitleWelcome>
+
+
+                    <MarginField>
+                      <CustomInput
+                        labelText="CPF"
+                        // id="CPF"
+                        name="CPF"
+                        formControlProps={{ fullWidth: false }}
+                        inputProps={{
+                          type: "text",
+                          value: cpf,
+                          onChange: (e) => OnchangeCPF(e.target.value),
+                          inputProps: { maxLength: 14 },
+                          autoComplete: "off",
+                        }}
+                      />
+                    </MarginField>
+
+
+                    <MarginField>
                       <CustomInput
                         labelText="CELULAR"
                         // id="CELULAR"
@@ -651,16 +717,16 @@ export default function SectionCarousel() {
                           type: "text",
                           value: celular,
                           onChange: (e) => OnchangeCELULAR(e.target.value),
-                          inputProps: { maxLength: 15},
+                          inputProps: { maxLength: 15 },
                           autoComplete: "off",
                         }}
                       />
                     </MarginField>
-             
-                     
 
-                  
-                  <MarginField style={{ width: '20%', clear:'both' }}>
+
+
+
+                    <MarginField style={{ width: '20%', clear: 'both' }}>
                       <CustomInput
                         labelText="NASCIMENTO"
                         // id="NASCIMENTO"
@@ -670,7 +736,7 @@ export default function SectionCarousel() {
                           type: "text",
                           value: nascimento,
                           onChange: (e) => OnchangeNASCIMENTO(e.target.value),
-                          inputProps: { maxLength: 15},
+                          inputProps: { maxLength: 10 },
                           autoComplete: "off",
                         }}
                       />
@@ -686,7 +752,7 @@ export default function SectionCarousel() {
                           type: "text",
                           value: naturalidade,
                           onChange: (e) => OnchangeNATURALIDADE(e.target.value),
-                          inputProps: { maxLength: 2 },
+                          inputProps: { maxLength: 20 },
                           autoComplete: "off",
                         }}
                       />
@@ -703,30 +769,35 @@ export default function SectionCarousel() {
                           type: "text",
                           value: nacionalidade,
                           onChange: (e) => OnchangeNACIONALIDADE(e.target.value),
-                          inputProps: { maxLength: 2 },
+                          inputProps: { maxLength: 20 },
                           autoComplete: "off",
                         }}
                       />
                     </MarginField>
 
-                    <MarginField style={{ width: '20%' }}>
-                      <CustomInput
-                        labelText="ESTADO CIVIL"
-                        // id="ESTADOCIVIL"
-                        name="ESTADOCIVIL"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: estadocivil,
-                          onChange: (e) => OnchangeESTADOCIVIL(e.target.value),
-                          inputProps: { maxLength: 2 },
-                          autoComplete: "off",
-                        }}
-                      />
+                    <MarginField style={{ width: '10%', marginTop:5 }}>
+                      <FormControl style={{padding:0, margin:0, width:110}} className={classes.formControl}>
+                        <InputLabel style={{fontSize:12, marginTop:5}}>ESTADO CIVIL</InputLabel>
+                        <Select
+                        native
+                          inputProps={{
+                            name: 'estadocivil',
+                            value: estadocivil,
+                            onChange: (e) => OnchangeESTADOCIVIL(e.target.value),
+                          }}
+                          >
+                          <option aria-label="None" value="" />
+                        
+                          <option value='Solteiro'>Solteiro</option>
+                          <option value='Viuvo'>Viúvo</option>
+                          <option value='Separado'>Separado</option>
+                          <option value='Divorciado'>Divorciado</option>
+
+                        </Select>
+                      </FormControl>
                     </MarginField>
 
-
-                    <MarginField style={{ width: '15%' }}>
+                    <MarginField style={{ width: '15%', clear: 'both' }}>
                       <CustomInput
                         labelText="RG"
                         // id="RG"
@@ -736,7 +807,7 @@ export default function SectionCarousel() {
                           type: "text",
                           value: rg,
                           onChange: (e) => OnchangeRG(e.target.value),
-                          inputProps: { maxLength: 15},
+                          inputProps: { maxLength: 15 },
                           autoComplete: "off",
                         }}
                       />
@@ -753,7 +824,7 @@ export default function SectionCarousel() {
                           type: "text",
                           value: emissor,
                           onChange: (e) => OnchangeEMISSOR(e.target.value),
-                          inputProps: { maxLength: 15},
+                          inputProps: { maxLength: 15 },
                           autoComplete: "off",
                         }}
                       />
@@ -770,29 +841,32 @@ export default function SectionCarousel() {
                           type: "text",
                           value: emissao,
                           onChange: (e) => OnchangeEMISSAO(e.target.value),
-                          inputProps: { maxLength: 15},
+                          inputProps: { maxLength: 10 },
                           autoComplete: "off",
                         }}
                       />
                     </MarginField>
 
-                    <MarginField style={{ width: '5%' }}>
-                      <CustomInput
-                        labelText="SEXO"
-                        // id="SEXO"
-                        name="SEXO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: sexo,
-                          onChange: (e) => OnchangeSEXO(e.target.value),
-                          inputProps: { maxLength: 1},
-                          autoComplete: "off",
-                        }}
-                      />
+                   
+
+
+                    <MarginField style={{ width: '10%', marginTop:5 }}>
+                      <FormControl style={{padding:0, margin:0, width:52}} className={classes.formControl}>
+                        <InputLabel style={{fontSize:12, marginTop:5}}>SEXO</InputLabel>
+                        <Select
+                        native
+                          inputProps={{
+                            name: 'sexo',
+                            value: sexo,
+                            onChange: (e) => OnchangeSEXO(e.target.value),
+                          }}
+                          >
+                          <option aria-label="None" value="" />
+                          <option value='M'>M</option>
+                          <option value='F'>F</option>
+                        </Select>
+                      </FormControl>
                     </MarginField>
-
-
 
                     <MarginField style={{ width: '85%' }}>
                       <CustomInput
@@ -804,14 +878,14 @@ export default function SectionCarousel() {
                           type: "text",
                           value: mae,
                           onChange: (e) => OnchangeMAE(e.target.value),
-                          inputProps: { maxLength: 8},
+                          inputProps: { maxLength: 50 },
                           autoComplete: "off",
                         }}
                       />
                     </MarginField>
 
 
-                    <MarginField style={{ width: '85%', clear:'both' }}>
+                    <MarginField style={{ width: '85%', clear: 'both' }}>
                       <CustomInput
                         labelText="NOME DO PAI"
                         // id="CEP"
@@ -821,14 +895,79 @@ export default function SectionCarousel() {
                           type: "text",
                           value: pai,
                           onChange: (e) => OnchangePAI(e.target.value),
-                          inputProps: { maxLength: 8},
+                          inputProps: { maxLength: 50 },
                           autoComplete: "off",
                         }}
                       />
                     </MarginField>
 
+                    <PositionButton style={{ marginRight: 170 }}>
+                      <Button
+                        // simple
+                        color="warning"
+                        size="sm"
+                        // href="#"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => Step3PREV()}
 
-{/* 
+                      >
+
+                        <ArrowBackIcon style={{ marginRight: 10 }} />
+                        Anterior
+                      </Button>
+                    </PositionButton>
+
+
+
+                    <PositionButton>
+                      <Button
+                        // simple
+                        color="primary"
+                        size="sm"
+                        // href="#"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => Step3NEXT()}
+
+                      >
+                        Próximo
+                        <ArrowForwardIcon style={{ marginLeft: 10 }} />
+                      </Button>
+                    </PositionButton>
+
+
+                  </Containerright>
+                </Containerform>
+
+
+
+
+
+              </Card>
+            </ContainerCard>
+
+          </div>
+
+          {/* ////////////////////////////////////////////////////////////////////////// */}
+
+          <div>
+            <ContainerCard style={{ opacity: 0.99 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
+
+
+                <Containerform>
+
+                  <Containerleft>
+                    <Imageleft2></Imageleft2>
+                  </Containerleft>
+
+                  <Containerright>
+
+                    {/* <p style={{ position:"absolute", textAlign:"center", width:'43%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
+                    <TitleWelcome>Informe os Dados de <span style={{ color: '#9D2AB1' }}> Endereço do Representante Legal</span></TitleWelcome>
+
+
 
                     <MarginField style={{ width: '15%' }}>
                       <CustomInput
@@ -840,7 +979,7 @@ export default function SectionCarousel() {
                           type: "text",
                           value: cep,
                           onChange: (e) => OnchangeCEP(e.target.value),
-                          inputProps: { maxLength: 8},
+                          inputProps: { maxLength: 8 },
                           autoComplete: "off",
                         }}
                       />
@@ -872,7 +1011,7 @@ export default function SectionCarousel() {
                           type: "text",
                           value: numero,
                           onChange: (e) => OnchangeNUMERO(e.target.value),
-                          inputProps: { maxLength: 5},
+                          inputProps: { maxLength: 5 },
                           autoComplete: "off",
                         }}
                       />
@@ -938,267 +1077,9 @@ export default function SectionCarousel() {
                           autoComplete: "off",
                         }}
                       />
-                    </MarginField> */}
+                    </MarginField>
 
 
-
-
-
-
-
-
-                    
-
-
-
-
-
-                    <PositionButton style={{ marginRight: 170 }}>
-                      <Button
-                        // simple
-                        color="warning"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step3PREV() }
-
-                      >
-
-                        <ArrowBackIcon style={{ marginRight: 10 }} />
-                        Anterior
-                      </Button>
-                    </PositionButton>
-
-
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="primary"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step3NEXT()}
-
-                      >
-                        Próximo
-                        <ArrowForwardIcon style={{ marginLeft: 10 }} />
-                      </Button>
-                    </PositionButton>
-
-
-                  </Containerright>
-                </Containerform>
-
-
-
-
-
-              </Card>
-            </ContainerCard>
-
-          </div>
-
-          {/* ////////////////////////////////////////////////////////////////////////// */}
-
-          <div>
-            <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: '80%', padding: 20 }}>
-
-
-                <Containerform>
-
-                  <Containerleft>
-                    <Imageleft2></Imageleft2>
-                  </Containerleft>
-
-                  <Containerright>
-
-                  {/* <p style={{ position:"absolute", textAlign:"center", width:'43%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
-                  <TitleWelcome>Informe os dados de <span style={{color:'#9D2AB1'}}>Sua Empresa</span></TitleWelcome>
-
-                   
-                  <MarginField style={{ width: '25%' }}>
-                        <CustomInput
-                          labelText="CNPJ"
-                          // id="CNPJ"
-                          name="CNPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: cnpj,
-                            onChange: (e) => OnchangeCNPJ(e.target.value),
-                            inputProps: { maxLength: 18 },
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '25%' }}>
-                        <CustomInput
-                          labelText="TELEFONE"
-                          // id="CNPJ"
-                          name="TELEFONE"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: telefone,
-                            onChange: (e) => OnchangeTELEFONE(e.target.value),
-                            inputProps: { maxLength: 14 },
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '38%' }}>
-                        <CustomInput
-                          labelText="SITE"
-                          // id="CNPJ"
-                          name="SITE"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: site,
-                            onChange: (e) => OnchangeSITE(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '35%' }}>
-                        <CustomInput
-                          labelText="RAZÃO SOCIAL"
-                          // id="RAZAOSOCIAL"
-                          name="RAZAOSOCIAL"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: razaosocial,
-                            onChange: (e) => OnchangeRAZAOSOCIAL(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '15%' }}>
-                        <CustomInput
-                          labelText="CNAE"
-                          // id="NOMEFANTASIA"
-                          name="CNAE"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"CNAE",
-                            type: "text",
-                            value: cnae,
-                            onChange: (e) => OnchangeCNAE(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '35%' }}>
-                        <CustomInput
-                          labelText="NOME FANTASIA"
-                          // id="NOMEFANTASIA"
-                          name="NOMEFANTASIA"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"NOMEFANTASIA",
-                            type: "text",
-                            value: nomefantasia,
-                            onChange: (e) => OnchangeNOMEFANTASIA(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '15%' }}>
-                        <CustomInput
-                          labelText="CEP"
-                          // id="NOMEFANTASIA"
-                          name="CEPPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"CEPPJ",
-                            type: "text",
-                            value: ceppj,
-                            onChange: (e) => OnchangeCEPPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '60%' }}>
-                        <CustomInput
-                          labelText="ENDEREÇO"
-                          // id="NOMEFANTASIA"
-                          name="ENDERECOPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"ENDERECOPJ",
-                            type: "text",
-                            value: enderecopj,
-                            onChange: (e) => OnchangeENDERECOPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '10%' }}>
-                        <CustomInput
-                          labelText="NUMERO"
-                          // id="NOMEFANTASIA"
-                          name="NUMEROPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"NUMEROPJ",
-                            type: "text",
-                            value: numeropj,
-                            onChange: (e) => OnchangeNUMEROPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-
-                      <MarginField style={{ width: '35%' }}>
-                        <CustomInput
-                          labelText="BAIRRO"
-                          // id="NOMEFANTASIA"
-                          name="BAIRROPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"NOMEFANTASIA",
-                            type: "text",
-                            value: bairropj,
-                            onChange: (e) => OnchangeBAIRROPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-
-
-                      <MarginField style={{ width: '50%' }}>
-                        <CustomInput
-                          labelText="COMPLEMENTO"
-                          // id="NOMEFANTASIA"
-                          name="COMPLEMENTOPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            // id:"COMPLEMENTOPJ",
-                            type: "text",
-                            value: complementopj,
-                            onChange: (e) => OnchangeCOMPLEMENTOPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-
- 
 
 
 
@@ -1250,13 +1131,15 @@ export default function SectionCarousel() {
 
           </div>
 
+
+
           {/* ////////////////////////////////////////////////////////////////////////// */}
 
           <div>
             <ContainerCard style={{ opacity: 0.99 }}>
               <Card style={{ width: '80%', padding: 20 }}>
 
- 
+
                 <Containerform>
 
                   <Containerleft>
@@ -1265,95 +1148,189 @@ export default function SectionCarousel() {
 
                   <Containerright>
 
-                   <TitleWelcome>Ainda sobre o seu negócio, quais os <span style={{color:'#9D2AB1'}}>dados bancários da sua empresa?</span></TitleWelcome>
-
-                    
-
-                      <MarginField style={{ width: '38%' }}>
-                        <CustomInput
-                          labelText="BANCO"
-                          // id="CNPJ"
-                          name="BANCOPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: bancopj,
-                            onChange: (e) => OnchangeBANCOPJ(e.target.value),
-                            inputProps: { maxLength: 18 },
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '20%' }}>
-                        <CustomInput
-                          labelText="AGENCIA"
-                          // id="CNPJ"
-                          name="AGENCIAPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: agenciapj,
-                            onChange: (e) => OnchangeAGENCIAPJ(e.target.value),
-                            inputProps: { maxLength: 14 },
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
-                      <MarginField style={{ width: '30%' }}>
-                        <CustomInput
-                          labelText="CONTA"
-                          // id="CNPJ"
-                          name="CONTAPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: contapj,
-                            onChange: (e) => OnchangeCONTAPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
+                    {/* <p style={{ position:"absolute", textAlign:"center", width:'43%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
+                    <TitleWelcome>Informe os dados de <span style={{ color: '#9D2AB1' }}>de Sua Empresa</span></TitleWelcome>
 
 
-                      <MarginField style={{ width: '30%' }}>
-                        <CustomInput
-                          labelText="OPERACAO"
-                          // id="CNPJ"
-                          name="OPERACAOPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: operacaopj,
-                            onChange: (e) => OnchangeOPERACAOPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      <DescriptionText>
-                        <div>*Caso tenha conta na Caixa</div>
-                      </DescriptionText>
+                    <MarginField style={{ width: '25%' }}>
+                      <CustomInput
+                        labelText="CNPJ"
+                        // id="CNPJ"
+                        name="CNPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: cnpj,
+                          onChange: (e) => OnchangeCNPJ(e.target.value),
+                          inputProps: { maxLength: 18 },
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '25%' }}>
+                      <CustomInput
+                        labelText="TELEFONE"
+                        // id="CNPJ"
+                        name="TELEFONE"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: telefone,
+                          onChange: (e) => OnchangeTELEFONE(e.target.value),
+                          inputProps: { maxLength: 14 },
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '38%' }}>
+                      <CustomInput
+                        labelText="SITE"
+                        // id="CNPJ"
+                        name="SITE"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: site,
+                          onChange: (e) => OnchangeSITE(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '35%' }}>
+                      <CustomInput
+                        labelText="RAZÃO SOCIAL"
+                        // id="RAZAOSOCIAL"
+                        name="RAZAOSOCIAL"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: razaosocial,
+                          onChange: (e) => OnchangeRAZAOSOCIAL(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '15%' }}>
+                      <CustomInput
+                        labelText="CNAE"
+                        // id="NOMEFANTASIA"
+                        name="CNAE"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"CNAE",
+                          type: "text",
+                          value: cnae,
+                          onChange: (e) => OnchangeCNAE(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '35%' }}>
+                      <CustomInput
+                        labelText="NOME FANTASIA"
+                        // id="NOMEFANTASIA"
+                        name="NOMEFANTASIA"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"NOMEFANTASIA",
+                          type: "text",
+                          value: nomefantasia,
+                          onChange: (e) => OnchangeNOMEFANTASIA(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '15%' }}>
+                      <CustomInput
+                        labelText="CEP"
+                        // id="NOMEFANTASIA"
+                        name="CEPPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"CEPPJ",
+                          type: "text",
+                          value: ceppj,
+                          onChange: (e) => OnchangeCEPPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '60%' }}>
+                      <CustomInput
+                        labelText="ENDEREÇO"
+                        // id="NOMEFANTASIA"
+                        name="ENDERECOPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"ENDERECOPJ",
+                          type: "text",
+                          value: enderecopj,
+                          onChange: (e) => OnchangeENDERECOPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '10%' }}>
+                      <CustomInput
+                        labelText="NUMERO"
+                        // id="NOMEFANTASIA"
+                        name="NUMEROPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"NUMEROPJ",
+                          type: "text",
+                          value: numeropj,
+                          onChange: (e) => OnchangeNUMEROPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
 
-                      </MarginField>
+                    <MarginField style={{ width: '35%' }}>
+                      <CustomInput
+                        labelText="BAIRRO"
+                        // id="NOMEFANTASIA"
+                        name="BAIRROPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"NOMEFANTASIA",
+                          type: "text",
+                          value: bairropj,
+                          onChange: (e) => OnchangeBAIRROPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
 
 
-                      <MarginField style={{ width: '30%' }}>
-                        <CustomInput
-                          labelText="CHAVE PIX"
-                          // id="CNPJ"
-                          name="PIXPJ"
-                          formControlProps={{ fullWidth: true }}
-                          inputProps={{
-                            type: "text",
-                            value: pixpj,
-                            onChange: (e) => OnchangePIXPJ(e.target.value),
-                            autoComplete: "off",
-                            disabled: disabledfields
-                          }}
-                        />
-                      </MarginField>
+                    <MarginField style={{ width: '50%' }}>
+                      <CustomInput
+                        labelText="COMPLEMENTO"
+                        // id="NOMEFANTASIA"
+                        name="COMPLEMENTOPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          // id:"COMPLEMENTOPJ",
+                          type: "text",
+                          value: complementopj,
+                          onChange: (e) => OnchangeCOMPLEMENTOPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+
+
 
 
 
@@ -1385,6 +1362,161 @@ export default function SectionCarousel() {
                         // target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => Step5NEXT()}
+
+                      >
+                        Próximo
+                        <ArrowForwardIcon style={{ marginLeft: 10 }} />
+                      </Button>
+                    </PositionButton>
+
+
+                  </Containerright>
+                </Containerform>
+
+
+
+
+
+              </Card>
+            </ContainerCard>
+
+          </div>
+
+          {/* ////////////////////////////////////////////////////////////////////////// */}
+
+          <div>
+            <ContainerCard style={{ opacity: 0.99 }}>
+              <Card style={{ width: '80%', padding: 20 }}>
+
+
+                <Containerform>
+
+                  <Containerleft>
+                    <Imageleft2></Imageleft2>
+                  </Containerleft>
+
+                  <Containerright>
+
+                    <TitleWelcome>Ainda sobre o seu negócio, quais os <span style={{ color: '#9D2AB1' }}>dados bancários da sua empresa?</span></TitleWelcome>
+
+
+
+                    <MarginField style={{ width: '38%' }}>
+                      <CustomInput
+                        labelText="BANCO"
+                        // id="CNPJ"
+                        name="BANCOPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: bancopj,
+                          onChange: (e) => OnchangeBANCOPJ(e.target.value),
+                          inputProps: { maxLength: 18 },
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '20%' }}>
+                      <CustomInput
+                        labelText="AGENCIA"
+                        // id="CNPJ"
+                        name="AGENCIAPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: agenciapj,
+                          onChange: (e) => OnchangeAGENCIAPJ(e.target.value),
+                          inputProps: { maxLength: 14 },
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+                    <MarginField style={{ width: '30%' }}>
+                      <CustomInput
+                        labelText="CONTA"
+                        // id="CNPJ"
+                        name="CONTAPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: contapj,
+                          onChange: (e) => OnchangeCONTAPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+
+
+                    <MarginField style={{ width: '30%' }}>
+                      <CustomInput
+                        labelText="OPERACAO"
+                        // id="CNPJ"
+                        name="OPERACAOPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: operacaopj,
+                          onChange: (e) => OnchangeOPERACAOPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                      <DescriptionText>
+                        <div>*Caso tenha conta na Caixa</div>
+                      </DescriptionText>
+
+                    </MarginField>
+
+
+                    <MarginField style={{ width: '30%' }}>
+                      <CustomInput
+                        labelText="CHAVE PIX"
+                        // id="CNPJ"
+                        name="PIXPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: pixpj,
+                          onChange: (e) => OnchangePIXPJ(e.target.value),
+                          autoComplete: "off",
+                          disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+
+
+
+                    <PositionButton style={{ marginRight: 170 }}>
+                      <Button
+                        // simple
+                        color="warning"
+                        size="sm"
+                        // href="#"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => Step6PREV()}
+
+                      >
+
+                        <ArrowBackIcon style={{ marginRight: 10 }} />
+                        Anterior
+                      </Button>
+                    </PositionButton>
+
+
+
+                    <PositionButton>
+                      <Button
+                        // simple
+                        color="primary"
+                        size="sm"
+                        // href="#"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => Step6NEXT()}
 
                       >
                         Salvar
