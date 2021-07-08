@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import $ from "jquery";
+// eslint-disable-next-line no-use-before-define
+import axios from "axios"
 // react component for creating beautiful carousel
 import Carousel from "react-slick";
 // material-ui components
@@ -17,7 +19,6 @@ import CardBody from "components/Card/CardBody.js";
 import bg_card_vileve from '../../assets/images/bg_card_assistencia.jpg'
 import bg_card_gateway from '../../assets/images/bg_card_vilevepay.jpg'
 
-
 import image1 from "assets/img/bg.jpg";
 import image2 from "assets/img/bg2.jpg";
 import image3 from "assets/img/bg3.jpg";
@@ -33,12 +34,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 
-
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import logo from '../../assets/images/logo_vileve_way.png'
 import Button from "components/CustomButtons/Button.js";
-
-
 
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -68,6 +66,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import "./stylepagination.scss";
 import { SignalCellularConnectedNoInternet1BarSharp } from "@material-ui/icons";
+import { getNameOfDeclaration } from "typescript";
 
 const useStyles = makeStyles(styles);
 const useStyles2 = makeStyles(styles2);
@@ -143,9 +142,22 @@ export default function SectionCarousel() {
     return v;
   }
 
-  const maskcep = (v) => {
-    v = v.replace(/\D/g, '');
-    // v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$3\/\$4-$5");
+  const getcep = (v) => {
+    v = v.replace(/\D/g, '');  
+    if(v.length >= 8){
+      axios.get(`https://viacep.com.br/ws/${v}/json`)
+      .then(res => {
+        setENDERECO(res.data.logradouro);
+        setBAIRRO(res.data.bairro);
+        setCIDADE(res.data.localidade);
+        setESTADO(res.data.uf)
+      })
+    }else{
+      setENDERECO('');
+      setBAIRRO('');
+      setCIDADE('');
+      setESTADO('')
+    }
     return v;
   }
 
@@ -190,7 +202,7 @@ export default function SectionCarousel() {
   }
 
   const [cep, setCEP] = React.useState('');
-  const OnchangeCEP = v => { setCEP(maskcep(v)) }
+  const OnchangeCEP = v => { setCEP(getcep(v)) }
 
   const [nascimento, setNASCIMENTO] = React.useState('');
   const OnchangeNASCIMENTO = v => { setNASCIMENTO(maskdate(v)) }
@@ -990,6 +1002,7 @@ export default function SectionCarousel() {
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
+                          readOnly: true,
                           value: endereco,
                           onChange: (e) => OnchangeENDERECO(e.target.value),
                           autoComplete: "off",
@@ -1021,6 +1034,7 @@ export default function SectionCarousel() {
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
+                          readOnly: true,
                           value: bairro,
                           onChange: (e) => OnchangeBAIRRO(e.target.value),
                           autoComplete: "off",
@@ -1052,6 +1066,7 @@ export default function SectionCarousel() {
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
+                          readOnly: true,
                           value: cidade,
                           onChange: (e) => OnchangeCIDADE(e.target.value),
                           autoComplete: "off",
@@ -1068,6 +1083,7 @@ export default function SectionCarousel() {
                         inputProps={{
                           type: "text",
                           value: estado,
+                          readOnly: true,
                           onChange: (e) => OnchangeESTADO(e.target.value),
                           inputProps: { maxLength: 2 },
                           autoComplete: "off",
