@@ -235,11 +235,10 @@ export default function SectionCarousel() {
   const OnchangeNACIONALIDADE = v => { setNACIONALIDADE(v.replace(/[^a-zA-Z]/g, '')) }
 
   const [mae, setMAE] = React.useState('');
-  const OnchangeMAE = v => { setMAE(v.replace(/[^a-zA-Z]/g, '')) }
+  const OnchangeMAE = v => { setMAE(v.replace(/[^a-zA-Z ]/g, '')) }
 
   const [pai, setPAI] = React.useState('');
-  const OnchangePAI = v => { setPAI(v.replace(/[^a-zA-Z]/g, '')) }
-
+  const OnchangePAI = v => { setPAI(v.replace(/[^a-zA-Z ]/g, '')) }
 
   const [razaosocial, setRAZAOSOCIAL] = React.useState('');
   const OnchangeRAZAOSOCIAL = v => { setRAZAOSOCIAL(v) }
@@ -352,12 +351,9 @@ export default function SectionCarousel() {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
   }
 
-
-
-
   const Register = () => {
 
-    const submit = () => {
+    // const submit = () => {
       const objectJSONPJ = {
         usuario: {
           nome: nome,
@@ -365,8 +361,8 @@ export default function SectionCarousel() {
           senha: sha256(senha).toString()
         },
         pessoa: {
-          cpf: cpf.replace(/\D/g, ''),
-          celular: celular.replace(/\D/g, ''),
+          cpf: masknumero(cpf),
+          celular: masknumero(celular),
           nascimento: nascimento,
           naturalidade: naturalidade,
           nacionalidade: nacionalidade,
@@ -379,30 +375,30 @@ export default function SectionCarousel() {
           pai: pai
         },
         empresa: {
-          cnpj: cnpj.replace(/\D/g, ''),
+          cnpj: masknumero(cnpj),
           cnae: cnae,
           razao_social: razaosocial,
-          telefone_fixo: telefone,
-          celular: celular.replace(/\D/g, ''),
+          telefone_fixo: masknumero(telefone),
+          celular: masknumero(celular),
           nome_fantasia: nomefantasia,
           site: site
         },
         conta: {
           banco: bancopj,
-          agencia: agenciapj.replace(/\D/g, ''),
-          conta: contapj.replace(/\D/g, ''),
-          operacao: operacaopj.replace(/\D/g, ''),
+          agencia: masknumero(agenciapj),
+          conta: masknumero(contapj),
+          operacao: masknumero(operacaopj),
           pix: pixpj
         },
         endereco_cnpj: {
-          cep: ceppj.replace(/\D/g, ''),
+          cep: masknumero(ceppj),
           complemento: complementopj,
           endereco: enderecopj,
-          numero: numeropj.replace(/\D/g, ''),
+          numero: masknumero(numeropj),
           bairro: bairropj
         },
         endereco_cpf: {
-          cep: cep.replace(/\D/g, ''),
+          cep: masknumero(cep),
           complemento: complemento,
           endereco: endereco,
           bairro: bairro
@@ -410,10 +406,10 @@ export default function SectionCarousel() {
 
       }
 
-      console.log(objectJSONPJ)
-      dispatch(signupRequest(objectJSONPJ));
+      //console.log(objectJSONPJ)
+         dispatch(signupRequest(objectJSONPJ));
       // dispatch(signupRequest({ nome, email, celular, senha }));
-    }
+    // }
   }
 
   return (
@@ -1516,7 +1512,7 @@ export default function SectionCarousel() {
                         // href="#"
                         // target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => Step6NEXT()}
+                        onClick={() => Register()}
 
                       >
                         Salvar
