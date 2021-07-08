@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   token: '',
   signed: false,
   modal: false,
-  loading: 'none'
+  loading: 'none', 
+  message: ''
 };
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -21,6 +22,7 @@ export default function auth(state = INITIAL_STATE, action) {
       }
       case '@signup/SIGNUP_RETURN': {
         draft.token = action.payload.token;
+        draft.message = action.payload.message;
         draft.modal = true;
         draft.loading = 'none';
         break;      
