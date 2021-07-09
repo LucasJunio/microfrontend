@@ -1,27 +1,34 @@
   
 export function addAddressRequest(object) {
   return {
-      type: '@account/ADD_ADDRESS',
+      type: '@address/ADD_ADDRESS',
       payload: object,
   };
 }
 
 export function readAddressRequest() {
   return {
-      type: '@account/READ_ADDRESS'
+      type: '@address/READ_ADDRESS'
   };
 }
 
-export function returnAddressRequest(object) {
+export function insertAddressCPFRequest(object) {
   return {
-      type: '@account/RETURN_ADDRESS',
+      type: '@address/INSERT_ADDRESS_CPF',
+      payload: { object }
+  };
+}
+
+export function insertAddressCNPJRequest(object) {
+  return {
+      type: '@address/INSERT_ADDRESS_CNPJ',
       payload: { object }
   };
 }
 
 export function updateAddressRequest(object) {
   return {
-      type: '@account/UPDATE_ADDRESS',
+      type: '@address/UPDATE_ADDRESS',
       payload: object,
   };
 }

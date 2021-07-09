@@ -1,27 +1,27 @@
   
 export function addEnterpriseRequest(object) {
   return {
-      type: '@account/ADD_ENTERPRISE',
+      type: '@enterprise/ADD_ENTERPRISE',
       payload: object,
   };
 }
 
 export function readEnterpriseRequest() {
   return {
-      type: '@account/READ_ENTERPRISE'
+      type: '@enterprise/READ_ENTERPRISE'
   };
 }
 
-export function returnEnterpriseRequest(object) {
+export function insertEnterpriseRequest(object) {
   return {
-      type: '@account/RETURN_ENTERPRISE',
+      type: '@enterprise/INSERT_ENTERPRISE',
       payload: { object }
   };
 }
 
 export function updateEnterpriseRequest(object) {
   return {
-      type: '@account/UPDATE_ENTERPRISE',
+      type: '@enterprise/UPDATE_ENTERPRISE',
       payload: object,
   };
 }

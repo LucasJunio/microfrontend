@@ -24,8 +24,12 @@ const INITIAL_STATE = {
 export default function auth(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@account/RETURN_ADDRESS': {
-        draft.endereco = action.payload.object;        
+      case '@address/INSERT_ADDRESS_CPF': {
+        draft.endereco_cpf = action.payload.object;        
+        break;
+      }      
+      case '@address/INSERT_ADDRESS_CNPJ': {
+        draft.endereco_cnpj = action.payload.object;        
         break;
       }
       default:

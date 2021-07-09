@@ -12,9 +12,9 @@ export function readPersonRequest() {
   };
 }
 
-export function returnPersonRequest(object) {
+export function insertPersonRequest(object) {
   return {
-      type: '@person/RETURN_PERSON',
+      type: '@person/INSERT_PERSON',
       payload: { object }
   };
 }

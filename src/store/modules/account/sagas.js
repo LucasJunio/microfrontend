@@ -2,8 +2,6 @@ import { takeLatest, call, all, put } from 'redux-saga/effects';
 
 import api from '../../../services/api';
 
-import { returnAccountRequest } from '../account/actions';
-
 export function* AddAccount({ payload, resolve }) {
   try {
 

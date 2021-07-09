@@ -64,9 +64,14 @@ import styles2 from "assets/jss/material-kit-react/customCheckboxRadioSwitch.js"
 
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
+import { insertUserRequest } from '../../store/modules/user/actions';
+import { insertPersonRequest } from '../../store/modules/person/actions';
+import { insertAddressCPFRequest, insertAddressCNPJRequest } from '../../store/modules/address/actions';
+import { insertEnterpriseRequest } from '../../store/modules/enterprise/actions';
+import { insertAccountRequest } from '../../store/modules/account/actions';
+import { signupRequest } from '../../store/modules/signup/actions';
+
 import "./stylepagination.scss";
-import { SignalCellularConnectedNoInternet1BarSharp } from "@material-ui/icons";
-import { getNameOfDeclaration } from "typescript";
 
 const useStyles = makeStyles(styles);
 const useStyles2 = makeStyles(styles2);
@@ -290,6 +295,12 @@ export default function SectionCarousel() {
   const [bairropj, setBAIRROPJ] = React.useState('');
   const OnchangeBAIRROPJ = v => { setBAIRROPJ(v) }
 
+  const [estadopj, setESTADOPJ] = React.useState('');
+  const OnchangeESTADOPJ = v => { setESTADOPJ(v) }
+
+  const [cidadepj, setCIDADEPJ] = React.useState('');
+  const OnchangeCIDADEPJ = v => { setCIDADEPJ(v) }
+
   const [complementopj, setCOMPLEMENTOPJ] = React.useState('');
   const OnchangeCOMPLEMENTOPJ = v => { setCOMPLEMENTOPJ(v) }
 
@@ -320,16 +331,28 @@ export default function SectionCarousel() {
   const [dot6, setDOT6] = React.useState(dotInactive);
 
   const Step1NEXT = () => {
-    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
-      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
-    } else {
-      //vai para o próximo slide depois coloca o marcardo1 como incativo e o marcador2 como ativo
-      slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
-    }
+    // if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+    //   alert('Todos os campos são obrigatórios, favor revise seu formulário!')
+    // } else {
+    //vai para o próximo slide depois coloca o marcardo1 como inativo e o marcador2 como ativo
+    slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
+    insertUserRequest({ nome, email, senha })
+    
+    // setTimeout(
+    //   function () {
+    //     console.log(usuario)
+    //   }
+    //     .bind(this),
+    //   1000
+    // );
+
+
+    // }
   }
 
   const Step2PJ = () => {
     slickRef.current.slickNext(); setDOT2(dotInactive); setDOT3(dotActive)
+
   }
 
   const Step2PF = () => {
@@ -346,6 +369,11 @@ export default function SectionCarousel() {
 
   const Step3NEXT = () => {
     slickRef.current.slickNext(); setDOT3(dotInactive); setDOT4(dotActive)
+    insertPersonRequest({
+      cpf, celular, nascimento, naturalidade,
+      nacionalidade, estadocivil, rg, emissor,
+      emissao, sexo, mae, pai
+    })
   }
 
   const Step4PREV = () => {
@@ -354,6 +382,12 @@ export default function SectionCarousel() {
 
   const Step4NEXT = () => {
     slickRef.current.slickNext(); setDOT4(dotInactive); setDOT5(dotActive)
+    insertAddressCPFRequest({
+      cep: masknumero(cep),
+      complemento,
+      endereco,
+      bairro
+    })
   }
 
   const Step5PREV = () => {
@@ -362,6 +396,22 @@ export default function SectionCarousel() {
 
   const Step5NEXT = () => {
     slickRef.current.slickNext(); setDOT5(dotInactive); setDOT6(dotActive)
+    insertAddressCNPJRequest({
+      cep: masknumero(ceppj),
+      complemento: complementopj,
+      endereco: enderecopj,
+      numero: masknumero(numeropj),
+      bairro: bairropj
+    })
+    insertEnterpriseRequest({
+      cnpj: masknumero(cnpj),
+      cnae: cnae,
+      razao_social: razaosocial,
+      telefone_fixo: masknumero(telefone),
+      celular: masknumero(celular),
+      nome_fantasia: nomefantasia,
+      site: site
+    })
   }
 
   const Step6PREV = () => {
@@ -369,67 +419,80 @@ export default function SectionCarousel() {
   }
 
   const Step6NEXT = () => {
-    // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
+    // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)    
   }
 
   const Register = () => {
 
+    // insertAccountRequest({
+    //   banco: bancopj,
+    //   agencia: masknumero(agenciapj),
+    //   conta: masknumero(contapj),
+    //   operacao: masknumero(operacaopj),
+    //   pix: pixpj
+    // })
 
     // const submit = () => {
-    const objectJSONPJ = {
-      usuario: {
-        nome: nome,
-        email: email,
-        senha: sha256(senha).toString()
-      },
-      pessoa: {
-        cpf: masknumero(cpf),
-        celular: masknumero(celular),
-        nascimento: nascimento,
-        naturalidade: naturalidade,
-        nacionalidade: nacionalidade,
-        estadocivil: estadocivil,
-        rg: rg,
-        emissor: emissor,
-        emissao: emissao,
-        sexo: sexo,
-        mae: mae,
-        pai: pai
-      },
-      empresa: {
-        cnpj: masknumero(cnpj),
-        cnae: cnae,
-        razao_social: razaosocial,
-        telefone_fixo: masknumero(telefone),
-        celular: masknumero(celular),
-        nome_fantasia: nomefantasia,
-        site: site
-      },
-      conta: {
-        banco: bancopj,
-        agencia: masknumero(agenciapj),
-        conta: masknumero(contapj),
-        operacao: masknumero(operacaopj),
-        pix: pixpj
-      },
-      endereco_cnpj: {
-        cep: masknumero(ceppj),
-        complemento: complementopj,
-        endereco: enderecopj,
-        numero: masknumero(numeropj),
-        bairro: bairropj
-      },
-      endereco_cpf: {
-        cep: masknumero(cep),
-        complemento: complemento,
-        endereco: endereco,
-        bairro: bairro
-      }
+    // const objectJSONPJ = {
+    //   usuario: {
+    //     nome: nome,
+    //     email: email,
+    //     senha: sha256(senha).toString()
+    //   },
+    //   pessoa: {
+    //     cpf: masknumero(cpf),
+    //     celular: masknumero(celular),
+    //     nascimento: nascimento,
+    //     naturalidade: naturalidade,
+    //     nacionalidade: nacionalidade,
+    //     estadocivil: estadocivil,
+    //     rg: rg,
+    //     emissor: emissor,
+    //     emissao: emissao,
+    //     sexo: sexo,
+    //     mae: mae,
+    //     pai: pai
+    //   },
+    //   empresa: {
+    //     cnpj: masknumero(cnpj),
+    //     cnae: cnae,
+    //     razao_social: razaosocial,
+    //     telefone_fixo: masknumero(telefone),
+    //     celular: masknumero(celular),
+    //     nome_fantasia: nomefantasia,
+    //     site: site
+    //   },
+    //   conta: {
+    //     banco: bancopj,
+    //     agencia: masknumero(agenciapj),
+    //     conta: masknumero(contapj),
+    //     operacao: masknumero(operacaopj),
+    //     pix: pixpj
+    //   },
+    //   endereco_cnpj: {
+    //     cep: masknumero(ceppj),
+    //     complemento: complementopj,
+    //     endereco: enderecopj,
+    //     numero: masknumero(numeropj),
+    //     bairro: bairropj
+    //   },
+    //   endereco_cpf: {
+    //     cep: masknumero(cep),
+    //     complemento: complemento,
+    //     endereco: endereco,
+    //     bairro: bairro
+    //   }
 
-    }
+    // }
 
     //console.log(objectJSONPJ)
-    dispatch(signupRequest({ usuario, pessoa, conta, empresa, endereco_cnpj, endereco_cpf }));
+    dispatch(signupRequest({ usuario
+      // , pessoa
+      // , conta
+      // , empresa
+      // , endereco_cnpj
+      // , endereco_cpf 
+    }));
     // dispatch(signupRequest({ nome, email, celular, senha }));
     // }
   }
@@ -1348,6 +1411,39 @@ export default function SectionCarousel() {
                           onChange: (e) => OnchangeCOMPLEMENTOPJ(e.target.value),
                           autoComplete: "off",
                           disabled: disabledfields
+                        }}
+                      />
+                    </MarginField>
+
+                    <MarginField style={{ width: '40%' }}>
+                      <CustomInput
+                        labelText="CIDADE"
+                        // id="CIDADE"
+                        name="CIDADEPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          readOnly: true,
+                          value: cidadepj,
+                          onChange: (e) => OnchangeCIDADEPJ(e.target.value),
+                          autoComplete: "off",
+                        }}
+                      />
+                    </MarginField>
+
+                    <MarginField style={{ width: '20%' }}>
+                      <CustomInput
+                        labelText="ESTADO"
+                        // id="ESTADO"
+                        name="ESTADOPJ"
+                        formControlProps={{ fullWidth: true }}
+                        inputProps={{
+                          type: "text",
+                          value: estadopj,
+                          readOnly: true,
+                          onChange: (e) => OnchangeESTADOPJ(e.target.value),
+                          inputProps: { maxLength: 2 },
+                          autoComplete: "off",
                         }}
                       />
                     </MarginField>

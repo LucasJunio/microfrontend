@@ -46,9 +46,6 @@
     "gulp-append-prepend": "1.0.9",
     "prettier": "2.3.0"
   },
-  "optionalDependencies": {
-    "typescript": "4.2.4"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && gulp licenses",

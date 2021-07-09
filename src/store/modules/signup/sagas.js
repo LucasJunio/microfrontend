@@ -7,13 +7,16 @@ import { returnSignupRequest } from './actions';
 export function* Signup({ payload }) {
   try {
 
-    const response = yield call(api.post, '/signup', payload);
+    console.log("Resultado do payload: ")  
+    console.log(payload)  
 
-    const { token } = response.data;
+    // const response = yield call(api.post, '/signup', payload);
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    // const { token } = response.data;
 
-    yield put(returnSignupRequest(response.data))      
+    // api.defaults.headers.Authorization = `Bearer ${token}`;
+
+    // yield put(returnSignupRequest(response.data))      
 
   } catch (error) {
     console.log(error.response.data);

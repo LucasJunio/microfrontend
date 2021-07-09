@@ -20,7 +20,7 @@ const INITIAL_STATE = {
 export default function auth(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@account/RETURN_PERSON': {
+      case '@person/INSERT_PERSON': {
         draft.pessoa = action.payload.object;        
         break;
       }

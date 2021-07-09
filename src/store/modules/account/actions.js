@@ -12,9 +12,9 @@ export function readAccountRequest() {
   };
 }
 
-export function returnAccountRequest(object) {
+export function insertAccountRequest(object) {
   return {
-      type: '@account/RETURN_ACCOUNT',
+      type: '@account/INSERT_ACCOUNT',
       payload: { object }
   };
 }

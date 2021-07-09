@@ -2,8 +2,6 @@ import { takeLatest, call, all, put } from 'redux-saga/effects';
 
 import api from '../../../services/api';
 
-import { returnAccountRequest } from '../account/actions';
-
 export function* AddAccount({ payload, resolve }) {
   try {
 
@@ -17,8 +15,6 @@ export function* AddAccount({ payload, resolve }) {
 export function* ReadAccount() {
   try {
     let response = yield call(api.get, '/account');
-
-    yield put(returnAccountRequest(response.data.rows));
 
   } catch (error) {
     console.log(error.response.data.rows);

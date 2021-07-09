@@ -12,10 +12,10 @@ export function readUserRequest() {
   };
 }
 
-export function returnUserRequest(object) {
+export function insertUserRequest(object) {
   return {
-      type: '@user/RETURN_USER',
-      payload: { object }
+      type: '@user/INSERT_USER',
+      payload: object 
   };
 }
 
