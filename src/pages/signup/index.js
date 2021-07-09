@@ -141,11 +141,7 @@ export default function SectionCarousel() {
     return v;
   }
 
-  const maskcnpj = (v) => {
-    v = v.replace(/\D/g, '');
-    v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3\/\$4-$5");
-    return v;
-  }
+ 
 
   const masktelefone = (v) => {
     v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
@@ -250,7 +246,7 @@ export default function SectionCarousel() {
   const [estado, setESTADO] = React.useState('');
   const OnchangeESTADO = v => { setESTADO(v.replace(/[^a-zA-Z]/g, '')) }
 
-  const [estadocivil, setESTADOCIVIL] = React.useState('');
+  const [estado_civil, setESTADOCIVIL] = React.useState('');
   const OnchangeESTADOCIVIL = v => { setESTADOCIVIL(v.replace(/[^a-zA-Z]/g, '')) }
 
   const [naturalidade, setNATURALIDADE] = React.useState('');
@@ -268,12 +264,51 @@ export default function SectionCarousel() {
   const [razaosocial, setRAZAOSOCIAL] = React.useState('');
   const OnchangeRAZAOSOCIAL = v => { setRAZAOSOCIAL(v) }
 
-  const [nomefantasia, setNOMEFANTASIA] = React.useState('');
+  const [nome_fantasia, setNOMEFANTASIA] = React.useState('');
   const OnchangeNOMEFANTASIA = v => { setNOMEFANTASIA(v) }
 
   const [cnpj, setCNPJ] = React.useState('');
-  const OnchangeCNPJ = v => { setCNPJ(maskcnpj(v)) }
+  const OnchangeCNPJ = v => { setCNPJ(getcnpj(v)) }
 
+  const getcnpj = (v) => {
+    v = v.replace(/\D/g, '');
+    if (v.length >= 14) {
+      axios.get(`https://consulta-empresa-cnpj-e-socios.p.rapidapi.com/cnpj/${v}`, {
+        headers: {
+          'x-rapidapi-key': 'bdac259fe4msh125d80880f7225ap14cc31jsn0ee569b9cbfd',
+          'x-rapidapi-host': 'consulta-empresa-cnpj-e-socios.p.rapidapi.com'
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+          setRAZAOSOCIAL(res.data.name);
+          setNOMEFANTASIA(res.data.alias);
+          setCIDADEPJ(res.data.address.city);
+          setENDERECOPJ(res.data.address.street);
+          setESTADOPJ(res.data.address.state);
+          setNUMEROPJ(res.data.address.number);
+          setBAIRROPJ(res.data.address.neighborhood);
+          setTELEFONE(masktelefone(res.data.phone.phone_1));
+          setCEPPJ(res.data.address.zip_code);
+          setCNAE(res.data.legal_nature.code)
+        })
+    } else {
+          setRAZAOSOCIAL('');
+          setNOMEFANTASIA('');
+          setCIDADEPJ('');
+          setENDERECOPJ('');
+          setESTADOPJ('');
+          setNUMEROPJ('');
+          setBAIRROPJ('');
+          setTELEFONE('');
+          setCEPPJ('');
+          setCNAE('');
+    }
+    v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3\/\$4-$5");
+    return v;
+  }
+
+ 
   const [telefone, setTELEFONE] = React.useState('');
   const OnchangeTELEFONE = v => { setTELEFONE(masktelefone(v)) }
 
@@ -331,23 +366,13 @@ export default function SectionCarousel() {
   const [dot6, setDOT6] = React.useState(dotInactive);
 
   const Step1NEXT = () => {
-    // if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
-    //   alert('Todos os campos são obrigatórios, favor revise seu formulário!')
-    // } else {
+    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
+    } else {
     //vai para o próximo slide depois coloca o marcardo1 como inativo e o marcador2 como ativo
     slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
-    insertUserRequest({ nome, email, senha })
-    
-    // setTimeout(
-    //   function () {
-    //     console.log(usuario)
-    //   }
-    //     .bind(this),
-    //   1000
-    // );
-
-
-    // }
+    // insertUserRequest({ nome, email, senha })
+    }
   }
 
   const Step2PJ = () => {
@@ -371,7 +396,7 @@ export default function SectionCarousel() {
     slickRef.current.slickNext(); setDOT3(dotInactive); setDOT4(dotActive)
     insertPersonRequest({
       cpf, celular, nascimento, naturalidade,
-      nacionalidade, estadocivil, rg, emissor,
+      nacionalidade, estado_civil, rg, emissor,
       emissao, sexo, mae, pai
     })
   }
@@ -409,7 +434,7 @@ export default function SectionCarousel() {
       razao_social: razaosocial,
       telefone_fixo: masknumero(telefone),
       celular: masknumero(celular),
-      nome_fantasia: nomefantasia,
+      nome_fantasia: nome_fantasia,
       site: site
     })
   }
@@ -433,66 +458,80 @@ export default function SectionCarousel() {
     // })
 
     // const submit = () => {
-    // const objectJSONPJ = {
-    //   usuario: {
-    //     nome: nome,
-    //     email: email,
-    //     senha: sha256(senha).toString()
-    //   },
-    //   pessoa: {
-    //     cpf: masknumero(cpf),
-    //     celular: masknumero(celular),
-    //     nascimento: nascimento,
-    //     naturalidade: naturalidade,
-    //     nacionalidade: nacionalidade,
-    //     estadocivil: estadocivil,
-    //     rg: rg,
-    //     emissor: emissor,
-    //     emissao: emissao,
-    //     sexo: sexo,
-    //     mae: mae,
-    //     pai: pai
-    //   },
-    //   empresa: {
-    //     cnpj: masknumero(cnpj),
-    //     cnae: cnae,
-    //     razao_social: razaosocial,
-    //     telefone_fixo: masknumero(telefone),
-    //     celular: masknumero(celular),
-    //     nome_fantasia: nomefantasia,
-    //     site: site
-    //   },
-    //   conta: {
-    //     banco: bancopj,
-    //     agencia: masknumero(agenciapj),
-    //     conta: masknumero(contapj),
-    //     operacao: masknumero(operacaopj),
-    //     pix: pixpj
-    //   },
-    //   endereco_cnpj: {
-    //     cep: masknumero(ceppj),
-    //     complemento: complementopj,
-    //     endereco: enderecopj,
-    //     numero: masknumero(numeropj),
-    //     bairro: bairropj
-    //   },
-    //   endereco_cpf: {
-    //     cep: masknumero(cep),
-    //     complemento: complemento,
-    //     endereco: endereco,
-    //     bairro: bairro
-    //   }
+    const objectJSONPJ = {
+      usuario: {
+        nome: nome,
+        email: email,
+        senha: sha256(senha).toString()
+      },
+      pessoa: {
+        cpf: masknumero(cpf),
+        celular: masknumero(celular),
+        nascimento: nascimento,
+        naturalidade: naturalidade,
+        nacionalidade: nacionalidade,
+        estado_civil: estado_civil,
+        rg: rg,
+        emissor: emissor,
+        emissao: emissao,
+        sexo: sexo,
+        mae: mae,
+        pai: pai
+      },
+      empresa: {
+        cnpj: masknumero(cnpj),
+        cnae: cnae,
+        razao_social: razaosocial,
+        telefone_fixo: masknumero(telefone),
+        celular: masknumero(celular),
+        nome_fantasia: nome_fantasia,
+        site: site
+      },
+      conta: {
+        banco: bancopj,
+        agencia: masknumero(agenciapj),
+        conta: masknumero(contapj),
+        operacao: masknumero(operacaopj),
+        pix: pixpj
+      },
+      endereco_cnpj: {
+        cep: masknumero(ceppj),
+        complemento: complementopj,
+        endereco: enderecopj,
+        numero: masknumero(numeropj),
+        bairro: bairropj,
+        cidadepj: cidadepj,
+        estadopj: estadopj
+      },
+      endereco_cpf: {
+        cep: masknumero(cep),
+        complemento: complemento,
+        endereco: endereco,
+        bairro: bairro,
+        cidade: cidade,
+        estado: estado
+      }
 
-    // }
+    }
 
-    //console.log(objectJSONPJ)
-    dispatch(signupRequest({ usuario
-      // , pessoa
-      // , conta
-      // , empresa
-      // , endereco_cnpj
-      // , endereco_cpf 
-    }));
+
+    
+    $.ajax({
+      url: 'http://192.168.0.140/signup',
+      type:'POST',
+      data: objectJSONPJ , 
+      crossDomain: true,
+      cache: false,
+      success : function(result) {
+      alert(result.responseJSON)
+      },
+      error: function(error) {
+      alert(error.responseJSON.name)
+      }
+      })
+
+
+    // dispatch(signupRequest({ usuario, pessoa, conta, empresa, endereco_cnpj, endereco_cpf }));
     // dispatch(signupRequest({ nome, email, celular, senha }));
     // }
   }
@@ -862,8 +901,8 @@ export default function SectionCarousel() {
                         <Select
                           native
                           inputProps={{
-                            name: 'estadocivil',
-                            value: estadocivil,
+                            name: 'estado_civil',
+                            value: estado_civil,
                             onChange: (e) => OnchangeESTADOCIVIL(e.target.value),
                           }}
                         >
@@ -1324,7 +1363,7 @@ export default function SectionCarousel() {
                         inputProps={{
                           // id:"NOMEFANTASIA",
                           type: "text",
-                          value: nomefantasia,
+                          value: nome_fantasia,
                           onChange: (e) => OnchangeNOMEFANTASIA(e.target.value),
                           autoComplete: "off",
                           disabled: disabledfields
