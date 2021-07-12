@@ -179,6 +179,10 @@ export default function SectionCarousel() {
           setCIDADE(res.data.localidade);
           setESTADO(res.data.uf)
         })
+        .catch(error =>{
+          setShowloading('none');
+          alert(error.data)
+        })
     } else {
       setShowloading('none');
       setENDERECO('');
@@ -264,22 +268,22 @@ export default function SectionCarousel() {
   const OnchangeCIDADE = v => { setCIDADE(v) }
 
   const [estado, setESTADO] = React.useState('');
-  const OnchangeESTADO = v => { setESTADO(v.replace(/[^a-zA-Z]/g, '')) }
+  const OnchangeESTADO = v => { setESTADO(v.replace(/[^a-zA-ZçÇ]/g, '')) }
 
   const [estado_civil, setESTADOCIVIL] = React.useState('');
-  const OnchangeESTADOCIVIL = v => { setESTADOCIVIL(v.replace(/[^a-zA-Z]/g, '')) }
+  const OnchangeESTADOCIVIL = v => { setESTADOCIVIL(v) }
 
   const [naturalidade, setNATURALIDADE] = React.useState('');
-  const OnchangeNATURALIDADE = v => { setNATURALIDADE(v.replace(/[^a-zA-Z]/g, '')) }
+  const OnchangeNATURALIDADE = v => { setNATURALIDADE(v.replace(/[^a-zA-ZçÇ]/g, '')) }
 
   const [nacionalidade, setNACIONALIDADE] = React.useState('');
-  const OnchangeNACIONALIDADE = v => { setNACIONALIDADE(v.replace(/[^a-zA-Z]/g, '')) }
+  const OnchangeNACIONALIDADE = v => { setNACIONALIDADE(v.replace(/[^a-zA-ZçÇ]/g, '')) }
 
   const [mae, setMAE] = React.useState('');
-  const OnchangeMAE = v => { setMAE(v.replace(/[^a-zA-Z ]/g, '')) }
+  const OnchangeMAE = v => { setMAE(v) }
 
   const [pai, setPAI] = React.useState('');
-  const OnchangePAI = v => { setPAI(v.replace(/[^a-zA-Z ]/g, '')) }
+  const OnchangePAI = v => { setPAI(v) }
 
   const [razaosocial, setRAZAOSOCIAL] = React.useState('');
   const OnchangeRAZAOSOCIAL = v => { setRAZAOSOCIAL(v) }
@@ -312,6 +316,10 @@ export default function SectionCarousel() {
           setTELEFONE(masktelefone(res.data.phone.phone_1));
           setCEPPJ(res.data.address.zip_code);
           setCNAE(res.data.legal_nature.code)
+        })
+        .catch(error =>{
+          setShowloading('none');
+          alert(error)
         })
     } else {
       setShowloading('none');
@@ -545,7 +553,7 @@ export default function SectionCarousel() {
 
     setShowloading('')
     $.ajax({
-      url: 'http://localhost:3000/signup',
+      url: 'http://3.233.0.255:3001/signup',
       type: 'POST',
       data: objectJSONPJ,
       crossDomain: true,
@@ -554,18 +562,16 @@ export default function SectionCarousel() {
         // alert(result.responseJSON)
         setShowloading('none')
         setOpenmodal(true)
-        $('#titlemodal').html(`<span className="material-icons" style={{ marginTop: 15, marginRight: 5 }}>mail</span> Confirme seu e-mail`);
-        $('#bodymodal').html(`<b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.`);
+        $('#form-dialog-title').html(`Confirme seu e-mail`);
+        $('#form-dialog-body').html(`<b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.`);
 
       },
       error: (error) => {
         // alert(error.responseJSON.name)
         setShowloading('none');
         setOpenmodal(true);
-        $('#titlemodal').html(`<span className="material-icons" style={{ marginTop: 15, marginRight: 5 }}>Error</span> Erro`);
-        $('#bodymodal').html(`<b>Erro :(</b> Houve um erro no envio: ${error.responseJSON.name}.`);
-
-
+        $('#form-dialog-title').html(`Erro`);
+        $('#form-dialog-body').html(`<b>Erro :(</b> Houve um erro no envio: ${error.responseJSON.name}.`);
       }
     })
 
@@ -584,13 +590,12 @@ export default function SectionCarousel() {
       <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
 
-          <div id="titlemodal"></div>
+
           
           </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText id="form-dialog-body">
 
-            <div id="bodymodal"></div>
 
           
           </DialogContentText>
@@ -971,8 +976,9 @@ export default function SectionCarousel() {
                           <option aria-label="None" value="" />
 
                           <option value='Solteiro'>Solteiro</option>
-                          <option value='Viuvo'>Viúvo</option>
+                          <option value='Casado'>Casado</option>
                           <option value='Separado'>Separado</option>
+                          <option value='Viuvo'>Viúvo</option>
                           <option value='Divorciado'>Divorciado</option>
 
                         </Select>
