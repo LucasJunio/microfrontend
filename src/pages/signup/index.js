@@ -530,7 +530,6 @@ export default function SectionCarousel() {
       }
       })
 
-
     // dispatch(signupRequest({ usuario, pessoa, conta, empresa, endereco_cnpj, endereco_cpf }));
     // dispatch(signupRequest({ nome, email, celular, senha }));
     // }
