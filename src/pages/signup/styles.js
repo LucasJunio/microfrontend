@@ -114,3 +114,34 @@ display:flex;
 width:100%;
 height:30px
 `
+
+export const Loading = styled.div`
+margin: 0px;
+padding: 0px;
+position: fixed;
+display: '';
+right: 0px;
+top: 0px;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.4);
+z-index: 9999;
+`
+
+export const Spinner = styled.div`
+border: 4px solid rgba(0, 0, 0, 0.1);
+border-left-color:#2f0aff;
+border-radius: 50%;
+width: 20px;
+height: 20px;
+z-index: 999;
+position: absolute;
+left: 50%;
+top: 40%;
+animation: spin 1s linear infinite;
+
+@keyframes spin{
+    to { transform: rotate(360deg); }
+  }
+
+`

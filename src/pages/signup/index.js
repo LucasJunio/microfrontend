@@ -42,6 +42,19 @@ import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
 import sha256 from 'crypto-js/sha256';
 
 import {
@@ -57,7 +70,9 @@ import {
   PositionButton,
   MarginField,
   DescriptionText,
-  Pagination
+  Pagination,
+  Loading,
+  Spinner
 } from './styles'
 
 import styles2 from "assets/jss/material-kit-react/customCheckboxRadioSwitch.js";
@@ -113,6 +128,8 @@ export default function SectionCarousel() {
   let endereco_cpf = useSelector(state => state.address.endereco_cpf, shallowEqual);
   let endereco_cnpj = useSelector(state => state.address.endereco_cnpj, shallowEqual);
 
+  const [Showloading, setShowloading] = React.useState('none');
+
   const [selectedEnabled, setSelectedEnabled] = React.useState(false);
   const [disabledfields, setdisabledfields] = React.useState(false)
   const [enablepj, setenablepj] = React.useState('none')
@@ -141,7 +158,7 @@ export default function SectionCarousel() {
     return v;
   }
 
- 
+
 
   const masktelefone = (v) => {
     v = v.replace(/\D/g, '');             //Remove tudo o que não é dígito
@@ -153,14 +170,17 @@ export default function SectionCarousel() {
   const getcep = (v) => {
     v = v.replace(/\D/g, '');
     if (v.length >= 8) {
+      setShowloading('')
       axios.get(`https://viacep.com.br/ws/${v}/json`)
         .then(res => {
+          setShowloading('none');
           setENDERECO(res.data.logradouro);
           setBAIRRO(res.data.bairro);
           setCIDADE(res.data.localidade);
           setESTADO(res.data.uf)
         })
     } else {
+      setShowloading('none');
       setENDERECO('');
       setBAIRRO('');
       setCIDADE('');
@@ -273,6 +293,7 @@ export default function SectionCarousel() {
   const getcnpj = (v) => {
     v = v.replace(/\D/g, '');
     if (v.length >= 14) {
+      setShowloading('');
       axios.get(`https://consulta-empresa-cnpj-e-socios.p.rapidapi.com/cnpj/${v}`, {
         headers: {
           'x-rapidapi-key': 'bdac259fe4msh125d80880f7225ap14cc31jsn0ee569b9cbfd',
@@ -280,7 +301,7 @@ export default function SectionCarousel() {
         }
       })
         .then(res => {
-          console.log(res.data)
+          setShowloading('none');
           setRAZAOSOCIAL(res.data.name);
           setNOMEFANTASIA(res.data.alias);
           setCIDADEPJ(res.data.address.city);
@@ -293,22 +314,23 @@ export default function SectionCarousel() {
           setCNAE(res.data.legal_nature.code)
         })
     } else {
-          setRAZAOSOCIAL('');
-          setNOMEFANTASIA('');
-          setCIDADEPJ('');
-          setENDERECOPJ('');
-          setESTADOPJ('');
-          setNUMEROPJ('');
-          setBAIRROPJ('');
-          setTELEFONE('');
-          setCEPPJ('');
-          setCNAE('');
+      setShowloading('none');
+      setRAZAOSOCIAL('');
+      setNOMEFANTASIA('');
+      setCIDADEPJ('');
+      setENDERECOPJ('');
+      setESTADOPJ('');
+      setNUMEROPJ('');
+      setBAIRROPJ('');
+      setTELEFONE('');
+      setCEPPJ('');
+      setCNAE('');
     }
     v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3\/\$4-$5");
     return v;
   }
 
- 
+
   const [telefone, setTELEFONE] = React.useState('');
   const OnchangeTELEFONE = v => { setTELEFONE(masktelefone(v)) }
 
@@ -369,9 +391,9 @@ export default function SectionCarousel() {
     if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
       alert('Todos os campos são obrigatórios, favor revise seu formulário!')
     } else {
-    //vai para o próximo slide depois coloca o marcardo1 como inativo e o marcador2 como ativo
-    slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
-    // insertUserRequest({ nome, email, senha })
+      //vai para o próximo slide depois coloca o marcardo1 como inativo e o marcador2 como ativo
+      slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
+      // insertUserRequest({ nome, email, senha })
     }
   }
 
@@ -447,6 +469,12 @@ export default function SectionCarousel() {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)    
   }
 
+  const [openmodal, setOpenmodal] = React.useState(false);
+  const handleClose = () => {
+    top.location.href = '/home';
+    setOpenmodal(false);
+  };
+
   const Register = () => {
 
     // insertAccountRequest({
@@ -515,20 +543,31 @@ export default function SectionCarousel() {
     }
 
 
-    
+    setShowloading('')
     $.ajax({
-      url: 'http://192.168.0.140/signup',
-      type:'POST',
-      data: objectJSONPJ , 
+      url: 'http://localhost:3000/signup',
+      type: 'POST',
+      data: objectJSONPJ,
       crossDomain: true,
       cache: false,
-      success : function(result) {
-      alert(result.responseJSON)
+      success: (result) => {
+        // alert(result.responseJSON)
+        setShowloading('none')
+        setOpenmodal(true)
+        $('#titlemodal').html(`<span className="material-icons" style={{ marginTop: 15, marginRight: 5 }}>mail</span> Confirme seu e-mail`);
+        $('#bodymodal').html(`<b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.`);
+
       },
-      error: function(error) {
-      alert(error.responseJSON.name)
+      error: (error) => {
+        // alert(error.responseJSON.name)
+        setShowloading('none');
+        setOpenmodal(true);
+        $('#titlemodal').html(`<span className="material-icons" style={{ marginTop: 15, marginRight: 5 }}>Error</span> Erro`);
+        $('#bodymodal').html(`<b>Erro :(</b> Houve um erro no envio: ${error.responseJSON.name}.`);
+
+
       }
-      })
+    })
 
     // dispatch(signupRequest({ usuario, pessoa, conta, empresa, endereco_cnpj, endereco_cpf }));
     // dispatch(signupRequest({ nome, email, celular, senha }));
@@ -538,6 +577,30 @@ export default function SectionCarousel() {
   return (
 
     <>
+
+      <Loading style={{ display: Showloading }}><Spinner /></Loading>
+
+
+      <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">
+
+          <div id="titlemodal"></div>
+          
+          </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+
+            <div id="bodymodal"></div>
+
+          
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="success">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Pagination>
         <div style={{ position: 'absolute', width: '70%' }}>
