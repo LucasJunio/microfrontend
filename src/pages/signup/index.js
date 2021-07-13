@@ -479,7 +479,7 @@ export default function SectionCarousel() {
 
   const [openmodal, setOpenmodal] = React.useState(false);
   const handleClose = () => {
-    top.location.href = '/home';
+    top.location.href = '/';
     setOpenmodal(false);
   };
 
