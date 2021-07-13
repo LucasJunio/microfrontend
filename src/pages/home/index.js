@@ -239,7 +239,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h7" noWrap>
+          <Typography variant="h6" noWrap>
             Bem Vindo ao Gateway de Pagamentos Vileve
           </Typography>
         </Toolbar>
@@ -305,8 +305,9 @@ export default function MiniDrawer() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>
         <h3>Gateway de Pagamentos Vileve Pay</h3>
+        <Typography paragraph>
+        {/* <Typography variant="h5" gutterBottom>Gateway de Pagamentos Vileve Pay</Typography> */}
           Seja bem vindo à área de administração do seu gateway de pagamentos vileve.
         </Typography>
  
