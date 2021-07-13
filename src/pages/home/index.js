@@ -1,5 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import $ from "jquery";
+// eslint-disable-next-line no-use-before-define
+import axios from "axios"
+
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -41,6 +45,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
+
+import {
+  Loading,
+  Spinner
+} from './styles'
 
 const drawerWidth = 250;
 
@@ -129,8 +138,9 @@ export default function MiniDrawer() {
   const handleClickOpen = () => {
     setOpenmodal(true);
   };
+
   const handleClose = () => {
-    setOpenmodal(false);
+    sendtokensms();
   };
 
   const getIconRender = i =>{
@@ -139,9 +149,45 @@ export default function MiniDrawer() {
     if(i === 2) return <AppsIcon /> 
   }
 
+  const [token, setTOKEN] = React.useState('');
+  const OnchangeTOKEN = v => { setTOKEN(v.replace(/\D/g, '')) }
+
+
+  const [Showloading, setShowloading] = React.useState('none');
+
+
+  const sendtokensms = () => {
+  setShowloading('')
+  $.ajax({
+    url: `http://3.233.0.255:3001/validation/sms/${token}`,
+    type: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem('token')
+    },
+    async: true,
+    crossDomain: true,
+    cache: false,
+    success: (result) => {
+      console.log(result);
+      setOpenmodal(false);
+      setShowloading('none');
+    },
+    error: (error) => {
+      alert(error.responseJSON.error);
+      setOpenmodal(false);
+      setShowloading('none');
+    }
+  })
+  }
+
+
   return (
 
     <>
+
+    <Loading style={{ display: Showloading }}><Spinner /></Loading>
+
 
       <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Informe o Token enviado por SMS</DialogTitle>
@@ -158,7 +204,10 @@ export default function MiniDrawer() {
             type="text"
             autoComplete="off"
             variant="outlined"
-            inputProps={{ maxLength: 6 }}
+            inputProps={{ maxLength: 6,
+              onChange: (e) => OnchangeTOKEN(e.target.value),
+              value: token
+            }}
             // fullWidth
           />
         </DialogContent>
