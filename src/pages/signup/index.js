@@ -1185,7 +1185,7 @@ export default function SectionCarousel() {
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
-                          readOnly: true,
+                          // readOnly: true,
                           value: endereco,
                           onChange: (e) => OnchangeENDERECO(e.target.value),
                           autoComplete: "off",
@@ -1217,7 +1217,7 @@ export default function SectionCarousel() {
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
-                          readOnly: true,
+                          // readOnly: true,
                           value: bairro,
                           onChange: (e) => OnchangeBAIRRO(e.target.value),
                           autoComplete: "off",
@@ -1249,7 +1249,7 @@ export default function SectionCarousel() {
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
-                          readOnly: true,
+                          // readOnly: true,
                           value: cidade,
                           onChange: (e) => OnchangeCIDADE(e.target.value),
                           autoComplete: "off",
@@ -1266,7 +1266,7 @@ export default function SectionCarousel() {
                         inputProps={{
                           type: "text",
                           value: estado,
-                          readOnly: true,
+                          // readOnly: true,
                           onChange: (e) => OnchangeESTADO(e.target.value),
                           inputProps: { maxLength: 2 },
                           autoComplete: "off",
