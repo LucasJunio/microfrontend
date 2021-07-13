@@ -444,7 +444,6 @@ export default function SectionCarousel() {
   }
 
   const Step3NEXT = () => {
-
     if(TestCPF(cpf)){
       slickRef.current.slickNext(); setDOT3(dotInactive); setDOT4(dotActive)
       insertPersonRequest({
@@ -455,8 +454,6 @@ export default function SectionCarousel() {
     }else{
       alert('Desculpe, informe um cpf válido!')
     }
-
-
   }
 
   const Step4PREV = () => {
