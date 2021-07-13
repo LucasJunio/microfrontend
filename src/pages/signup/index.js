@@ -559,15 +559,15 @@ export default function SectionCarousel() {
       crossDomain: true,
       cache: false,
       success: (result) => {
-        // alert(result.responseJSON)
-        setShowloading('none')
-        setOpenmodal(true)
+        console.log(result);
+        localStorage.setItem('token', result.token);
+        setShowloading('none');
+        setOpenmodal(true);
         $('#form-dialog-title').html(`Confirme seu e-mail`);
         $('#form-dialog-body').html(`<b>Seja bem vindo à Vileve,</b> enviamos um <b>email</b> para você, para continuarmos <b>clique no link enviado</b> para confirmar seu email.`);
 
       },
       error: (error) => {
-        // alert(error.responseJSON.name)
         setShowloading('none');
         setOpenmodal(true);
         $('#form-dialog-title').html(`Erro`);
