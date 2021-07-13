@@ -169,12 +169,12 @@ export default function MiniDrawer() {
     crossDomain: true,
     cache: false,
     success: (result) => {
-      console.log(result);
+      alert(result.message);
       setOpenmodal(false);
       setShowloading('none');
     },
     error: (error) => {
-      alert(error.responseJSON.error);
+      alert(error.responseJSON.message);
       setOpenmodal(false);
       setShowloading('none');
     }
