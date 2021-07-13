@@ -219,7 +219,7 @@ export default function SectionCarousel() {
   }
 
   const [nome, setNome] = React.useState('');
-  const OnchangeNOME = v => { setNome(v); (/^[A-Za-z-ç.-]+(\s*[A-Za-z-ç.-]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!') }
+  const OnchangeNOME = v => { setNome(v); (/^[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+(\s*[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+)*$/).test(v) || v.length < 1 ? $('#descriptionnome').html('') : $('#descriptionnome').html('Digite apenas letras no campo nome!') }
 
   const [email, setEmail] = React.useState('');
   const OnchangeEMAIL = v => { setEmail(v); (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(v) || v.length < 1 ? $('#descriptionemail').html('') : $('#descriptionemail').html('Digite um email válido') }
