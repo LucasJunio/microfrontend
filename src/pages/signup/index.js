@@ -85,6 +85,7 @@ import { insertAddressCPFRequest, insertAddressCNPJRequest } from '../../store/m
 import { insertEnterpriseRequest } from '../../store/modules/enterprise/actions';
 import { insertAccountRequest } from '../../store/modules/account/actions';
 import { signupRequest } from '../../store/modules/signup/actions';
+import { signupSuccess } from '../../store/modules/signup/actions';
 
 import "./stylepagination.scss";
 
@@ -386,6 +387,7 @@ export default function SectionCarousel() {
 
   // const [nickname, setNICKNAME] = React.useState('');
   // const OnchangeNICKNAME = v => { setNICKNAME(v) }
+
   const dotActive = 'pagination__link'
   const dotInactive = 'pagination__link is_active'
   const [dot1, setDOT1] = React.useState(dotActive);
@@ -560,6 +562,7 @@ export default function SectionCarousel() {
       cache: false,
       success: (result) => {
         console.log(result);
+        dispatch(signupSuccess())
         localStorage.setItem('token', result.token);
         setShowloading('none');
         setOpenmodal(true);
