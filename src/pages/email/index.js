@@ -44,7 +44,7 @@ const Email =() => {
     crossDomain: true,
     cache: false,
     success: (result) => {
-    dispatch(signupSuccess()); 
+    //dispatch(signupSuccess()); 
     setOpenmodal(true);
     $('#form-dialog-body').html(`<b>Seja bem vindo à Vileve,</b> seu <b>email foi confirmado</b>, agora você está pronto pra começar!.`);
     },
@@ -55,7 +55,6 @@ const Email =() => {
   })
 
   const handleClose = () => {
-    // dispatch(signupSuccess());
     history.push('/');
   };
 
