@@ -19,7 +19,7 @@ export default function Routes() {
           <Switch>
             <Route exact path="/"  component={Home} isPrivate />
             <Route exact path="/signup"  component={Signup} />
-            <Route exact path="/email"  component={Email} />
+            <Route exact path="/email*"  component={Email} />
           </Switch>
         </ConnectedRouter>
       </Provider>
