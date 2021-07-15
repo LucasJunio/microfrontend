@@ -1,5 +1,5 @@
 import React from 'react'
-import $ from "jquery";
+ import $ from "jquery";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -49,6 +49,7 @@ const Email =() => {
     $('#form-dialog-body').html(`<b>Seja bem vindo à Vileve,</b> seu <b>email foi confirmado</b>, agora você está pronto pra começar!.`);
     },
     error: (error) => {
+      console.log(error)
        setOpenmodal(true);
        $('#form-dialog-body').html(`<b><span style="color:red">Erro :(</span></b> ${JSON.stringify(error.responseJSON.message.message)}.`);
       }
