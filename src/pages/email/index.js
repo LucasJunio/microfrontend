@@ -25,7 +25,7 @@ const Email =() => {
     history.push('/');
   };
 
-
+console.log('')
     return (
      <>
         <Dialog open={modal} aria-labelledby="form-dialog-title">
