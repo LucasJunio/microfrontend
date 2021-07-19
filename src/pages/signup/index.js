@@ -417,7 +417,7 @@ export default function SectionCarousel() {
   const [dot6, setDOT6] = React.useState(dotInactive);
 
   const Step1NEXT = () => {
-    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || senha != senha2 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha))  {
       alert('Todos os campos são obrigatórios, favor revise seu formulário!')
     } else {
       //vai para o próximo slide depois coloca o marcardo1 como inativo e o marcador2 como ativo
