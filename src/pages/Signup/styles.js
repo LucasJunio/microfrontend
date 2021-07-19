@@ -13,10 +13,10 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 export const Classlogotipo = styled.div`
-  // position: absolute;
+  position: absolute;
   margin: 30px;
   margin-left: 7%;
-  // z-index: 2;
+  z-index: 2;
 `;
 export const Containerform = styled.div`
   display: flex;
