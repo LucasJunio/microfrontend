@@ -42,7 +42,7 @@ const customInputStyle = {
     ...defaultFont,
     color: "#AAAAAA !important",
     fontWeight: "400",
-    fontSize: "14px",
+    fontSize: "12px",
     lineHeight: "1.42857",
     top: "10px",
     letterSpacing: "unset",
@@ -57,8 +57,8 @@ const customInputStyle = {
     color: successColor + " !important",
   },
   formControl: {
-    margin: "0 0 17px 0",
-    paddingTop: "27px",
+    margin: "0 0 15px 0",
+    paddingTop: "22px",
     position: "relative",
     "& svg,& .fab,& .far,& .fal,& .fas,& .material-icons": {
       color: "#495057",

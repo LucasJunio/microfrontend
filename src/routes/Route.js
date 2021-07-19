@@ -22,15 +22,15 @@ export default function RouteWrapper({
   if (validation && !isPrivate) {
     return <Redirect to="/" />;
   }
+  return (
+    <Route
+      {...rest}
+      render={props => (
+          <Component {...props} />
+      )}
+    />
+  );
 
-    return (
-      <Route
-        {...rest}
-        render={props => (
-            <Component {...props} />
-        )}
-      />
-    );
 }
 
 RouteWrapper.propTypes = {
