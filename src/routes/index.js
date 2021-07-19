@@ -9,7 +9,7 @@ import history from '../services/history';
 
 import Signup from '../pages/Signup';
 import Home from '../pages/Home';
-import Email from '../pages/Email';
+import Email from '../pages/email';
 
 export default function Routes() {
   return (
