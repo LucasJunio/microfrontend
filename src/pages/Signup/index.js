@@ -427,6 +427,8 @@ export default function SectionCarousel() {
   }
 
   const Step2PJ = () => {
+
+
     slickRef.current.slickNext(); setDOT2(dotInactive); setDOT3(dotActive)
 
   }
@@ -853,8 +855,6 @@ export default function SectionCarousel() {
                       </div>
 
                     </main>
-
-
 
 
                     <PositionButton>
