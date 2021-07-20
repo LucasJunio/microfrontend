@@ -8,7 +8,71 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    minWidth: 275,
+    position: "absolute",
+  },
+  logo: {
+    width: "150px",
+    marginLeft: "7%",
+    margin: "30px",
+  },
+  manPc: {
+    width: "65%",
+  },
+  cardStyle: {
+    // margin: "0",
+    transform: "scale(0.95)",
+    // marginBottom: "100px",
+    position: "absolute",
+    // maxHeight: "72%",
+    // height: "455px",
+  },
+  columSpace: {
+    // marginTop: "90px",
+    textAlign: "center",
+  },
+  cardPJPF: {
+    width: "20rem",
+    marginLeft: "30px",
+  },
+  label: {
+    color: "#999",
+  },
+  labelUser: {
+    color: "#9D2AB1",
+  },
+  media: {
+    height: 200,
+  },
+  btnNext: {
+    marginRight: "100px",
+  },
+  arrowIconNext: {
+    marginLeft: 10,
+  },
+  arrowIconBack: {
+    marginRight: 10,
+  },
+  saveIcon: {
+    marginLeft: 10,
+  },
+  background: {
+    backgroundImage: `url(${Background})`,
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+    backgroundSize: "cover",
+    WebkitBackgroundSize: "cover",
+    // position: "absolute",
+    overflowX: "hidden",
+    overflowY: "hidden",
+    // width: 100%;
+    // height: 100%;
+    // background-attachment: fixed;
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // -moz-background-size: cover;
+    // overflow-x: hidden;
+    // overflow-y: hidden;
   },
 }));
 
@@ -39,7 +103,7 @@ export const Imageleft1 = styled.img.attrs({
   src: `${imagelef1}`,
 })`
   align-self: center;
-  width: 90%;
+  width: 0%;
 `;
 
 export const Imageleft2 = styled.img.attrs({
@@ -73,6 +137,7 @@ export const ClassBackground = styled.div`
   -moz-background-size: cover;
   overflow-x: hidden;
   overflow-y: hidden;
+  z-index: -1;
 `;
 
 export const ContainerCard = styled.div`

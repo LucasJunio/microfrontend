@@ -1,25 +1,24 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import $ from "jquery";
-// eslint-disable-next-line no-use-before-define
 import axios from "axios";
 // react component for creating beautiful carousel
 import Carousel from "react-slick";
-// material-ui components
-// @material-ui/icons
-import LocationOn from "@material-ui/icons/LocationOn";
-// core components
-// import GridContainer from "components/Grid/GridContainer.js";
-// import GridItem from "components/Grid/GridItem.js";
 import {
-  Select,
-  InputLabel,
-  FormControl,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Dialog,
   Grid,
+  Hidden,
+  Typography,
+  TextField,
+  Card as CardM,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  CardActions,
+  MenuItem,
 } from "@material-ui/core";
 
 import { ArrowForward, ArrowBack, Save } from "@material-ui/icons";
@@ -27,18 +26,10 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import bg_card_vileve from "../../assets/images/bg_card_assistencia.jpg";
 import bg_card_gateway from "../../assets/images/bg_card_vilevepay.jpg";
-import CustomInput from "components/CustomInput/CustomInput.js";
-import { makeStyles } from "@material-ui/core/styles";
-import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import logo from "../../assets/images/logo_vileve_way.png";
+import manPc from "../../assets/images/register.png";
 import Button from "components/CustomButtons/Button.js";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
-
 import sha256 from "crypto-js/sha256";
-
 import {
   ClassBackground,
   ContainerCard,
@@ -55,32 +46,25 @@ import {
   Pagination,
   Loading,
   Spinner,
+  useStyles,
 } from "./styles";
-
-import styles2 from "assets/jss/material-kit-react/customCheckboxRadioSwitch.js";
+import * as yup from "yup";
 
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
-import { insertUserRequest } from "../../store/modules/user/actions";
 import { insertPersonRequest } from "../../store/modules/person/actions";
 import {
   insertAddressCPFRequest,
   insertAddressCNPJRequest,
 } from "../../store/modules/address/actions";
 import { insertEnterpriseRequest } from "../../store/modules/enterprise/actions";
-import { insertAccountRequest } from "../../store/modules/account/actions";
-import { signupRequest } from "../../store/modules/signup/actions";
 import { signupSuccess } from "../../store/modules/signup/actions";
 
 import "./stylepagination.scss";
 
-const useStyles = makeStyles(styles);
-const useStyles2 = makeStyles(styles2);
-
 export default function SectionCarousel() {
   const slickRef = useRef();
   const classes = useStyles();
-  const classes2 = useStyles2();
 
   const settings = {
     dots: false,
@@ -115,13 +99,13 @@ export default function SectionCarousel() {
     shallowEqual
   );
 
-  const [Showloading, setShowloading] = React.useState("none");
+  const [Showloading, setShowloading] = useState("none");
 
-  const [selectedEnabled, setSelectedEnabled] = React.useState(false);
-  const [disabledfields, setdisabledfields] = React.useState(false);
-  const [enablepj, setenablepj] = React.useState("none");
-  const [enablepf, setenablepf] = React.useState("none");
-  const [choicemodule, setchoice] = React.useState("");
+  const [selectedEnabled, setSelectedEnabled] = useState(false);
+  const [disabledfields, setdisabledfields] = useState(false);
+  const [enablepj, setenablepj] = useState("none");
+  const [enablepf, setenablepf] = useState("none");
+  const [choicemodule, setchoice] = useState("");
 
   const maskdate = (v) => {
     v = v.replace(/\D/g, "");
@@ -204,17 +188,18 @@ export default function SectionCarousel() {
     return true;
   };
 
-  const [nome, setNome] = React.useState("");
+  const [nome, setNome] = useState("");
   const OnchangeNOME = (v) => {
-    setNome(v.replace(/\D/g, ""));
-    (/^[a-zA-Z\s]+[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+(\s*[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+)*$/).test(
+    setNome(v.replace(/[^a-zA-ZçÇ áéíóúÁÉÍÓÚ]/g, ""));
+
+    /^[\D]+[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+(\s*[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+)*$/.test(
       v
     ) || v.length < 1
       ? $("#descriptionnome").html("")
       : $("#descriptionnome").html("Digite apenas letras no campo nome!");
   };
 
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = useState("");
   const OnchangeEMAIL = (v) => {
     setEmail(v);
     /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(v) || v.length < 1
@@ -222,21 +207,21 @@ export default function SectionCarousel() {
       : $("#descriptionemail").html("Digite um email válido");
   };
 
-  const [celular, setCelular] = React.useState("");
+  const [celular, setCelular] = useState("");
   const OnchangeCELULAR = (v) => {
     setCelular(maskcel(v));
   };
 
-  const [cpf, setCPF] = React.useState("");
+  const [cpf, setCPF] = useState("");
   const OnchangeCPF = (v) => {
     setCPF(maskcpf(v));
   };
 
-  const [senha, setSenha] = React.useState("");
-  const [senha2, setSenha2] = React.useState("");
-  const [Iconsenha, setIconSenha] = React.useState("lock_Outline");
-  const [ColorInputClass, setColorInputClass] = React.useState(false);
-  const [ColorInputClass2, setColorInputClass2] = React.useState(false);
+  const [senha, setSenha] = useState("");
+  const [senha2, setSenha2] = useState("");
+  const [Iconsenha, setIconSenha] = useState("lock_Outline");
+  const [ColorInputClass, setColorInputClass] = useState(false);
+  const [ColorInputClass2, setColorInputClass2] = useState(false);
 
   const OnchangeSENHA = (v) => {
     setSenha(v);
@@ -270,102 +255,102 @@ export default function SectionCarousel() {
     }
   };
 
-  const [cep, setCEP] = React.useState("");
+  const [cep, setCEP] = useState("");
   const OnchangeCEP = (v) => {
     setCEP(getcep(v));
   };
 
-  const [nascimento, setNASCIMENTO] = React.useState("");
+  const [nascimento, setNASCIMENTO] = useState("");
   const OnchangeNASCIMENTO = (v) => {
     setNASCIMENTO(maskdate(v));
   };
 
-  const [rg, setRG] = React.useState("");
+  const [rg, setRG] = useState("");
   const OnchangeRG = (v) => {
     setRG(v);
   };
 
-  const [emissor, setEMISSOR] = React.useState("");
+  const [emissor, setEMISSOR] = useState("");
   const OnchangeEMISSOR = (v) => {
     setEMISSOR(v);
   };
 
-  const [emissao, setEMISSAO] = React.useState("");
+  const [emissao, setEMISSAO] = useState("");
   const OnchangeEMISSAO = (v) => {
     setEMISSAO(maskdate(v));
   };
 
-  const [sexo, setSEXO] = React.useState("");
+  const [sexo, setSEXO] = useState("");
   const OnchangeSEXO = (v) => {
     setSEXO(v);
   };
 
-  const [endereco, setENDERECO] = React.useState("");
+  const [endereco, setENDERECO] = useState("");
   const OnchangeENDERECO = (v) => {
     setENDERECO(v);
   };
 
-  const [numero, setNUMERO] = React.useState("");
+  const [numero, setNUMERO] = useState("");
   const OnchangeNUMERO = (v) => {
     setNUMERO(masknumero(v));
   };
 
-  const [bairro, setBAIRRO] = React.useState("");
+  const [bairro, setBAIRRO] = useState("");
   const OnchangeBAIRRO = (v) => {
     setBAIRRO(v);
   };
 
-  const [complemento, setCOMPLEMENTO] = React.useState("");
+  const [complemento, setCOMPLEMENTO] = useState("");
   const OnchangeCOMPLEMENTO = (v) => {
     setCOMPLEMENTO(v);
   };
 
-  const [cidade, setCIDADE] = React.useState("");
+  const [cidade, setCIDADE] = useState("");
   const OnchangeCIDADE = (v) => {
     setCIDADE(v);
   };
 
-  const [estado, setESTADO] = React.useState("");
+  const [estado, setESTADO] = useState("");
   const OnchangeESTADO = (v) => {
     setESTADO(v.replace(/[^a-zA-ZçÇ]/g, ""));
   };
 
-  const [estado_civil, setESTADOCIVIL] = React.useState("");
+  const [estado_civil, setESTADOCIVIL] = useState("");
   const OnchangeESTADOCIVIL = (v) => {
     setESTADOCIVIL(v);
   };
 
-  const [naturalidade, setNATURALIDADE] = React.useState("");
+  const [naturalidade, setNATURALIDADE] = useState("");
   const OnchangeNATURALIDADE = (v) => {
     setNATURALIDADE(v.replace(/[^a-zA-ZçÇ]/g, ""));
   };
 
-  const [nacionalidade, setNACIONALIDADE] = React.useState("");
+  const [nacionalidade, setNACIONALIDADE] = useState("");
   const OnchangeNACIONALIDADE = (v) => {
     setNACIONALIDADE(v.replace(/[^a-zA-ZçÇ]/g, ""));
   };
 
-  const [mae, setMAE] = React.useState("");
+  const [mae, setMAE] = useState("");
   const OnchangeMAE = (v) => {
     setMAE(v);
   };
 
-  const [pai, setPAI] = React.useState("");
+  const [pai, setPAI] = useState("");
   const OnchangePAI = (v) => {
     setPAI(v);
   };
 
-  const [razaosocial, setRAZAOSOCIAL] = React.useState("");
+  const [razaosocial, setRAZAOSOCIAL] = useState("");
   const OnchangeRAZAOSOCIAL = (v) => {
     setRAZAOSOCIAL(v);
   };
 
-  const [nome_fantasia, setNOMEFANTASIA] = React.useState("");
+  const [nome_fantasia, setNOMEFANTASIA] = useState("");
   const OnchangeNOMEFANTASIA = (v) => {
     setNOMEFANTASIA(v);
   };
 
-  const [cnpj, setCNPJ] = React.useState("");
+  const [cnpj, setCNPJ] = useState("");
   const OnchangeCNPJ = (v) => {
     setCNPJ(getcnpj(v));
   };
@@ -420,92 +405,92 @@ export default function SectionCarousel() {
     return v;
   };
 
-  const [telefone, setTELEFONE] = React.useState("");
+  const [telefone, setTELEFONE] = useState("");
   const OnchangeTELEFONE = (v) => {
     setTELEFONE(masktelefone(v));
   };
 
-  const [site, setSITE] = React.useState("");
+  const [site, setSITE] = useState("");
   const OnchangeSITE = (v) => {
     setSITE(v);
   };
 
-  const [ceppj, setCEPPJ] = React.useState("");
+  const [ceppj, setCEPPJ] = useState("");
   const OnchangeCEPPJ = (v) => {
     setCEPPJ(masknumero(v));
   };
 
-  const [cnae, setCNAE] = React.useState("");
+  const [cnae, setCNAE] = useState("");
   const OnchangeCNAE = (v) => {
     setCNAE(masknumero(v));
   };
 
-  const [enderecopj, setENDERECOPJ] = React.useState("");
+  const [enderecopj, setENDERECOPJ] = useState("");
   const OnchangeENDERECOPJ = (v) => {
     setENDERECOPJ(v);
   };
 
-  const [numeropj, setNUMEROPJ] = React.useState("");
+  const [numeropj, setNUMEROPJ] = useState("");
   const OnchangeNUMEROPJ = (v) => {
     setNUMEROPJ(masknumero(v));
   };
 
-  const [bairropj, setBAIRROPJ] = React.useState("");
+  const [bairropj, setBAIRROPJ] = useState("");
   const OnchangeBAIRROPJ = (v) => {
     setBAIRROPJ(v);
   };
 
-  const [estadopj, setESTADOPJ] = React.useState("");
+  const [estadopj, setESTADOPJ] = useState("");
   const OnchangeESTADOPJ = (v) => {
     setESTADOPJ(v);
   };
 
-  const [cidadepj, setCIDADEPJ] = React.useState("");
+  const [cidadepj, setCIDADEPJ] = useState("");
   const OnchangeCIDADEPJ = (v) => {
     setCIDADEPJ(v);
   };
 
-  const [complementopj, setCOMPLEMENTOPJ] = React.useState("");
+  const [complementopj, setCOMPLEMENTOPJ] = useState("");
   const OnchangeCOMPLEMENTOPJ = (v) => {
     setCOMPLEMENTOPJ(v);
   };
 
-  const [bancopj, setBANCOPJ] = React.useState("");
+  const [bancopj, setBANCOPJ] = useState("");
   const OnchangeBANCOPJ = (v) => {
     setBANCOPJ(v);
   };
 
-  const [agenciapj, setAGENCIAPJ] = React.useState("");
+  const [agenciapj, setAGENCIAPJ] = useState("");
   const OnchangeAGENCIAPJ = (v) => {
     setAGENCIAPJ(v);
   };
 
-  const [contapj, setCONTAPJ] = React.useState("");
+  const [contapj, setCONTAPJ] = useState("");
   const OnchangeCONTAPJ = (v) => {
     setCONTAPJ(v);
   };
 
-  const [pixpj, setPIXPJ] = React.useState("");
+  const [pixpj, setPIXPJ] = useState("");
   const OnchangePIXPJ = (v) => {
     setPIXPJ(v);
   };
 
-  const [operacaopj, setOPERACAOPJ] = React.useState("");
+  const [operacaopj, setOPERACAOPJ] = useState("");
   const OnchangeOPERACAOPJ = (v) => {
     setOPERACAOPJ(v);
   };
 
-  // const [nickname, setNICKNAME] = React.useState('');
+  // const [nickname, setNICKNAME] = useState('');
   // const OnchangeNICKNAME = v => { setNICKNAME(v) }
 
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
-  const [dot1, setDOT1] = React.useState(dotActive);
-  const [dot2, setDOT2] = React.useState(dotInactive);
-  const [dot3, setDOT3] = React.useState(dotInactive);
-  const [dot4, setDOT4] = React.useState(dotInactive);
-  const [dot5, setDOT5] = React.useState(dotInactive);
-  const [dot6, setDOT6] = React.useState(dotInactive);
+  const [dot1, setDOT1] = useState(dotActive);
+  const [dot2, setDOT2] = useState(dotInactive);
+  const [dot3, setDOT3] = useState(dotInactive);
+  const [dot4, setDOT4] = useState(dotInactive);
+  const [dot5, setDOT5] = useState(dotInactive);
+  const [dot6, setDOT6] = useState(dotInactive);
 
   const Step1NEXT = () => {
     if (
@@ -627,7 +612,7 @@ export default function SectionCarousel() {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
   };
 
-  const [openmodal, setOpenmodal] = React.useState(false);
+  const [openmodal, setOpenmodal] = useState(false);
   const handleClose = () => {
     top.location.href = "/";
     setOpenmodal(false);
@@ -645,35 +630,35 @@ export default function SectionCarousel() {
     // const submit = () => {
     const objectJSONPJ = {
       usuario: {
-        nome: nome,
-        email: email,
-        senha: sha256(senha).toString(),
+        nome: nome.trim(),
+        email: email.trim(),
+        senha: sha256(senha).toString().trim(),
       },
       pessoa: {
         cpf: masknumero(cpf),
         celular: masknumero(celular),
         nascimento: nascimento,
-        naturalidade: naturalidade,
-        nacionalidade: nacionalidade,
-        estado_civil: estado_civil,
-        rg: rg,
-        emissor: emissor,
+        naturalidade: naturalidade.trim(),
+        nacionalidade: nacionalidade.trim(),
+        estado_civil: estado_civil.trim(),
+        rg: rg.trim(),
+        emissor: emissor.trim(),
         emissao: emissao,
-        sexo: sexo,
-        mae: mae,
-        pai: pai,
+        sexo: sexo.trim(),
+        mae: mae.trim(),
+        pai: pai.trim(),
       },
       empresa: {
         cnpj: masknumero(cnpj),
-        cnae: cnae,
-        razao_social: razaosocial,
+        cnae: cnae.trim(),
+        razao_social: razaosocial.trim(),
         telefone_fixo: masknumero(telefone),
         celular: masknumero(celular),
-        nome_fantasia: nome_fantasia,
-        site: site,
+        nome_fantasia: nome_fantasia.trim(),
+        site: site.trim(),
       },
       conta: {
-        banco: bancopj,
+        banco: bancopj.trim(),
         agencia: masknumero(agenciapj),
         conta: masknumero(contapj),
         operacao: masknumero(operacaopj),
@@ -681,20 +666,20 @@ export default function SectionCarousel() {
       },
       endereco_cnpj: {
         cep: masknumero(ceppj),
-        complemento: complementopj,
-        endereco: enderecopj,
+        complemento: complementopj.trim(),
+        endereco: enderecopj.trim(),
         numero: masknumero(numeropj),
-        bairro: bairropj,
-        cidadepj: cidadepj,
-        estadopj: estadopj,
+        bairro: bairropj.trim(),
+        cidadepj: cidadepj.trim(),
+        estadopj: estadopj.trim(),
       },
       endereco_cpf: {
         cep: masknumero(cep),
-        complemento: complemento,
-        endereco: endereco,
-        bairro: bairro,
-        cidade: cidade,
-        estado: estado,
+        complemento: complemento.trim(),
+        endereco: endereco.trim(),
+        bairro: bairro.trim(),
+        cidade: cidade.trim(),
+        estado: estado.trim(),
       },
     };
 
@@ -717,7 +702,7 @@ export default function SectionCarousel() {
         );
       },
       error: (error) => {
-        console.log(error)
+        console.log(error);
         setShowloading("none");
         setOpenmodal(true);
         $("#form-dialog-title").html(`Erro`);
@@ -734,31 +719,31 @@ export default function SectionCarousel() {
 
   return (
     <>
-    <Grid>
-      <Loading style={{ display: Showloading }}>
-        <Spinner />
-      </Loading>
-
-      <Dialog
-        open={openmodal}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title"></DialogTitle>
-        <DialogContent>
-          <DialogContentText id="form-dialog-body"></DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="success">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Pagination>
-        <div style={{ position: "absolute", width: "70%" }}>
-          <div style={{ position: "absolute", right: 0 }}>
-            <div className="wrapper">
+      <Grid container direction="column" style={{ position: "absolute" }}>
+        <Loading style={{ display: Showloading }}>
+          <Spinner />
+        </Loading>
+        <Dialog
+          open={openmodal}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title"></DialogTitle>
+          <DialogContent>
+            <DialogContentText id="form-dialog-body"></DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="success">
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Grid item>
+          <img src={logo} className={classes.logo} alt="logotipo"></img>
+        </Grid>
+        <Grid item>
+          <Grid container justify="flex-end" alignItems="center">
+            <Grid item>
               <ul className="pagination">
                 <li className="pagination__item">
                   <a href="#" className={dot1}></a>
@@ -779,1096 +764,1091 @@ export default function SectionCarousel() {
                   <a href="#" className={dot6}></a>
                 </li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </Pagination>
-
-      <Classlogotipo>
-        <img src={logo} style={{ width: 150 }} alt="logotipo"></img>
-      </Classlogotipo>
-
-      <Card style={{ position: "absolute", marginTop: "8%" }}>
-        <Carousel ref={slickRef} {...settings} style={{ paddingBottom: 50 }}>
-          <div>
-            <ContainerCard>
-              <Card style={{ width: "80%", padding: 20 }}>
-                <Containerform>
-                  <Containerleft>
-                    <Imageleft1></Imageleft1>
-                  </Containerleft>
-
-                  <Containerright>
-                    <TitleWelcome>
-                      Informe os dados de{" "}
-                      <span style={{ color: "#9D2AB1" }}>Usuário</span>
-                    </TitleWelcome>
-
-                    <MarginField style={{ width: "100%" }}>
-                      <CustomInput
-                        labelText="NOME COMPLETO"
-                        id="NOME"
-                        name="NOME"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          onChange: (e) => OnchangeNOME(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                      <DescriptionText>
-                        <div id="descriptionnome"></div>
-                      </DescriptionText>
-                    </MarginField>
-
-                    <MarginField style={{ width: "100%" }}>
-                      <CustomInput
-                        labelText="EMAIL"
-                        id="EMAIL"
-                        name="EMAIL"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          onChange: (e) => OnchangeEMAIL(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                      <DescriptionText>
-                        <div id="descriptionemail"></div>
-                      </DescriptionText>
-                    </MarginField>
-
-                    {/* <MarginField >
-                      <CustomInput
-                        labelText="NICKNAME"
-                        // id="SENHA"
-                        name="NICKNAME"
-                        formControlProps={{ fullWidth: false }}
-                        success={ColorInputClass}
-                        inputProps={{
-                          type: "nickname",
-                          onChange: (e) => OnchangeNICKNAME(e.target.value),
-                          value: nickname,
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField> */}
-
-                    <MarginField>
-                      <CustomInput
-                        labelText="SENHA"
-                        id="SENHA"
-                        name="SENHA"
-                        formControlProps={{ fullWidth: false }}
-                        success={ColorInputClass}
-                        inputProps={{
-                          type: "password",
-                          onChange: (e) => OnchangeSENHA(e.target.value),
-                          value: senha,
-                          // endAdornment: (
-                          //   <InputAdornment position="end">
-                          //     <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>
-                          //   </InputAdornment>
-                          // ),
-                          autoComplete: "off",
-                        }}
-                      />
-                      <DescriptionText>
-                        <div id="descriptionpassword">
-                          A senha deve conter mínimo de oito caracteres, pelo
-                          menos, uma letra maiúscula, uma letra minúscula, um
-                          número e um caractere especial{" "}
-                        </div>
-                      </DescriptionText>
-                    </MarginField>
-
-                    <MarginField>
-                      <CustomInput
-                        labelText="CONFIRME SUA SENHA"
-                        id="SENHA2"
-                        name="SENHA2"
-                        formControlProps={{ fullWidth: false }}
-                        success={ColorInputClass2}
-                        inputProps={{
-                          type: "password",
-                          onChange: (e) => OnchangeSENHA2(e.target.value),
-                          value: senha2,
-                          // endAdornment: (
-                          //   <InputAdornment position="end">
-                          //     <Icon className={classes.inputIconsColor}>{Iconsenha}</Icon>
-                          //   </InputAdornment>
-                          // ),
-                          autoComplete: "off",
-                        }}
-                      />
-                      <DescriptionText>
-                        <div id="descriptionpassword2">Confirme sua senha </div>
-                      </DescriptionText>
-                    </MarginField>
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="primary"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        id="BTNFIRSTNEXT"
-                        rel="noopener noreferrer"
-                        onClick={() => Step1NEXT()}
-                      >
-                        Próximo
-                        <ArrowForward style={{ marginLeft: 10 }} />
-                      </Button>
-                    </PositionButton>
-                  </Containerright>
-                </Containerform>
-              </Card>
-            </ContainerCard>
-          </div>
-          
-          {/* ////////////////////////////////////////////////////////////////////////// */}  
-          <div>
-            <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: "80%", padding: 20 }}>
-                <Containerform>
-                  <Containerleft>
-                    <Imageleft2></Imageleft2>
-                  </Containerleft>
-
-                  <Containerright>
-                    <main
-                      id="choiceform"
-                      className={classes.content}
-                      style={{ display: choicemodule }}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item zeroMinWidth>
+          <Grid container>
+            <Grid item zeroMinWidth>
+              {/* <div id="Teste"> */}
+              <Card className={classes.cardStyle}>
+                <Carousel
+                  ref={slickRef}
+                  {...settings}
+                  // style={{ paddingBottom: 50 }}
+                >
+                  <Grid item md={12}>
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      className={classes.columSpace}
                     >
-                      <div className={classes.toolbar} />
-
-                      <div style={{ display: "flex", marginTop: -15 }}>
-                        <Card style={{ width: "20rem" }}>
-                          <img
-                            style={{
-                              height: "180px",
-                              width: "100%",
-                              display: "block",
-                            }}
-                            className={classes.imgCardTop}
-                            src={bg_card_gateway}
-                            alt="Card-img-cap"
-                          />
-                          <CardBody>
-                            <h4 className={classes.cardTitle}>
-                              <b>Para Sua Empresa</b>
-                            </h4>
-                            <p>
-                              Contrate a sua Plataforma de pagamentos online.
-                            </p>
-                            {/* <Button color="info" onClick={() => slickRef.current.slickNext()} size="sm">Pessoa Jurídica</Button> */}
-
+                      <Hidden xsDown>
+                        <Grid item md={6}>
+                          <Grid container justify="center" alignItems="center">
+                            <img
+                              src={manPc}
+                              className={classes.manPc}
+                              alt="logotipo"
+                            />
+                          </Grid>
+                        </Grid>
+                      </Hidden>
+                      <Grid item md={6}>
+                        <div style={{ padding: 20 }}>
+                          <Grid
+                            container
+                            direction="column"
+                            // justify="center"
+                            alignContent="center"
+                            // alignItems="center"
+                            spacing={2}
+                          >
+                            <Grid item>
+                              <Grid container>
+                                <Grid item>
+                                  <Typography
+                                    variant="body1"
+                                    gutterBottom
+                                    className={classes.label}
+                                  >
+                                    Informe os dados de{" "}
+                                    <span className={classes.labelUser}>
+                                      Usuário
+                                    </span>
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item sm={8}>
+                              <TextField
+                                id="NOME"
+                                name="NOME"
+                                label="NOME COMPLETO"
+                                value={nome}
+                                onChange={(e) => OnchangeNOME(e.target.value)}
+                                fullWidth
+                              />
+                              <DescriptionText>
+                                <div id="descriptionnome"></div>
+                              </DescriptionText>
+                            </Grid>
+                            <Grid item sm={8}>
+                              <TextField
+                                id="EMAIL"
+                                name="EMAIL"
+                                label="EMAIL"
+                                value={email}
+                                onChange={(e) => OnchangeEMAIL(e.target.value)}
+                                fullWidth
+                              />
+                              <DescriptionText>
+                                <div id="descriptionemail"></div>
+                              </DescriptionText>
+                            </Grid>
+                            <Grid item sm={8}>
+                              <TextField
+                                id="SENHA"
+                                name="SENHA"
+                                label="SENHA"
+                                value={senha}
+                                type="password"
+                                onChange={(e) => OnchangeSENHA(e.target.value)}
+                                fullWidth
+                              />
+                              <DescriptionText>
+                                <div id="descriptionpassword">
+                                  A senha deve conter mínimo de oito caracteres,
+                                  pelo menos, uma letra maiúscula, uma letra
+                                  minúscula, um número e um caractere especial{" "}
+                                </div>
+                              </DescriptionText>
+                            </Grid>
+                            <Grid item sm={8}>
+                              <TextField
+                                id="SENHA2"
+                                name="SENHA2"
+                                label="CONFIRME SUA SENHA"
+                                value={senha2}
+                                type="password"
+                                onChange={(e) => OnchangeSENHA2(e.target.value)}
+                                fullWidth
+                              />
+                            </Grid>
+                            <Grid item sm={12}>
+                              <Grid
+                                container
+                                justify="flex-end"
+                                alignItems="center"
+                              >
+                                <Grid item>
+                                  <Button
+                                    color="primary"
+                                    size="sm"
+                                    id="BTNFIRSTNEXT"
+                                    rel="noopener noreferrer"
+                                    onClick={() => Step1NEXT()}
+                                  >
+                                    Próximo
+                                    <ArrowForward
+                                      className={classes.arrowIconNext}
+                                    />
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </div>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid
+                      container
+                      justify="flex-end"
+                      alignItems="center"
+                      spacing={0}
+                      className={classes.columSpace}
+                    >
+                      <Hidden xsDown>
+                        <Grid item md={3}>
+                          <Grid container justify="center" alignItems="center">
+                            <img
+                              src={manPc}
+                              className={classes.logo}
+                              alt="logotipo"
+                            />
+                          </Grid>
+                        </Grid>
+                      </Hidden>
+                      <Grid item md={4}>
+                        <CardM className={classes.cardPJPF}>
+                          <CardActionArea>
+                            <CardMedia
+                              className={classes.media}
+                              image={bg_card_gateway}
+                              title="Contemplative Reptile"
+                            />
+                            <CardContent>
+                              <Typography
+                                variant="button"
+                                display="block"
+                                gutterBottom
+                              >
+                                Para Sua Empresa
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                              >
+                                Clique abaixo para contratar o produto Vileve
+                                Assitência.
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
                             <Button
-                              // id="BTNFIRSTNEXT"
-                              id="BTNFIRSTNEXT2"
-                              color="info"
-                              onClick={() => Step2PJ()}
                               size="sm"
+                              color="primary"
+                              onClick={() => Step2PJ()}
                             >
                               Pessoa Jurídica
                             </Button>
-                          </CardBody>
-                        </Card>
-
-                        <Card style={{ width: "20rem", marginLeft: "30px" }}>
-                          <img
-                            style={{
-                              height: "180px",
-                              width: "100%",
-                              display: "block",
-                            }}
-                            className={classes.imgCardTop}
-                            src={bg_card_vileve}
-                            alt="Card-img-cap"
-                          />
-                          <CardBody>
-                            <h4 className={classes.cardTitle}>
-                              <b>Para Você</b>
-                            </h4>
-                            <p>
-                              Clique abaixo para contratar o produto Vileve
-                              Assitência.
-                            </p>
+                          </CardActions>
+                        </CardM>
+                      </Grid>
+                      <Grid item md={5}>
+                        <CardM className={classes.cardPJPF}>
+                          <CardActionArea>
+                            <CardMedia
+                              className={classes.media}
+                              image={bg_card_vileve}
+                              title="Contemplative Reptile"
+                            />
+                            <CardContent>
+                              <Typography
+                                variant="button"
+                                display="block"
+                                gutterBottom
+                              >
+                                Para Você
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                              >
+                                Clique abaixo para contratar o produto Vileve
+                                Assitência.
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
                             <Button
+                              size="sm"
                               color="success"
                               onClick={() => Step2PF()}
-                              size="sm"
                             >
                               Pessoa Física
                             </Button>
-                          </CardBody>
-                        </Card>
-                      </div>
-                    </main>
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="warning"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step2PREV()}
-                      >
-                        <ArrowBack style={{ marginLeft: 0 }} />
-                        Anterior
-                      </Button>
-                    </PositionButton>
-                  </Containerright>
-                </Containerform>
-              </Card>
-            </ContainerCard>
-          </div>
-
-          {/* ////////////////////////////////////////////////////////////////////////// */}
-
-          <div>
-            <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: "80%", padding: 20 }}>
-                <Containerform>
-                  <Containerleft>
-                    <Imageleft2></Imageleft2>
-                  </Containerleft>
-
-                  <Containerright>
-                    <TitleWelcome>
-                      Informe os dados do{" "}
-                      <span style={{ color: "#9D2AB1" }}>
-                        Representante Legal
-                      </span>
-                    </TitleWelcome>
-
-                    <MarginField>
-                      <CustomInput
-                        labelText="CPF"
-                        id="CPF"
-                        name="CPF"
-                        formControlProps={{ fullWidth: false }}
-                        inputProps={{
-                          type: "text",
-                          value: cpf,
-                          onChange: (e) => OnchangeCPF(e.target.value),
-                          inputProps: { maxLength: 14 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField>
-                      <CustomInput
-                        labelText="CELULAR"
-                        id="CELULAR"
-                        name="CELULAR"
-                        formControlProps={{ fullWidth: false }}
-                        inputProps={{
-                          type: "text",
-                          value: celular,
-                          onChange: (e) => OnchangeCELULAR(e.target.value),
-                          inputProps: { maxLength: 15 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%", clear: "both" }}>
-                      <CustomInput
-                        labelText="NASCIMENTO"
-                        id="NASCIMENTO"
-                        name="NASCIMENTO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: nascimento,
-                          onChange: (e) => OnchangeNASCIMENTO(e.target.value),
-                          inputProps: { maxLength: 10 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="NATURALIDADE"
-                        id="NATURALIDADE"
-                        name="NATURALIDADE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: naturalidade,
-                          onChange: (e) => OnchangeNATURALIDADE(e.target.value),
-                          inputProps: { maxLength: 20 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="NACIONALIDADE"
-                        id="NACIONALIDADE"
-                        name="NACIONALIDADE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: nacionalidade,
-                          onChange: (e) =>
-                            OnchangeNACIONALIDADE(e.target.value),
-                          inputProps: { maxLength: 20 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "10%", marginTop: 5 }}>
-                      <FormControl
-                        style={{ padding: 0, margin: 0, width: 110 }}
-                        className={classes.formControl}
-                      >
-                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>
-                          ESTADO CIVIL
-                        </InputLabel>
-                        <Select
-                          native
-                          id="ESTADOCIVIL"
-                          inputProps={{
-                            name: "estado_civil",
-                            value: estado_civil,
-                            onChange: (e) =>
-                              OnchangeESTADOCIVIL(e.target.value),
-                          }}
+                          </CardActions>
+                        </CardM>
+                      </Grid>
+                    </Grid>
+                    <Grid container justify="flex-end" alignItems="center">
+                      <Grid item>
+                        <Button
+                          color="warning"
+                          size="sm"
+                          rel="noopener noreferrer"
+                          onClick={() => Step2PREV()}
                         >
-                          <option aria-label="None" value="" />
-
-                          <option value="Solteiro">Solteiro</option>
-                          <option value="Casado">Casado</option>
-                          <option value="Separado">Separado</option>
-                          <option value="Viuvo">Viúvo</option>
-                          <option value="Divorciado">Divorciado</option>
-                        </Select>
-                      </FormControl>
-                    </MarginField>
-
-                    <MarginField style={{ width: "15%", clear: "both" }}>
-                      <CustomInput
-                        labelText="RG"
-                        id="RG"
-                        name="RG"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: rg,
-                          onChange: (e) => OnchangeRG(e.target.value),
-                          inputProps: { maxLength: 15 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="ORGÃO EMISSOR"
-                        id="EMISSOR"
-                        name="EMISSOR"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: emissor,
-                          onChange: (e) => OnchangeEMISSOR(e.target.value),
-                          inputProps: { maxLength: 15 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="DATA EMISSAO"
-                        id="EMISSAO"
-                        name="EMISSAO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: emissao,
-                          onChange: (e) => OnchangeEMISSAO(e.target.value),
-                          inputProps: { maxLength: 10 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "10%", marginTop: 5 }}>
-                      <FormControl
-                        style={{ padding: 0, margin: 0, width: 52 }}
-                        className={classes.formControl}
-                      >
-                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>
-                          SEXO
-                        </InputLabel>
-                        <Select
-                          id="SEXO"
-                          native
-                          inputProps={{
-                            name: "sexo",
-                            value: sexo,
-                            onChange: (e) => OnchangeSEXO(e.target.value),
-                          }}
+                          <ArrowBack className={classes.arrowIconBack} />
+                          Anterior
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      className={classes.columSpace}
+                    >
+                      <Hidden xsDown>
+                        <Grid item md={4}>
+                          <Grid container justify="center" alignItems="center">
+                            <img
+                              src={manPc}
+                              className={classes.logo}
+                              alt="logotipo"
+                            />
+                          </Grid>
+                        </Grid>
+                      </Hidden>
+                      <Grid item md={8}>
+                        <Grid container direction="column">
+                          <Grid item>
+                            <Typography
+                              variant="body1"
+                              gutterBottom
+                              className={classes.label}
+                            >
+                              Informe os dados de{" "}
+                              <span className={classes.labelUser}>
+                                Representante Legal
+                              </span>
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12} md={4}>
+                                <TextField
+                                  id="CPF"
+                                  name="CPF"
+                                  label="CPF"
+                                  value={cpf}
+                                  onChange={(e) => OnchangeCPF(e.target.value)}
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={4}>
+                                <TextField
+                                  id="CELULAR"
+                                  name="CELULAR"
+                                  label="CELULAR"
+                                  value={celular}
+                                  onChange={(e) =>
+                                    OnchangeCELULAR(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={4}>
+                                <TextField
+                                  id="NASCIMENTO"
+                                  name="NASCIMENTO"
+                                  label="NASCIMENTO"
+                                  value={nascimento}
+                                  onChange={(e) =>
+                                    OnchangeNASCIMENTO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12} md={4}>
+                                <TextField
+                                  id="NATURALIDADE"
+                                  name="NATURALIDADE"
+                                  label="NATURALIDADE"
+                                  value={naturalidade}
+                                  onChange={(e) =>
+                                    OnchangeNATURALIDADE(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={4}>
+                                <TextField
+                                  id="NACIONALIDADE"
+                                  name="NACIONALIDADE"
+                                  label="NACIONALIDADE"
+                                  value={nacionalidade}
+                                  onChange={(e) =>
+                                    OnchangeNACIONALIDADE(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={4}>
+                                <TextField
+                                  id="ESTADOCIVIL"
+                                  name="estado_civil"
+                                  select
+                                  label="ESTADOCIVIL"
+                                  fullWidth
+                                  value={estado_civil}
+                                  onChange={(e) =>
+                                    OnchangeESTADOCIVIL(e.target.value)
+                                  }
+                                >
+                                  <MenuItem key="sl" value="Solteiro">
+                                    Solteiro
+                                  </MenuItem>
+                                  <MenuItem key="cs" value="Casado">
+                                    Casado
+                                  </MenuItem>
+                                  <MenuItem key="sp" value="Separado">
+                                    Separado
+                                  </MenuItem>
+                                  <MenuItem key="vi" value="Viuvo">
+                                    Viúvo
+                                  </MenuItem>
+                                  <MenuItem key="dv" value="Divorciado">
+                                    Divorciado
+                                  </MenuItem>
+                                </TextField>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12} md={3}>
+                                <TextField
+                                  id="RG"
+                                  name="RG"
+                                  label="RG"
+                                  value={rg}
+                                  onChange={(e) => OnchangeRG(e.target.value)}
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={3}>
+                                <TextField
+                                  id="EMISSOR"
+                                  name="EMISSOR"
+                                  label="ORGÃO EMISSOR"
+                                  value={emissor}
+                                  onChange={(e) =>
+                                    OnchangeEMISSOR(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={3}>
+                                <TextField
+                                  id="EMISSAO"
+                                  name="EMISSAO"
+                                  label="DATA EMISSAO"
+                                  value={emissao}
+                                  onChange={(e) =>
+                                    OnchangeEMISSAO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={3}>
+                                <TextField
+                                  id="SEXO"
+                                  name="sexo"
+                                  select
+                                  label="SEXO"
+                                  fullWidth
+                                  value={sexo}
+                                  onChange={(e) => OnchangeSEXO(e.target.value)}
+                                >
+                                  <MenuItem key="M" value="M">
+                                    Masculino
+                                  </MenuItem>
+                                  <MenuItem key="F" value="F">
+                                    Feminino
+                                  </MenuItem>
+                                </TextField>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12} md={12}>
+                                <TextField
+                                  id="NOMEMAE"
+                                  name="MAE"
+                                  label="NOME DA MÃE"
+                                  value={mae}
+                                  onChange={(e) => OnchangeMAE(e.target.value)}
+                                  fullWidth
+                                  maxLength={2}
+                                  inputProps={{
+                                    maxLength: 5,
+                                    // inputProps: { maxLength: 2 },
+                                  }}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12} md={12}>
+                                <TextField
+                                  id="NOMEPAI"
+                                  name="PAI"
+                                  label="NOME DO PAI"
+                                  value={pai}
+                                  onChange={(e) => OnchangePAI(e.target.value)}
+                                  fullWidth
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid
+                              container
+                              justify="flex-end"
+                              alignItems="center"
+                              spacing={3}
+                            >
+                              <Grid item>
+                                <Button
+                                  color="warning"
+                                  size="sm"
+                                  rel="noopener noreferrer"
+                                  onClick={() => Step3PREV()}
+                                >
+                                  <ArrowBack
+                                    className={classes.arrowIconBack}
+                                  />
+                                  Anterior
+                                </Button>
+                              </Grid>
+                              <Grid item>
+                                <Button
+                                  color="primary"
+                                  size="sm"
+                                  id="BTNSECONDNEXT"
+                                  rel="noopener noreferrer"
+                                  onClick={() => Step3NEXT()}
+                                >
+                                  Próximo
+                                  <ArrowForward
+                                    className={classes.arrowIconNext}
+                                  />
+                                </Button>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      className={classes.columSpace}
+                    >
+                      <Hidden xsDown>
+                        <Grid item md={6}>
+                          <Grid container justify="center" alignItems="center">
+                            <img
+                              src={manPc}
+                              className={classes.logo}
+                              alt="logotipo"
+                            />
+                          </Grid>
+                        </Grid>
+                      </Hidden>
+                      <Grid item md={6}>
+                        <Grid container direction="column" spacing={2}>
+                          <Grid item>
+                            <Typography
+                              variant="body1"
+                              gutterBottom
+                              className={classes.label}
+                            >
+                              Informe os dados de{" "}
+                              <span className={classes.labelUser}>
+                                Endereço do Representante Legal
+                              </span>
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={3}>
+                                <TextField
+                                  id="CEP"
+                                  name="CEP"
+                                  label="CEP"
+                                  value={cep}
+                                  onChange={(e) => OnchangeCEP(e.target.value)}
+                                  fullWidth
+                                  inputProps={{
+                                    maxLength: 8,
+                                  }}
+                                />
+                              </Grid>
+                              <Grid item md={7}>
+                                <TextField
+                                  id="ENDERECO"
+                                  name="ENDERECO"
+                                  label="ENDEREÇO"
+                                  value={endereco}
+                                  onChange={(e) =>
+                                    OnchangeENDERECO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item md={2}>
+                                <TextField
+                                  id="NUMERO"
+                                  name="NUMERO"
+                                  label="NÚMERO"
+                                  value={numero}
+                                  onChange={(e) =>
+                                    OnchangeNUMERO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="BAIRRO"
+                                  name="BAIRRO"
+                                  label="BAIRRO"
+                                  value={bairro}
+                                  onChange={(e) =>
+                                    OnchangeBAIRRO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="COMPLEMENTO"
+                                  name="COMPLEMENTO"
+                                  label="COMPLEMENTO"
+                                  value={complemento}
+                                  onChange={(e) =>
+                                    OnchangeCOMPLEMENTO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item>
+                                <TextField
+                                  id="CIDADE"
+                                  name="CIDADE"
+                                  label="CIDADE"
+                                  value={cidade}
+                                  onChange={(e) =>
+                                    OnchangeCIDADE(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item>
+                                <TextField
+                                  id="ESTADO"
+                                  name="ESTADO"
+                                  label="ESTADO"
+                                  value={estado}
+                                  onChange={(e) =>
+                                    OnchangeESTADO(e.target.value)
+                                  }
+                                  fullWidth
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid
+                              container
+                              justify="flex-end"
+                              alignItems="center"
+                              spacing={3}
+                            >
+                              <Grid item>
+                                <Button
+                                  color="warning"
+                                  size="sm"
+                                  rel="noopener noreferrer"
+                                  onClick={() => Step4PREV()}
+                                >
+                                  <ArrowBack
+                                    className={classes.arrowIconBack}
+                                  />
+                                  Anterior
+                                </Button>
+                              </Grid>
+                              <Button
+                                color="primary"
+                                size="sm"
+                                id="BTNTHIRDNEXT"
+                                rel="noopener noreferrer"
+                                onClick={() => Step4NEXT()}
+                              >
+                                Próximo
+                                <ArrowForward
+                                  className={classes.arrowIconNext}
+                                />
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      className={classes.columSpace}
+                    >
+                      <Hidden xsDown>
+                        <Grid item md={6}>
+                          <Grid container justify="center" alignItems="center">
+                            <img
+                              src={manPc}
+                              className={classes.logo}
+                              alt="logotipo"
+                            />
+                          </Grid>
+                        </Grid>
+                      </Hidden>
+                      <Grid item md={6}>
+                        <Grid container direction="column" spacing={2}>
+                          <Grid item>
+                            <Typography
+                              variant="body1"
+                              gutterBottom
+                              className={classes.label}
+                            >
+                              Informe os dados da{" "}
+                              <span className={classes.labelUser}>
+                                Sua Empresa
+                              </span>
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={4}>
+                                <TextField
+                                  id="CNPJ"
+                                  name="CNPJ"
+                                  label="CNPJ"
+                                  value={cnpj}
+                                  onChange={(e) => OnchangeCNPJ(e.target.value)}
+                                  fullWidth
+                                  inputProps={{ maxLength: 18 }}
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={4}>
+                                <TextField
+                                  id="TELEFONE"
+                                  name="TELEFONE"
+                                  label="TELEFONE"
+                                  value={telefone}
+                                  onChange={(e) =>
+                                    OnchangeTELEFONE(e.target.value)
+                                  }
+                                  fullWidth
+                                  inputProps={{ maxLength: 14 }}
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={4}>
+                                <TextField
+                                  id="SITE"
+                                  name="SITE"
+                                  label="SITE"
+                                  value={site}
+                                  onChange={(e) => OnchangeSITE(e.target.value)}
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={4}>
+                                <TextField
+                                  id="RAZAOSOCIAL"
+                                  name="RAZAOSOCIAL"
+                                  label="RAZÃO SOCIAL"
+                                  value={razaosocial}
+                                  onChange={(e) =>
+                                    OnchangeRAZAOSOCIAL(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={4}>
+                                <TextField
+                                  id="CNAE"
+                                  name="CNAE"
+                                  label="CNAE"
+                                  value={cnae}
+                                  onChange={(e) => OnchangeCNAE(e.target.value)}
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={4}>
+                                <TextField
+                                  id="NOMEFANTASIA"
+                                  name="NOMEFANTASIA"
+                                  label="NOME FANTASIA"
+                                  value={nome_fantasia}
+                                  onChange={(e) =>
+                                    OnchangeNOMEFANTASIA(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={3}>
+                                <TextField
+                                  id="CEPPJ"
+                                  name="CEPPJ"
+                                  label="CEP"
+                                  value={ceppj}
+                                  onChange={(e) =>
+                                    OnchangeCEPPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="ENDERECOPJ"
+                                  name="ENDERECOPJ"
+                                  label="ENDEREÇO"
+                                  value={enderecopj}
+                                  onChange={(e) =>
+                                    OnchangeENDERECOPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={3}>
+                                <TextField
+                                  id="NUMEROPJ"
+                                  name="NUMEROPJ"
+                                  label="NUMERO"
+                                  value={numeropj}
+                                  onChange={(e) =>
+                                    OnchangeNUMEROPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="BAIRROPJ"
+                                  name="BAIRROPJ"
+                                  label="BAIRRO"
+                                  value={bairropj}
+                                  onChange={(e) =>
+                                    OnchangeBAIRROPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="COMPLEMENTOPJ"
+                                  name="COMPLEMENTOPJ"
+                                  label="COMPLEMENTO"
+                                  value={complementopj}
+                                  onChange={(e) =>
+                                    OnchangeCOMPLEMENTOPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="CIDADEPJ"
+                                  name="CIDADEPJ"
+                                  label="CIDADE"
+                                  value={cidadepj}
+                                  onChange={(e) =>
+                                    OnchangeCIDADEPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  id="ESTADOPJ"
+                                  name="ESTADOPJ"
+                                  label="ESTADO"
+                                  value={estadopj}
+                                  onChange={(e) =>
+                                    OnchangeESTADOPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item md={12}>
+                        <Grid
+                          container
+                          justify="flex-end"
+                          alignItems="center"
+                          spacing={3}
                         >
-                          <option aria-label="None" value="" />
-                          <option value="M">M</option>
-                          <option value="F">F</option>
-                        </Select>
-                      </FormControl>
-                    </MarginField>
-
-                    <MarginField style={{ width: "85%" }}>
-                      <CustomInput
-                        labelText="NOME DA MÃE"
-                        id="NOMEMAE"
-                        name="MAE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: mae,
-                          onChange: (e) => OnchangeMAE(e.target.value),
-                          inputProps: { maxLength: 50 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "85%", clear: "both" }}>
-                      <CustomInput
-                        labelText="NOME DO PAI"
-                        id="NOMEPAI"
-                        name="PAI"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: pai,
-                          onChange: (e) => OnchangePAI(e.target.value),
-                          inputProps: { maxLength: 50 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <PositionButton style={{ marginRight: 170 }}>
-                      <Button
-                        // simple
-                        color="warning"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step3PREV()}
-                      >
-                        <ArrowBack style={{ marginRight: 10 }} />
-                        Anterior
-                      </Button>
-                    </PositionButton>
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="primary"
-                        size="sm"
-                        // href="#"
-                        id="BTNSECONDNEXT"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step3NEXT()}
-                      >
-                        Próximo
-                        <ArrowForward style={{ marginLeft: 10 }} />
-                      </Button>
-                    </PositionButton>
-                  </Containerright>
-                </Containerform>
+                          <Grid item>
+                            <Button
+                              color="warning"
+                              size="sm"
+                              rel="noopener noreferrer"
+                              onClick={() => Step5PREV()}
+                            >
+                              <ArrowBack className={classes.arrowIconBack} />
+                              Anterior
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button
+                              color="primary"
+                              size="sm"
+                              id="BTNFOURTHNEXT"
+                              rel="noopener noreferrer"
+                              onClick={() => Step5NEXT()}
+                            >
+                              Próximo
+                              <ArrowForward className={classes.arrowIconBack} />
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      className={classes.columSpace}
+                    >
+                      <Hidden xsDown>
+                        <Grid item md={6}>
+                          <Grid container justify="center" alignItems="center">
+                            <img
+                              src={manPc}
+                              className={classes.logo}
+                              alt="logotipo"
+                            />
+                          </Grid>
+                        </Grid>
+                      </Hidden>
+                      <Grid item md={6}>
+                        <Grid container direction="column" spacing={2}>
+                          <Grid item>
+                            <Typography
+                              variant="body1"
+                              gutterBottom
+                              className={classes.label}
+                            >
+                              Ainda sobre o seu negócio, quais os{" "}
+                              <span className={classes.labelUser}>
+                                dados bancários da sua empresa?
+                              </span>
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item sm={4}>
+                                <TextField
+                                  id="BANCOPJ"
+                                  name="BANCOPJ"
+                                  label="BANCO"
+                                  value={bancopj}
+                                  onChange={(e) =>
+                                    OnchangeBANCOPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  inputProps={{
+                                    maxLength: 18,
+                                  }}
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item sm={4}>
+                                <TextField
+                                  id="AGENCIAPJ"
+                                  name="AGENCIAPJ"
+                                  label="AGÊNCIA"
+                                  value={agenciapj}
+                                  onChange={(e) =>
+                                    OnchangeAGENCIAPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  inputProps={{
+                                    maxLength: 14,
+                                  }}
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item sm={4}>
+                                <TextField
+                                  id="CONTAPJ"
+                                  name="CONTAPJ"
+                                  label="CONTA"
+                                  value={contapj}
+                                  onChange={(e) =>
+                                    OnchangeCONTAPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                              <Grid item sm={4}>
+                                <TextField
+                                  id="OPERACAOPJ"
+                                  name="OPERACAOPJ"
+                                  label="OPERAÇÃO"
+                                  value={operacaopj}
+                                  onChange={(e) =>
+                                    OnchangeOPERACAOPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                  helperText="*Caso tenha conta na Caixa"
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={3}>
+                              <Grid item>
+                                <TextField
+                                  id="PIXPJ"
+                                  name="PIXPJ"
+                                  label="CHAVE PIX"
+                                  value={pixpj}
+                                  onChange={(e) =>
+                                    OnchangePIXPJ(e.target.value)
+                                  }
+                                  fullWidth
+                                  disabled={disabledfields}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item md={12}>
+                            <Grid
+                              container
+                              justify="flex-end"
+                              alignItems="center"
+                              spacing={3}
+                            >
+                              <Grid item>
+                                <Button
+                                  color="warning"
+                                  size="sm"
+                                  rel="noopener noreferrer"
+                                  onClick={() => Step6PREV()}
+                                >
+                                  <ArrowBack
+                                    className={classes.arrowIconBack}
+                                  />
+                                  Anterior
+                                </Button>
+                              </Grid>
+                              <Grid item>
+                                <Button
+                                  color="primary"
+                                  id="BTNFIFTHNEXT"
+                                  size="sm"
+                                  rel="noopener noreferrer"
+                                  onClick={() => Register()}
+                                >
+                                  Salvar
+                                  <Save className={classes.saveIcon} />
+                                </Button>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Carousel>
               </Card>
-            </ContainerCard>
-          </div>
-
-          {/* ////////////////////////////////////////////////////////////////////////// */}
-
-          <div>
-            <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: "80%", padding: 20 }}>
-                <Containerform>
-                  <Containerleft>
-                    <Imageleft2></Imageleft2>
-                  </Containerleft>
-
-                  <Containerright>
-                    {/* <p style={{ position:"absolute", textAlign:"center", width:'43%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
-                    <TitleWelcome>
-                      Informe os Dados de{" "}
-                      <span style={{ color: "#9D2AB1" }}>
-                        {" "}
-                        Endereço do Representante Legal
-                      </span>
-                    </TitleWelcome>
-
-                    <MarginField style={{ width: "15%" }}>
-                      <CustomInput
-                        labelText="CEP"
-                        id="CEP"
-                        name="CEP"
-                        formControlProps={{ fullWidth: false }}
-                        inputProps={{
-                          type: "text",
-                          value: cep,
-                          onChange: (e) => OnchangeCEP(e.target.value),
-                          inputProps: { maxLength: 8 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "60%" }}>
-                      <CustomInput
-                        labelText="ENDEREÇO"
-                        id="ENDERECO"
-                        name="ENDERECO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          // readOnly: true,
-                          value: endereco,
-                          onChange: (e) => OnchangeENDERECO(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "10%" }}>
-                      <CustomInput
-                        labelText="NÚMERO"
-                        id="NUMERO"
-                        name="NUMERO"
-                        formControlProps={{ fullWidth: false }}
-                        inputProps={{
-                          type: "text",
-                          value: numero,
-                          onChange: (e) => OnchangeNUMERO(e.target.value),
-                          inputProps: { maxLength: 5 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "50%" }}>
-                      <CustomInput
-                        labelText="BAIRRO"
-                        // id="BAIRRO"
-                        name="BAIRRO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          // readOnly: true,
-                          value: bairro,
-                          onChange: (e) => OnchangeBAIRRO(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "40%" }}>
-                      <CustomInput
-                        labelText="COMPLEMENTO"
-                        id="COMPLEMENTO"
-                        name="COMPLEMENTO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: complemento,
-                          onChange: (e) => OnchangeCOMPLEMENTO(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "40%" }}>
-                      <CustomInput
-                        labelText="CIDADE"
-                        // id="CIDADE"
-                        name="CIDADE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          // readOnly: true,
-                          value: cidade,
-                          onChange: (e) => OnchangeCIDADE(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="ESTADO"
-                        // id="ESTADO"
-                        name="ESTADO"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: estado,
-                          // readOnly: true,
-                          onChange: (e) => OnchangeESTADO(e.target.value),
-                          inputProps: { maxLength: 2 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <PositionButton style={{ marginRight: 170 }}>
-                      <Button
-                        // simple
-                        color="warning"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step4PREV()}
-                      >
-                        <ArrowBack style={{ marginRight: 10 }} />
-                        Anterior
-                      </Button>
-                    </PositionButton>
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="primary"
-                        size="sm"
-                        id="BTNTHIRDNEXT"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step4NEXT()}
-                      >
-                        Próximo
-                        <ArrowForward style={{ marginLeft: 10 }} />
-                      </Button>
-                    </PositionButton>
-                  </Containerright>
-                </Containerform>
-              </Card>
-            </ContainerCard>
-          </div>
-
-          {/* ////////////////////////////////////////////////////////////////////////// */}
-
-          <div>
-            <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: "80%", padding: 20 }}>
-                <Containerform>
-                  <Containerleft>
-                    <Imageleft2></Imageleft2>
-                  </Containerleft>
-
-                  <Containerright>
-                    {/* <p style={{ position:"absolute", textAlign:"center", width:'43%',  fontSize: 13, color: '#125984' }}>Dados do Representante Legal!</p> */}
-                    <TitleWelcome>
-                      Informe os dados de{" "}
-                      <span style={{ color: "#9D2AB1" }}>de Sua Empresa</span>
-                    </TitleWelcome>
-
-                    <MarginField style={{ width: "25%" }}>
-                      <CustomInput
-                        labelText="CNPJ"
-                        id="CNPJ"
-                        name="CNPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: cnpj,
-                          onChange: (e) => OnchangeCNPJ(e.target.value),
-                          inputProps: { maxLength: 18 },
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "25%" }}>
-                      <CustomInput
-                        labelText="TELEFONE"
-                        id="TELEFONE"
-                        name="TELEFONE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: telefone,
-                          onChange: (e) => OnchangeTELEFONE(e.target.value),
-                          inputProps: { maxLength: 14 },
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "38%" }}>
-                      <CustomInput
-                        labelText="SITE"
-                        id="SITE"
-                        name="SITE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: site,
-                          onChange: (e) => OnchangeSITE(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "35%" }}>
-                      <CustomInput
-                        labelText="RAZÃO SOCIAL"
-                        id="RAZAOSOCIAL"
-                        name="RAZAOSOCIAL"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: razaosocial,
-                          onChange: (e) => OnchangeRAZAOSOCIAL(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "15%" }}>
-                      <CustomInput
-                        labelText="CNAE"
-                        name="CNAE"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"CNAE",
-                          type: "text",
-                          value: cnae,
-                          onChange: (e) => OnchangeCNAE(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "35%" }}>
-                      <CustomInput
-                        labelText="NOME FANTASIA"
-                        id="NOMEFANTASIA"
-                        name="NOMEFANTASIA"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"NOMEFANTASIA",
-                          type: "text",
-                          value: nome_fantasia,
-                          onChange: (e) => OnchangeNOMEFANTASIA(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "15%" }}>
-                      <CustomInput
-                        labelText="CEP"
-                        id="CEPPJ"
-                        name="CEPPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"CEPPJ",
-                          type: "text",
-                          value: ceppj,
-                          onChange: (e) => OnchangeCEPPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "60%" }}>
-                      <CustomInput
-                        labelText="ENDEREÇO"
-                        id="ENDERECOPJ"
-                        name="ENDERECOPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"ENDERECOPJ",
-                          type: "text",
-                          value: enderecopj,
-                          onChange: (e) => OnchangeENDERECOPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "10%" }}>
-                      <CustomInput
-                        labelText="NUMERO"
-                        id="NUMEROPJ"
-                        name="NUMEROPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"NUMEROPJ",
-                          type: "text",
-                          value: numeropj,
-                          onChange: (e) => OnchangeNUMEROPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "35%" }}>
-                      <CustomInput
-                        labelText="BAIRRO"
-                        id="BAIRROPJ"
-                        name="BAIRROPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"NOMEFANTASIA",
-                          type: "text",
-                          value: bairropj,
-                          onChange: (e) => OnchangeBAIRROPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "50%" }}>
-                      <CustomInput
-                        labelText="COMPLEMENTO"
-                        id="COMPLEMENTOPJ"
-                        name="COMPLEMENTOPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          // id:"COMPLEMENTOPJ",
-                          type: "text",
-                          value: complementopj,
-                          onChange: (e) =>
-                            OnchangeCOMPLEMENTOPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "40%" }}>
-                      <CustomInput
-                        labelText="CIDADE"
-                        id="CIDADEPJ"
-                        name="CIDADEPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          readOnly: true,
-                          value: cidadepj,
-                          onChange: (e) => OnchangeCIDADEPJ(e.target.value),
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="ESTADO"
-                        id="ESTADOPJ"
-                        name="ESTADOPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: estadopj,
-                          readOnly: true,
-                          onChange: (e) => OnchangeESTADOPJ(e.target.value),
-                          inputProps: { maxLength: 2 },
-                          autoComplete: "off",
-                        }}
-                      />
-                    </MarginField>
-
-                    <PositionButton style={{ marginRight: 170 }}>
-                      <Button
-                        // simple
-                        color="warning"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step5PREV()}
-                      >
-                        <ArrowBack style={{ marginRight: 10 }} />
-                        Anterior
-                      </Button>
-                    </PositionButton>
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="primary"
-                        size="sm"
-
-                        id="BTNFOURTHNEXT"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step5NEXT()}
-                      >
-                        Próximo
-                        <ArrowForward style={{ marginLeft: 10 }} />
-                      </Button>
-                    </PositionButton>
-                  </Containerright>
-                </Containerform>
-              </Card>
-            </ContainerCard>
-          </div>
-
-          {/* ////////////////////////////////////////////////////////////////////////// */}
-
-          <div>
-            <ContainerCard style={{ opacity: 0.99 }}>
-              <Card style={{ width: "80%", padding: 20 }}>
-                <Containerform>
-                  <Containerleft>
-                    <Imageleft2></Imageleft2>
-                  </Containerleft>
-
-                  <Containerright>
-                    <TitleWelcome>
-                      Ainda sobre o seu negócio, quais os{" "}
-                      <span style={{ color: "#9D2AB1" }}>
-                        dados bancários da sua empresa?
-                      </span>
-                    </TitleWelcome>
-
-                    <MarginField style={{ width: "38%" }}>
-                      <CustomInput
-                        labelText="BANCO"
-                        id="BANCOPJ"
-                        name="BANCOPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: bancopj,
-                          onChange: (e) => OnchangeBANCOPJ(e.target.value),
-                          inputProps: { maxLength: 18 },
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "20%" }}>
-                      <CustomInput
-                        labelText="AGENCIA"
-                        id="AGENCIAPJ"
-                        name="AGENCIAPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: agenciapj,
-                          onChange: (e) => OnchangeAGENCIAPJ(e.target.value),
-                          inputProps: { maxLength: 14 },
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-                    <MarginField style={{ width: "30%" }}>
-                      <CustomInput
-                        labelText="CONTA"
-                        id="CONTAPJT"
-                        name="CONTAPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: contapj,
-                          onChange: (e) => OnchangeCONTAPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-
-                    <MarginField style={{ width: "30%" }}>
-                      <CustomInput
-                        labelText="OPERACAO"
-                        id="OPERACAOPJ"
-                        name="OPERACAOPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: operacaopj,
-                          onChange: (e) => OnchangeOPERACAOPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                      <DescriptionText>
-                        <div>*Caso tenha conta na Caixa</div>
-                      </DescriptionText>
-                    </MarginField>
-
-                    <MarginField style={{ width: "30%" }}>
-                      <CustomInput
-                        labelText="CHAVE PIX"
-                        id="PIXPJ"
-                        name="PIXPJ"
-                        formControlProps={{ fullWidth: true }}
-                        inputProps={{
-                          type: "text",
-                          value: pixpj,
-                          onChange: (e) => OnchangePIXPJ(e.target.value),
-                          autoComplete: "off",
-                          disabled: disabledfields,
-                        }}
-                      />
-                    </MarginField>
-
-                    <PositionButton style={{ marginRight: 170 }}>
-                      <Button
-                        // simple
-                        color="warning"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Step6PREV()}
-                      >
-                        <ArrowBack style={{ marginRight: 10 }} />
-                        Anterior
-                      </Button>
-                    </PositionButton>
-
-                    <PositionButton>
-                      <Button
-                        // simple
-                        color="primary"
-                        id="BTNFIFTHNEXT"
-                        size="sm"
-                        // href="#"
-                        // target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => Register()}
-                      >
-                        Salvar
-                        <Save style={{ marginLeft: 10 }} />
-                      </Button>
-                    </PositionButton>
-                  </Containerright>
-                </Containerform>
-              </Card>
-            </ContainerCard>
-          </div>
-        </Carousel>
-      </Card>
-
-      <ClassBackground></ClassBackground>
+              {/* </div> */}
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
+      <ClassBackground />
     </>
   );
 }
