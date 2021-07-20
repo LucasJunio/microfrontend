@@ -1887,7 +1887,7 @@ export default function SectionCarousel() {
                     <MarginField style={{ width: "30%" }}>
                       <CustomInput
                         labelText="OPERACAO"
-                        id="CNPJ"
+                        id="OPERACAOPJ"
                         name="OPERACAOPJ"
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
