@@ -305,7 +305,7 @@ export default function SectionCarousel() {
   const [pai, setPAI] = React.useState('');
   const OnchangePAI = v => { setPAI(v) }
 
-  const [razaosocial, setRAZAOSOCIAL] = React.useState('');
+  const [razao_social, setRAZAOSOCIAL] = React.useState('');
   const OnchangeRAZAOSOCIAL = v => { setRAZAOSOCIAL(v) }
 
   const [nome_fantasia, setNOMEFANTASIA] = React.useState('');
@@ -339,7 +339,7 @@ export default function SectionCarousel() {
         })
         .catch(error =>{
           setShowloading('none');
-          alert(error)
+          alert('Desculpe cnpj inválido!')
         })
     } else {
       setShowloading('none');
@@ -417,8 +417,8 @@ export default function SectionCarousel() {
   const [dot6, setDOT6] = React.useState(dotInactive);
 
   const Step1NEXT = () => {
-    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
-      alert('Todos os campos são obrigatórios, favor revise seu formulário!')
+    if (nome.length < 5 || !(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/).test(email) || senha != senha2 || !(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/).test(senha)) {
+      alert('Os campos iniciais são obrigatórios, favor revise seu formulário!')
     } else {
       //vai para o próximo slide depois coloca o marcardo1 como inativo e o marcador2 como ativo
       slickRef.current.slickNext(); setDOT1(dotInactive); setDOT2(dotActive)
@@ -446,16 +446,38 @@ export default function SectionCarousel() {
   }
 
   const Step3NEXT = () => {
-    if(TestCPF(cpf)){
-      slickRef.current.slickNext(); setDOT3(dotInactive); setDOT4(dotActive)
-      insertPersonRequest({
-        cpf, celular, nascimento, naturalidade,
-        nacionalidade, estado_civil, rg, emissor,
-        emissao, sexo, mae, pai
-      })
-    }else{
-      alert('Desculpe, informe um cpf válido!')
+
+    let errors = []
+
+    if(!TestCPF(cpf)){      
+      errors.push('\nCampo cpf inválido')
     }
+    if(celular===''){
+      errors.push('\nCampo celular está em branco!')
+    }
+    if(nascimento===''){
+      errors.push('\nCampo nascimento está em branco!')
+    }
+    if(naturalidade===''){
+      errors.push('\nCampo naturalidade está em branco!')
+    } 
+    if(nacionalidade===''){
+      errors.push('\nCampo nacionalidade está em branco!')
+    } 
+    if(estado_civil===''){
+      errors.push('\nCampo estado_civil está em branco!')
+    } 
+    if(sexo===''){
+      errors.push('\nCampo sexo está em branco!')
+    } 
+
+    if (errors.length == 0){
+    slickRef.current.slickNext(); setDOT3(dotInactive); setDOT4(dotActive)
+    }else{
+    alert(errors)
+    }
+
+
   }
 
   const Step4PREV = () => {
@@ -463,13 +485,35 @@ export default function SectionCarousel() {
   }
 
   const Step4NEXT = () => {
+
+    let errors = []
+ 
+    if(cep===''){
+      errors.push('\nCampo cep está em branco!')
+    }
+    if(endereco===''){
+      errors.push('\nCampo endereco está em branco!')
+    }
+    if(numero===''){
+      errors.push('\nCampo número está em branco!')
+    } 
+    if(bairro===''){
+      errors.push('\nCampo bairro está em branco!')
+    } 
+    if(cidade===''){
+      errors.push('\nCampo cidade está em branco!')
+    } 
+    if(estado===''){
+      errors.push('\nCampo estado está em branco!')
+    } 
+
+    if (errors.length == 0){
     slickRef.current.slickNext(); setDOT4(dotInactive); setDOT5(dotActive)
-    insertAddressCPFRequest({
-      cep: masknumero(cep),
-      complemento,
-      endereco,
-      bairro
-    })
+    }else{
+    alert(errors)
+    }
+
+ 
   }
 
   const Step5PREV = () => {
@@ -477,23 +521,53 @@ export default function SectionCarousel() {
   }
 
   const Step5NEXT = () => {
+
+    let errors = []
+ 
+    if(cnpj===''){
+      errors.push('\nCampo cnpj está em branco!')
+    }
+
+    if(cnae===''){
+      errors.push('\nCampo cnae está em branco!')
+    }
+
+    if(telefone===''){
+      errors.push('\nCampo telefone está em branco!')
+    }
+
+    if(razao_social===''){
+      errors.push('\nCampo razão social está em branco!')
+    }
+
+    if(nome_fantasia===''){
+      errors.push('\nCampo nome fantasia está em branco!')
+    }
+
+
+
+
+    if (errors.length == 0){
     slickRef.current.slickNext(); setDOT5(dotInactive); setDOT6(dotActive)
-    insertAddressCNPJRequest({
-      cep: masknumero(ceppj),
-      complemento: complementopj,
-      endereco: enderecopj,
-      numero: masknumero(numeropj),
-      bairro: bairropj
-    })
-    insertEnterpriseRequest({
-      cnpj: masknumero(cnpj),
-      cnae: cnae,
-      razao_social: razaosocial,
-      telefone_fixo: masknumero(telefone),
-      celular: masknumero(celular),
-      nome_fantasia: nome_fantasia,
-      site: site
-    })
+    }else{
+    alert(errors)
+    }
+    // insertAddressCNPJRequest({
+    //   cep: masknumero(ceppj),
+    //   complemento: complementopj,
+    //   endereco: enderecopj,
+    //   numero: masknumero(numeropj),
+    //   bairro: bairropj
+    // })
+    // insertEnterpriseRequest({
+    //   cnpj: masknumero(cnpj),
+    //   cnae: cnae,
+    //   razao_social: razao_social,
+    //   telefone_fixo: masknumero(telefone),
+    //   celular: masknumero(celular),
+    //   nome_fantasia: nome_fantasia,
+    //   site: site
+    // })
   }
 
   const Step6PREV = () => {
@@ -521,6 +595,26 @@ export default function SectionCarousel() {
     // })
 
     // const submit = () => {
+
+let errors = []
+ 
+    if(bancopj===''){
+      errors.push('\nCampo banco está em branco!')
+    }
+
+    if(agenciapj===''){
+      errors.push('\nCampo agencia está em branco!')
+    }
+
+    if(contapj===''){
+      errors.push('\nCampo conta está em branco!')
+    }
+
+    if (errors.length == 0){
+
+
+
+
     const objectJSONPJ = {
       usuario: {
         nome: nome,
@@ -544,7 +638,7 @@ export default function SectionCarousel() {
       empresa: {
         cnpj: masknumero(cnpj),
         cnae: cnae,
-        razao_social: razaosocial,
+        razao_social: razao_social,
         telefone_fixo: masknumero(telefone),
         celular: masknumero(celular),
         nome_fantasia: nome_fantasia,
@@ -602,6 +696,12 @@ export default function SectionCarousel() {
         $('#form-dialog-body').html(`<b>Erro :(</b> Houve um erro no envio: ${error.responseJSON.name}.`);
       }
     })
+
+
+    }else{
+    alert(errors)
+    }
+
 
     // dispatch(signupRequest({ usuario, pessoa, conta, empresa, endereco_cnpj, endereco_cpf }));
     // dispatch(signupRequest({ nome, email, celular, senha }));
@@ -990,7 +1090,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '10%', marginTop: 5 }}>
                       <FormControl style={{ padding: 0, margin: 0, width: 110 }} className={classes.formControl}>
-                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>ESTADO CIVIL</InputLabel>
+                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>ESTADO CIVIL*</InputLabel>
                         <Select
                           native
                           inputProps={{
@@ -1066,7 +1166,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '10%', marginTop: 5 }}>
                       <FormControl style={{ padding: 0, margin: 0, width: 52 }} className={classes.formControl}>
-                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>SEXO</InputLabel>
+                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>SEXO*</InputLabel>
                         <Select
                           native
                           inputProps={{
@@ -1185,7 +1285,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '15%' }}>
                       <CustomInput
-                        labelText="CEP"
+                        labelText="CEP*"
                         // id="CEP"
                         name="CEP"
                         formControlProps={{ fullWidth: false }}
@@ -1202,7 +1302,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '60%' }}>
                       <CustomInput
-                        labelText="ENDEREÇO"
+                        labelText="ENDEREÇO*"
                         // id="ENDERECO"
                         name="ENDERECO"
                         formControlProps={{ fullWidth: true }}
@@ -1218,7 +1318,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '10%' }}>
                       <CustomInput
-                        labelText="NÚMERO"
+                        labelText="NÚMERO*"
                         // id="NUMERO"
                         name="NUMERO"
                         formControlProps={{ fullWidth: false }}
@@ -1234,7 +1334,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '50%' }}>
                       <CustomInput
-                        labelText="BAIRRO"
+                        labelText="BAIRRO*"
                         // id="BAIRRO"
                         name="BAIRRO"
                         formControlProps={{ fullWidth: true }}
@@ -1266,7 +1366,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '40%' }}>
                       <CustomInput
-                        labelText="CIDADE"
+                        labelText="CIDADE*"
                         // id="CIDADE"
                         name="CIDADE"
                         formControlProps={{ fullWidth: true }}
@@ -1282,7 +1382,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '20%' }}>
                       <CustomInput
-                        labelText="ESTADO"
+                        labelText="ESTADO*"
                         // id="ESTADO"
                         name="ESTADO"
                         formControlProps={{ fullWidth: true }}
@@ -1372,7 +1472,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '25%' }}>
                       <CustomInput
-                        labelText="CNPJ"
+                        labelText="CNPJ*"
                         // id="CNPJ"
                         name="CNPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1388,7 +1488,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '25%' }}>
                       <CustomInput
-                        labelText="TELEFONE"
+                        labelText="TELEFONE*"
                         // id="CNPJ"
                         name="TELEFONE"
                         formControlProps={{ fullWidth: true }}
@@ -1419,13 +1519,13 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '35%' }}>
                       <CustomInput
-                        labelText="RAZÃO SOCIAL"
+                        labelText="RAZÃO SOCIAL*"
                         // id="RAZAOSOCIAL"
                         name="RAZAOSOCIAL"
                         formControlProps={{ fullWidth: true }}
                         inputProps={{
                           type: "text",
-                          value: razaosocial,
+                          value: razao_social,
                           onChange: (e) => OnchangeRAZAOSOCIAL(e.target.value),
                           autoComplete: "off",
                           disabled: disabledfields
@@ -1434,7 +1534,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '15%' }}>
                       <CustomInput
-                        labelText="CNAE"
+                        labelText="CNAE*"
                         // id="NOMEFANTASIA"
                         name="CNAE"
                         formControlProps={{ fullWidth: true }}
@@ -1450,7 +1550,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '35%' }}>
                       <CustomInput
-                        labelText="NOME FANTASIA"
+                        labelText="NOME FANTASIA*"
                         // id="NOMEFANTASIA"
                         name="NOMEFANTASIA"
                         formControlProps={{ fullWidth: true }}
@@ -1466,7 +1566,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '15%' }}>
                       <CustomInput
-                        labelText="CEP"
+                        labelText="CEP*"
                         // id="NOMEFANTASIA"
                         name="CEPPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1482,7 +1582,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '60%' }}>
                       <CustomInput
-                        labelText="ENDEREÇO"
+                        labelText="ENDEREÇO*"
                         // id="NOMEFANTASIA"
                         name="ENDERECOPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1498,7 +1598,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '10%' }}>
                       <CustomInput
-                        labelText="NUMERO"
+                        labelText="NUMERO*"
                         // id="NOMEFANTASIA"
                         name="NUMEROPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1515,7 +1615,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '35%' }}>
                       <CustomInput
-                        labelText="BAIRRO"
+                        labelText="BAIRRO*"
                         // id="NOMEFANTASIA"
                         name="BAIRROPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1550,7 +1650,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '40%' }}>
                       <CustomInput
-                        labelText="CIDADE"
+                        labelText="CIDADE*"
                         // id="CIDADE"
                         name="CIDADEPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1566,7 +1666,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '20%' }}>
                       <CustomInput
-                        labelText="ESTADO"
+                        labelText="ESTADO*"
                         // id="ESTADO"
                         name="ESTADOPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1654,7 +1754,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: '38%' }}>
                       <CustomInput
-                        labelText="BANCO"
+                        labelText="BANCO*"
                         // id="CNPJ"
                         name="BANCOPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1670,7 +1770,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '20%' }}>
                       <CustomInput
-                        labelText="AGENCIA"
+                        labelText="AGENCIA*"
                         // id="CNPJ"
                         name="AGENCIAPJ"
                         formControlProps={{ fullWidth: true }}
@@ -1686,7 +1786,7 @@ export default function SectionCarousel() {
                     </MarginField>
                     <MarginField style={{ width: '30%' }}>
                       <CustomInput
-                        labelText="CONTA"
+                        labelText="CONTA*"
                         // id="CNPJ"
                         name="CONTAPJ"
                         formControlProps={{ fullWidth: true }}
