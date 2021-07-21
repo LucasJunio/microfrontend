@@ -17,23 +17,25 @@ export const useStyles = makeStyles((theme) => ({
     margin: "30px",
   },
   manPc: {
-    width: "65%",
+    width: "60%",
   },
   cardStyle: {
-    // margin: "0",
-    transform: "scale(0.95)",
-    // marginBottom: "100px",
+    transform: "scale(0.90)",
     position: "absolute",
-    // maxHeight: "72%",
-    // height: "455px",
+    overflowY: "hidden",
+    // height: "800px",
+    [theme.breakpoints.between(650, 959)]: {
+      height: "440px",
+      width: "650px",
+    },
   },
   columSpace: {
     // marginTop: "90px",
     textAlign: "center",
   },
   cardPJPF: {
-    width: "20rem",
-    marginLeft: "30px",
+    maxWidth: "18rem",
+    // marginLeft: "30px",
   },
   label: {
     color: "#999",
@@ -56,23 +58,8 @@ export const useStyles = makeStyles((theme) => ({
   saveIcon: {
     marginLeft: 10,
   },
-  background: {
-    backgroundImage: `url(${Background})`,
-    backgroundRepeat: "no-repeat",
-    backgroundAttachment: "fixed",
-    backgroundSize: "cover",
-    WebkitBackgroundSize: "cover",
-    // position: "absolute",
-    overflowX: "hidden",
-    overflowY: "hidden",
-    // width: 100%;
-    // height: 100%;
-    // background-attachment: fixed;
-    // background-repeat: no-repeat;
-    // background-size: cover;
-    // -moz-background-size: cover;
-    // overflow-x: hidden;
-    // overflow-y: hidden;
+  carouselGrid: {
+    height: "5px",
   },
 }));
 
@@ -131,6 +118,7 @@ export const ClassBackground = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
