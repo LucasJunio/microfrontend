@@ -1836,7 +1836,69 @@ export default function SectionCarousel() {
                       </span>
                     </TitleWelcome>
 
-                    <MarginField style={{ width: "38%" }}>
+
+                    <MarginField style={{ width: "38%", marginTop: 5 }}>
+                      <FormControl
+                        style={{ padding: 0, margin: 0, width: 52 }}
+                        className={classes.formControl}
+                      >
+                        <InputLabel style={{ fontSize: 12, marginTop: 5 }}>
+                          BANCO*
+                        </InputLabel>
+                        <Select
+                          id="BANCOPJ"
+                          native
+                          inputProps={{
+                            name: "bancopj",
+                            value: bancopj,
+                            onChange: (e) => OnchangeSEXO(e.target.value),
+                          }}
+                        >
+                          <option aria-label="None" value="" />
+                          <option value="104">Caixa Econômica Federal (104)</option>
+                          <option value="237">Banco Bradesco S.A.</option>
+                          <option value="33">Banco Santander (Brasil) S.A. (033)</option>
+                          <option value="341">Banco Itaú S.A.</option>
+                          <option value="1">Banco do Brasil S.A. (001)</option>
+                          <option value="197">Stone (197)</option>
+                          <option value="77">Banco Inter (077)</option>
+                          <option value="748">Sicred (748)</option>
+                          <option value="212">Banco Original (212)</option>
+                          <option value="136">Banco UNICRED (136)</option>
+                          <option value="756">Banco Cooperativo do Brasil S.A. – BANCOOB</option>
+                          <option value="260">Nubank (260)</option>
+                          <option value="41">Banco do Estado do Rio Grande do Sul S.A.</option>
+                          <option value="290">Pag Seguro (290)</option>
+                          <option value="356">Banco Real S.A. (antigo) (356)</option>
+                          <option value="389">Banco Mercantil do Brasil S.A. (389)</option>
+                          <option value="399">HSBC Bank Brasil S.A. – Banco Múltiplo</option>
+                          <option value="422">Banco Safra S.A.</option>
+                          <option value="453">Banco Rural S.A.</option>
+                          <option value="633">Banco Rendimento S.A. (633)</option>
+                          <option value="652">Itaú Unibanco Holding S.A. (652)</option>
+                          <option value="745">Banco Citibank S.A.</option>
+                          <option value="246">Banco ABC Brasil S.A. (246)</option>
+                          <option value="25">Banco Alfa S.A.</option>
+                          <option value="641">Banco Alvorada S.A.</option>
+                          <option value="29">Banco Banerj S.A.</option>
+                          <option value="38">Banco Banestado S.A.</option>
+                          <option value="0">Banco Bankpar S.A.</option>
+                          <option value="740">Banco Barclays S.A.</option>
+                          <option value="107">Banco BBM S.A.</option>
+                          <option value="31">Banco Beg S.A.</option>
+                          <option value="96">Banco BM&F de Serviços de Liquidação e Custódia S.A (096)</option>
+                          <option value="318">Banco BMG S.A.</option>
+                          <option value="752">Banco BNP Paribas Brasil S.A. (752)</option>
+                          <option value="248">Banco Boavista Interatlântico S.A.</option>
+
+                        </Select>
+                      </FormControl>
+                    </MarginField>
+
+
+
+
+                    {/* <MarginField style={{ width: "38%" }}>
                       <CustomInput
                         labelText="BANCO*"
                         id="BANCOPJ"
@@ -1851,7 +1913,10 @@ export default function SectionCarousel() {
                           disabled: disabledfields,
                         }}
                       />
-                    </MarginField>
+                    </MarginField> */}
+
+
+
                     <MarginField style={{ width: "20%" }}>
                       <CustomInput
                         labelText="AGENCIA*"
