@@ -1,3 +1,4 @@
+import "@fontsource/roboto";
 import React, { useState, useRef } from "react";
 import $ from "jquery";
 import axios from "axios";
@@ -48,7 +49,7 @@ import {
   Spinner,
   useStyles,
 } from "./styles";
-import * as yup from "yup";
+// import * as yup from "yup";
 
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
@@ -59,8 +60,9 @@ import {
 } from "../../store/modules/address/actions";
 import { insertEnterpriseRequest } from "../../store/modules/enterprise/actions";
 import { signupSuccess } from "../../store/modules/signup/actions";
-
+//teste
 import "./stylepagination.scss";
+import { maskCpf } from "../../utils/string/maskCPF";
 
 export default function SectionCarousel() {
   const slickRef = useRef();
@@ -118,13 +120,6 @@ export default function SectionCarousel() {
     v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
     v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
     v = v.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-    return v;
-  };
-
-  const maskcpf = (v) => {
-    v = v.replace(/\D/g, "");
-    v = v.replace(/^(\d{3})/g, "$1.");
-    v = v.replace(/(\d{3})(\d{3})/g, "$1.$2-");
     return v;
   };
 
@@ -213,8 +208,8 @@ export default function SectionCarousel() {
   };
 
   const [cpf, setCPF] = useState("");
-  const OnchangeCPF = (v) => {
-    setCPF(maskcpf(v));
+  const handleCPF = (v) => {
+    setCPF(maskCpf(v));
   };
 
   const [senha, setSenha] = useState("");
@@ -738,12 +733,12 @@ export default function SectionCarousel() {
             </Button>
           </DialogActions>
         </Dialog>
-        <Grid item>
+        <Grid item style={{ height: "100px" }}>
           <img src={logo} className={classes.logo} alt="logotipo"></img>
         </Grid>
         <Grid item>
           <Grid container justify="flex-end" alignItems="center">
-            <Grid item>
+            <Grid item style={{ height: "5px" }}>
               <ul className="pagination">
                 <li className="pagination__item">
                   <a href="#" className={dot1}></a>
@@ -770,13 +765,8 @@ export default function SectionCarousel() {
         <Grid item zeroMinWidth>
           <Grid container>
             <Grid item zeroMinWidth>
-              {/* <div id="Teste"> */}
               <Card className={classes.cardStyle}>
-                <Carousel
-                  ref={slickRef}
-                  {...settings}
-                  // style={{ paddingBottom: 50 }}
-                >
+                <Carousel ref={slickRef} {...settings}>
                   <Grid item md={12}>
                     <Grid
                       container
@@ -784,7 +774,7 @@ export default function SectionCarousel() {
                       alignItems="center"
                       className={classes.columSpace}
                     >
-                      <Hidden xsDown>
+                      <Hidden xsDown smDown>
                         <Grid item md={6}>
                           <Grid container justify="center" alignItems="center">
                             <img
@@ -800,9 +790,7 @@ export default function SectionCarousel() {
                           <Grid
                             container
                             direction="column"
-                            // justify="center"
                             alignContent="center"
-                            // alignItems="center"
                             spacing={2}
                           >
                             <Grid item>
@@ -879,7 +867,7 @@ export default function SectionCarousel() {
                             <Grid item sm={12}>
                               <Grid
                                 container
-                                justify="flex-end"
+                                justify="center"
                                 alignItems="center"
                               >
                                 <Grid item>
@@ -904,99 +892,113 @@ export default function SectionCarousel() {
                     </Grid>
                   </Grid>
                   <Grid item md={12}>
-                    <Grid
-                      container
-                      justify="flex-end"
-                      alignItems="center"
-                      spacing={0}
-                      className={classes.columSpace}
-                    >
-                      <Hidden xsDown>
-                        <Grid item md={3}>
+                    <div style={{ padding: 20 }}>
+                      <Grid
+                        container
+                        justify="center"
+                        alignItems="center"
+                        className={classes.columSpace}
+                        spacing={2}
+                      >
+                        <Hidden only={["xs", "sm"]}>
+                          <Grid item md={4}>
+                            <Grid
+                              container
+                              justify="center"
+                              alignItems="center"
+                            >
+                              <img
+                                src={manPc}
+                                alt="logotipo"
+                                className={classes.manPc}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Hidden>
+                        <Grid item md={4}>
                           <Grid container justify="center" alignItems="center">
-                            <img
-                              src={manPc}
-                              className={classes.logo}
-                              alt="logotipo"
-                            />
+                            <Grid item>
+                              <CardM className={classes.cardPJPF}>
+                                <CardActionArea>
+                                  <CardMedia
+                                    className={classes.media}
+                                    image={bg_card_gateway}
+                                    title="Contemplative Reptile"
+                                  />
+                                  <CardContent>
+                                    <Typography
+                                      variant="button"
+                                      display="block"
+                                      gutterBottom
+                                    >
+                                      Para Sua Empresa
+                                    </Typography>
+                                    <Typography
+                                      variant="body2"
+                                      color="textSecondary"
+                                      component="p"
+                                    >
+                                      Clique abaixo para contratar o produto
+                                      Vileve Assitência.
+                                    </Typography>
+                                  </CardContent>
+                                </CardActionArea>
+                                <CardActions>
+                                  <Button
+                                    size="sm"
+                                    color="primary"
+                                    onClick={() => Step2PJ()}
+                                  >
+                                    Pessoa Jurídica
+                                  </Button>
+                                </CardActions>
+                              </CardM>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Hidden>
-                      <Grid item md={4}>
-                        <CardM className={classes.cardPJPF}>
-                          <CardActionArea>
-                            <CardMedia
-                              className={classes.media}
-                              image={bg_card_gateway}
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                              <Typography
-                                variant="button"
-                                display="block"
-                                gutterBottom
-                              >
-                                Para Sua Empresa
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                Clique abaixo para contratar o produto Vileve
-                                Assitência.
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions>
-                            <Button
-                              size="sm"
-                              color="primary"
-                              onClick={() => Step2PJ()}
-                            >
-                              Pessoa Jurídica
-                            </Button>
-                          </CardActions>
-                        </CardM>
+                        <Grid item md={4}>
+                          <Grid container justify="center" alignItems="center">
+                            <Grid item>
+                              <CardM className={classes.cardPJPF}>
+                                <CardActionArea>
+                                  <CardMedia
+                                    className={classes.media}
+                                    image={bg_card_vileve}
+                                    title="Contemplative Reptile"
+                                  />
+                                  <CardContent>
+                                    <Typography
+                                      variant="button"
+                                      display="block"
+                                      gutterBottom
+                                    >
+                                      Para Você
+                                    </Typography>
+                                    <Typography
+                                      variant="body2"
+                                      color="textSecondary"
+                                      component="p"
+                                    >
+                                      Clique abaixo para contratar o produto
+                                      Vileve Assitência.
+                                    </Typography>
+                                  </CardContent>
+                                </CardActionArea>
+                                <CardActions>
+                                  <Button
+                                    size="sm"
+                                    color="success"
+                                    onClick={() => Step2PF()}
+                                  >
+                                    Pessoa Física
+                                  </Button>
+                                </CardActions>
+                              </CardM>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
-                      <Grid item md={5}>
-                        <CardM className={classes.cardPJPF}>
-                          <CardActionArea>
-                            <CardMedia
-                              className={classes.media}
-                              image={bg_card_vileve}
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                              <Typography
-                                variant="button"
-                                display="block"
-                                gutterBottom
-                              >
-                                Para Você
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                Clique abaixo para contratar o produto Vileve
-                                Assitência.
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions>
-                            <Button
-                              size="sm"
-                              color="success"
-                              onClick={() => Step2PF()}
-                            >
-                              Pessoa Física
-                            </Button>
-                          </CardActions>
-                        </CardM>
-                      </Grid>
-                    </Grid>
+                    </div>
                     <Grid container justify="flex-end" alignItems="center">
                       <Grid item>
                         <Button
@@ -1012,260 +1014,276 @@ export default function SectionCarousel() {
                     </Grid>
                   </Grid>
                   <Grid item xs={12} md={12}>
-                    <Grid
-                      container
-                      justify="center"
-                      alignItems="center"
-                      className={classes.columSpace}
-                    >
-                      <Hidden xsDown>
-                        <Grid item md={4}>
-                          <Grid container justify="center" alignItems="center">
-                            <img
-                              src={manPc}
-                              className={classes.logo}
-                              alt="logotipo"
-                            />
-                          </Grid>
-                        </Grid>
-                      </Hidden>
-                      <Grid item md={8}>
-                        <Grid container direction="column">
-                          <Grid item>
-                            <Typography
-                              variant="body1"
-                              gutterBottom
-                              className={classes.label}
-                            >
-                              Informe os dados de{" "}
-                              <span className={classes.labelUser}>
-                                Representante Legal
-                              </span>
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12} md={4}>
-                                <TextField
-                                  id="CPF"
-                                  name="CPF"
-                                  label="CPF"
-                                  value={cpf}
-                                  onChange={(e) => OnchangeCPF(e.target.value)}
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={4}>
-                                <TextField
-                                  id="CELULAR"
-                                  name="CELULAR"
-                                  label="CELULAR"
-                                  value={celular}
-                                  onChange={(e) =>
-                                    OnchangeCELULAR(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={4}>
-                                <TextField
-                                  id="NASCIMENTO"
-                                  name="NASCIMENTO"
-                                  label="NASCIMENTO"
-                                  value={nascimento}
-                                  onChange={(e) =>
-                                    OnchangeNASCIMENTO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12} md={4}>
-                                <TextField
-                                  id="NATURALIDADE"
-                                  name="NATURALIDADE"
-                                  label="NATURALIDADE"
-                                  value={naturalidade}
-                                  onChange={(e) =>
-                                    OnchangeNATURALIDADE(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={4}>
-                                <TextField
-                                  id="NACIONALIDADE"
-                                  name="NACIONALIDADE"
-                                  label="NACIONALIDADE"
-                                  value={nacionalidade}
-                                  onChange={(e) =>
-                                    OnchangeNACIONALIDADE(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={4}>
-                                <TextField
-                                  id="ESTADOCIVIL"
-                                  name="estado_civil"
-                                  select
-                                  label="ESTADOCIVIL"
-                                  fullWidth
-                                  value={estado_civil}
-                                  onChange={(e) =>
-                                    OnchangeESTADOCIVIL(e.target.value)
-                                  }
-                                >
-                                  <MenuItem key="sl" value="Solteiro">
-                                    Solteiro
-                                  </MenuItem>
-                                  <MenuItem key="cs" value="Casado">
-                                    Casado
-                                  </MenuItem>
-                                  <MenuItem key="sp" value="Separado">
-                                    Separado
-                                  </MenuItem>
-                                  <MenuItem key="vi" value="Viuvo">
-                                    Viúvo
-                                  </MenuItem>
-                                  <MenuItem key="dv" value="Divorciado">
-                                    Divorciado
-                                  </MenuItem>
-                                </TextField>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12} md={3}>
-                                <TextField
-                                  id="RG"
-                                  name="RG"
-                                  label="RG"
-                                  value={rg}
-                                  onChange={(e) => OnchangeRG(e.target.value)}
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={3}>
-                                <TextField
-                                  id="EMISSOR"
-                                  name="EMISSOR"
-                                  label="ORGÃO EMISSOR"
-                                  value={emissor}
-                                  onChange={(e) =>
-                                    OnchangeEMISSOR(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={3}>
-                                <TextField
-                                  id="EMISSAO"
-                                  name="EMISSAO"
-                                  label="DATA EMISSAO"
-                                  value={emissao}
-                                  onChange={(e) =>
-                                    OnchangeEMISSAO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={3}>
-                                <TextField
-                                  id="SEXO"
-                                  name="sexo"
-                                  select
-                                  label="SEXO"
-                                  fullWidth
-                                  value={sexo}
-                                  onChange={(e) => OnchangeSEXO(e.target.value)}
-                                >
-                                  <MenuItem key="M" value="M">
-                                    Masculino
-                                  </MenuItem>
-                                  <MenuItem key="F" value="F">
-                                    Feminino
-                                  </MenuItem>
-                                </TextField>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12} md={12}>
-                                <TextField
-                                  id="NOMEMAE"
-                                  name="MAE"
-                                  label="NOME DA MÃE"
-                                  value={mae}
-                                  onChange={(e) => OnchangeMAE(e.target.value)}
-                                  fullWidth
-                                  maxLength={2}
-                                  inputProps={{
-                                    maxLength: 5,
-                                    // inputProps: { maxLength: 2 },
-                                  }}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12} md={12}>
-                                <TextField
-                                  id="NOMEPAI"
-                                  name="PAI"
-                                  label="NOME DO PAI"
-                                  value={pai}
-                                  onChange={(e) => OnchangePAI(e.target.value)}
-                                  fullWidth
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
+                    <div style={{ padding: 20 }}>
+                      <Grid
+                        container
+                        justify="center"
+                        alignItems="center"
+                        className={classes.columSpace}
+                      >
+                        <Hidden xsDown>
+                          <Grid item md={4}>
                             <Grid
                               container
-                              justify="flex-end"
+                              justify="center"
                               alignItems="center"
-                              spacing={3}
                             >
-                              <Grid item>
-                                <Button
-                                  color="warning"
-                                  size="sm"
-                                  rel="noopener noreferrer"
-                                  onClick={() => Step3PREV()}
-                                >
-                                  <ArrowBack
-                                    className={classes.arrowIconBack}
-                                  />
-                                  Anterior
-                                </Button>
+                              <img
+                                src={manPc}
+                                className={classes.logo}
+                                alt="logotipo"
+                              />
+                            </Grid>
+                          </Grid>
+                        </Hidden>
+                        <Grid item md={8}>
+                          <Grid container direction="column">
+                            <Grid item>
+                              <Grid container>
+                                <Grid item>
+                                  <Typography
+                                    variant="body1"
+                                    gutterBottom
+                                    className={classes.label}
+                                  >
+                                    Informe os dados de{" "}
+                                    <span className={classes.labelUser}>
+                                      Representante Legal
+                                    </span>
+                                  </Typography>
+                                </Grid>
                               </Grid>
-                              <Grid item>
-                                <Button
-                                  color="primary"
-                                  size="sm"
-                                  id="BTNSECONDNEXT"
-                                  rel="noopener noreferrer"
-                                  onClick={() => Step3NEXT()}
-                                >
-                                  Próximo
-                                  <ArrowForward
-                                    className={classes.arrowIconNext}
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item xs={12} md={4}>
+                                  <TextField
+                                    id="CPF"
+                                    name="CPF"
+                                    label="CPF"
+                                    value={cpf}
+                                    onChange={(e) => handleCPF(e.target.value)}
+                                    fullWidth
                                   />
-                                </Button>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                  <TextField
+                                    id="CELULAR"
+                                    name="CELULAR"
+                                    label="CELULAR"
+                                    value={celular}
+                                    onChange={(e) =>
+                                      OnchangeCELULAR(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                  <TextField
+                                    id="NASCIMENTO"
+                                    name="NASCIMENTO"
+                                    label="NASCIMENTO"
+                                    value={nascimento}
+                                    onChange={(e) =>
+                                      OnchangeNASCIMENTO(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item xs={12} md={4}>
+                                  <TextField
+                                    id="NATURALIDADE"
+                                    name="NATURALIDADE"
+                                    label="NATURALIDADE"
+                                    value={naturalidade}
+                                    onChange={(e) =>
+                                      OnchangeNATURALIDADE(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                  <TextField
+                                    id="NACIONALIDADE"
+                                    name="NACIONALIDADE"
+                                    label="NACIONALIDADE"
+                                    value={nacionalidade}
+                                    onChange={(e) =>
+                                      OnchangeNACIONALIDADE(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                  <TextField
+                                    id="ESTADOCIVIL"
+                                    name="estado_civil"
+                                    select
+                                    label="ESTADOCIVIL"
+                                    fullWidth
+                                    value={estado_civil}
+                                    onChange={(e) =>
+                                      OnchangeESTADOCIVIL(e.target.value)
+                                    }
+                                  >
+                                    <MenuItem key="sl" value="Solteiro">
+                                      Solteiro
+                                    </MenuItem>
+                                    <MenuItem key="cs" value="Casado">
+                                      Casado
+                                    </MenuItem>
+                                    <MenuItem key="sp" value="Separado">
+                                      Separado
+                                    </MenuItem>
+                                    <MenuItem key="vi" value="Viuvo">
+                                      Viúvo
+                                    </MenuItem>
+                                    <MenuItem key="dv" value="Divorciado">
+                                      Divorciado
+                                    </MenuItem>
+                                  </TextField>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item xs={12} md={3}>
+                                  <TextField
+                                    id="RG"
+                                    name="RG"
+                                    label="RG"
+                                    value={rg}
+                                    onChange={(e) => OnchangeRG(e.target.value)}
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={3}>
+                                  <TextField
+                                    id="EMISSOR"
+                                    name="EMISSOR"
+                                    label="ORGÃO EMISSOR"
+                                    value={emissor}
+                                    onChange={(e) =>
+                                      OnchangeEMISSOR(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={3}>
+                                  <TextField
+                                    id="EMISSAO"
+                                    name="EMISSAO"
+                                    label="DATA EMISSAO"
+                                    value={emissao}
+                                    onChange={(e) =>
+                                      OnchangeEMISSAO(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={3}>
+                                  <TextField
+                                    id="SEXO"
+                                    name="sexo"
+                                    select
+                                    label="SEXO"
+                                    fullWidth
+                                    value={sexo}
+                                    onChange={(e) =>
+                                      OnchangeSEXO(e.target.value)
+                                    }
+                                  >
+                                    <MenuItem key="M" value="M">
+                                      Masculino
+                                    </MenuItem>
+                                    <MenuItem key="F" value="F">
+                                      Feminino
+                                    </MenuItem>
+                                  </TextField>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item xs={12} md={12}>
+                                  <TextField
+                                    id="NOMEMAE"
+                                    name="MAE"
+                                    label="NOME DA MÃE"
+                                    value={mae}
+                                    onChange={(e) =>
+                                      OnchangeMAE(e.target.value)
+                                    }
+                                    fullWidth
+                                    maxLength={2}
+                                    inputProps={{
+                                      maxLength: 5,
+                                      // inputProps: { maxLength: 2 },
+                                    }}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item xs={12} md={12}>
+                                  <TextField
+                                    id="NOMEPAI"
+                                    name="PAI"
+                                    label="NOME DO PAI"
+                                    value={pai}
+                                    onChange={(e) =>
+                                      OnchangePAI(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid
+                                container
+                                justify="flex-end"
+                                alignItems="center"
+                                spacing={3}
+                              >
+                                <Grid item>
+                                  <Button
+                                    color="warning"
+                                    size="sm"
+                                    rel="noopener noreferrer"
+                                    onClick={() => Step3PREV()}
+                                  >
+                                    <ArrowBack
+                                      className={classes.arrowIconBack}
+                                    />
+                                    Anterior
+                                  </Button>
+                                </Grid>
+                                <Grid item>
+                                  <Button
+                                    color="primary"
+                                    size="sm"
+                                    id="BTNSECONDNEXT"
+                                    rel="noopener noreferrer"
+                                    onClick={() => Step3NEXT()}
+                                  >
+                                    Próximo
+                                    <ArrowForward
+                                      className={classes.arrowIconNext}
+                                    />
+                                  </Button>
+                                </Grid>
                               </Grid>
                             </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </div>
                   </Grid>
                   <Grid item md={12}>
                     <Grid
