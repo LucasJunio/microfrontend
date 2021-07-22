@@ -1,14 +1,13 @@
-import { takeLatest, call, all, put } from 'redux-saga/effects';
+import { takeLatest, call, all, put } from "redux-saga/effects";
 
-import api from '../../../services/api';
+import api from "../../../services/api/api";
 
-import { returnSignupRequest } from './actions';
+import { returnSignupRequest } from "./actions";
 
 export function* Signup({ payload }) {
   try {
-
-    console.log("Resultado do payload: ")  
-    console.log(payload)  
+    console.log("Resultado do payload: ");
+    console.log(payload);
 
     // const response = yield call(api.post, '/signup', payload);
 
@@ -16,14 +15,10 @@ export function* Signup({ payload }) {
 
     // api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    // yield put(returnSignupRequest(response.data))      
-
+    // yield put(returnSignupRequest(response.data))
   } catch (error) {
     console.log(error.response.data);
   }
 }
 
-
-export default all([
-    takeLatest('@signup/SIGNUP_REQUEST', Signup)
-]);
+export default all([takeLatest("@signup/SIGNUP_REQUEST", Signup)]);

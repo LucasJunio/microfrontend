@@ -1,5 +1,5 @@
 import "@fontsource/roboto";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import axios from "axios";
 // react component for creating beautiful carousel
@@ -24,7 +24,6 @@ import {
 
 import { ArrowForward, ArrowBack, Save } from "@material-ui/icons";
 import Card from "components/Card/Card.js";
-import CardBody from "components/Card/CardBody.js";
 import bg_card_vileve from "../../assets/images/bg_card_assistencia.jpg";
 import bg_card_gateway from "../../assets/images/bg_card_vilevepay.jpg";
 import logo from "../../assets/images/logo_vileve_way.png";
@@ -33,24 +32,13 @@ import Button from "components/CustomButtons/Button.js";
 import sha256 from "crypto-js/sha256";
 import {
   ClassBackground,
-  ContainerCard,
-  TitleWelcome,
-  Classlogotipo,
-  Containerform,
-  Containerleft,
-  Imageleft1,
-  Imageleft2,
-  Containerright,
-  PositionButton,
-  MarginField,
   DescriptionText,
-  Pagination,
   Loading,
   Spinner,
   useStyles,
 } from "./styles";
 // import * as yup from "yup";
-
+import { getCountries } from "../../services/api/api";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import { insertPersonRequest } from "../../store/modules/person/actions";
@@ -60,14 +48,86 @@ import {
 } from "../../store/modules/address/actions";
 import { insertEnterpriseRequest } from "../../store/modules/enterprise/actions";
 import { signupSuccess } from "../../store/modules/signup/actions";
-//teste
 import "./stylepagination.scss";
-import { maskCpf } from "../../utils/string/maskCPF";
+import {
+  maskCpf,
+  maskDate,
+  maskCel,
+  maskTellPhone,
+  maskNumero,
+} from "../../utils/string/masks";
 
 export default function SectionCarousel() {
   const slickRef = useRef();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  const dotActive = "pagination__link";
+  const dotInactive = "pagination__link is_active";
+
+  const [Showloading, setShowloading] = useState("none");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [celular, setCelular] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [senha, setSenha] = useState("");
+  const [senha2, setSenha2] = useState("");
+  const [ColorInputClass, setColorInputClass] = useState(false);
+  const [ColorInputClass2, setColorInputClass2] = useState(false);
+  const [Iconsenha, setIconSenha] = useState("lock_Outline");
+  const [cep, setCEP] = useState("");
+  const [nascimento, setNASCIMENTO] = useState("");
+  const [rg, setRG] = useState("");
+  const [emissor, setEMISSOR] = useState("");
+  const [emissao, setEMISSAO] = useState("");
+  const [sexo, setSEXO] = useState("");
+  const [endereco, setENDERECO] = useState("");
+  const [numero, setNUMERO] = useState("");
+  const [bairro, setBAIRRO] = useState("");
+  const [complemento, setCOMPLEMENTO] = useState("");
+  const [cidade, setCIDADE] = useState("");
+  const [estado, setESTADO] = useState("");
+  const [estado_civil, setESTADOCIVIL] = useState("");
+  const [naturalidade, setNATURALIDADE] = useState("");
+  const [nacionalidade, setNACIONALIDADE] = useState("");
+  const [mae, setMAE] = useState("");
+  const [pai, setPAI] = useState("");
+  const [razaosocial, setRAZAOSOCIAL] = useState("");
+  const [nome_fantasia, setNOMEFANTASIA] = useState("");
+  const [cnpj, setCNPJ] = useState("");
+  const [telefone, setTELEFONE] = useState("");
+  const [site, setSITE] = useState("");
+  const [ceppj, setCEPPJ] = useState("");
+  const [cnae, setCNAE] = useState("");
+  const [enderecopj, setENDERECOPJ] = useState("");
+  const [numeropj, setNUMEROPJ] = useState("");
+  const [bairropj, setBAIRROPJ] = useState("");
+  const [estadopj, setESTADOPJ] = useState("");
+  const [cidadepj, setCIDADEPJ] = useState("");
+  const [complementopj, setCOMPLEMENTOPJ] = useState("");
+  const [bancopj, setBANCOPJ] = useState("");
+  const [agenciapj, setAGENCIAPJ] = useState("");
+  const [contapj, setCONTAPJ] = useState("");
+  const [pixpj, setPIXPJ] = useState("");
+  const [operacaopj, setOPERACAOPJ] = useState("");
+  const [countries, setCountries] = useState([]);
+
+  const [dot1, setDOT1] = useState(dotActive);
+  const [dot2, setDOT2] = useState(dotInactive);
+  const [dot3, setDOT3] = useState(dotInactive);
+  const [dot4, setDOT4] = useState(dotInactive);
+  const [dot5, setDOT5] = useState(dotInactive);
+  const [dot6, setDOT6] = useState(dotInactive);
+
+  useEffect(() => {
+    const countriesNames = async () => {
+      setCountries(await getCountries());
+    };
+
+    countriesNames();
+  }, [countries]);
+
+  // console.log(countries);
   const settings = {
     dots: false,
     infinite: false,
@@ -81,53 +141,6 @@ export default function SectionCarousel() {
     touchMove: false,
     draggable: false,
     arrows: false,
-  };
-
-  const dispatch = useDispatch();
-
-  let loading = useSelector((state) => state.signup.loading);
-  let modal = useSelector((state) => state.signup.modal);
-
-  let usuario = useSelector((state) => state.user.usuario, shallowEqual);
-  let pessoa = useSelector((state) => state.person.pessoa, shallowEqual);
-  let conta = useSelector((state) => state.account.conta, shallowEqual);
-  let empresa = useSelector((state) => state.enterprise.empresa, shallowEqual);
-  let endereco_cpf = useSelector(
-    (state) => state.address.endereco_cpf,
-    shallowEqual
-  );
-  let endereco_cnpj = useSelector(
-    (state) => state.address.endereco_cnpj,
-    shallowEqual
-  );
-
-  const [Showloading, setShowloading] = useState("none");
-
-  const [selectedEnabled, setSelectedEnabled] = useState(false);
-  const [disabledfields, setdisabledfields] = useState(false);
-  const [enablepj, setenablepj] = useState("none");
-  const [enablepf, setenablepf] = useState("none");
-  const [choicemodule, setchoice] = useState("");
-
-  const maskdate = (v) => {
-    v = v.replace(/\D/g, "");
-    v = v.replace(/^(\d{2})(\d)/g, "$1/$2");
-    v = v.replace(/(\d)(\d{4})$/, "$1/$2");
-    return v;
-  };
-
-  const maskcel = (v) => {
-    v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
-    v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v = v.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-    return v;
-  };
-
-  const masktelefone = (v) => {
-    v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
-    v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v = v.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-    return v;
   };
 
   const getcep = (v) => {
@@ -157,11 +170,6 @@ export default function SectionCarousel() {
     return v;
   };
 
-  const masknumero = (v) => {
-    v = v.replace(/\D/g, "");
-    return v;
-  };
-
   const TestCPF = (strCPF) => {
     var Soma;
     var Resto;
@@ -183,8 +191,7 @@ export default function SectionCarousel() {
     return true;
   };
 
-  const [nome, setNome] = useState("");
-  const OnchangeNOME = (v) => {
+  const handleName = (v) => {
     setNome(v.replace(/[^a-zA-ZçÇ áéíóúÁÉÍÓÚ]/g, ""));
 
     /^[\D]+[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+(\s*[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+)*$/.test(
@@ -194,31 +201,22 @@ export default function SectionCarousel() {
       : $("#descriptionnome").html("Digite apenas letras no campo nome!");
   };
 
-  const [email, setEmail] = useState("");
-  const OnchangeEMAIL = (v) => {
+  const handleEmail = (v) => {
     setEmail(v);
     /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(v) || v.length < 1
       ? $("#descriptionemail").html("")
       : $("#descriptionemail").html("Digite um email válido");
   };
 
-  const [celular, setCelular] = useState("");
-  const OnchangeCELULAR = (v) => {
-    setCelular(maskcel(v));
+  const handleCellPhone = (v) => {
+    setCelular(maskCel(v));
   };
 
-  const [cpf, setCPF] = useState("");
   const handleCPF = (v) => {
     setCPF(maskCpf(v));
   };
 
-  const [senha, setSenha] = useState("");
-  const [senha2, setSenha2] = useState("");
-  const [Iconsenha, setIconSenha] = useState("lock_Outline");
-  const [ColorInputClass, setColorInputClass] = useState(false);
-  const [ColorInputClass2, setColorInputClass2] = useState(false);
-
-  const OnchangeSENHA = (v) => {
+  const handlePassword = (v) => {
     setSenha(v);
     if (
       /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/.test(
@@ -237,7 +235,7 @@ export default function SectionCarousel() {
     }
   };
 
-  const OnchangeSENHA2 = (v) => {
+  const handleConfirmPassword = (v) => {
     setSenha2(v);
     if (senha == v) {
       setColorInputClass2(true);
@@ -250,102 +248,82 @@ export default function SectionCarousel() {
     }
   };
 
-  const [cep, setCEP] = useState("");
-  const OnchangeCEP = (v) => {
+  const handleCep = (v) => {
     setCEP(getcep(v));
   };
 
-  const [nascimento, setNASCIMENTO] = useState("");
   const OnchangeNASCIMENTO = (v) => {
-    setNASCIMENTO(maskdate(v));
+    setNASCIMENTO(maskDate(v));
   };
 
-  const [rg, setRG] = useState("");
-  const OnchangeRG = (v) => {
+  const handleRg = (v) => {
     setRG(v);
   };
 
-  const [emissor, setEMISSOR] = useState("");
   const OnchangeEMISSOR = (v) => {
     setEMISSOR(v);
   };
 
-  const [emissao, setEMISSAO] = useState("");
   const OnchangeEMISSAO = (v) => {
-    setEMISSAO(maskdate(v));
+    setEMISSAO(maskDate(v));
   };
 
-  const [sexo, setSEXO] = useState("");
   const OnchangeSEXO = (v) => {
     setSEXO(v);
   };
 
-  const [endereco, setENDERECO] = useState("");
   const OnchangeENDERECO = (v) => {
     setENDERECO(v);
   };
 
-  const [numero, setNUMERO] = useState("");
-  const OnchangeNUMERO = (v) => {
-    setNUMERO(masknumero(v));
+  const handleNumber = (v) => {
+    setNUMERO(maskNumero(v));
   };
 
-  const [bairro, setBAIRRO] = useState("");
   const OnchangeBAIRRO = (v) => {
     setBAIRRO(v);
   };
 
-  const [complemento, setCOMPLEMENTO] = useState("");
   const OnchangeCOMPLEMENTO = (v) => {
     setCOMPLEMENTO(v);
   };
 
-  const [cidade, setCIDADE] = useState("");
   const OnchangeCIDADE = (v) => {
     setCIDADE(v);
   };
 
-  const [estado, setESTADO] = useState("");
   const OnchangeESTADO = (v) => {
     setESTADO(v.replace(/[^a-zA-ZçÇ]/g, ""));
   };
 
-  const [estado_civil, setESTADOCIVIL] = useState("");
   const OnchangeESTADOCIVIL = (v) => {
     setESTADOCIVIL(v);
   };
 
-  const [naturalidade, setNATURALIDADE] = useState("");
   const OnchangeNATURALIDADE = (v) => {
     setNATURALIDADE(v.replace(/[^a-zA-ZçÇ]/g, ""));
   };
 
-  const [nacionalidade, setNACIONALIDADE] = useState("");
   const OnchangeNACIONALIDADE = (v) => {
     setNACIONALIDADE(v.replace(/[^a-zA-ZçÇ]/g, ""));
   };
 
-  const [mae, setMAE] = useState("");
   const OnchangeMAE = (v) => {
     setMAE(v);
   };
 
-  const [pai, setPAI] = useState("");
   const OnchangePAI = (v) => {
     setPAI(v);
   };
 
-  const [razaosocial, setRAZAOSOCIAL] = useState("");
   const OnchangeRAZAOSOCIAL = (v) => {
     setRAZAOSOCIAL(v);
   };
 
-  const [nome_fantasia, setNOMEFANTASIA] = useState("");
   const OnchangeNOMEFANTASIA = (v) => {
     setNOMEFANTASIA(v);
   };
 
-  const [cnpj, setCNPJ] = useState("");
   const OnchangeCNPJ = (v) => {
     setCNPJ(getcnpj(v));
   };
@@ -375,7 +353,7 @@ export default function SectionCarousel() {
           setESTADOPJ(res.data.address.state);
           setNUMEROPJ(res.data.address.number);
           setBAIRROPJ(res.data.address.neighborhood);
-          setTELEFONE(masktelefone(res.data.phone.phone_1));
+          setTELEFONE(maskTellPhone(res.data.phone.phone_1));
           setCEPPJ(res.data.address.zip_code);
           setCNAE(res.data.legal_nature.code);
         })
@@ -400,92 +378,65 @@ export default function SectionCarousel() {
     return v;
   };
 
-  const [telefone, setTELEFONE] = useState("");
   const OnchangeTELEFONE = (v) => {
-    setTELEFONE(masktelefone(v));
+    setTELEFONE(maskTellPhone(v));
   };
 
-  const [site, setSITE] = useState("");
   const OnchangeSITE = (v) => {
     setSITE(v);
   };
 
-  const [ceppj, setCEPPJ] = useState("");
   const OnchangeCEPPJ = (v) => {
-    setCEPPJ(masknumero(v));
+    setCEPPJ(maskNumero(v));
   };
 
-  const [cnae, setCNAE] = useState("");
   const OnchangeCNAE = (v) => {
-    setCNAE(masknumero(v));
+    setCNAE(maskNumero(v));
   };
 
-  const [enderecopj, setENDERECOPJ] = useState("");
   const OnchangeENDERECOPJ = (v) => {
     setENDERECOPJ(v);
   };
 
-  const [numeropj, setNUMEROPJ] = useState("");
   const OnchangeNUMEROPJ = (v) => {
-    setNUMEROPJ(masknumero(v));
+    setNUMEROPJ(maskNumero(v));
   };
 
-  const [bairropj, setBAIRROPJ] = useState("");
   const OnchangeBAIRROPJ = (v) => {
     setBAIRROPJ(v);
   };
 
-  const [estadopj, setESTADOPJ] = useState("");
   const OnchangeESTADOPJ = (v) => {
     setESTADOPJ(v);
   };
 
-  const [cidadepj, setCIDADEPJ] = useState("");
   const OnchangeCIDADEPJ = (v) => {
     setCIDADEPJ(v);
   };
 
-  const [complementopj, setCOMPLEMENTOPJ] = useState("");
   const OnchangeCOMPLEMENTOPJ = (v) => {
     setCOMPLEMENTOPJ(v);
   };
 
-  const [bancopj, setBANCOPJ] = useState("");
   const OnchangeBANCOPJ = (v) => {
     setBANCOPJ(v);
   };
 
-  const [agenciapj, setAGENCIAPJ] = useState("");
   const OnchangeAGENCIAPJ = (v) => {
     setAGENCIAPJ(v);
   };
 
-  const [contapj, setCONTAPJ] = useState("");
   const OnchangeCONTAPJ = (v) => {
     setCONTAPJ(v);
   };
 
-  const [pixpj, setPIXPJ] = useState("");
   const OnchangePIXPJ = (v) => {
     setPIXPJ(v);
   };
 
-  const [operacaopj, setOPERACAOPJ] = useState("");
   const OnchangeOPERACAOPJ = (v) => {
     setOPERACAOPJ(v);
   };
-
-  // const [nickname, setNICKNAME] = useState('');
-  // const OnchangeNICKNAME = v => { setNICKNAME(v) }
-
-  const dotActive = "pagination__link";
-  const dotInactive = "pagination__link is_active";
-  const [dot1, setDOT1] = useState(dotActive);
-  const [dot2, setDOT2] = useState(dotInactive);
-  const [dot3, setDOT3] = useState(dotInactive);
-  const [dot4, setDOT4] = useState(dotInactive);
-  const [dot5, setDOT5] = useState(dotInactive);
-  const [dot6, setDOT6] = useState(dotInactive);
 
   const Step1NEXT = () => {
     if (
@@ -562,7 +513,7 @@ export default function SectionCarousel() {
     setDOT4(dotInactive);
     setDOT5(dotActive);
     insertAddressCPFRequest({
-      cep: masknumero(cep),
+      cep: maskNumero(cep),
       complemento,
       endereco,
       bairro,
@@ -580,18 +531,18 @@ export default function SectionCarousel() {
     setDOT5(dotInactive);
     setDOT6(dotActive);
     insertAddressCNPJRequest({
-      cep: masknumero(ceppj),
+      cep: maskNumero(ceppj),
       complemento: complementopj,
       endereco: enderecopj,
-      numero: masknumero(numeropj),
+      numero: maskNumero(numeropj),
       bairro: bairropj,
     });
     insertEnterpriseRequest({
-      cnpj: masknumero(cnpj),
+      cnpj: maskNumero(cnpj),
       cnae: cnae,
       razao_social: razaosocial,
-      telefone_fixo: masknumero(telefone),
-      celular: masknumero(celular),
+      telefone_fixo: maskNumero(telefone),
+      celular: maskNumero(celular),
       nome_fantasia: nome_fantasia,
       site: site,
     });
@@ -614,15 +565,6 @@ export default function SectionCarousel() {
   };
 
   const Register = () => {
-    // insertAccountRequest({
-    //   banco: bancopj,
-    //   agencia: masknumero(agenciapj),
-    //   conta: masknumero(contapj),
-    //   operacao: masknumero(operacaopj),
-    //   pix: pixpj
-    // })
-
-    // const submit = () => {
     const objectJSONPJ = {
       usuario: {
         nome: nome.trim(),
@@ -630,8 +572,8 @@ export default function SectionCarousel() {
         senha: sha256(senha).toString().trim(),
       },
       pessoa: {
-        cpf: masknumero(cpf),
-        celular: masknumero(celular),
+        cpf: maskNumero(cpf),
+        celular: maskNumero(celular),
         nascimento: nascimento,
         naturalidade: naturalidade.trim(),
         nacionalidade: nacionalidade.trim(),
@@ -644,32 +586,32 @@ export default function SectionCarousel() {
         pai: pai.trim(),
       },
       empresa: {
-        cnpj: masknumero(cnpj),
+        cnpj: maskNumero(cnpj),
         cnae: cnae.trim(),
         razao_social: razaosocial.trim(),
-        telefone_fixo: masknumero(telefone),
-        celular: masknumero(celular),
+        telefone_fixo: maskNumero(telefone),
+        celular: maskNumero(celular),
         nome_fantasia: nome_fantasia.trim(),
         site: site.trim(),
       },
       conta: {
         banco: bancopj.trim(),
-        agencia: masknumero(agenciapj),
-        conta: masknumero(contapj),
-        operacao: masknumero(operacaopj),
+        agencia: maskNumero(agenciapj),
+        conta: maskNumero(contapj),
+        operacao: maskNumero(operacaopj),
         pix: pixpj,
       },
       endereco_cnpj: {
-        cep: masknumero(ceppj),
+        cep: maskNumero(ceppj),
         complemento: complementopj.trim(),
         endereco: enderecopj.trim(),
-        numero: masknumero(numeropj),
+        numero: maskNumero(numeropj),
         bairro: bairropj.trim(),
         cidadepj: cidadepj.trim(),
         estadopj: estadopj.trim(),
       },
       endereco_cpf: {
-        cep: masknumero(cep),
+        cep: maskNumero(cep),
         complemento: complemento.trim(),
         endereco: endereco.trim(),
         bairro: bairro.trim(),
@@ -706,10 +648,6 @@ export default function SectionCarousel() {
         );
       },
     });
-
-    // dispatch(signupRequest({ usuario, pessoa, conta, empresa, endereco_cnpj, endereco_cpf }));
-    // dispatch(signupRequest({ nome, email, celular, senha }));
-    // }
   };
 
   return (
@@ -768,13 +706,8 @@ export default function SectionCarousel() {
               <Card className={classes.cardStyle}>
                 <Carousel ref={slickRef} {...settings}>
                   <Grid item md={12}>
-                    <Grid
-                      container
-                      justify="center"
-                      alignItems="center"
-                      className={classes.columSpace}
-                    >
-                      <Hidden xsDown smDown>
+                    <Grid container justify="center" alignItems="center">
+                      <Hidden only={["xs", "sm"]}>
                         <Grid item md={6}>
                           <Grid container justify="center" alignItems="center">
                             <img
@@ -786,13 +719,8 @@ export default function SectionCarousel() {
                         </Grid>
                       </Hidden>
                       <Grid item md={6}>
-                        <div style={{ padding: 20 }}>
-                          <Grid
-                            container
-                            direction="column"
-                            alignContent="center"
-                            spacing={2}
-                          >
+                        <div className={classes.divCentralization}>
+                          <Grid container direction="column" spacing={2}>
                             <Grid item>
                               <Grid container>
                                 <Grid item>
@@ -815,7 +743,7 @@ export default function SectionCarousel() {
                                 name="NOME"
                                 label="NOME COMPLETO"
                                 value={nome}
-                                onChange={(e) => OnchangeNOME(e.target.value)}
+                                onChange={(e) => handleName(e.target.value)}
                                 fullWidth
                               />
                               <DescriptionText>
@@ -828,7 +756,7 @@ export default function SectionCarousel() {
                                 name="EMAIL"
                                 label="EMAIL"
                                 value={email}
-                                onChange={(e) => OnchangeEMAIL(e.target.value)}
+                                onChange={(e) => handleEmail(e.target.value)}
                                 fullWidth
                               />
                               <DescriptionText>
@@ -842,7 +770,7 @@ export default function SectionCarousel() {
                                 label="SENHA"
                                 value={senha}
                                 type="password"
-                                onChange={(e) => OnchangeSENHA(e.target.value)}
+                                onChange={(e) => handlePassword(e.target.value)}
                                 fullWidth
                               />
                               <DescriptionText>
@@ -860,14 +788,16 @@ export default function SectionCarousel() {
                                 label="CONFIRME SUA SENHA"
                                 value={senha2}
                                 type="password"
-                                onChange={(e) => OnchangeSENHA2(e.target.value)}
+                                onChange={(e) =>
+                                  handleConfirmPassword(e.target.value)
+                                }
                                 fullWidth
                               />
                             </Grid>
                             <Grid item sm={12}>
                               <Grid
                                 container
-                                justify="center"
+                                justify="flex-end"
                                 alignItems="center"
                               >
                                 <Grid item>
@@ -877,6 +807,7 @@ export default function SectionCarousel() {
                                     id="BTNFIRSTNEXT"
                                     rel="noopener noreferrer"
                                     onClick={() => Step1NEXT()}
+                                    className={classes.btnStepPostion}
                                   >
                                     Próximo
                                     <ArrowForward
@@ -892,16 +823,16 @@ export default function SectionCarousel() {
                     </Grid>
                   </Grid>
                   <Grid item md={12}>
-                    <div style={{ padding: 20 }}>
+                    <div className={classes.divCentralization}>
                       <Grid
                         container
                         justify="center"
                         alignItems="center"
-                        className={classes.columSpace}
+                        // className={classes.columSpace}
                         spacing={2}
                       >
                         <Hidden only={["xs", "sm"]}>
-                          <Grid item md={4}>
+                          <Grid item md={6}>
                             <Grid
                               container
                               justify="center"
@@ -915,7 +846,7 @@ export default function SectionCarousel() {
                             </Grid>
                           </Grid>
                         </Hidden>
-                        <Grid item md={4}>
+                        <Grid item md={3}>
                           <Grid container justify="center" alignItems="center">
                             <Grid item>
                               <CardM className={classes.cardPJPF}>
@@ -956,7 +887,7 @@ export default function SectionCarousel() {
                             </Grid>
                           </Grid>
                         </Grid>
-                        <Grid item md={4}>
+                        <Grid item md={3}>
                           <Grid container justify="center" alignItems="center">
                             <Grid item>
                               <CardM className={classes.cardPJPF}>
@@ -998,30 +929,28 @@ export default function SectionCarousel() {
                           </Grid>
                         </Grid>
                       </Grid>
-                    </div>
-                    <Grid container justify="flex-end" alignItems="center">
-                      <Grid item>
-                        <Button
-                          color="warning"
-                          size="sm"
-                          rel="noopener noreferrer"
-                          onClick={() => Step2PREV()}
-                        >
-                          <ArrowBack className={classes.arrowIconBack} />
-                          Anterior
-                        </Button>
+                      <Grid container justify="flex-end" alignItems="center">
+                        <Grid item>
+                          <div>
+                            <Button
+                              color="warning"
+                              size="sm"
+                              rel="noopener noreferrer"
+                              onClick={() => Step2PREV()}
+                              className={classes.btnStepPostion}
+                            >
+                              <ArrowBack className={classes.arrowIconBack} />
+                              Anterior
+                            </Button>
+                          </div>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                    </div>
                   </Grid>
                   <Grid item xs={12} md={12}>
-                    <div style={{ padding: 20 }}>
-                      <Grid
-                        container
-                        justify="center"
-                        alignItems="center"
-                        className={classes.columSpace}
-                      >
-                        <Hidden xsDown>
+                    <div className={classes.divCentralization}>
+                      <Grid container justify="center" alignItems="center">
+                        <Hidden only={["xs", "sm"]}>
                           <Grid item md={4}>
                             <Grid
                               container
@@ -1030,14 +959,14 @@ export default function SectionCarousel() {
                             >
                               <img
                                 src={manPc}
-                                className={classes.logo}
+                                className={classes.manPc}
                                 alt="logotipo"
                               />
                             </Grid>
                           </Grid>
                         </Hidden>
                         <Grid item md={8}>
-                          <Grid container direction="column">
+                          <Grid container direction="column" spacing={3}>
                             <Grid item>
                               <Grid container>
                                 <Grid item>
@@ -1073,9 +1002,10 @@ export default function SectionCarousel() {
                                     label="CELULAR"
                                     value={celular}
                                     onChange={(e) =>
-                                      OnchangeCELULAR(e.target.value)
+                                      handleCellPhone(e.target.value)
                                     }
                                     fullWidth
+                                    inputProps={{ maxLength: 15 }}
                                   />
                                 </Grid>
                                 <Grid item xs={12} md={4}>
@@ -1110,13 +1040,22 @@ export default function SectionCarousel() {
                                   <TextField
                                     id="NACIONALIDADE"
                                     name="NACIONALIDADE"
+                                    select
                                     label="NACIONALIDADE"
                                     value={nacionalidade}
                                     onChange={(e) =>
                                       OnchangeNACIONALIDADE(e.target.value)
                                     }
                                     fullWidth
-                                  />
+                                  >
+                                    {countries.map((country) => {
+                                      return (
+                                        <MenuItem key={country} value={country}>
+                                          {country}
+                                        </MenuItem>
+                                      );
+                                    })}
+                                  </TextField>
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                   <TextField
@@ -1157,7 +1096,7 @@ export default function SectionCarousel() {
                                     name="RG"
                                     label="RG"
                                     value={rg}
-                                    onChange={(e) => OnchangeRG(e.target.value)}
+                                    onChange={(e) => handleRg(e.target.value)}
                                     fullWidth
                                   />
                                 </Grid>
@@ -1222,7 +1161,6 @@ export default function SectionCarousel() {
                                     maxLength={2}
                                     inputProps={{
                                       maxLength: 5,
-                                      // inputProps: { maxLength: 2 },
                                     }}
                                   />
                                 </Grid>
@@ -1286,582 +1224,574 @@ export default function SectionCarousel() {
                     </div>
                   </Grid>
                   <Grid item md={12}>
-                    <Grid
-                      container
-                      justify="center"
-                      alignItems="center"
-                      className={classes.columSpace}
-                    >
-                      <Hidden xsDown>
-                        <Grid item md={6}>
-                          <Grid container justify="center" alignItems="center">
-                            <img
-                              src={manPc}
-                              className={classes.logo}
-                              alt="logotipo"
-                            />
-                          </Grid>
-                        </Grid>
-                      </Hidden>
-                      <Grid item md={6}>
-                        <Grid container direction="column" spacing={2}>
-                          <Grid item>
-                            <Typography
-                              variant="body1"
-                              gutterBottom
-                              className={classes.label}
-                            >
-                              Informe os dados de{" "}
-                              <span className={classes.labelUser}>
-                                Endereço do Representante Legal
-                              </span>
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={3}>
-                                <TextField
-                                  id="CEP"
-                                  name="CEP"
-                                  label="CEP"
-                                  value={cep}
-                                  onChange={(e) => OnchangeCEP(e.target.value)}
-                                  fullWidth
-                                  inputProps={{
-                                    maxLength: 8,
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item md={7}>
-                                <TextField
-                                  id="ENDERECO"
-                                  name="ENDERECO"
-                                  label="ENDEREÇO"
-                                  value={endereco}
-                                  onChange={(e) =>
-                                    OnchangeENDERECO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item md={2}>
-                                <TextField
-                                  id="NUMERO"
-                                  name="NUMERO"
-                                  label="NÚMERO"
-                                  value={numero}
-                                  onChange={(e) =>
-                                    OnchangeNUMERO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="BAIRRO"
-                                  name="BAIRRO"
-                                  label="BAIRRO"
-                                  value={bairro}
-                                  onChange={(e) =>
-                                    OnchangeBAIRRO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="COMPLEMENTO"
-                                  name="COMPLEMENTO"
-                                  label="COMPLEMENTO"
-                                  value={complemento}
-                                  onChange={(e) =>
-                                    OnchangeCOMPLEMENTO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item>
-                                <TextField
-                                  id="CIDADE"
-                                  name="CIDADE"
-                                  label="CIDADE"
-                                  value={cidade}
-                                  onChange={(e) =>
-                                    OnchangeCIDADE(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item>
-                                <TextField
-                                  id="ESTADO"
-                                  name="ESTADO"
-                                  label="ESTADO"
-                                  value={estado}
-                                  onChange={(e) =>
-                                    OnchangeESTADO(e.target.value)
-                                  }
-                                  fullWidth
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
+                    <div className={classes.divCentralization}>
+                      <Grid container justify="center" alignItems="center">
+                        <Hidden only={["xs", "sm"]}>
+                          <Grid item md={6}>
                             <Grid
                               container
-                              justify="flex-end"
+                              justify="center"
                               alignItems="center"
-                              spacing={3}
                             >
-                              <Grid item>
-                                <Button
-                                  color="warning"
-                                  size="sm"
-                                  rel="noopener noreferrer"
-                                  onClick={() => Step4PREV()}
-                                >
-                                  <ArrowBack
-                                    className={classes.arrowIconBack}
+                              <img
+                                src={manPc}
+                                className={classes.manPc}
+                                alt="logotipo"
+                              />
+                            </Grid>
+                          </Grid>
+                        </Hidden>
+                        <Grid item md={6}>
+                          <Grid container direction="column" spacing={7}>
+                            <Grid item>
+                              <Typography
+                                variant="body1"
+                                gutterBottom
+                                className={classes.label}
+                              >
+                                Informe os dados de{" "}
+                                <span className={classes.labelUser}>
+                                  Endereço do Representante Legal
+                                </span>
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={3}>
+                                  <TextField
+                                    id="CEP"
+                                    name="CEP"
+                                    label="CEP"
+                                    value={cep}
+                                    onChange={(e) => handleCep(e.target.value)}
+                                    fullWidth
+                                    inputProps={{
+                                      maxLength: 8,
+                                    }}
                                   />
-                                  Anterior
+                                </Grid>
+                                <Grid item md={7}>
+                                  <TextField
+                                    id="ENDERECO"
+                                    name="ENDERECO"
+                                    label="ENDEREÇO"
+                                    value={endereco}
+                                    onChange={(e) =>
+                                      OnchangeENDERECO(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={2}>
+                                  <TextField
+                                    id="NUMERO"
+                                    name="NUMERO"
+                                    label="NÚMERO"
+                                    value={numero}
+                                    onChange={(e) =>
+                                      handleNumber(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="BAIRRO"
+                                    name="BAIRRO"
+                                    label="BAIRRO"
+                                    value={bairro}
+                                    onChange={(e) =>
+                                      OnchangeBAIRRO(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="COMPLEMENTO"
+                                    name="COMPLEMENTO"
+                                    label="COMPLEMENTO"
+                                    value={complemento}
+                                    onChange={(e) =>
+                                      OnchangeCOMPLEMENTO(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item>
+                                  <TextField
+                                    id="CIDADE"
+                                    name="CIDADE"
+                                    label="CIDADE"
+                                    value={cidade}
+                                    onChange={(e) =>
+                                      OnchangeCIDADE(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item>
+                                  <TextField
+                                    id="ESTADO"
+                                    name="ESTADO"
+                                    label="ESTADO"
+                                    value={estado}
+                                    onChange={(e) =>
+                                      OnchangeESTADO(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid
+                                container
+                                justify="flex-end"
+                                alignItems="center"
+                                spacing={3}
+                              >
+                                <Grid item>
+                                  <Button
+                                    color="warning"
+                                    size="sm"
+                                    rel="noopener noreferrer"
+                                    onClick={() => Step4PREV()}
+                                  >
+                                    <ArrowBack
+                                      className={classes.arrowIconBack}
+                                    />
+                                    Anterior
+                                  </Button>
+                                </Grid>
+                                <Button
+                                  color="primary"
+                                  size="sm"
+                                  id="BTNTHIRDNEXT"
+                                  rel="noopener noreferrer"
+                                  onClick={() => Step4NEXT()}
+                                >
+                                  Próximo
+                                  <ArrowForward
+                                    className={classes.arrowIconNext}
+                                  />
                                 </Button>
                               </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </Grid>
+                  <Grid item md={12}>
+                    <div style={{ padding: 20 }}>
+                      <Grid container justify="center" alignItems="center">
+                        <Hidden only={["xs", "sm"]}>
+                          <Grid item md={6}>
+                            <Grid
+                              container
+                              justify="center"
+                              alignItems="center"
+                            >
+                              <img
+                                src={manPc}
+                                className={classes.manPc}
+                                alt="logotipo"
+                              />
+                            </Grid>
+                          </Grid>
+                        </Hidden>
+                        <Grid item md={6}>
+                          <Grid container direction="column" spacing={4}>
+                            <Grid item>
+                              <Typography
+                                variant="body1"
+                                gutterBottom
+                                className={classes.label}
+                              >
+                                Informe os dados da{" "}
+                                <span className={classes.labelUser}>
+                                  Sua Empresa
+                                </span>
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={4}>
+                                  <TextField
+                                    id="CNPJ"
+                                    name="CNPJ"
+                                    label="CNPJ"
+                                    value={cnpj}
+                                    onChange={(e) =>
+                                      OnchangeCNPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                    inputProps={{ maxLength: 18 }}
+                                  />
+                                </Grid>
+                                <Grid item md={4}>
+                                  <TextField
+                                    id="TELEFONE"
+                                    name="TELEFONE"
+                                    label="TELEFONE"
+                                    value={telefone}
+                                    onChange={(e) =>
+                                      OnchangeTELEFONE(e.target.value)
+                                    }
+                                    fullWidth
+                                    inputProps={{ maxLength: 14 }}
+                                  />
+                                </Grid>
+                                <Grid item md={4}>
+                                  <TextField
+                                    id="SITE"
+                                    name="SITE"
+                                    label="SITE"
+                                    value={site}
+                                    onChange={(e) =>
+                                      OnchangeSITE(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={4}>
+                                  <TextField
+                                    id="RAZAOSOCIAL"
+                                    name="RAZAOSOCIAL"
+                                    label="RAZÃO SOCIAL"
+                                    value={razaosocial}
+                                    onChange={(e) =>
+                                      OnchangeRAZAOSOCIAL(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={4}>
+                                  <TextField
+                                    id="CNAE"
+                                    name="CNAE"
+                                    label="CNAE"
+                                    value={cnae}
+                                    onChange={(e) =>
+                                      OnchangeCNAE(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={4}>
+                                  <TextField
+                                    id="NOMEFANTASIA"
+                                    name="NOMEFANTASIA"
+                                    label="NOME FANTASIA"
+                                    value={nome_fantasia}
+                                    onChange={(e) =>
+                                      OnchangeNOMEFANTASIA(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={3}>
+                                  <TextField
+                                    id="CEPPJ"
+                                    name="CEPPJ"
+                                    label="CEP"
+                                    value={ceppj}
+                                    onChange={(e) =>
+                                      OnchangeCEPPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="ENDERECOPJ"
+                                    name="ENDERECOPJ"
+                                    label="ENDEREÇO"
+                                    value={enderecopj}
+                                    onChange={(e) =>
+                                      OnchangeENDERECOPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={3}>
+                                  <TextField
+                                    id="NUMEROPJ"
+                                    name="NUMEROPJ"
+                                    label="NUMERO"
+                                    value={numeropj}
+                                    onChange={(e) =>
+                                      OnchangeNUMEROPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="BAIRROPJ"
+                                    name="BAIRROPJ"
+                                    label="BAIRRO"
+                                    value={bairropj}
+                                    onChange={(e) =>
+                                      OnchangeBAIRROPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="COMPLEMENTOPJ"
+                                    name="COMPLEMENTOPJ"
+                                    label="COMPLEMENTO"
+                                    value={complementopj}
+                                    onChange={(e) =>
+                                      OnchangeCOMPLEMENTOPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="CIDADEPJ"
+                                    name="CIDADEPJ"
+                                    label="CIDADE"
+                                    value={cidadepj}
+                                    onChange={(e) =>
+                                      OnchangeCIDADEPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item md={6}>
+                                  <TextField
+                                    id="ESTADOPJ"
+                                    name="ESTADOPJ"
+                                    label="ESTADO"
+                                    value={estadopj}
+                                    onChange={(e) =>
+                                      OnchangeESTADOPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item md={12}>
+                          <Grid
+                            container
+                            justify="flex-end"
+                            alignItems="center"
+                            spacing={3}
+                          >
+                            <Grid item>
+                              <Button
+                                color="warning"
+                                size="sm"
+                                rel="noopener noreferrer"
+                                onClick={() => Step5PREV()}
+                              >
+                                <ArrowBack className={classes.arrowIconBack} />
+                                Anterior
+                              </Button>
+                            </Grid>
+                            <Grid item>
                               <Button
                                 color="primary"
                                 size="sm"
-                                id="BTNTHIRDNEXT"
+                                id="BTNFOURTHNEXT"
                                 rel="noopener noreferrer"
-                                onClick={() => Step4NEXT()}
+                                onClick={() => Step5NEXT()}
                               >
                                 Próximo
                                 <ArrowForward
-                                  className={classes.arrowIconNext}
+                                  className={classes.arrowIconBack}
                                 />
                               </Button>
                             </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </div>
                   </Grid>
                   <Grid item md={12}>
-                    <Grid
-                      container
-                      justify="center"
-                      alignItems="center"
-                      className={classes.columSpace}
-                    >
-                      <Hidden xsDown>
-                        <Grid item md={6}>
-                          <Grid container justify="center" alignItems="center">
-                            <img
-                              src={manPc}
-                              className={classes.logo}
-                              alt="logotipo"
-                            />
-                          </Grid>
-                        </Grid>
-                      </Hidden>
-                      <Grid item md={6}>
-                        <Grid container direction="column" spacing={2}>
-                          <Grid item>
-                            <Typography
-                              variant="body1"
-                              gutterBottom
-                              className={classes.label}
-                            >
-                              Informe os dados da{" "}
-                              <span className={classes.labelUser}>
-                                Sua Empresa
-                              </span>
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={4}>
-                                <TextField
-                                  id="CNPJ"
-                                  name="CNPJ"
-                                  label="CNPJ"
-                                  value={cnpj}
-                                  onChange={(e) => OnchangeCNPJ(e.target.value)}
-                                  fullWidth
-                                  inputProps={{ maxLength: 18 }}
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={4}>
-                                <TextField
-                                  id="TELEFONE"
-                                  name="TELEFONE"
-                                  label="TELEFONE"
-                                  value={telefone}
-                                  onChange={(e) =>
-                                    OnchangeTELEFONE(e.target.value)
-                                  }
-                                  fullWidth
-                                  inputProps={{ maxLength: 14 }}
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={4}>
-                                <TextField
-                                  id="SITE"
-                                  name="SITE"
-                                  label="SITE"
-                                  value={site}
-                                  onChange={(e) => OnchangeSITE(e.target.value)}
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={4}>
-                                <TextField
-                                  id="RAZAOSOCIAL"
-                                  name="RAZAOSOCIAL"
-                                  label="RAZÃO SOCIAL"
-                                  value={razaosocial}
-                                  onChange={(e) =>
-                                    OnchangeRAZAOSOCIAL(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={4}>
-                                <TextField
-                                  id="CNAE"
-                                  name="CNAE"
-                                  label="CNAE"
-                                  value={cnae}
-                                  onChange={(e) => OnchangeCNAE(e.target.value)}
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={4}>
-                                <TextField
-                                  id="NOMEFANTASIA"
-                                  name="NOMEFANTASIA"
-                                  label="NOME FANTASIA"
-                                  value={nome_fantasia}
-                                  onChange={(e) =>
-                                    OnchangeNOMEFANTASIA(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={3}>
-                                <TextField
-                                  id="CEPPJ"
-                                  name="CEPPJ"
-                                  label="CEP"
-                                  value={ceppj}
-                                  onChange={(e) =>
-                                    OnchangeCEPPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="ENDERECOPJ"
-                                  name="ENDERECOPJ"
-                                  label="ENDEREÇO"
-                                  value={enderecopj}
-                                  onChange={(e) =>
-                                    OnchangeENDERECOPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={3}>
-                                <TextField
-                                  id="NUMEROPJ"
-                                  name="NUMEROPJ"
-                                  label="NUMERO"
-                                  value={numeropj}
-                                  onChange={(e) =>
-                                    OnchangeNUMEROPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="BAIRROPJ"
-                                  name="BAIRROPJ"
-                                  label="BAIRRO"
-                                  value={bairropj}
-                                  onChange={(e) =>
-                                    OnchangeBAIRROPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="COMPLEMENTOPJ"
-                                  name="COMPLEMENTOPJ"
-                                  label="COMPLEMENTO"
-                                  value={complementopj}
-                                  onChange={(e) =>
-                                    OnchangeCOMPLEMENTOPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="CIDADEPJ"
-                                  name="CIDADEPJ"
-                                  label="CIDADE"
-                                  value={cidadepj}
-                                  onChange={(e) =>
-                                    OnchangeCIDADEPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled
-                                />
-                              </Grid>
-                              <Grid item md={6}>
-                                <TextField
-                                  id="ESTADOPJ"
-                                  name="ESTADOPJ"
-                                  label="ESTADO"
-                                  value={estadopj}
-                                  onChange={(e) =>
-                                    OnchangeESTADOPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item md={12}>
-                        <Grid
-                          container
-                          justify="flex-end"
-                          alignItems="center"
-                          spacing={3}
-                        >
-                          <Grid item>
-                            <Button
-                              color="warning"
-                              size="sm"
-                              rel="noopener noreferrer"
-                              onClick={() => Step5PREV()}
-                            >
-                              <ArrowBack className={classes.arrowIconBack} />
-                              Anterior
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button
-                              color="primary"
-                              size="sm"
-                              id="BTNFOURTHNEXT"
-                              rel="noopener noreferrer"
-                              onClick={() => Step5NEXT()}
-                            >
-                              Próximo
-                              <ArrowForward className={classes.arrowIconBack} />
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={12}>
-                    <Grid
-                      container
-                      justify="center"
-                      alignItems="center"
-                      className={classes.columSpace}
-                    >
-                      <Hidden xsDown>
-                        <Grid item md={6}>
-                          <Grid container justify="center" alignItems="center">
-                            <img
-                              src={manPc}
-                              className={classes.logo}
-                              alt="logotipo"
-                            />
-                          </Grid>
-                        </Grid>
-                      </Hidden>
-                      <Grid item md={6}>
-                        <Grid container direction="column" spacing={2}>
-                          <Grid item>
-                            <Typography
-                              variant="body1"
-                              gutterBottom
-                              className={classes.label}
-                            >
-                              Ainda sobre o seu negócio, quais os{" "}
-                              <span className={classes.labelUser}>
-                                dados bancários da sua empresa?
-                              </span>
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item sm={4}>
-                                <TextField
-                                  id="BANCOPJ"
-                                  name="BANCOPJ"
-                                  label="BANCO"
-                                  value={bancopj}
-                                  onChange={(e) =>
-                                    OnchangeBANCOPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  inputProps={{
-                                    maxLength: 18,
-                                  }}
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item sm={4}>
-                                <TextField
-                                  id="AGENCIAPJ"
-                                  name="AGENCIAPJ"
-                                  label="AGÊNCIA"
-                                  value={agenciapj}
-                                  onChange={(e) =>
-                                    OnchangeAGENCIAPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  inputProps={{
-                                    maxLength: 14,
-                                  }}
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item sm={4}>
-                                <TextField
-                                  id="CONTAPJ"
-                                  name="CONTAPJ"
-                                  label="CONTA"
-                                  value={contapj}
-                                  onChange={(e) =>
-                                    OnchangeCONTAPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                              <Grid item sm={4}>
-                                <TextField
-                                  id="OPERACAOPJ"
-                                  name="OPERACAOPJ"
-                                  label="OPERAÇÃO"
-                                  value={operacaopj}
-                                  onChange={(e) =>
-                                    OnchangeOPERACAOPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                  helperText="*Caso tenha conta na Caixa"
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid container spacing={3}>
-                              <Grid item>
-                                <TextField
-                                  id="PIXPJ"
-                                  name="PIXPJ"
-                                  label="CHAVE PIX"
-                                  value={pixpj}
-                                  onChange={(e) =>
-                                    OnchangePIXPJ(e.target.value)
-                                  }
-                                  fullWidth
-                                  disabled={disabledfields}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item md={12}>
+                    <div style={{ padding: 20 }}>
+                      <Grid container justify="center" alignItems="center">
+                        <Hidden only={["xs", "sm"]}>
+                          <Grid item md={6}>
                             <Grid
                               container
-                              justify="flex-end"
+                              justify="center"
                               alignItems="center"
-                              spacing={3}
                             >
-                              <Grid item>
-                                <Button
-                                  color="warning"
-                                  size="sm"
-                                  rel="noopener noreferrer"
-                                  onClick={() => Step6PREV()}
-                                >
-                                  <ArrowBack
-                                    className={classes.arrowIconBack}
+                              <img
+                                src={manPc}
+                                className={classes.manPc}
+                                alt="logotipo"
+                              />
+                            </Grid>
+                          </Grid>
+                        </Hidden>
+                        <Grid item md={6}>
+                          <Grid container direction="column" spacing={7}>
+                            <Grid item>
+                              <Typography
+                                variant="body1"
+                                gutterBottom
+                                className={classes.label}
+                              >
+                                Ainda sobre o seu negócio, quais os{" "}
+                                <span className={classes.labelUser}>
+                                  dados bancários da sua empresa?
+                                </span>
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item sm={4}>
+                                  <TextField
+                                    id="BANCOPJ"
+                                    name="BANCOPJ"
+                                    label="BANCO"
+                                    value={bancopj}
+                                    onChange={(e) =>
+                                      OnchangeBANCOPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                    inputProps={{
+                                      maxLength: 18,
+                                    }}
                                   />
-                                  Anterior
-                                </Button>
+                                </Grid>
+                                <Grid item sm={4}>
+                                  <TextField
+                                    id="AGENCIAPJ"
+                                    name="AGENCIAPJ"
+                                    label="AGÊNCIA"
+                                    value={agenciapj}
+                                    onChange={(e) =>
+                                      OnchangeAGENCIAPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                    inputProps={{
+                                      maxLength: 14,
+                                    }}
+                                  />
+                                </Grid>
                               </Grid>
-                              <Grid item>
-                                <Button
-                                  color="primary"
-                                  id="BTNFIFTHNEXT"
-                                  size="sm"
-                                  rel="noopener noreferrer"
-                                  onClick={() => Register()}
-                                >
-                                  Salvar
-                                  <Save className={classes.saveIcon} />
-                                </Button>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item sm={4}>
+                                  <TextField
+                                    id="CONTAPJ"
+                                    name="CONTAPJ"
+                                    label="CONTA"
+                                    value={contapj}
+                                    onChange={(e) =>
+                                      OnchangeCONTAPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item sm={4}>
+                                  <TextField
+                                    id="OPERACAOPJ"
+                                    name="OPERACAOPJ"
+                                    label="OPERAÇÃO"
+                                    value={operacaopj}
+                                    onChange={(e) =>
+                                      OnchangeOPERACAOPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                    helperText="*Caso tenha conta na Caixa"
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid container spacing={3}>
+                                <Grid item>
+                                  <TextField
+                                    id="PIXPJ"
+                                    name="PIXPJ"
+                                    label="CHAVE PIX"
+                                    value={pixpj}
+                                    onChange={(e) =>
+                                      OnchangePIXPJ(e.target.value)
+                                    }
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item md={12}>
+                              <Grid
+                                container
+                                justify="flex-end"
+                                alignItems="center"
+                                spacing={3}
+                              >
+                                <Grid item>
+                                  <Button
+                                    color="warning"
+                                    size="sm"
+                                    rel="noopener noreferrer"
+                                    onClick={() => Step6PREV()}
+                                  >
+                                    <ArrowBack
+                                      className={classes.arrowIconBack}
+                                    />
+                                    Anterior
+                                  </Button>
+                                </Grid>
+                                <Grid item>
+                                  <Button
+                                    color="primary"
+                                    id="BTNFIFTHNEXT"
+                                    size="sm"
+                                    rel="noopener noreferrer"
+                                    onClick={() => Register()}
+                                  >
+                                    Salvar
+                                    <Save className={classes.saveIcon} />
+                                  </Button>
+                                </Grid>
                               </Grid>
                             </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </div>
                   </Grid>
                 </Carousel>
               </Card>
-              {/* </div> */}
             </Grid>
           </Grid>
         </Grid>
