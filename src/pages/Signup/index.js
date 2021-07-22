@@ -812,7 +812,7 @@ export default function SectionCarousel() {
           setOpenmodal(true);
           $("#form-dialog-title").html(`Erro`);
           $("#form-dialog-body").html(
-            `<b>Erro :(</b> Houve um erro no envio: ${error.responseJSON.name}.`
+            `<b>Erro :(</b> Houve um erro no envio, tente novamente.`
           );
         },
       });
