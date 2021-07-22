@@ -705,8 +705,16 @@ export default function SectionCarousel() {
   };
 
   const [openmodal, setOpenmodal] = React.useState(false);
+
+  const [buttonerror, setButtonError] = React.useState(false);
   const handleClose = () => {
-    top.location.href = "/";
+    if(buttonerror){ 
+      slickRef.current.slickGoTo(0);
+      setDOT6(dotInactive);
+      setDOT1(dotActive);
+    }else{
+      top.location.href = "/";
+    }
     setOpenmodal(false);
   };
 
@@ -803,6 +811,7 @@ export default function SectionCarousel() {
           dispatch(signupSuccess());
           localStorage.setItem("token", result.token);
           setShowloading("none");
+          setButtonError(false);
           setOpenmodal(true);
           $("#form-dialog-title").html(`Confirme seu e-mail`);
           $("#form-dialog-body").html(
@@ -811,10 +820,11 @@ export default function SectionCarousel() {
         },
         error: (error) => {
           setShowloading("none");
+          setButtonError(true);
           setOpenmodal(true);
           $("#form-dialog-title").html(`Erro`);
           $("#form-dialog-body").html(
-            `<b>Erro :(</b> Houve um erro no envio: ${error.responseJSON.name}.`
+            `<b>Erro :(</b> Houve um erro no envio, tente novamente!.`
           );
         },
       });
