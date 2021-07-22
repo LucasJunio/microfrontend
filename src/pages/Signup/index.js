@@ -1309,7 +1309,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: "10%", marginTop: 5 }}>
                       <FormControl
-                        style={{ padding: 0, margin: 0, width: 52 }}
+                        style={{ padding: 0, margin: 0, width: 102 }}
                         className={classes.formControl}
                       >
                         <InputLabel style={{ fontSize: 12, marginTop: 5 }}>
@@ -1325,8 +1325,8 @@ export default function SectionCarousel() {
                           }}
                         >
                           <option aria-label="None" value="" />
-                          <option value="M">M</option>
-                          <option value="F">F</option>
+                          <option value="M">Masculino</option>
+                          <option value="F">Feminino</option>
                         </Select>
                       </FormControl>
                     </MarginField>
