@@ -356,7 +356,7 @@ export default function SectionCarousel() {
 
   const [naturalidade, setNATURALIDADE] = React.useState("");
   const OnchangeNATURALIDADE = (v) => {
-    setNATURALIDADE(v.replace(/[^a-zA-ZçÇ ]/g, ""));
+    setNATURALIDADE(v.replace(/[^a-zA-Z çÇ]/g, ""));
   };
 
   const [nacionalidade, setNACIONALIDADE] = React.useState("");
