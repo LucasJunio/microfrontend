@@ -44,6 +44,8 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+
+import { Hidden } from '@material-ui/core'
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -1839,7 +1841,7 @@ export default function SectionCarousel() {
 
                     <MarginField style={{ width: "38%", marginTop: 5 }}>
                       <FormControl
-                        style={{ padding: 0, margin: 0, width: 52 }}
+                        style={{ padding: 0, margin: 0, width: 250 }}
                         className={classes.formControl}
                       >
                         <InputLabel style={{ fontSize: 12, marginTop: 5 }}>
@@ -1851,7 +1853,7 @@ export default function SectionCarousel() {
                           inputProps={{
                             name: "bancopj",
                             value: bancopj,
-                            onChange: (e) => OnchangeSEXO(e.target.value),
+                            onChange: (e) => OnchangeBANCOPJ(e.target.value),
                           }}
                         >
                           <option aria-label="None" value="" />
@@ -1949,6 +1951,8 @@ export default function SectionCarousel() {
                       />
                     </MarginField>
 
+
+                    <Hidden only={bancopj == '104' ? [''] : ['lg', 'md', 'sm', 'xl', 'xs']}>
                     <MarginField style={{ width: "30%" }}>
                       <CustomInput
                         labelText="OPERACAO"
@@ -1967,6 +1971,7 @@ export default function SectionCarousel() {
                         <div>*Caso tenha conta na Caixa</div>
                       </DescriptionText>
                     </MarginField>
+                    </Hidden>
 
                     <MarginField style={{ width: "30%" }}>
                       <CustomInput
