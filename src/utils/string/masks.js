@@ -58,7 +58,15 @@ export const maskTellPhone = (value) => {
  * @returns string
  *
  */
-export const maskNumero = (value) => {
+export const maskNumber = (value) => {
   value = value.replace(/\D/g, "");
+  return value;
+};
+
+export const maskCnpj = (value) => {
+  value = value.replace(
+    /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
+    "$1.$2.$3/$4-$5"
+  );
   return value;
 };

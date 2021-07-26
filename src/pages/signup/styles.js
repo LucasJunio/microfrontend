@@ -24,10 +24,24 @@ export const useStyles = makeStyles((theme) => ({
     position: "absolute",
     overflowY: "hidden",
     // height: "800px",
-    [theme.breakpoints.between(650, 959)]: {
-      height: "440px",
-      width: "650px",
+    // [theme.breakpoints.(650, 959)]: {
+    //   height: "440px",
+    //   width: "650px",
+    // },
+    [theme.breakpoints.down("sm")]: {
+      // height: "840px",
+      // width: "650px",
     },
+    [theme.breakpoints.up("md")]: {
+      // backgroundColor: theme.palette.primary.main,
+    },
+    [theme.breakpoints.up("lg")]: {
+      // backgroundColor: green[500],
+    },
+  },
+  divCentralization: {
+    padding: 20,
+    marginTop: "20px",
   },
   columSpace: {
     // marginTop: "90px",
@@ -46,8 +60,9 @@ export const useStyles = makeStyles((theme) => ({
   media: {
     height: 200,
   },
-  btnNext: {
-    marginRight: "100px",
+  // btnNext: {},
+  btnStepPostion: {
+    margin: theme.spacing(3),
   },
   arrowIconNext: {
     marginLeft: 10,
