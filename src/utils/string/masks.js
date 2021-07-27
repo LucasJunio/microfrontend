@@ -64,9 +64,17 @@ export const maskNumber = (value) => {
 };
 
 export const maskCnpj = (value) => {
-  value = value.replace(
-    /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
-    "$1.$2.$3/$4-$5"
-  );
-  return value;
+  // value = value.replace(
+  //   /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
+  //   "$1.$2.$3/$4-$5"
+  // );
+  let formatedNum = "";
+  formatedNum = value.replace(/\D/g, "");
+  formatedNum = formatedNum.replace(/^(\d{2})(\d)/, "$1.$2");
+  formatedNum = formatedNum.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+  formatedNum = formatedNum.replace(/\.(\d{3})(\d)/, ".$1/$2");
+  formatedNum = formatedNum.replace(/(\d{4})(\d)/, "$1-$2");
+  formatedNum = formatedNum.replace(/(-\d{2})\d+?$/, "$1");
+  console.log(formatedNum);
+  return formatedNum;
 };
