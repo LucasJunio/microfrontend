@@ -140,7 +140,7 @@ export default function MiniDrawer() {
   };
 
   const handleClose = () => {
-    sendtokensms();
+    //sendtokensms();
   };
 
   const getIconRender = i =>{
@@ -189,7 +189,7 @@ export default function MiniDrawer() {
     <Loading style={{ display: Showloading }}><Spinner /></Loading>
 
 
-      <Dialog open={openmodal} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={openmodal} onClose={openmodal} aria-labelledby="form-dialog-title" data-keyboard="false"data-backdrop="static">
         <DialogTitle id="form-dialog-title">Informe o Token enviado por SMS</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -212,7 +212,7 @@ export default function MiniDrawer() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={sendtokensms} color="primary">
             Enviar
           </Button>
         </DialogActions>
