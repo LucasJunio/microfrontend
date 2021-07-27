@@ -41,18 +41,11 @@ import logo from "../../assets/images/logo_vileve_way.png";
 import manPc from "../../assets/images/register.png";
 import Button from "components/CustomButtons/Button.js";
 import sha256 from "crypto-js/sha256";
-import {
-  ClassBackground,
-  DescriptionText,
-  Loading,
-  Spinner,
-  useStyles,
-} from "./styles";
+import { ClassBackground, Loading, Spinner, useStyles } from "./styles";
 import * as yup from "yup";
 import { getCountries } from "../../services/api/api";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
-import { insertPersonRequest } from "../../store/modules/person/actions";
 import {
   insertAddressCPFRequest,
   insertAddressCNPJRequest,
@@ -66,6 +59,7 @@ import {
   maskCel,
   maskTellPhone,
   maskNumber,
+  maskCnpj,
 } from "../../utils/string/masks";
 
 import { validateCpf } from "../../utils/string/validateCpf";
@@ -159,6 +153,26 @@ export default function SectionCarousel() {
     naturalidade: yup.string().required("O campo naturalidade é obrigatório"),
     nacionalidade: yup.string().required("O campo nacionalidade é obrigatório"),
     sexo: yup.string().required("O campo sexo é obrigatório"),
+    cep: yup.string().required("O campo CEP é obrigatório"),
+    endereco: yup.string().required("O campo endereço é obrigatório"),
+    numero: yup.string().required("O campo número é obrigatório"),
+    bairro: yup.string().required("O campo bairro é obrigatório"),
+    cidade: yup.string().required("O campo cidade é obrigatório"),
+    estado: yup.string().required("O campo estado é obrigatório"),
+    cnpj: yup.string().required("Campo CNPJ é obrigatório"),
+    nome_fantasia: yup.string().required("Campo nome fantasia é obrigatório"),
+    telefone: yup.string().required("Campo telefone é obrigatório"),
+    razaosocial: yup.string().required("Campo Razão Social é obrigatório"),
+    cnae: yup.number().required("Campo CNAE é obrigatório"),
+    ceppj: yup.number().required("Campo CEP é obrigatório"),
+    enderecopj: yup.string().required("Campo Endereço é obrigatório"),
+    numeropj: yup.number().required("Campo número é obrigatório"),
+    bairropj: yup.string().required("Campo Bairro é obrigatório"),
+    cidadepj: yup.string().required("Campo cidade é obrigatório"),
+    estadopj: yup.string().required("Campo estado é obrigatório"),
+    bancopj: yup.string().required("Campo banco é obrigatório"),
+    agenciapj: yup.number().required("Campo agência é obrigatório"),
+    contapj: yup.number().required("Campo conta é obrigatório"),
   });
 
   const formik = useFormik({
@@ -201,10 +215,25 @@ export default function SectionCarousel() {
       complementopj,
       cidadepj,
       estadopj,
+      bancopj,
+      agenciapj,
+      contapj,
+      operacaopj,
+      pixpj,
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      if (
+        !!formik.values.bancopj &&
+        !!formik.values.agenciapj &&
+        !!formik.values.contapj
+      ) {
+        console.log(values);
+      } else {
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
+        });
+      }
     },
   });
 
@@ -238,152 +267,16 @@ export default function SectionCarousel() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const handleName = (event) => {
-    // let v = event.target.value;
-
-    // setNome(v.replace(/[^a-zA-ZçÇ áéíóúÁÉÍÓÚ]/g, ""));
-
-    // /^[\D]+[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+(\s*[A-Za-z-ç.-á-é-í-ó-ú-Á-É-Í-Ó-Ú]+)*$/.test(
-    //   v
-    // ) || v.length < 1
-    //   ? $("#descriptionnome").html("")
-    //   : $("#descriptionnome").html("Digite apenas letras no campo nome!");
-    formik.handleChange(event);
-  };
-
-  const handleEmail = (event) => {
-    // let v = event.target.value;
-    // setEmail(v);
-    // /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(v) || v.length < 1
-    //   ? $("#descriptionemail").html("")
-    //   : $("#descriptionemail").html("Digite um email válido");
-    formik.handleChange(event);
-  };
-
-  const handleCellPhone = (v) => {
-    setCelular(maskCel(v));
-  };
-
-  // const handleCPF = (event) => {
-  //   // setCPF(maskCpf(event.target.value));
-  //   formik.setFieldValue(event.target.id, maskCpf(event.target.value));
-  //   console.log(
-  //     formik.setFieldValue(event.target.id, maskCpf(event.target.value))
-  //   );
-  //   formik.handleChange(event);
-  // };
-
-  const handlePassword = (event) => {
-    let v = event.target.value;
-    setSenha(v);
-    if (
-      /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/.test(
-        v
-      )
-    ) {
-      setIconSenha("check_Outline");
-      setColorInputClass(true);
-      $("#descriptionpassword").html("");
-    } else {
-      setIconSenha("lock_Outline");
-      setColorInputClass(false);
-      $("#descriptionpassword").html(
-        `A senha deve conter mínimo de oito caracteres, <br> pelo menos, uma letra maiúscula, uma letra minúscula, <br> números e um caractere especial`
-      );
-    }
-    formik.handleChange(event);
-  };
-
-  const handleConfirmPassword = (v) => {
-    setSenha2(v);
-    if (senha == v) {
-      setColorInputClass2(true);
-      $("#descriptionpassword2").html("");
-    } else {
-      setColorInputClass2(false);
-      $("#descriptionpassword2").html(
-        `Sua senha não corresponde à anterior, verifique sua digitação!`
-      );
-    }
-  };
 
   const handleCep = (event) => {
     setCEP(getCep(event.target.value));
     formik.handleChange(event);
   };
 
-  // const OnchangeNASCIMENTO = (v) => {
-  //   setNASCIMENTO(maskDate(v));
-  // };
-
-  const handleRg = (v) => {
-    setRG(v);
-  };
-
-  const OnchangeEMISSOR = (v) => {
-    setEMISSOR(v);
-  };
-
-  const OnchangeEMISSAO = (v) => {
-    setEMISSAO(maskDate(v));
-  };
-
-  const OnchangeSEXO = (v) => {
-    setSEXO(v);
-  };
-
-  const OnchangeENDERECO = (v) => {
-    setENDERECO(v);
-  };
-
-  const handleNumber = (v) => {
-    // setNUMERO(maskNumber(v));
-  };
-
-  const handleComplement = (v) => {
-    setCOMPLEMENTO(v);
-  };
-
-  const handleCity = (v) => {
-    setCIDADE(v);
-  };
-
-  const OnchangeESTADO = (v) => {
-    setESTADO(v.replace(/[^a-zA-ZçÇ]/g, ""));
-  };
-
-  const OnchangeESTADOCIVIL = (v) => {
-    setESTADOCIVIL(v);
-  };
-
-  // const handleNaturalness = (event) => {
-  //   setNATURALIDADE(event.replace(/[^a-zA-ZçÇ]/g, ""));
-  //   formik.handleChange(event);
-  // };
-
-  const OnchangeNACIONALIDADE = (v) => {
-    setNACIONALIDADE(v.replace(/[^a-zA-ZçÇ]/g, ""));
-  };
-
-  const OnchangeMAE = (v) => {
-    setMAE(v);
-  };
-
-  const OnchangePAI = (v) => {
-    setPAI(v);
-  };
-
-  const OnchangeRAZAOSOCIAL = (v) => {
-    setRAZAOSOCIAL(v);
-  };
-
-  const OnchangeNOMEFANTASIA = (v) => {
-    setNOMEFANTASIA(v);
-  };
-
   const handleCNPJ = (event) => {
-    event.target.value;
-    formik.handleChange(event);
+    getCnpj(event.target.value);
+    formik.setFieldValue("cnpj", maskCnpj(event.target.value));
+    // formik.handleChange(event);
   };
 
   const getCep = (v) => {
@@ -416,6 +309,7 @@ export default function SectionCarousel() {
   const getCnpj = (v) => {
     v = v.replace(/\D/g, "");
     if (v.length >= 14) {
+      console.log(v);
       setShowloading("");
       axios
         .get(
@@ -430,30 +324,23 @@ export default function SectionCarousel() {
           }
         )
         .then((res) => {
+          console.log(res);
           setShowloading("none");
           formik.setFieldValue("razaosocial", res.data.name);
-          formik.setFieldValue("nomefantasia", res.data.alias);
-          formik.setFieldValue("cidadepj", res.data.city);
-          formik.setFieldValue("enderecopj", res.data.street);
-          formik.setFieldValue("estadopj", res.data.state);
-          formik.setFieldValue("numeropj", res.data.number);
-          formik.setFieldValue("bairropj", res.data.neighborhood);
+          formik.setFieldValue("nome_fantasia", res.data.alias);
           formik.setFieldValue(
             "telefone",
             maskTellPhone(res.data.phone.phone_1)
           );
-          formik.setFieldValue("ceppj", res.data.phone.zip_code);
           formik.setFieldValue("cnae", res.data.legal_nature.code);
-          // setRAZAOSOCIAL(res.data.name);
-          // setNOMEFANTASIA(res.data.alias);
-          // setCIDADEPJ(res.data.address.city);
-          // setENDERECOPJ(res.data.address.street);
-          // setESTADOPJ(res.data.address.state);
-          // setNUMEROPJ(res.data.address.number);
-          // setBAIRROPJ(res.data.address.neighborhood);
-          // setTELEFONE(maskTellPhone(res.data.phone.phone_1));
-          // setCEPPJ(res.data.address.zip_code);
-          // setCNAE(res.data.legal_nature.code);
+
+          formik.setFieldValue("ceppj", res.data.address.zip_code);
+          formik.setFieldValue("enderecopj", res.data.address.street);
+          formik.setFieldValue("bairropj", res.data.address.neighborhood);
+          formik.setFieldValue("cidadepj", res.data.address.city);
+          formik.setFieldValue("estadopj", res.data.address.state);
+          formik.setFieldValue("numeropj", res.data.address.number);
+          return;
         })
         .catch((error) => {
           setShowloading("none");
@@ -462,7 +349,7 @@ export default function SectionCarousel() {
     } else {
       setShowloading("none");
       formik.setFieldValue("razaosocial", "");
-      formik.setFieldValue("nomefantasia", "");
+      formik.setFieldValue("nome_fantasia", "");
       formik.setFieldValue("cidadepj", "");
       formik.setFieldValue("enderecopj", "");
       formik.setFieldValue("estadopj", "");
@@ -471,79 +358,10 @@ export default function SectionCarousel() {
       formik.setFieldValue("telefone", "");
       formik.setFieldValue("ceppj", "");
       formik.setFieldValue("cnae", "");
-      // setRAZAOSOCIAL("");
-      // setNOMEFANTASIA("");
-      // setCIDADEPJ("");
-      // setENDERECOPJ("");
-      // setESTADOPJ("");
-      // setNUMEROPJ("");
-      // setBAIRROPJ("");
-      // setTELEFONE("");
-      // setCEPPJ("");
-      // setCNAE("");
+      return;
     }
     // v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3/$4-$5");
     // return v;
-  };
-
-  const OnchangeTELEFONE = (v) => {
-    setTELEFONE(maskTellPhone(v));
-  };
-
-  const OnchangeSITE = (v) => {
-    setSITE(v);
-  };
-
-  const OnchangeCEPPJ = (v) => {
-    setCEPPJ(maskNumber(v));
-  };
-
-  const OnchangeCNAE = (v) => {
-    setCNAE(maskNumber(v));
-  };
-
-  const OnchangeENDERECOPJ = (v) => {
-    setENDERECOPJ(v);
-  };
-
-  const OnchangeNUMEROPJ = (v) => {
-    setNUMEROPJ(maskNumber(v));
-  };
-
-  const OnchangeBAIRROPJ = (v) => {
-    setBAIRROPJ(v);
-  };
-
-  const OnchangeESTADOPJ = (v) => {
-    setESTADOPJ(v);
-  };
-
-  const OnchangeCIDADEPJ = (v) => {
-    setCIDADEPJ(v);
-  };
-
-  const OnchangeCOMPLEMENTOPJ = (v) => {
-    setCOMPLEMENTOPJ(v);
-  };
-
-  const OnchangeBANCOPJ = (v) => {
-    setBANCOPJ(v);
-  };
-
-  const OnchangeAGENCIAPJ = (v) => {
-    setAGENCIAPJ(v);
-  };
-
-  const OnchangeCONTAPJ = (v) => {
-    setCONTAPJ(v);
-  };
-
-  const OnchangePIXPJ = (v) => {
-    setPIXPJ(v);
-  };
-
-  const OnchangeOPERACAOPJ = (v) => {
-    setOPERACAOPJ(v);
   };
 
   const Step1NEXT = () => {
@@ -557,9 +375,20 @@ export default function SectionCarousel() {
         variant: "error",
       });
     } else {
-      slickRef.current.slickNext();
-      setDOT1(dotInactive);
-      setDOT2(dotActive);
+      if (
+        !!formik.values.nome &&
+        !!formik.values.email &&
+        !!formik.values.senha &&
+        !!formik.values.senha2
+      ) {
+        slickRef.current.slickNext();
+        setDOT1(dotInactive);
+        setDOT2(dotActive);
+      } else {
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
+        });
+      }
     }
   };
 
@@ -629,15 +458,38 @@ export default function SectionCarousel() {
   };
 
   const Step4NEXT = () => {
-    slickRef.current.slickNext();
-    setDOT4(dotInactive);
-    setDOT5(dotActive);
-    insertAddressCPFRequest({
-      cep: maskNumber(cep),
-      complemento,
-      endereco,
-      bairro,
-    });
+    if (
+      !!formik.values.cep &&
+      !!formik.values.endereco &&
+      !!formik.values.numero &&
+      !!formik.values.bairro &&
+      !!formik.values.cidade &&
+      !!formik.values.estado
+    ) {
+      slickRef.current.slickNext();
+      setDOT4(dotInactive);
+      setDOT5(dotActive);
+      insertAddressCPFRequest({
+        cep: maskNumber(cep),
+        complemento,
+        endereco,
+        bairro,
+      });
+    } else {
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
+      });
+    }
+
+    // slickRef.current.slickNext();
+    // setDOT4(dotInactive);
+    // setDOT5(dotActive);
+    // insertAddressCPFRequest({
+    //   cep: maskNumber(cep),
+    //   complemento,
+    //   endereco,
+    //   bairro,
+    // });
   };
 
   const Step5PREV = () => {
@@ -647,25 +499,43 @@ export default function SectionCarousel() {
   };
 
   const Step5NEXT = () => {
-    slickRef.current.slickNext();
-    setDOT5(dotInactive);
-    setDOT6(dotActive);
-    insertAddressCNPJRequest({
-      cep: maskNumber(ceppj),
-      complemento: complementopj,
-      endereco: enderecopj,
-      numero: maskNumber(numeropj),
-      bairro: bairropj,
-    });
-    insertEnterpriseRequest({
-      cnpj: maskNumber(cnpj),
-      cnae: cnae,
-      razao_social: razaosocial,
-      telefone_fixo: maskNumber(telefone),
-      celular: maskNumber(celular),
-      nome_fantasia: nome_fantasia,
-      site: site,
-    });
+    if (
+      !!formik.values.cnpj &&
+      !!formik.values.telefone &&
+      !!formik.values.razaosocial &&
+      !!formik.values.cnae &&
+      !!formik.values.nome_fantasia &&
+      !!formik.values.ceppj &&
+      !!formik.values.enderecopj &&
+      !!formik.values.numeropj &&
+      !!formik.values.bairropj &&
+      !!formik.values.cidadepj &&
+      !!formik.values.estadopj
+    ) {
+      slickRef.current.slickNext();
+      setDOT5(dotInactive);
+      setDOT6(dotActive);
+      insertAddressCNPJRequest({
+        cep: maskNumber(ceppj),
+        complemento: complementopj,
+        endereco: enderecopj,
+        numero: maskNumber(numeropj),
+        bairro: bairropj,
+      });
+      insertEnterpriseRequest({
+        cnpj: maskNumber(cnpj),
+        cnae: cnae,
+        razao_social: razaosocial,
+        telefone_fixo: maskNumber(telefone),
+        celular: maskNumber(celular),
+        nome_fantasia: nome_fantasia,
+        site: site,
+      });
+    } else {
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
+      });
+    }
   };
 
   const Step6PREV = () => {
@@ -769,7 +639,138 @@ export default function SectionCarousel() {
       },
     });
   };
-  // console.log(Boolean(formik.errors.nome));
+
+  const bancos = [
+    {
+      numeroBanco: 104,
+      nomeBanco: "Caixa Econômica Federal (104)",
+    },
+    {
+      numeroBanco: 237,
+      nomeBanco: "Banco Bradesco S.A (237)",
+    },
+    {
+      numeroBanco: 33,
+      nomeBanco: "Banco Santander (Brasil) S.A. (033)",
+    },
+    {
+      numeroBanco: 341,
+      nomeBanco: "Banco Itaú S.A. (341)",
+    },
+    {
+      numeroBanco: 1,
+      nomeBanco: "Banco do Brasil S.A. (001)",
+    },
+    {
+      numeroBanco: 197,
+      nomeBanco: "Stone (197)",
+    },
+    {
+      numeroBanco: 77,
+      nomeBanco: "Banco Inter (077)",
+    },
+    {
+      numeroBanco: 748,
+      nomeBanco: "Sicred (748)",
+    },
+    {
+      numeroBanco: 136,
+      nomeBanco: "Banco UNICRED (136)",
+    },
+    {
+      numeroBanco: 756,
+      nomeBanco: "Banco Cooperativo do Brasil S.A. – BANCOOB (756)",
+    },
+    {
+      numeroBanco: 260,
+      nomeBanco: "Nubank (260)",
+    },
+    {
+      numeroBanco: 41,
+      nomeBanco: "Banco do Estado do Rio Grande do Sul S.A. (041)",
+    },
+    {
+      numeroBanco: 356,
+      nomeBanco: "Banco Real S.A. (antigo) (356)",
+    },
+    {
+      numeroBanco: 399,
+      nomeBanco: "HSBC Bank Brasil S.A. – Banco Múltiplo (399)",
+    },
+    {
+      numeroBanco: 422,
+      nomeBanco: "Banco Safra S.A. (422)",
+    },
+    {
+      numeroBanco: 453,
+      nomeBanco: "Banco Rural S.A. (453)",
+    },
+    {
+      numeroBanco: 633,
+      nomeBanco: "Banco Rendimento S.A. (633)",
+    },
+    {
+      numeroBanco: 652,
+      nomeBanco: "Itaú Unibanco Holding S.A. (652)",
+    },
+    {
+      numeroBanco: 745,
+      nomeBanco: "Banco Citibank S.A. (745)",
+    },
+    {
+      numeroBanco: 246,
+      nomeBanco: "Banco ABC Brasil S.A. (246)",
+    },
+    {
+      numeroBanco: 25,
+      nomeBanco: "Banco Alfa S.A (025)",
+    },
+    {
+      numeroBanco: 641,
+      nomeBanco: "Banco Alvorada S.A. (641))",
+    },
+    {
+      numeroBanco: 29,
+      nomeBanco: "Banco Banerj S.A. (029)",
+    },
+    {
+      numeroBanco: 38,
+      nomeBanco: "Banco Banestado S.A. (038)",
+    },
+    {
+      numeroBanco: 0,
+      nomeBanco: "Banco Bankpar S.A. (000)",
+    },
+    {
+      numeroBanco: 740,
+      nomeBanco: "Banco Barclays S.A (740)",
+    },
+    {
+      numeroBanco: 107,
+      nomeBanco: "Banco BBM S.A. (107)",
+    },
+    {
+      numeroBanco: 31,
+      nomeBanco: "Banco Beg S.A (031)",
+    },
+    {
+      numeroBanco: 96,
+      nomeBanco: "Banco BM&F de Serviços de Liquidação e Custódia S.A (096)",
+    },
+    {
+      numeroBanco: 318,
+      nomeBanco: "Banco BMG S.A. (318)",
+    },
+    {
+      numeroBanco: 752,
+      nomeBanco: "Banco BNP Paribas Brasil S.A. (752)",
+    },
+    {
+      numeroBanco: 248,
+      nomeBanco: "Banco Boavista Interatlântico S.A. (248)",
+    },
+  ];
+
   return (
     <>
       <Grid container direction="column" style={{ position: "absolute" }}>
@@ -1458,6 +1459,8 @@ export default function SectionCarousel() {
                                         maxLength: 8,
                                       }}
                                       required
+                                      error={Boolean(formik.errors.cep)}
+                                      helperText={formik.errors.cep}
                                     />
                                   </Grid>
                                   <Grid item md={7}>
@@ -1469,6 +1472,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.endereco)}
+                                      helperText={formik.errors.endereco}
                                     />
                                   </Grid>
                                   <Grid item md={2}>
@@ -1485,6 +1490,8 @@ export default function SectionCarousel() {
                                       }
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.numero)}
+                                      helperText={formik.errors.numero}
                                     />
                                   </Grid>
                                 </Grid>
@@ -1500,6 +1507,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.bairro)}
+                                      helperText={formik.errors.bairro}
                                     />
                                   </Grid>
                                   <Grid item md={6}>
@@ -1525,6 +1534,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.cidade)}
+                                      helperText={formik.errors.cidade}
                                     />
                                   </Grid>
                                   <Grid item>
@@ -1544,6 +1555,8 @@ export default function SectionCarousel() {
                                       }
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.estado)}
+                                      helperText={formik.errors.estado}
                                     />
                                   </Grid>
                                 </Grid>
@@ -1627,10 +1640,14 @@ export default function SectionCarousel() {
                                       name="cnpj"
                                       label="CNPJ"
                                       value={formik.values.cnpj}
-                                      onChange={(e) => handleCNPJ(e)}
+                                      onChange={(e) => {
+                                        handleCNPJ(e);
+                                      }}
                                       fullWidth
                                       inputProps={{ maxLength: 18 }}
                                       required
+                                      error={Boolean(formik.errors.cnpj)}
+                                      helperText={formik.errors.cnpj}
                                     />
                                   </Grid>
                                   <Grid item md={4}>
@@ -1639,17 +1656,17 @@ export default function SectionCarousel() {
                                       name="telefone"
                                       label="TELEFONE"
                                       value={formik.values.telefone}
-                                      onChange={
-                                        (e) =>
-                                          formik.setFieldValue(
-                                            e.target.id,
-                                            maskTellPhone(e.target.value)
-                                          )
-                                        // OnchangeTELEFONE(e.target.value)
+                                      onChange={(e) =>
+                                        formik.setFieldValue(
+                                          e.target.id,
+                                          maskTellPhone(e.target.value)
+                                        )
                                       }
                                       fullWidth
                                       inputProps={{ maxLength: 14 }}
                                       required
+                                      error={Boolean(formik.errors.telefone)}
+                                      helperText={formik.errors.telefone}
                                     />
                                   </Grid>
                                   <Grid item md={4}>
@@ -1675,6 +1692,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.razaosocial)}
+                                      helperText={formik.errors.razaosocial}
                                     />
                                   </Grid>
                                   <Grid item md={4}>
@@ -1691,17 +1710,23 @@ export default function SectionCarousel() {
                                       }
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.cnae)}
+                                      helperText={formik.errors.cnae}
                                     />
                                   </Grid>
                                   <Grid item md={4}>
                                     <TextField
-                                      id="nomefantasia "
-                                      name="nomefantasia "
+                                      id="nome_fantasia"
+                                      name="nome_fantasia"
                                       label="NOME FANTASIA"
                                       value={formik.values.nome_fantasia}
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(
+                                        formik.errors.nome_fantasia
+                                      )}
+                                      helperText={formik.errors.nome_fantasia}
                                     />
                                   </Grid>
                                 </Grid>
@@ -1714,14 +1739,11 @@ export default function SectionCarousel() {
                                       name="ceppj"
                                       label="CEP"
                                       value={formik.values.ceppj}
-                                      onChange={(e) =>
-                                        formik.setFieldValue(
-                                          e.target.id,
-                                          maskNumber(e.target.value)
-                                        )
-                                      }
+                                      onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.ceppj)}
+                                      helperText={formik.errors.ceppj}
                                     />
                                   </Grid>
                                   <Grid item md={6}>
@@ -1733,6 +1755,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.enderecopj)}
+                                      helperText={formik.errors.enderecopj}
                                     />
                                   </Grid>
                                   <Grid item md={3}>
@@ -1749,6 +1773,8 @@ export default function SectionCarousel() {
                                       }
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.numeropj)}
+                                      helperText={formik.errors.numeropj}
                                     />
                                   </Grid>
                                 </Grid>
@@ -1764,6 +1790,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.bairropj)}
+                                      helperText={formik.errors.bairropj}
                                     />
                                   </Grid>
                                   <Grid item md={6}>
@@ -1789,6 +1817,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.cidadepj)}
+                                      helperText={formik.errors.cidadepj}
                                     />
                                   </Grid>
                                   <Grid item md={6}>
@@ -1800,6 +1830,8 @@ export default function SectionCarousel() {
                                       onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.estadopj)}
+                                      helperText={formik.errors.estadopj}
                                     />
                                   </Grid>
                                 </Grid>
@@ -1879,35 +1911,47 @@ export default function SectionCarousel() {
                               </Grid>
                               <Grid item>
                                 <Grid container spacing={3}>
-                                  <Grid item sm={4}>
+                                  <Grid item xs={4} sm={4}>
                                     <TextField
-                                      id="BANCOPJ"
-                                      name="BANCOPJ"
+                                      id="bancopj"
+                                      name="bancopj"
+                                      select
                                       label="BANCO"
-                                      value={bancopj}
-                                      onChange={(e) =>
-                                        OnchangeBANCOPJ(e.target.value)
-                                      }
                                       fullWidth
-                                      inputProps={{
-                                        maxLength: 18,
-                                      }}
-                                    />
+                                      value={formik.values.bancopj}
+                                      onChange={formik.handleChange}
+                                      required
+                                      error={Boolean(formik.errors.bancopj)}
+                                      helperText={formik.errors.bancopj}
+                                    >
+                                      {bancos.map(
+                                        ({ nomeBanco, numeroBanco }) => {
+                                          return (
+                                            <MenuItem
+                                              key={numeroBanco}
+                                              value={numeroBanco}
+                                            >
+                                              {nomeBanco}
+                                            </MenuItem>
+                                          );
+                                        }
+                                      )}
+                                    </TextField>
                                   </Grid>
                                   <Grid item sm={4}>
                                     <TextField
-                                      id="AGENCIAPJ"
-                                      name="AGENCIAPJ"
+                                      id="agenciapj"
+                                      name="agenciapj"
                                       label="AGÊNCIA"
-                                      value={agenciapj}
-                                      onChange={(e) =>
-                                        OnchangeAGENCIAPJ(e.target.value)
-                                      }
+                                      value={formik.values.agenciapj}
+                                      onChange={formik.handleChange}
                                       fullWidth
                                       inputProps={{
                                         maxLength: 14,
                                       }}
                                       required
+                                      error={Boolean(formik.errors.agenciapj)}
+                                      helperText={formik.errors.agenciapj}
                                     />
                                   </Grid>
                                 </Grid>
@@ -1916,43 +1960,47 @@ export default function SectionCarousel() {
                                 <Grid container spacing={3}>
                                   <Grid item sm={4}>
                                     <TextField
-                                      id="CONTAPJ"
-                                      name="CONTAPJ"
+                                      id="contapj"
+                                      name="contapj"
                                       label="CONTA"
-                                      value={contapj}
-                                      onChange={(e) =>
-                                        OnchangeCONTAPJ(e.target.value)
-                                      }
+                                      value={formik.values.contapj}
+                                      onChange={formik.handleChange}
                                       fullWidth
                                       required
+                                      error={Boolean(formik.errors.contapj)}
+                                      helperText={formik.errors.contapj}
                                     />
                                   </Grid>
-                                  <Grid item sm={4}>
-                                    <TextField
-                                      id="OPERACAOPJ"
-                                      name="OPERACAOPJ"
-                                      label="OPERAÇÃO"
-                                      value={operacaopj}
-                                      onChange={(e) =>
-                                        OnchangeOPERACAOPJ(e.target.value)
-                                      }
-                                      fullWidth
-                                      helperText="*Caso tenha conta na Caixa"
-                                    />
-                                  </Grid>
+                                  <Hidden
+                                    only={
+                                      formik.values.bancopj === 104
+                                        ? [""]
+                                        : ["lg", "md", "sm", "xl", "xs"]
+                                    }
+                                  >
+                                    <Grid item sm={4}>
+                                      <TextField
+                                        id="operacaopj"
+                                        name="operacaopj"
+                                        label="OPERAÇÃO"
+                                        value={formik.values.operacaopj}
+                                        onChange={formik.handleChange}
+                                        fullWidth
+                                        helperText="*Caso tenha conta na Caixa"
+                                      />
+                                    </Grid>
+                                  </Hidden>
                                 </Grid>
                               </Grid>
                               <Grid item>
                                 <Grid container spacing={3}>
                                   <Grid item>
                                     <TextField
-                                      id="PIXPJ"
-                                      name="PIXPJ"
+                                      id="pixpj"
+                                      name="pixpj"
                                       label="CHAVE PIX"
-                                      value={pixpj}
-                                      onChange={(e) =>
-                                        OnchangePIXPJ(e.target.value)
-                                      }
+                                      value={formik.values.pixpj}
+                                      onChange={formik.handleChange}
                                       fullWidth
                                     />
                                   </Grid>
