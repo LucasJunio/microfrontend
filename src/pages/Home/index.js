@@ -1,45 +1,59 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Link} from 'react-router-dom'
 import $ from "jquery";
 // eslint-disable-next-line no-use-before-define
 import axios from "axios"
 
 import clsx from 'clsx';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
+
+import {
+Drawer, 
+AppBar, 
+Toolbar, 
+List,
+CssBaseline, 
+Typography, 
+Divider, 
+IconButton, 
+ListItem, 
+ListItemIcon, 
+ListItemText, 
+Button,
+TextField, 
+Dialog, 
+DialogActions, 
+DialogContent, 
+DialogContentText, 
+DialogTitle,  
+} from '@material-ui/core'
+
+ 
+
+
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+ 
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AppsIcon from '@material-ui/icons/Apps';
 
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 import Alert from '@material-ui/lab/Alert';
 
+ 
+
 import logotipo from '../../assets/images/logo-vileve-pay-cor-140px.png'
+
+
+
+import ButtonTimer from '../../components/ButtonTimer'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -155,7 +169,7 @@ export default function MiniDrawer() {
 
   const [Showloading, setShowloading] = React.useState('none');
 
-
+ 
   const sendtokensms = () => {
   setShowloading('')
   $.ajax({
@@ -181,6 +195,9 @@ export default function MiniDrawer() {
   })
   }
 
+ 
+
+
 
   return (
 
@@ -189,7 +206,7 @@ export default function MiniDrawer() {
     <Loading style={{ display: Showloading }}><Spinner /></Loading>
 
 
-      <Dialog open={openmodal} onClose={openmodal} aria-labelledby="form-dialog-title" data-keyboard="false"data-backdrop="static">
+      <Dialog open={openmodal} aria-labelledby="form-dialog-title" data-keyboard="false"data-backdrop="static">
         <DialogTitle id="form-dialog-title">Informe o Token enviado por SMS</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -210,9 +227,16 @@ export default function MiniDrawer() {
             }}
             // fullWidth
           />
+          
+ 
+        <ButtonTimer/>
+
+ 
         </DialogContent>
+
+
         <DialogActions>
-          <Button onClick={sendtokensms} color="primary">
+          <Button onClick={sendtokensms} variant="contained" color="primary">
             Enviar
           </Button>
         </DialogActions>
