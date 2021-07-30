@@ -161,6 +161,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       value={formik.values.estado_civil}
                       fullWidth
                       onChange={formik.handleChange}
+                      required
                     >
                       <MenuItem key="sl" value="Solteiro">
                         Solteiro

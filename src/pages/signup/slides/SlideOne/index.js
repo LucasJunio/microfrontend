@@ -24,7 +24,7 @@ export const SlideOne = ({ nextStep, formik }) => {
     event.preventDefault();
   };
   return (
-    <Grid item md={12}>
+    <Grid item xs={12} md={12}>
       <Grid container justify="center" alignItems="center">
         <Hidden only={["xs", "sm"]}>
           <Grid item md={6}>
@@ -36,7 +36,7 @@ export const SlideOne = ({ nextStep, formik }) => {
         <Grid item md={6}>
           <div className={classes.divCentralization}>
             <Grid container direction="column" spacing={2}>
-              <Grid item>
+              <Grid item sm={12}>
                 <Grid container>
                   <Grid item>
                     <Typography
@@ -50,7 +50,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item sm={8}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   id="nome"
                   name="nome"
@@ -63,7 +63,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                   helperText={formik.errors.nome}
                 />
               </Grid>
-              <Grid item sm={8}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   id="email"
                   name="email"
@@ -76,7 +76,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                   helperText={formik.errors.email}
                 />
               </Grid>
-              <Grid item sm={8}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   id="senha"
                   name="senha"
@@ -104,9 +104,9 @@ export const SlideOne = ({ nextStep, formik }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item sm={8}>
+              <Grid item xs={12} sm={12}>
                 <TextField
-                  id="SENHA2"
+                  id="senha2"
                   name="senha2"
                   label="CONFIRME SUA SENHA"
                   value={formik.values.senha2}
@@ -132,7 +132,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item sm={12}>
+              <Grid item xs={12} sm={12}>
                 <Grid container justify="flex-end" alignItems="center">
                   <Grid item>
                     <Button

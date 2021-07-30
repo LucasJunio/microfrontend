@@ -47,11 +47,15 @@ const getCnpj = async (value) => {
 };
 
 const postCnpj = async (body) => {
+  console.log(body);
   try {
-    const res = await axios.post(`${url}/signup`, body);
+    const res = await axios.post(`http://3.233.0.255:3001/signup`, body);
+    console.log("Dentro do post");
+    console.log(res.status);
     return true;
   } catch (error) {
     console.log(error);
+    console.log(error.response.data.message.details[0].message);
     return false;
   }
 };

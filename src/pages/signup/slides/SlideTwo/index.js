@@ -58,6 +58,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                   </CardActionArea>
                   <CardActions>
                     <Button
+                      id="BTNFIRSTNEXT2"
                       size="sm"
                       color="primary"
                       onClick={() => nextStep()}
@@ -107,6 +108,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
           <Grid item>
             <div>
               <Button
+                id="BTNFIRSTBACK2"
                 color="warning"
                 size="sm"
                 rel="noopener noreferrer"

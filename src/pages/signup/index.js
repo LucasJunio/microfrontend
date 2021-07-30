@@ -96,7 +96,9 @@ export default function SectionCarousel() {
       .string()
       .trim()
       .required("Nome é obrigatório")
-      .matches(/^[aA-zZ\s]+$/, "Somente letras"),
+      .matches(/^[aA-zZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/, "Somente letras")
+      .min(10, "Nome completo deve conter no minimo 10 caractéries")
+      .max(40, "Máximo de 40 caractéries"),
     email: yup
       .string()
       .trim()
@@ -152,7 +154,7 @@ export default function SectionCarousel() {
     bancopj: yup.string().required("Campo banco é obrigatório"),
     agenciapj: yup.number().required("Campo agência é obrigatório"),
     contapj: yup.number().required("Campo conta é obrigatório"),
-    site: yup.string().url(),
+    site: yup.string().url("Insira um site valido"),
   });
 
   const formik = useFormik({
@@ -263,13 +265,14 @@ export default function SectionCarousel() {
             estado: values.estado,
           },
         };
-        console.log(body);
+
         const isPosted = async () => {
           setOpen(true);
           const res = await postCnpj(body);
           setOpen(false);
           if (res) {
             console.log("Passar para pagina de token");
+            top.location.href = "/";
           } else {
             enqueueSnackbar(
               "Não foi possível cadastrar agora, por favor, tente mais tarde",
@@ -281,7 +284,7 @@ export default function SectionCarousel() {
           console.log(res);
           return res;
         };
-        console.log(isPosted());
+        isPosted();
       } else {
         enqueueSnackbar("Campos obrigatórios não preenchidos", {
           variant: "error",
@@ -495,8 +498,8 @@ export default function SectionCarousel() {
 
   const [openmodal, setOpenmodal] = useState(false);
   const handleClose = () => {
-    top.location.href = "/";
     setOpenmodal(false);
+    top.location.href = "/";
   };
 
   return (
@@ -534,11 +537,11 @@ export default function SectionCarousel() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item zeroMinWidth lg={12}>
+        <Grid item zeroMinWidth xs={12} md={12} lg={12}>
           <Grid container>
-            <Grid item zeroMinWidth>
+            <Grid item zeroMinWidth xs={12} md={12}>
               <Grid container alignItems="center" justify="center">
-                <Grid item>
+                <Grid item xs={12} md={12}>
                   <form
                     onSubmit={formik.handleSubmit}
                     style={{ height: "0px" }}

@@ -73,6 +73,7 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                       fullWidth
                       inputProps={{
                         maxLength: 8,
+                        autoComplete: "off",
                       }}
                       required
                       error={Boolean(formik.errors.cep)}

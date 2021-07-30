@@ -287,39 +287,9 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              {/* <Grid item>
-                <Grid container spacing={3}>
-                  <Grid item md={6} lg={6}>
-                    <TextField
-                      id="cidadepj"
-                      name="cidadepj"
-                      label="CIDADE"
-                      value={formik.values.cidadepj}
-                      onChange={formik.handleChange}
-                      fullWidth
-                      required
-                      error={Boolean(formik.errors.cidadepj)}
-                      helperText={formik.errors.cidadepj}
-                    />
-                  </Grid>
-                  <Grid item md={6} lg={6}>
-                    <TextField
-                      id="estadopj"
-                      name="estadopj"
-                      label="ESTADO"
-                      value={formik.values.estadopj}
-                      onChange={formik.handleChange}
-                      fullWidth
-                      required
-                      error={Boolean(formik.errors.estadopj)}
-                      helperText={formik.errors.estadopj}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid> */}
             </Grid>
           </Grid>
-          <Grid item md={12}>
+          <Grid item md={12} style={{ marginTop: "10px" }}>
             <Grid container justify="flex-end" alignItems="center" spacing={3}>
               <Grid item>
                 <Button

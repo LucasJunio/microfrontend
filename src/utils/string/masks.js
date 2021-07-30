@@ -46,10 +46,14 @@ export const maskCel = (value) => {
  */
 
 export const maskTellPhone = (value) => {
-  value = value.replace(/\D/g, ""); //Remove tudo o que não é dígito
-  value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-  value = value.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-  return value;
+  if (value) {
+    value = value.replace(/\D/g, ""); //Remove tudo o que não é dígito
+    value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    value = value.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+    return value;
+  }
+
+  return "";
 };
 
 /**
@@ -59,22 +63,23 @@ export const maskTellPhone = (value) => {
  *
  */
 export const maskNumber = (value) => {
-  value = value.replace(/\D/g, "");
-  return value;
+  if (value) {
+    value = value.replace(/\D/g, "");
+    return value;
+  }
+  return "";
 };
 
 export const maskCnpj = (value) => {
-  // value = value.replace(
-  //   /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
-  //   "$1.$2.$3/$4-$5"
-  // );
-  let formatedNum = "";
-  formatedNum = value.replace(/\D/g, "");
-  formatedNum = formatedNum.replace(/^(\d{2})(\d)/, "$1.$2");
-  formatedNum = formatedNum.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-  formatedNum = formatedNum.replace(/\.(\d{3})(\d)/, ".$1/$2");
-  formatedNum = formatedNum.replace(/(\d{4})(\d)/, "$1-$2");
-  formatedNum = formatedNum.replace(/(-\d{2})\d+?$/, "$1");
-  console.log(formatedNum);
-  return formatedNum;
+  if (value) {
+    let formatedNum = "";
+    formatedNum = value.replace(/\D/g, "");
+    formatedNum = formatedNum.replace(/^(\d{2})(\d)/, "$1.$2");
+    formatedNum = formatedNum.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+    formatedNum = formatedNum.replace(/\.(\d{3})(\d)/, ".$1/$2");
+    formatedNum = formatedNum.replace(/(\d{4})(\d)/, "$1-$2");
+    formatedNum = formatedNum.replace(/(-\d{2})\d+?$/, "$1");
+    return formatedNum;
+  }
+  return "";
 };
