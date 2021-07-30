@@ -410,16 +410,6 @@ export default function SectionCarousel() {
         variant: "error",
       });
     }
-
-    // slickRef.current.slickNext();
-    // setDOT4(dotInactive);
-    // setDOT5(dotActive);
-    // insertAddressCPFRequest({
-    //   cep: maskNumber(cep),
-    //   complemento,
-    //   endereco,
-    //   bairro,
-    // });
   };
 
   const Step5NEXT = () => {
