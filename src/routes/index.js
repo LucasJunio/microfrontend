@@ -8,7 +8,7 @@ import Route from "./Route";
 import history from "../services/history";
 
 import Signup from "../pages/Signup";
-import Home from "../pages/home";
+import Home from "../pages/Home";
 import Email from "../pages/Email";
 
 export default function Routes() {
