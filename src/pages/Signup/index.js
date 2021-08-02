@@ -1,5 +1,5 @@
 import "@fontsource/roboto";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import { useFormik } from "formik";
 // react component for creating beautiful carousel
@@ -90,6 +90,7 @@ export default function SectionCarousel() {
   const [dot5, setDOT5] = useState(dotInactive);
   const [dot6, setDOT6] = useState(dotInactive);
   const [open, setOpen] = useState(false);
+  const [hideSlide2, setHideSlide2] = useState(false);
 
   const validationSchema = yup.object({
     nome: yup
@@ -314,6 +315,7 @@ export default function SectionCarousel() {
   };
 
   const Step1NEXT = () => {
+    setHideSlide2(true);
     if (
       !!formik.errors.nome ||
       !!formik.errors.email ||
@@ -454,6 +456,7 @@ export default function SectionCarousel() {
   };
 
   const Step2PREV = () => {
+    setHideSlide2(false);
     slickRef.current.slickPrev();
     setDOT2(dotInactive);
     setDOT1(dotActive);
@@ -541,12 +544,16 @@ export default function SectionCarousel() {
                       <CardBody>
                         <Carousel ref={slickRef} {...settings}>
                           <SlideOne nextStep={Step1NEXT} formik={formik} />
-                          <SlideTwo
-                            nextStep={Step2PJ}
-                            StepPF={Step2PF}
-                            previousStep={Step2PREV}
-                          />
-                          <SlideThree
+                          {hideSlide2 ? (
+                            <SlideTwo
+                              nextStep={Step2PJ}
+                              StepPF={Step2PF}
+                              previousStep={Step2PREV}
+                            />
+                          ) : (
+                            console.log("teste")
+                          )}
+                          {/* <SlideThree
                             nextStep={Step3NEXT}
                             previousStep={Step3PREV}
                             formik={formik}
@@ -563,7 +570,7 @@ export default function SectionCarousel() {
                             formik={formik}
                             waitCnpj={handleBackdrop}
                           />
-                          <SlideSix previousStep={Step6PREV} formik={formik} />
+                          <SlideSix previousStep={Step6PREV} formik={formik} /> */}
                         </Carousel>
                       </CardBody>
                     </Card>
