@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://3.233.0.255:3001";
+const url = "http://3.233.0.255:3001/api/v1";
 
 const getCountries = async () => {
   try {
@@ -49,16 +49,16 @@ const getCnpj = async (value) => {
 const postCnpj = async (body) => {
   console.log(body);
   try {
-    const res = await axios.post(`http://3.233.0.255:3001/signup`, body);
+    const res = await axios.post(`${url}/signup/cnpj`, body);
     console.log("Dentro do post");
     console.log(res.status);
     return true;
   } catch (error) {
     console.log(error);
-    console.log(error.response.data.message.details[0].message);
     return false;
   }
 };
+
 const api = axios.create({
   baseURL: "http://localhost:80",
 });

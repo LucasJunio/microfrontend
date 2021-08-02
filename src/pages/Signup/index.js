@@ -1,5 +1,5 @@
 import "@fontsource/roboto";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import { useFormik } from "formik";
 // react component for creating beautiful carousel
@@ -39,7 +39,7 @@ export default function SectionCarousel() {
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
   const [Showloading, setShowloading] = useState("none");
-  const [nome, setNome] = useState("");
+  // const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [celular, setCelular] = useState("");
   const [cpf, setCPF] = useState("");
@@ -90,6 +90,7 @@ export default function SectionCarousel() {
   const [dot5, setDOT5] = useState(dotInactive);
   const [dot6, setDOT6] = useState(dotInactive);
   const [open, setOpen] = useState(false);
+  const [hideSlide2, setHideSlide2] = useState(false);
 
   const validationSchema = yup.object({
     nome: yup
@@ -159,7 +160,7 @@ export default function SectionCarousel() {
 
   const formik = useFormik({
     initialValues: {
-      nome,
+      nome: "",
       email,
       senha,
       senha2,
@@ -241,7 +242,7 @@ export default function SectionCarousel() {
             site: values.site,
           },
           conta: {
-            banco: values.bancopj,
+            banco: values.bancopj.toString(),
             agencia: maskNumber(values.agenciapj),
             conta: maskNumber(values.contapj),
             operacao: maskNumber(values.operacaopj),
@@ -253,13 +254,14 @@ export default function SectionCarousel() {
             endereco: values.enderecopj,
             numero: maskNumber(values.numeropj),
             bairro: values.bairropj,
-            cidadepj: values.cidadepj,
-            estadopj: values.estadopj,
+            cidade: values.cidadepj,
+            estado: values.estadopj,
           },
           endereco_cpf: {
             cep: maskNumber(values.cep),
             complemento: values.complemento,
             endereco: values.endereco,
+            numero: values.numeropj,
             bairro: values.bairro,
             cidade: values.cidade,
             estado: values.estado,
@@ -313,6 +315,7 @@ export default function SectionCarousel() {
   };
 
   const Step1NEXT = () => {
+    setHideSlide2(true);
     if (
       !!formik.errors.nome ||
       !!formik.errors.email ||
@@ -453,6 +456,7 @@ export default function SectionCarousel() {
   };
 
   const Step2PREV = () => {
+    setHideSlide2(false);
     slickRef.current.slickPrev();
     setDOT2(dotInactive);
     setDOT1(dotActive);
@@ -540,12 +544,16 @@ export default function SectionCarousel() {
                       <CardBody>
                         <Carousel ref={slickRef} {...settings}>
                           <SlideOne nextStep={Step1NEXT} formik={formik} />
-                          <SlideTwo
-                            nextStep={Step2PJ}
-                            StepPF={Step2PF}
-                            previousStep={Step2PREV}
-                          />
-                          <SlideThree
+                          {hideSlide2 ? (
+                            <SlideTwo
+                              nextStep={Step2PJ}
+                              StepPF={Step2PF}
+                              previousStep={Step2PREV}
+                            />
+                          ) : (
+                            console.log("teste")
+                          )}
+                          {/* <SlideThree
                             nextStep={Step3NEXT}
                             previousStep={Step3PREV}
                             formik={formik}
@@ -562,7 +570,7 @@ export default function SectionCarousel() {
                             formik={formik}
                             waitCnpj={handleBackdrop}
                           />
-                          <SlideSix previousStep={Step6PREV} formik={formik} />
+                          <SlideSix previousStep={Step6PREV} formik={formik} /> */}
                         </Carousel>
                       </CardBody>
                     </Card>
