@@ -39,7 +39,7 @@ export default function SectionCarousel() {
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
   const [Showloading, setShowloading] = useState("none");
-  const [nome, setNome] = useState("");
+  // const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [celular, setCelular] = useState("");
   const [cpf, setCPF] = useState("");
@@ -159,7 +159,7 @@ export default function SectionCarousel() {
 
   const formik = useFormik({
     initialValues: {
-      nome,
+      nome: "",
       email,
       senha,
       senha2,
@@ -241,7 +241,7 @@ export default function SectionCarousel() {
             site: values.site,
           },
           conta: {
-            banco: values.bancopj,
+            banco: values.bancopj.toString(),
             agencia: maskNumber(values.agenciapj),
             conta: maskNumber(values.contapj),
             operacao: maskNumber(values.operacaopj),
@@ -253,13 +253,14 @@ export default function SectionCarousel() {
             endereco: values.enderecopj,
             numero: maskNumber(values.numeropj),
             bairro: values.bairropj,
-            cidadepj: values.cidadepj,
-            estadopj: values.estadopj,
+            cidade: values.cidadepj,
+            estado: values.estadopj,
           },
           endereco_cpf: {
             cep: maskNumber(values.cep),
             complemento: values.complemento,
             endereco: values.endereco,
+            numero: values.numeropj,
             bairro: values.bairro,
             cidade: values.cidade,
             estado: values.estado,
