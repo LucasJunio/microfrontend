@@ -14,6 +14,7 @@ import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 
+
 export const SlideOne = ({ nextStep, formik }) => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
@@ -33,10 +34,10 @@ export const SlideOne = ({ nextStep, formik }) => {
             </Grid>
           </Grid>
         </Hidden>
-        <Grid item md={6}>
+        <Grid item xs={12} md={6}>
           <div className={classes.divCentralization}>
             <Grid container direction="column" spacing={2}>
-              <Grid item sm={12}>
+              <Grid item xs={12} sm={12}>
                 <Grid container>
                   <Grid item>
                     <Typography
