@@ -457,8 +457,8 @@ export default function SectionCarousel() {
   };
 
   const Step3PREV = () => {
-    setHideSlide3(false);
     slickRef.current.slickPrev();
+    setHideSlide3(false);
     setDOT3(dotInactive);
     setDOT2(dotActive);
   };
@@ -549,7 +549,7 @@ export default function SectionCarousel() {
                               previousStep={Step2PREV}
                             />
                           ) : (
-                            ""
+                            <span></span>
                           )}
                           {hideSlide3 ? (
                             <SlideThree
