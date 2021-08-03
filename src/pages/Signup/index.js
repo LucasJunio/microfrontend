@@ -1,6 +1,5 @@
 import "@fontsource/roboto";
-import React, { useState, useRef, useEffect } from "react";
-import $ from "jquery";
+import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
 // react component for creating beautiful carousel
 import { useSnackbar } from "notistack";
@@ -15,11 +14,13 @@ import { SlideThree } from "./slides/SlideThree/index";
 import { SlideFour } from "./slides/SlideFour/index";
 import { SlideFive } from "./slides/SlideFive/index";
 import { SlideSix } from "./slides/SlideSix/index";
+import { SlideSeven } from "./slides/SlideSeven";
+import { SlideEight } from "./slides/SlideEight";
 import logo from "../../assets/images/logo_vileve_way.png";
 import sha256 from "crypto-js/sha256";
-import { ClassBackground, Loading, Spinner, useStyles } from "./styles";
+import { ClassBackground, useStyles } from "./styles";
 import * as yup from "yup";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   insertAddressCPFRequest,
   insertAddressCNPJRequest,
@@ -29,14 +30,15 @@ import { signupSuccess } from "../../store/modules/signup/actions";
 import "./stylepagination.scss";
 import { maskNumber } from "../../utils/string/masks";
 import { validateCpf } from "../../utils/string/validateCpf";
-import { postCnpj } from "../../services/api/api";
+import { postCnpj, postPf } from "../../services/api/api";
 
 export default function SectionCarousel() {
+  const { enqueueSnackbar } = useSnackbar();
   const slickRef = useRef();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
   const [celular, setCelular] = useState("");
@@ -67,6 +69,10 @@ export default function SectionCarousel() {
   const [hideSlide4, setHideSlide4] = useState(false);
   const [hideSlide5, setHideSlide5] = useState(false);
   const [hideSlide6, setHideSlide6] = useState(false);
+  const [hideSlide7, setHideSlide7] = useState(false);
+  const [hideSlide8, setHideSlide8] = useState(false);
+  const [hideSlide9, setHideSlide9] = useState(false);
+  const [isCnpj, setIsCnpj] = useState(undefined);
 
   const validationSchema = yup.object({
     nome: yup
@@ -119,6 +125,14 @@ export default function SectionCarousel() {
     bairro: yup.string().required("O campo bairro é obrigatório").trim(),
     cidade: yup.string().required("O campo cidade é obrigatório").trim(),
     estado: yup.string().required("O campo estado é obrigatório").trim(),
+
+    cepPf: yup.string().required("O campo CEP é obrigatório"),
+    enderecoPf: yup.string().required("O campo endereço é obrigatório").trim(),
+    numeroPf: yup.string().required("O campo número é obrigatório").trim(),
+    bairroPf: yup.string().required("O campo bairro é obrigatório").trim(),
+    cidadePf: yup.string().required("O campo cidade é obrigatório").trim(),
+    estadoPf: yup.string().required("O campo estado é obrigatório").trim(),
+
     cnpj: yup.string().required("Campo CNPJ é obrigatório"),
     nome_fantasia: yup
       .string()
@@ -142,6 +156,29 @@ export default function SectionCarousel() {
     site: yup
       .string()
       .url("Insira um site valido ex: 'https://www.google.com'"),
+    cpfPf: yup.string().required("CPF é obrigatório").trim(),
+    celularPf: yup.string().required("O campo celular é obrigatório").trim(),
+    nascimentoPf: yup
+      .string()
+      .required("Data de nascimento é obrigatória")
+      .trim(),
+    naturalidadePf: yup
+      .string()
+      .required("O campo naturalidade é obrigatório")
+      .trim(),
+    nacionalidadePf: yup
+      .string()
+      .required("O campo nacionalidade é obrigatório"),
+    estadoCivilPf: yup.string().required("O campo estado civil é obrigatório"),
+    rgPf: yup.string().required("O campo RG é obrigatório").trim(),
+    emissorPf: yup.string().required("O campo emissor é obrigatório").trim(),
+    emissaoPf: yup.string().required("O campo emissao é obrigatório"),
+    sexoPf: yup.string().required("O campo sexo é obrigatório"),
+    maePf: yup.string().required("Campo mãe é obrigatório").trim(),
+    paiPf: yup.string().required("Campo pai é obrigatório").trim(),
+    sitePf: yup
+      .string()
+      .url("Insira um site valido ex: 'https://www.google.com'"),
   });
 
   const formik = useFormik({
@@ -163,6 +200,27 @@ export default function SectionCarousel() {
       sexo: "",
       mae: "",
       pai: "",
+      cpfPf: "",
+      celularPf: "",
+      nascimentoPf: "",
+      naturalidadePf: "",
+      nacionalidadePf: "",
+      sexoPf: "",
+      estadoCivilPf: "",
+      rgPf: "",
+      emissorPf: "",
+      emissaoPf: "",
+      sexoPf: "",
+      maePf: "",
+      paiPf: "",
+      sitePf: "",
+      cepPf: "",
+      enderecoPf: "",
+      numeroPf: "",
+      bairroPf: "",
+      complementoPf: "",
+      cidadePf: "",
+      estadoPf: "",
       cep: "",
       endereco: "",
       numero: "",
@@ -197,77 +255,133 @@ export default function SectionCarousel() {
         !!formik.values.agenciapj &&
         !!formik.values.contapj
       ) {
-        const body = {
-          usuario: {
-            nome: values.nome,
-            email: values.email,
-            senha: sha256(values.senha).toString().trim(),
-          },
-          pessoa: {
-            cpf: maskNumber(values.cpf),
-            celular: maskNumber(values.celular),
-            nascimento: values.nascimento,
-            naturalidade: values.naturalidade,
-            nacionalidade: values.nacionalidade,
-            estado_civil: values.estado_civil,
-            rg: values.rg,
-            emissor: values.emissor,
-            emissao: values.emissao,
-            sexo: values.sexo,
-            mae: values.mae,
-            pai: values.pai,
-          },
-          empresa: {
-            cnpj: maskNumber(values.cnpj),
-            cnae: values.cnae,
-            razao_social: values.razaosocial,
-            telefone_fixo: maskNumber(values.telefone),
-            celular: maskNumber(values.celular),
-            nome_fantasia: values.nome_fantasia,
-            site: values.site,
-          },
-          conta: {
-            banco: values.bancopj.toString(),
-            agencia: maskNumber(values.agenciapj),
-            conta: maskNumber(values.contapj),
-            operacao: maskNumber(values.operacaopj),
-            pix: values.pixpj,
-          },
-          endereco_cnpj: {
-            cep: maskNumber(values.cep),
-            complemento: values.complementopj,
-            endereco: values.enderecopj,
-            numero: maskNumber(values.numeropj),
-            bairro: values.bairropj,
-            cidade: values.cidadepj,
-            estado: values.estadopj,
-          },
-          endereco_cpf: {
-            cep: maskNumber(values.cep),
-            complemento: values.complemento,
-            endereco: values.endereco,
-            numero: values.numeropj,
-            bairro: values.bairro,
-            cidade: values.cidade,
-            estado: values.estado,
-          },
-        };
+        let body = undefined;
+        if (isCnpj) {
+          body = {
+            usuario: {
+              nome: values.nome,
+              email: values.email,
+              senha: sha256(values.senha).toString().trim(),
+            },
+            pessoa: {
+              cpf: maskNumber(values.cpf),
+              celular: maskNumber(values.celular),
+              nascimento: values.nascimento,
+              naturalidade: values.naturalidade,
+              nacionalidade: values.nacionalidade,
+              estado_civil: values.estado_civil,
+              rg: values.rg,
+              emissor: values.emissor,
+              emissao: values.emissao,
+              sexo: values.sexo,
+              mae: values.mae,
+              pai: values.pai,
+            },
+            empresa: {
+              cnpj: maskNumber(values.cnpj),
+              cnae: values.cnae,
+              razao_social: values.razaosocial,
+              telefone_fixo: maskNumber(values.telefone),
+              celular: maskNumber(values.celular),
+              nome_fantasia: values.nome_fantasia,
+              site: values.site,
+            },
+            conta: {
+              banco: values.bancopj.toString(),
+              agencia: maskNumber(values.agenciapj),
+              conta: maskNumber(values.contapj),
+              operacao: maskNumber(values.operacaopj),
+              pix: values.pixpj,
+            },
+            endereco_cnpj: {
+              cep: maskNumber(values.cep),
+              complemento: values.complementopj,
+              endereco: values.enderecopj,
+              numero: maskNumber(values.numeropj),
+              bairro: values.bairropj,
+              cidade: values.cidadepj,
+              estado: values.estadopj,
+            },
+            endereco_cpf: {
+              cep: maskNumber(values.cep),
+              complemento: values.complemento,
+              endereco: values.endereco,
+              numero: values.numeropj,
+              bairro: values.bairro,
+              cidade: values.cidade,
+              estado: values.estado,
+            },
+          };
 
-        const isPosted = async () => {
-          setOpen(true);
-          const { sucess, res } = await postCnpj(body);
-          setOpen(false);
-          if (sucess) {
-            dispatch(signupSuccess());
-            localStorage.setItem("token", res.token);
-            history.push("/");
-          } else {
-            enqueueSnackbar(res, {
-              variant: "error",
-            });
-          }
-        };
-        isPosted();
+          const persistCnpj = async () => {
+            setOpen(true);
+            const { sucess, res } = await postCnpj(body);
+            setOpen(false);
+            if (sucess) {
+              dispatch(signupSuccess());
+              localStorage.setItem("token", res.token);
+              history.push("/");
+            } else {
+              enqueueSnackbar(res, {
+                variant: "error",
+              });
+            }
+          };
+          persistCnpj();
+        } else {
+          body = {
+            usuario: {
+              nome: values.nome,
+              email: values.email,
+              senha: sha256(values.senha).toString().trim(),
+            },
+            pessoa: {
+              cpf: maskNumber(values.cpfPf),
+              celular: maskNumber(values.celularPf),
+              nascimento: values.nascimentoPf,
+              naturalidade: values.naturalidadePf,
+              nacionalidade: values.nacionalidadePf,
+              estado_civil: values.estadoCivilPf,
+              rg: values.rgPf,
+              emissor: values.emissorPf,
+              emissao: values.emissaoPf,
+              sexo: values.sexoPf,
+              mae: values.maePf,
+              pai: values.paiPf,
+            },
+            conta: {
+              banco: values.bancopj.toString(),
+              agencia: maskNumber(values.agenciapj),
+              conta: maskNumber(values.contapj),
+              operacao: maskNumber(values.operacaopj),
+              pix: values.pixpj,
+            },
+            endereco_cpf: {
+              cep: maskNumber(values.cepPf),
+              complemento: values.complementoPf,
+              endereco: values.enderecoPf,
+              numero: values.numeroPf,
+              bairro: values.bairroPf,
+              cidade: values.cidadePf,
+              estado: values.estadoPf,
+            },
+          };
+          console.log(body);
+          const persistPf = async () => {
+            setOpen(true);
+            const { sucess, res } = await postPf(body);
+            if (sucess) {
+              dispatch(signupSuccess());
+              localStorage.setItem("token", res.token);
+              history.push("/");
+            } else {
+              enqueueSnackbar(res, {
+                variant: "error",
+              });
+            }
+          };
+          persistPf();
+        }
       } else {
         enqueueSnackbar("Campos obrigatórios não preenchidos", {
           variant: "error",
@@ -325,6 +439,7 @@ export default function SectionCarousel() {
   };
 
   const Step2PJ = () => {
+    setIsCnpj(true);
     setHideSlide3(true);
     slickRef.current.slickNext();
     setDOT2(dotInactive);
@@ -332,7 +447,11 @@ export default function SectionCarousel() {
   };
 
   const Step2PF = () => {
-    // Pessoa física será implementado
+    setIsCnpj(false);
+    setHideSlide7(true);
+    slickRef.current.slickNext();
+    setDOT2(dotInactive);
+    setDOT3(dotActive);
   };
 
   const Step3NEXT = () => {
@@ -426,6 +545,56 @@ export default function SectionCarousel() {
     }
   };
 
+  const Step7NEXT = () => {
+    if (validateCpf(formik.values.cpfPf)) {
+      if (
+        !!formik.values.nascimentoPf &&
+        !!formik.values.naturalidadePf &&
+        !!formik.values.nacionalidadePf &&
+        !!formik.values.sexoPf
+      ) {
+        setHideSlide8(true);
+        slickRef.current.slickNext();
+        setDOT3(dotInactive);
+        setDOT4(dotActive);
+      } else {
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
+        });
+      }
+    } else {
+      enqueueSnackbar("Desculpe, informe um cpf válido!", {
+        variant: "error",
+      });
+    }
+  };
+
+  const Step8NEXT = () => {
+    if (
+      !!formik.values.cepPf &&
+      !!formik.values.enderecoPf &&
+      !!formik.values.numeroPf &&
+      !!formik.values.bairroPf &&
+      !!formik.values.cidadePf &&
+      !!formik.values.estadoPf
+    ) {
+      setHideSlide9(true);
+      slickRef.current.slickNext();
+      setDOT4(dotInactive);
+      setDOT5(dotActive);
+      // insertAddressCPFRequest({
+      //   cep: maskNumber(cep),
+      //   complemento,
+      //   endereco,
+      //   bairro,
+      // });
+    } else {
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
+      });
+    }
+  };
+
   const Step2PREV = () => {
     slickRef.current.slickPrev();
     setDOT2(dotInactive);
@@ -460,6 +629,19 @@ export default function SectionCarousel() {
     setDOT5(dotActive);
   };
 
+  const Step7PREV = () => {
+    setHideSlide7(false);
+    slickRef.current.slickPrev();
+    setDOT3(dotInactive);
+    setDOT2(dotActive);
+  };
+
+  const Step8PREV = () => {
+    setHideSlide9(false);
+    slickRef.current.slickPrev();
+    setDOT3(dotInactive);
+    setDOT2(dotActive);
+  };
   const Step6NEXT = () => {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
   };
@@ -505,7 +687,11 @@ export default function SectionCarousel() {
               <Grid container alignItems="center" justify="center">
                 <Grid item xs={12} md={12}>
                   <form
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={(e) => {
+                      console.log(e);
+                      e.preventDefault();
+                      formik.handleSubmit(e);
+                    }}
                     style={{ height: "0px" }}
                   >
                     <Card className={classes.cardStyle}>
@@ -551,6 +737,33 @@ export default function SectionCarousel() {
                             ""
                           )}
                           {hideSlide6 ? (
+                            <SlideSix
+                              previousStep={Step6PREV}
+                              formik={formik}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide7 ? (
+                            <SlideSeven
+                              nextStep={Step7NEXT}
+                              previousStep={Step7PREV}
+                              formik={formik}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide8 ? (
+                            <SlideEight
+                              nextStep={Step8NEXT}
+                              previousStep={Step8PREV}
+                              formik={formik}
+                              waitCep={handleBackdrop}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide9 ? (
                             <SlideSix
                               previousStep={Step6PREV}
                               formik={formik}

@@ -54,8 +54,17 @@ const postCnpj = async (body) => {
   }
 };
 
+const postPf = async (body) => {
+  try {
+    const res = await axios.post(`${url}/signup/cpf`, body);
+    return { sucess: true, res: res.data };
+  } catch (error) {
+    return { sucess: false, res: error.response.data.message };
+  }
+};
+
 const api = axios.create({
   baseURL: "http://localhost:80",
 });
 
-export { api, getCountries, getCep, getCnpj, postCnpj };
+export { api, getCountries, getCep, getCnpj, postCnpj, postPf };
