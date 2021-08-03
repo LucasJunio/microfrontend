@@ -12,7 +12,6 @@ const getCountries = async () => {
 
     return countries;
   } catch (error) {
-    console.error(error);
     return ["Erro ao encontrar países"];
   }
 };
@@ -47,15 +46,11 @@ const getCnpj = async (value) => {
 };
 
 const postCnpj = async (body) => {
-  console.log(body);
   try {
     const res = await axios.post(`${url}/signup/cnpj`, body);
-    console.log("Dentro do post");
-    console.log(res.status);
-    return true;
+    return { sucess: true, res: res.data };
   } catch (error) {
-    console.log(error);
-    return false;
+    return { sucess: false, res: error.response.data.message };
   }
 };
 

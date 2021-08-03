@@ -87,6 +87,9 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       }
                       fullWidth
                       inputProps={{ maxLength: 15 }}
+                      required
+                      error={Boolean(formik.errors.celular)}
+                      helperText={formik.errors.celular}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -162,6 +165,8 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       fullWidth
                       onChange={formik.handleChange}
                       required
+                      error={Boolean(formik.errors.nascimento)}
+                      helperText={formik.errors.nascimento}
                     >
                       <MenuItem key="sl" value="Solteiro">
                         Solteiro
@@ -193,6 +198,9 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       onChange={formik.handleChange}
                       fullWidth
                       inputProps={{ maxLength: 10 }}
+                      required
+                      error={Boolean(formik.errors.rg)}
+                      helperText={formik.errors.rg}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -203,6 +211,8 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       value={formik.values.emissor}
                       onChange={formik.handleChange}
                       fullWidth
+                      error={Boolean(formik.errors.emissor)}
+                      helperText={formik.errors.emissor}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -219,6 +229,9 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       }
                       fullWidth
                       inputProps={{ maxLength: 10 }}
+                      required
+                      error={Boolean(formik.errors.emissao)}
+                      helperText={formik.errors.emissao}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -260,6 +273,9 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       }
                       fullWidth
                       inputProps={{ maxLength: 150 }}
+                      required
+                      error={Boolean(formik.errors.mae)}
+                      helperText={formik.errors.mae}
                     />
                   </Grid>
                 </Grid>
@@ -281,6 +297,8 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                         )
                       }
                       inputProps={{ maxLength: 150 }}
+                      error={Boolean(formik.errors.pai)}
+                      helperText={formik.errors.pai}
                     />
                   </Grid>
                 </Grid>
