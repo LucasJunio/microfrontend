@@ -91,6 +91,10 @@ export default function SectionCarousel() {
   const [dot6, setDOT6] = useState(dotInactive);
   const [open, setOpen] = useState(false);
   const [hideSlide2, setHideSlide2] = useState(false);
+  const [hideSlide3, setHideSlide3] = useState(false);
+  const [hideSlide4, setHideSlide4] = useState(false);
+  const [hideSlide5, setHideSlide5] = useState(false);
+  const [hideSlide6, setHideSlide6] = useState(false);
 
   const validationSchema = yup.object({
     nome: yup
@@ -211,7 +215,7 @@ export default function SectionCarousel() {
         !!formik.values.agenciapj &&
         !!formik.values.contapj
       ) {
-        console.log(values);
+        // console.log(values);
         const body = {
           usuario: {
             nome: values.nome,
@@ -283,7 +287,7 @@ export default function SectionCarousel() {
               }
             );
           }
-          console.log(res);
+          // console.log(res);
           return res;
         };
         isPosted();
@@ -315,7 +319,6 @@ export default function SectionCarousel() {
   };
 
   const Step1NEXT = () => {
-    setHideSlide2(true);
     if (
       !!formik.errors.nome ||
       !!formik.errors.email ||
@@ -332,6 +335,7 @@ export default function SectionCarousel() {
         !!formik.values.senha &&
         !!formik.values.senha2
       ) {
+        setHideSlide2(true);
         slickRef.current.slickNext();
         setDOT1(dotInactive);
         setDOT2(dotActive);
@@ -344,6 +348,7 @@ export default function SectionCarousel() {
   };
 
   const Step2PJ = () => {
+    setHideSlide3(true);
     slickRef.current.slickNext();
     setDOT2(dotInactive);
     setDOT3(dotActive);
@@ -361,6 +366,7 @@ export default function SectionCarousel() {
         !!formik.values.nacionalidade &&
         !!formik.values.sexo
       ) {
+        setHideSlide4(true);
         slickRef.current.slickNext();
         setDOT3(dotInactive);
         setDOT4(dotActive);
@@ -369,20 +375,6 @@ export default function SectionCarousel() {
           variant: "error",
         });
       }
-      // insertPersonRequest({
-      //   cpf,
-      //   celular,
-      //   nascimento,
-      //   naturalidade,
-      //   nacionalidade,
-      //   estado_civil,
-      //   rg,
-      //   emissor,
-      //   emissao,
-      //   sexo,
-      //   mae,
-      //   pai,
-      // });
     } else {
       enqueueSnackbar("Desculpe, informe um cpf válido!", {
         variant: "error",
@@ -399,6 +391,7 @@ export default function SectionCarousel() {
       !!formik.values.cidade &&
       !!formik.values.estado
     ) {
+      setHideSlide5(true);
       slickRef.current.slickNext();
       setDOT4(dotInactive);
       setDOT5(dotActive);
@@ -429,6 +422,7 @@ export default function SectionCarousel() {
       !!formik.values.cidadepj &&
       !!formik.values.estadopj
     ) {
+      setHideSlide6(true);
       slickRef.current.slickNext();
       setDOT5(dotInactive);
       setDOT6(dotActive);
@@ -463,24 +457,28 @@ export default function SectionCarousel() {
   };
 
   const Step3PREV = () => {
+    setHideSlide3(false);
     slickRef.current.slickPrev();
     setDOT3(dotInactive);
     setDOT2(dotActive);
   };
 
   const Step4PREV = () => {
+    setHideSlide4(false);
     slickRef.current.slickPrev();
     setDOT4(dotInactive);
     setDOT3(dotActive);
   };
 
   const Step5PREV = () => {
+    setHideSlide5(false);
     slickRef.current.slickPrev();
     setDOT5(dotInactive);
     setDOT4(dotActive);
   };
 
   const Step6PREV = () => {
+    setHideSlide6(false);
     slickRef.current.slickPrev();
     setDOT6(dotInactive);
     setDOT5(dotActive);
@@ -551,26 +549,45 @@ export default function SectionCarousel() {
                               previousStep={Step2PREV}
                             />
                           ) : (
-                            console.log("teste")
+                            ""
                           )}
-                          {/* <SlideThree
-                            nextStep={Step3NEXT}
-                            previousStep={Step3PREV}
-                            formik={formik}
-                          />
-                          <SlideFour
-                            nextStep={Step4NEXT}
-                            previousStep={Step4PREV}
-                            formik={formik}
-                            waitCep={handleBackdrop}
-                          />
-                          <SlideFive
-                            nextStep={Step5NEXT}
-                            previousStep={Step5PREV}
-                            formik={formik}
-                            waitCnpj={handleBackdrop}
-                          />
-                          <SlideSix previousStep={Step6PREV} formik={formik} /> */}
+                          {hideSlide3 ? (
+                            <SlideThree
+                              nextStep={Step3NEXT}
+                              previousStep={Step3PREV}
+                              formik={formik}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide4 ? (
+                            <SlideFour
+                              nextStep={Step4NEXT}
+                              previousStep={Step4PREV}
+                              formik={formik}
+                              waitCep={handleBackdrop}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide5 ? (
+                            <SlideFive
+                              nextStep={Step5NEXT}
+                              previousStep={Step5PREV}
+                              formik={formik}
+                              waitCnpj={handleBackdrop}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide6 ? (
+                            <SlideSix
+                              previousStep={Step6PREV}
+                              formik={formik}
+                            />
+                          ) : (
+                            ""
+                          )}
                         </Carousel>
                       </CardBody>
                     </Card>
