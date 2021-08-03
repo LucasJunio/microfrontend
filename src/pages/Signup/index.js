@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import Carousel from "react-slick";
 import { Backdrop, CircularProgress, Grid } from "@material-ui/core";
-
+import { useHistory } from "react-router-dom";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody";
 import { SlideOne } from "./slides/SlideOne/index";
@@ -36,35 +36,14 @@ export default function SectionCarousel() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
-  const [Showloading, setShowloading] = useState("none");
-  // const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
   const [celular, setCelular] = useState("");
-  const [cpf, setCPF] = useState("");
-  const [senha, setSenha] = useState("");
-  const [senha2, setSenha2] = useState("");
-  const [ColorInputClass, setColorInputClass] = useState(false);
-  const [ColorInputClass2, setColorInputClass2] = useState(false);
-  const [Iconsenha, setIconSenha] = useState("lock_Outline");
   const [cep, setCEP] = useState("");
-  const [nascimento, setNASCIMENTO] = useState("");
-  const [rg, setRG] = useState("");
-  const [emissor, setEMISSOR] = useState("");
-  const [emissao, setEMISSAO] = useState("");
-  const [sexo, setSEXO] = useState("");
   const [endereco, setENDERECO] = useState("");
-  const [numero, setNUMERO] = useState("");
   const [bairro, setBAIRRO] = useState("");
   const [complemento, setCOMPLEMENTO] = useState("");
-  const [cidade, setCIDADE] = useState("");
-  const [estado, setESTADO] = useState("");
-  const [estado_civil, setESTADOCIVIL] = useState("");
-  const [naturalidade, setNATURALIDADE] = useState("");
-  const [nacionalidade, setNACIONALIDADE] = useState("");
-  const [mae, setMAE] = useState("");
-  const [pai, setPAI] = useState("");
   const [razaosocial, setRAZAOSOCIAL] = useState("");
   const [nome_fantasia, setNOMEFANTASIA] = useState("");
   const [cnpj, setCNPJ] = useState("");
@@ -75,14 +54,7 @@ export default function SectionCarousel() {
   const [enderecopj, setENDERECOPJ] = useState("");
   const [numeropj, setNUMEROPJ] = useState("");
   const [bairropj, setBAIRROPJ] = useState("");
-  const [estadopj, setESTADOPJ] = useState("");
-  const [cidadepj, setCIDADEPJ] = useState("");
   const [complementopj, setCOMPLEMENTOPJ] = useState("");
-  const [bancopj, setBANCOPJ] = useState("");
-  const [agenciapj, setAGENCIAPJ] = useState("");
-  const [contapj, setCONTAPJ] = useState("");
-  const [pixpj, setPIXPJ] = useState("");
-  const [operacaopj, setOPERACAOPJ] = useState("");
   const [dot1, setDOT1] = useState(dotActive);
   const [dot2, setDOT2] = useState(dotInactive);
   const [dot3, setDOT3] = useState(dotInactive);
@@ -99,16 +71,17 @@ export default function SectionCarousel() {
   const validationSchema = yup.object({
     nome: yup
       .string()
-      .trim()
       .required("Nome é obrigatório")
       .matches(/^[aA-zZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/, "Somente letras")
       .min(10, "Nome completo deve conter no minimo 10 caractéries")
-      .max(40, "Máximo de 40 caractéries"),
+      .max(40, "Máximo de 40 caractéries")
+      .trim(),
     email: yup
       .string()
       .trim()
       .email("Não é um e-mail válido")
-      .required("Favor informar e-mail"),
+      .required("Favor informar e-mail")
+      .trim(),
     senha: yup
       .string()
       .required("Por favor, insira sua senha")
@@ -122,7 +95,8 @@ export default function SectionCarousel() {
       .oneOf([yup.ref("senha")], "A senha não confere")
       .required("Por favor, insira a senha")
       .trim(),
-    cpf: yup.string().required("CPF é obrigatório"),
+    cpf: yup.string().required("CPF é obrigatório").trim(),
+    celular: yup.string().required("O campo celular é obrigatório").trim(),
     nascimento: yup
       .string()
       .required("Data de nascimento é obrigatória")
@@ -132,10 +106,16 @@ export default function SectionCarousel() {
       .required("O campo naturalidade é obrigatório")
       .trim(),
     nacionalidade: yup.string().required("O campo nacionalidade é obrigatório"),
+    estado_civil: yup.string().required("O campo estado civil é obrigatório"),
+    rg: yup.string().required("O campo RG é obrigatório").trim(),
+    emissor: yup.string().required("O campo emissor é obrigatório").trim(),
+    emissao: yup.string().required("O campo emissao é obrigatório"),
     sexo: yup.string().required("O campo sexo é obrigatório"),
+    mae: yup.string().required("Campo mãe é obrigatório").trim(),
+    pai: yup.string().required("Campo pai é obrigatório").trim(),
     cep: yup.string().required("O campo CEP é obrigatório"),
     endereco: yup.string().required("O campo endereço é obrigatório").trim(),
-    numero: yup.string().required("O campo número é obrigatório"),
+    numero: yup.string().required("O campo número é obrigatório").trim(),
     bairro: yup.string().required("O campo bairro é obrigatório").trim(),
     cidade: yup.string().required("O campo cidade é obrigatório").trim(),
     estado: yup.string().required("O campo estado é obrigatório").trim(),
@@ -159,54 +139,56 @@ export default function SectionCarousel() {
     bancopj: yup.string().required("Campo banco é obrigatório"),
     agenciapj: yup.number().required("Campo agência é obrigatório"),
     contapj: yup.number().required("Campo conta é obrigatório"),
-    site: yup.string().url("Insira um site valido"),
+    site: yup
+      .string()
+      .url("Insira um site valido ex: 'https://www.google.com'"),
   });
 
   const formik = useFormik({
     initialValues: {
       nome: "",
-      email,
-      senha,
-      senha2,
-      cpf,
-      celular,
-      nascimento,
-      naturalidade,
-      nacionalidade,
-      sexo,
-      estado_civil,
-      rg,
-      emissor,
-      emissao,
-      sexo,
-      mae,
-      pai,
-      cep,
-      endereco,
-      numero,
-      bairro,
-      complemento,
-      cidade,
-      estado,
-      cnpj,
-      telefone,
-      site,
-      razaosocial,
-      cnae,
-      nome_fantasia,
-      ceppj,
-      enderecopj,
-      numeropj,
-      bairropj,
-      cidadepj,
-      complementopj,
-      cidadepj,
-      estadopj,
-      bancopj,
-      agenciapj,
-      contapj,
-      operacaopj,
-      pixpj,
+      email: "",
+      senha: "",
+      senha2: "",
+      cpf: "",
+      celular: "",
+      nascimento: "",
+      naturalidade: "",
+      nacionalidade: "",
+      sexo: "",
+      estado_civil: "",
+      rg: "",
+      emissor: "",
+      emissao: "",
+      sexo: "",
+      mae: "",
+      pai: "",
+      cep: "",
+      endereco: "",
+      numero: "",
+      bairro: "",
+      complemento: "",
+      cidade: "",
+      estado: "",
+      cnpj: "",
+      telefone: "",
+      site: "",
+      razaosocial: "",
+      cnae: "",
+      nome_fantasia: "",
+      ceppj: "",
+      enderecopj: "",
+      numeropj: "",
+      bairropj: "",
+      cidadepj: "",
+      complementopj: "",
+      cidadepj: "",
+      estadopj: "",
+      bancopj: "",
+      agenciapj: "",
+      contapj: "",
+      operacaopj: "",
+      pixpj: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -215,7 +197,6 @@ export default function SectionCarousel() {
         !!formik.values.agenciapj &&
         !!formik.values.contapj
       ) {
-        // console.log(values);
         const body = {
           usuario: {
             nome: values.nome,
@@ -274,21 +255,17 @@ export default function SectionCarousel() {
 
         const isPosted = async () => {
           setOpen(true);
-          const res = await postCnpj(body);
+          const { sucess, res } = await postCnpj(body);
           setOpen(false);
-          if (res) {
-            console.log("Passar para pagina de token");
-            top.location.href = "/";
+          if (sucess) {
+            dispatch(signupSuccess());
+            localStorage.setItem("token", res.token);
+            history.push("/");
           } else {
-            enqueueSnackbar(
-              "Não foi possível cadastrar agora, por favor, tente mais tarde",
-              {
-                variant: "error",
-              }
-            );
+            enqueueSnackbar(res, {
+              variant: "error",
+            });
           }
-          // console.log(res);
-          return res;
         };
         isPosted();
       } else {
@@ -450,7 +427,6 @@ export default function SectionCarousel() {
   };
 
   const Step2PREV = () => {
-    setHideSlide2(false);
     slickRef.current.slickPrev();
     setDOT2(dotInactive);
     setDOT1(dotActive);
@@ -486,12 +462,6 @@ export default function SectionCarousel() {
 
   const Step6NEXT = () => {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
-  };
-
-  const [openmodal, setOpenmodal] = useState(false);
-  const handleClose = () => {
-    setOpenmodal(false);
-    top.location.href = "/";
   };
 
   return (
