@@ -48,7 +48,11 @@ import Alert from "@material-ui/lab/Alert";
 import logotipo from "../../assets/images/logo-vileve-pay-cor-140px.png";
 import ButtonTimer from "../../components/ButtonTimer";
 
-import { sendTokenSms } from "../../services/api/api";
+import {
+  sendTokenSms,
+  sendValidationStatus,
+  changeCellphone,
+} from "../../services/api/api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -151,7 +155,7 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const [openmodal, setOpenmodal] = React.useState(true);
+  const [openmodal, setOpenmodal] = React.useState(false);
 
   const [openbackdrop, setOpenBackDrop] = React.useState(false);
 
@@ -173,6 +177,10 @@ export default function MiniDrawer() {
   const OnchangeTOKEN = (v) => {
     setTOKEN(v.replace(/\D/g, ""));
   };
+  const [cellphone, setCELLPHONE] = React.useState("");
+  const OnchangeCELLPHONE = (v) => {
+    setCELLPHONE(v.replace(/\D/g, ""));
+  };
 
   const Logout = () => {
     localStorage.setItem("token", "");
@@ -191,6 +199,35 @@ export default function MiniDrawer() {
         enqueueSnackbar(`${error}`, { variant: "error" });
       });
   };
+
+  const changeCell = async () => {
+    setOpenBackDrop(true);
+    await changeCellphone(cellphone)
+      .then((res) => {
+        setOpenBackDrop(false);
+        enqueueSnackbar("Celular alterado com sucesso", { variant: "success" });
+      })
+      .catch((error) => {
+        setOpenBackDrop(false);
+        enqueueSnackbar(`${error}`, { variant: "error" });
+      });
+  };
+
+  useEffect(() => {
+    const getValidationStatus = async () => {
+      await sendValidationStatus()
+        .then((res) => {
+          res == "SMS validado" || res == "SMS e Email validado"
+            ? setOpenmodal(false)
+            : setOpenmodal(true);
+        })
+        .catch((error) => {
+          setOpenmodal(true);
+        });
+    };
+
+    getValidationStatus();
+  });
 
   return (
     <>
@@ -234,9 +271,17 @@ export default function MiniDrawer() {
             <IconButton className={classes.iconButton} aria-label="menu">
               <PhoneIphone />
             </IconButton>
-            <InputBase placeholder="********" />
+            <InputBase
+              placeholder="********"
+              inputProps={{
+                maxLength: 11,
+                onChange: (e) => OnchangeCELLPHONE(e.target.value),
+                value: cellphone,
+              }}
+            />
             <IconButton
-              type="submit"
+              type="button"
+              onClick={changeCell}
               className={classes.iconButton}
               aria-label="celular"
             >
