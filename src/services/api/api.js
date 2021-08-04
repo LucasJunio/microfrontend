@@ -89,7 +89,7 @@ const sendValidationStatus = () => {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-      resolve(res.data.message);
+      resolve(res.data);
     } catch (error) {
       reject(error.response.data.message); //todo correction message backend
     }

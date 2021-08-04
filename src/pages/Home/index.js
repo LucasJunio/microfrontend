@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useLayoutEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import $ from "jquery";
 import clsx from "clsx";
@@ -179,7 +179,7 @@ export default function MiniDrawer() {
   };
   const [cellphone, setCELLPHONE] = React.useState("");
   const OnchangeCELLPHONE = (v) => {
-    setCELLPHONE(v.replace(/\D/g, ""));
+    setCELLPHONE(v);
   };
 
   const Logout = () => {
@@ -213,11 +213,15 @@ export default function MiniDrawer() {
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getValidationStatus = async () => {
       await sendValidationStatus()
         .then((res) => {
-          res == "SMS validado" || res == "SMS e Email validado"
+          // setCELLPHONE("****-" + res.celular.toString().substring(4, 8));
+          console.log(res.celular);
+
+          res.message === "SMS validadox" ||
+          res.message === "SMS e Email validado"
             ? setOpenmodal(false)
             : setOpenmodal(true);
         })
