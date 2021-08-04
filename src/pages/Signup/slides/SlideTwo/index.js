@@ -95,7 +95,12 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Button size="sm" color="success" onClick={() => StepPF()}>
+                    <Button
+                      size="sm"
+                      color="success"
+                      id="BTNFIRSTNEXPF"
+                      onClick={() => StepPF()}
+                    >
                       Pessoa Física
                     </Button>
                   </CardActions>

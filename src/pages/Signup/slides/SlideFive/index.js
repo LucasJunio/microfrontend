@@ -11,13 +11,7 @@ import {
 } from "../../../../utils/string/masks";
 import { getCnpj } from "../../../../services/api/api";
 
-export const SlideFive = ({
-  nextStep,
-  previousStep,
-  formik,
-  waitCnpj,
-  isCnpj,
-}) => {
+export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
   const classes = useStyles();
   const handleCNPJ = (event) => {
     let value = event.target.value;
@@ -106,7 +100,7 @@ export const SlideFive = ({
                       }}
                       fullWidth
                       inputProps={{ maxLength: 18 }}
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.cnpj)}
                       helperText={formik.errors.cnpj}
                     />
@@ -125,7 +119,7 @@ export const SlideFive = ({
                       }
                       fullWidth
                       inputProps={{ maxLength: 14 }}
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.telefone)}
                       helperText={formik.errors.telefone}
                     />
@@ -138,7 +132,7 @@ export const SlideFive = ({
                       value={formik.values.site}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.site)}
                       helperText={formik.errors.site}
                     />
@@ -155,7 +149,7 @@ export const SlideFive = ({
                       value={formik.values.razaosocial}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.razaosocial)}
                       helperText={formik.errors.razaosocial}
                     />
@@ -173,7 +167,7 @@ export const SlideFive = ({
                         )
                       }
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.cnae)}
                       helperText={formik.errors.cnae}
                     />
@@ -186,7 +180,7 @@ export const SlideFive = ({
                       value={formik.values.nome_fantasia}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.nome_fantasia)}
                       helperText={formik.errors.nome_fantasia}
                     />
@@ -203,7 +197,7 @@ export const SlideFive = ({
                       value={formik.values.ceppj}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.ceppj)}
                       helperText={formik.errors.ceppj}
                     />
@@ -216,7 +210,7 @@ export const SlideFive = ({
                       value={formik.values.enderecopj}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.enderecopj)}
                       helperText={formik.errors.enderecopj}
                     />
@@ -234,7 +228,7 @@ export const SlideFive = ({
                         )
                       }
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.numeropj)}
                       helperText={formik.errors.numeropj}
                     />
@@ -251,7 +245,7 @@ export const SlideFive = ({
                       value={formik.values.bairropj}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.bairropj)}
                       helperText={formik.errors.bairropj}
                     />
@@ -274,7 +268,7 @@ export const SlideFive = ({
                       value={formik.values.cidadepj}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.cidadepj)}
                       helperText={formik.errors.cidadepj}
                     />
@@ -287,7 +281,7 @@ export const SlideFive = ({
                       value={formik.values.estadopj}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.estadopj)}
                       helperText={formik.errors.estadopj}
                     />

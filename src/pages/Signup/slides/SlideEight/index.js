@@ -196,7 +196,7 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                   <Button
                     color="primary"
                     size="sm"
-                    id="BTNTHIRDNEXT"
+                    id="BTNTHIRDNEXTPF"
                     rel="noopener noreferrer"
                     onClick={() => nextStep()}
                   >

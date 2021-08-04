@@ -155,6 +155,7 @@ export default function SectionCarousel() {
     contapj: yup.number().required("Campo conta é obrigatório"),
     site: yup
       .string()
+      .required("Campo Site é obrigatório")
       .url("Insira um site valido ex: 'https://www.google.com'"),
     cpfPf: yup.string().required("CPF é obrigatório").trim(),
     celularPf: yup.string().required("O campo celular é obrigatório").trim(),
@@ -178,6 +179,7 @@ export default function SectionCarousel() {
     paiPf: yup.string().required("Campo pai é obrigatório").trim(),
     sitePf: yup
       .string()
+      .required("Campo Site é obrigatório")
       .url("Insira um site valido ex: 'https://www.google.com'"),
   });
 
@@ -321,10 +323,18 @@ export default function SectionCarousel() {
   const Step3NEXT = () => {
     if (validateCpf(formik.values.cpf)) {
       if (
+        !!formik.values.celular &&
         !!formik.values.nascimento &&
         !!formik.values.naturalidade &&
         !!formik.values.nacionalidade &&
-        !!formik.values.sexo
+        !!formik.values.estado_civil &&
+        !!formik.values.rg &&
+        !!formik.values.emissor &&
+        !!formik.values.emissao &&
+        !!formik.values.sexo &&
+        !!formik.values.mae &&
+        !!formik.values.pai &&
+        !!formik.values.site
       ) {
         setHideSlide4(true);
         slickRef.current.slickNext();
@@ -412,10 +422,18 @@ export default function SectionCarousel() {
   const Step7NEXT = () => {
     if (validateCpf(formik.values.cpfPf)) {
       if (
+        !!formik.values.celularPf &&
         !!formik.values.nascimentoPf &&
         !!formik.values.naturalidadePf &&
         !!formik.values.nacionalidadePf &&
-        !!formik.values.sexoPf
+        !!formik.values.estadoCivilPf &&
+        !!formik.values.rgPf &&
+        !!formik.values.emissorPf &&
+        !!formik.values.emissaoPf &&
+        !!formik.values.sexoPf &&
+        !!formik.values.maePf &&
+        !!formik.values.paiPf &&
+        !!formik.values.sitePf
       ) {
         setHideSlide8(true);
         slickRef.current.slickNext();

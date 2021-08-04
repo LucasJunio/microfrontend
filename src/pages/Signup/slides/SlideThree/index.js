@@ -88,8 +88,8 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       fullWidth
                       inputProps={{ maxLength: 15 }}
                       required
-                      // error={Boolean(formik.errors.celular)}
-                      // helperText={formik.errors.celular}
+                      error={Boolean(formik.errors.celular)}
+                      helperText={formik.errors.celular}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
