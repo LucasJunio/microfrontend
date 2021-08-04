@@ -72,7 +72,7 @@ export default function SectionCarousel() {
   const [hideSlide7, setHideSlide7] = useState(false);
   const [hideSlide8, setHideSlide8] = useState(false);
   const [hideSlide9, setHideSlide9] = useState(false);
-  const [isCnpj, setIsCnpj] = useState(undefined);
+  const [isCnpj, setIsCnpj] = useState(false);
 
   const validationSchema = yup.object({
     nome: yup
@@ -250,143 +250,7 @@ export default function SectionCarousel() {
     },
     validationSchema,
     onSubmit: (values) => {
-      if (
-        !!formik.values.bancopj &&
-        !!formik.values.agenciapj &&
-        !!formik.values.contapj
-      ) {
-        let body = undefined;
-        if (isCnpj) {
-          body = {
-            usuario: {
-              nome: values.nome,
-              email: values.email,
-              senha: sha256(values.senha).toString().trim(),
-            },
-            pessoa: {
-              cpf: maskNumber(values.cpf),
-              celular: maskNumber(values.celular),
-              nascimento: values.nascimento,
-              naturalidade: values.naturalidade,
-              nacionalidade: values.nacionalidade,
-              estado_civil: values.estado_civil,
-              rg: values.rg,
-              emissor: values.emissor,
-              emissao: values.emissao,
-              sexo: values.sexo,
-              mae: values.mae,
-              pai: values.pai,
-            },
-            empresa: {
-              cnpj: maskNumber(values.cnpj),
-              cnae: values.cnae,
-              razao_social: values.razaosocial,
-              telefone_fixo: maskNumber(values.telefone),
-              celular: maskNumber(values.celular),
-              nome_fantasia: values.nome_fantasia,
-              site: values.site,
-            },
-            conta: {
-              banco: values.bancopj.toString(),
-              agencia: maskNumber(values.agenciapj),
-              conta: maskNumber(values.contapj),
-              operacao: maskNumber(values.operacaopj),
-              pix: values.pixpj,
-            },
-            endereco_cnpj: {
-              cep: maskNumber(values.cep),
-              complemento: values.complementopj,
-              endereco: values.enderecopj,
-              numero: maskNumber(values.numeropj),
-              bairro: values.bairropj,
-              cidade: values.cidadepj,
-              estado: values.estadopj,
-            },
-            endereco_cpf: {
-              cep: maskNumber(values.cep),
-              complemento: values.complemento,
-              endereco: values.endereco,
-              numero: values.numeropj,
-              bairro: values.bairro,
-              cidade: values.cidade,
-              estado: values.estado,
-            },
-          };
-
-          const persistCnpj = async () => {
-            setOpen(true);
-            const { sucess, res } = await postCnpj(body);
-            setOpen(false);
-            if (sucess) {
-              dispatch(signupSuccess());
-              localStorage.setItem("token", res.token);
-              history.push("/");
-            } else {
-              enqueueSnackbar(res, {
-                variant: "error",
-              });
-            }
-          };
-          persistCnpj();
-        } else {
-          body = {
-            usuario: {
-              nome: values.nome,
-              email: values.email,
-              senha: sha256(values.senha).toString().trim(),
-            },
-            pessoa: {
-              cpf: maskNumber(values.cpfPf),
-              celular: maskNumber(values.celularPf),
-              nascimento: values.nascimentoPf,
-              naturalidade: values.naturalidadePf,
-              nacionalidade: values.nacionalidadePf,
-              estado_civil: values.estadoCivilPf,
-              rg: values.rgPf,
-              emissor: values.emissorPf,
-              emissao: values.emissaoPf,
-              sexo: values.sexoPf,
-              mae: values.maePf,
-              pai: values.paiPf,
-            },
-            conta: {
-              banco: values.bancopj.toString(),
-              agencia: maskNumber(values.agenciapj),
-              conta: maskNumber(values.contapj),
-              operacao: maskNumber(values.operacaopj),
-              pix: values.pixpj,
-            },
-            endereco_cpf: {
-              cep: maskNumber(values.cepPf),
-              complemento: values.complementoPf,
-              endereco: values.enderecoPf,
-              numero: values.numeroPf,
-              bairro: values.bairroPf,
-              cidade: values.cidadePf,
-              estado: values.estadoPf,
-            },
-          };
-          console.log(body);
-          const persistPf = async () => {
-            setOpen(true);
-            const { sucess, res } = await postPf(body);
-            if (sucess) {
-              dispatch(signupSuccess());
-              localStorage.setItem("token", res.token);
-              history.push("/");
-            } else {
-              enqueueSnackbar(res, {
-                variant: "error",
-              });
-            }
-          };
-          persistPf();
-        }
-      } else {
-        enqueueSnackbar("Campos obrigatórios não preenchidos", {
-          variant: "error",
-        });
-      }
+      console.log(values);
     },
   });
 
@@ -688,8 +552,145 @@ export default function SectionCarousel() {
                 <Grid item xs={12} md={12}>
                   <form
                     onSubmit={(e) => {
-                      console.log(e);
-                      e.preventDefault();
+                      console.log(formik);
+                      const { values } = formik;
+                      if (
+                        !!formik.values.bancopj &&
+                        !!formik.values.agenciapj &&
+                        !!formik.values.contapj
+                      ) {
+                        let body = undefined;
+                        if (isCnpj) {
+                          body = {
+                            usuario: {
+                              nome: values.nome,
+                              email: values.email,
+                              senha: sha256(values.senha).toString().trim(),
+                            },
+                            pessoa: {
+                              cpf: maskNumber(values.cpf),
+                              celular: maskNumber(values.celular),
+                              nascimento: values.nascimento,
+                              naturalidade: values.naturalidade,
+                              nacionalidade: values.nacionalidade,
+                              estado_civil: values.estado_civil,
+                              rg: values.rg,
+                              emissor: values.emissor,
+                              emissao: values.emissao,
+                              sexo: values.sexo,
+                              mae: values.mae,
+                              pai: values.pai,
+                            },
+                            empresa: {
+                              cnpj: maskNumber(values.cnpj),
+                              cnae: values.cnae,
+                              razao_social: values.razaosocial,
+                              telefone_fixo: maskNumber(values.telefone),
+                              celular: maskNumber(values.celular),
+                              nome_fantasia: values.nome_fantasia,
+                              site: values.site,
+                            },
+                            conta: {
+                              banco: values.bancopj.toString(),
+                              agencia: maskNumber(values.agenciapj),
+                              conta: maskNumber(values.contapj),
+                              operacao: maskNumber(values.operacaopj),
+                              pix: values.pixpj,
+                            },
+                            endereco_cnpj: {
+                              cep: maskNumber(values.cep),
+                              complemento: values.complementopj,
+                              endereco: values.enderecopj,
+                              numero: maskNumber(values.numeropj),
+                              bairro: values.bairropj,
+                              cidade: values.cidadepj,
+                              estado: values.estadopj,
+                            },
+                            endereco_cpf: {
+                              cep: maskNumber(values.cep),
+                              complemento: values.complemento,
+                              endereco: values.endereco,
+                              numero: values.numeropj,
+                              bairro: values.bairro,
+                              cidade: values.cidade,
+                              estado: values.estado,
+                            },
+                          };
+
+                          const persistCnpj = async () => {
+                            setOpen(true);
+                            const { sucess, res } = await postCnpj(body);
+                            setOpen(false);
+                            if (sucess) {
+                              dispatch(signupSuccess());
+                              localStorage.setItem("token", res.token);
+                              history.push("/");
+                            } else {
+                              enqueueSnackbar(res, {
+                                variant: "error",
+                              });
+                            }
+                          };
+                          persistCnpj();
+                        } else {
+                          body = {
+                            usuario: {
+                              nome: values.nome,
+                              email: values.email,
+                              senha: sha256(values.senha).toString().trim(),
+                            },
+                            pessoa: {
+                              cpf: maskNumber(values.cpfPf),
+                              celular: maskNumber(values.celularPf),
+                              nascimento: values.nascimentoPf,
+                              naturalidade: values.naturalidadePf,
+                              nacionalidade: values.nacionalidadePf,
+                              estado_civil: values.estadoCivilPf,
+                              rg: values.rgPf,
+                              emissor: values.emissorPf,
+                              emissao: values.emissaoPf,
+                              sexo: values.sexoPf,
+                              mae: values.maePf,
+                              pai: values.paiPf,
+                            },
+                            conta: {
+                              banco: values.bancopj.toString(),
+                              agencia: maskNumber(values.agenciapj),
+                              conta: maskNumber(values.contapj),
+                              operacao: maskNumber(values.operacaopj),
+                              pix: values.pixpj,
+                            },
+                            endereco_cpf: {
+                              cep: maskNumber(values.cepPf),
+                              complemento: values.complementoPf,
+                              endereco: values.enderecoPf,
+                              numero: values.numeroPf,
+                              bairro: values.bairroPf,
+                              cidade: values.cidadePf,
+                              estado: values.estadoPf,
+                            },
+                          };
+                          console.log(body);
+                          const persistPf = async () => {
+                            setOpen(true);
+                            const { sucess, res } = await postPf(body);
+                            if (sucess) {
+                              dispatch(signupSuccess());
+                              localStorage.setItem("token", res.token);
+                              history.push("/");
+                            } else {
+                              enqueueSnackbar(res, {
+                                variant: "error",
+                              });
+                            }
+                          };
+                          persistPf();
+                        }
+                      } else {
+                        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+                          variant: "error",
+                        });
+                      }
                       formik.handleSubmit(e);
                     }}
                     style={{ height: "0px" }}
