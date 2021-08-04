@@ -179,20 +179,36 @@ export default function MiniDrawer() {
     history.push("/signup");
   };
 
-  const sendToken = async () => {
+  const sendToken = async (token) => {
     setOpenBackDrop(true);
-    const res = await sendTokenSms();
-    if (res) {
-      setOpenBackDrop(false);
-      enqueueSnackbar("SMS validado com sucesso", {
-        variant: "success",
+    await sendTokenSms(token)
+      .then(() => {
+        setOpenBackDrop(false);
+        enqueueSnackbar("SMS validado com sucesso", { variant: "success" });
+      })
+      .catch((error) => {
+        setOpenBackDrop(false);
+        enqueueSnackbar(error, {
+          variant: "error",
+        });
       });
-    } else {
-      enqueueSnackbar("Houve um erro no envio do SMS", {
-        variant: "error",
-      });
-    }
   };
+
+  // const sendToken = async () => {
+  //   setOpenBackDrop(true);
+  //   const res = await sendTokenSms();
+  //   if (res) {
+  //     enqueueSnackbar("SMS validado com sucesso", {
+  //       variant: "success",
+  //     });
+  //     setOpenBackDrop(false);
+  //   } else {
+  //     enqueueSnackbar("Houve um erro no envio do SMS", {
+  //       variant: "error",
+  //     });
+  //     setOpenBackDrop(false);
+  //   }
+  // };
 
   return (
     <>
