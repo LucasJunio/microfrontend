@@ -181,17 +181,15 @@ export default function MiniDrawer() {
 
   const sendToken = async () => {
     setOpenBackDrop(true);
-    const res = await sendTokenSms();
-    if (res) {
-      setOpenBackDrop(false);
-      enqueueSnackbar("SMS validado com sucesso", {
-        variant: "success",
+    await sendTokenSms(token)
+      .then((res) => {
+        setOpenBackDrop(false);
+        enqueueSnackbar("SMS validado com sucesso", { variant: "success" });
+      })
+      .catch((error) => {
+        setOpenBackDrop(false);
+        enqueueSnackbar(`${error}`, { variant: "error" });
       });
-    } else {
-      enqueueSnackbar("Houve um erro no envio do SMS", {
-        variant: "error",
-      });
-    }
   };
 
   return (

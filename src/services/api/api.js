@@ -59,21 +59,38 @@ const postCnpj = async (body) => {
   }
 };
 
-const sendTokenSms = async () => {
-  try {
-    const res = await axios.get(`${url}/validation/sms/${token}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    const result = res.data;
-    return result;
-  } catch (error) {
-    return false;
-    console.error(error);
-  }
+const sendTokenSms = (token) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios.get(`${url}/validation/sms/${token}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      resolve(res.data);
+    } catch (error) {
+      reject(error.response.data);
+    }
+  });
 };
+
+// const sendTokenSms = async () => {
+
+//   try {
+//     const res = await axios.get(`${url}/validation/sms/${token}`, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: "Bearer " + localStorage.getItem("token"),
+//       },
+//     });
+//     const result = res.data;
+//     return result;
+//   } catch (error) {
+//     return error;
+//     console.error(error);
+//   }
+// };
 
 const api = axios.create({
   baseURL: "http://localhost:80",
