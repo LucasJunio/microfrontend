@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import $ from "jquery";
 import clsx from "clsx";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";

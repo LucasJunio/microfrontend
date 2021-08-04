@@ -184,7 +184,7 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
               </Grid>
               <Grid item>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={4} lg={6}>
+                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                     <TextField
                       id="bancopj"
                       name="bancopj"
@@ -206,7 +206,7 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
                       })}
                     </TextField>
                   </Grid>
-                  <Grid item xs={12} sm={4} lg={6}>
+                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                     <TextField
                       id="agenciapj"
                       name="agenciapj"
@@ -226,7 +226,7 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
               </Grid>
               <Grid item>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={4} lg={6}>
+                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                     <TextField
                       id="contapj"
                       name="contapj"
@@ -239,7 +239,7 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
                       helperText={formik.errors.contapj}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4} md={6} lg={6}>
+                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                     <Box visibility={isCaixa}>
                       <TextField
                         id="operacaopj"
@@ -256,7 +256,7 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
               </Grid>
               <Grid item>
                 <Grid container>
-                  <Grid item xs={12} lg={12}>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <TextField
                       id="pixpj"
                       name="pixpj"

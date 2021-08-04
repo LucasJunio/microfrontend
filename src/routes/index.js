@@ -10,6 +10,7 @@ import history from "../services/history";
 import Signup from "../pages/Signup";
 import Home from "../pages/Home";
 import Email from "../pages/Email";
+import Signin from "../pages/Signin";
 
 export default function Routes() {
   return (
@@ -25,6 +26,7 @@ export default function Routes() {
           <ConnectedRouter history={history}>
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/signin" component={Signin} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/email*" component={Email} />
             </Switch>
