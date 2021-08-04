@@ -14,7 +14,6 @@ import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 
-
 export const SlideOne = ({ nextStep, formik }) => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);

@@ -1,12 +1,11 @@
 import "@fontsource/roboto";
-import React, { useState, useRef, useEffect } from "react";
-import $ from "jquery";
+import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
 // react component for creating beautiful carousel
 import { useSnackbar } from "notistack";
 import Carousel from "react-slick";
 import { Backdrop, CircularProgress, Grid } from "@material-ui/core";
-
+import { useHistory } from "react-router-dom";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody";
 import { SlideOne } from "./slides/SlideOne/index";
@@ -15,11 +14,13 @@ import { SlideThree } from "./slides/SlideThree/index";
 import { SlideFour } from "./slides/SlideFour/index";
 import { SlideFive } from "./slides/SlideFive/index";
 import { SlideSix } from "./slides/SlideSix/index";
+import { SlideSeven } from "./slides/SlideSeven";
+import { SlideEight } from "./slides/SlideEight";
 import logo from "../../assets/images/logo_vileve_way.png";
 import sha256 from "crypto-js/sha256";
-import { ClassBackground, Loading, Spinner, useStyles } from "./styles";
+import { ClassBackground, useStyles } from "./styles";
 import * as yup from "yup";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   insertAddressCPFRequest,
   insertAddressCNPJRequest,
@@ -29,42 +30,22 @@ import { signupSuccess } from "../../store/modules/signup/actions";
 import "./stylepagination.scss";
 import { maskNumber } from "../../utils/string/masks";
 import { validateCpf } from "../../utils/string/validateCpf";
-import { postCnpj } from "../../services/api/api";
+import { postCnpj, postPf } from "../../services/api/api";
 
 export default function SectionCarousel() {
+  const { enqueueSnackbar } = useSnackbar();
   const slickRef = useRef();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
+
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
-  const [Showloading, setShowloading] = useState("none");
-  // const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
   const [celular, setCelular] = useState("");
-  const [cpf, setCPF] = useState("");
-  const [senha, setSenha] = useState("");
-  const [senha2, setSenha2] = useState("");
-  const [ColorInputClass, setColorInputClass] = useState(false);
-  const [ColorInputClass2, setColorInputClass2] = useState(false);
-  const [Iconsenha, setIconSenha] = useState("lock_Outline");
   const [cep, setCEP] = useState("");
-  const [nascimento, setNASCIMENTO] = useState("");
-  const [rg, setRG] = useState("");
-  const [emissor, setEMISSOR] = useState("");
-  const [emissao, setEMISSAO] = useState("");
-  const [sexo, setSEXO] = useState("");
   const [endereco, setENDERECO] = useState("");
-  const [numero, setNUMERO] = useState("");
   const [bairro, setBAIRRO] = useState("");
   const [complemento, setCOMPLEMENTO] = useState("");
-  const [cidade, setCIDADE] = useState("");
-  const [estado, setESTADO] = useState("");
-  const [estado_civil, setESTADOCIVIL] = useState("");
-  const [naturalidade, setNATURALIDADE] = useState("");
-  const [nacionalidade, setNACIONALIDADE] = useState("");
-  const [mae, setMAE] = useState("");
-  const [pai, setPAI] = useState("");
   const [razaosocial, setRAZAOSOCIAL] = useState("");
   const [nome_fantasia, setNOMEFANTASIA] = useState("");
   const [cnpj, setCNPJ] = useState("");
@@ -75,14 +56,7 @@ export default function SectionCarousel() {
   const [enderecopj, setENDERECOPJ] = useState("");
   const [numeropj, setNUMEROPJ] = useState("");
   const [bairropj, setBAIRROPJ] = useState("");
-  const [estadopj, setESTADOPJ] = useState("");
-  const [cidadepj, setCIDADEPJ] = useState("");
   const [complementopj, setCOMPLEMENTOPJ] = useState("");
-  const [bancopj, setBANCOPJ] = useState("");
-  const [agenciapj, setAGENCIAPJ] = useState("");
-  const [contapj, setCONTAPJ] = useState("");
-  const [pixpj, setPIXPJ] = useState("");
-  const [operacaopj, setOPERACAOPJ] = useState("");
   const [dot1, setDOT1] = useState(dotActive);
   const [dot2, setDOT2] = useState(dotInactive);
   const [dot3, setDOT3] = useState(dotInactive);
@@ -95,20 +69,25 @@ export default function SectionCarousel() {
   const [hideSlide4, setHideSlide4] = useState(false);
   const [hideSlide5, setHideSlide5] = useState(false);
   const [hideSlide6, setHideSlide6] = useState(false);
+  const [hideSlide7, setHideSlide7] = useState(false);
+  const [hideSlide8, setHideSlide8] = useState(false);
+  const [hideSlide9, setHideSlide9] = useState(false);
+  const [isCnpj, setIsCnpj] = useState(false);
 
   const validationSchema = yup.object({
     nome: yup
       .string()
-      .trim()
       .required("Nome é obrigatório")
       .matches(/^[aA-zZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/, "Somente letras")
       .min(10, "Nome completo deve conter no minimo 10 caractéries")
-      .max(40, "Máximo de 40 caractéries"),
+      .max(40, "Máximo de 40 caractéries")
+      .trim(),
     email: yup
       .string()
       .trim()
       .email("Não é um e-mail válido")
-      .required("Favor informar e-mail"),
+      .required("Favor informar e-mail")
+      .trim(),
     senha: yup
       .string()
       .required("Por favor, insira sua senha")
@@ -122,7 +101,8 @@ export default function SectionCarousel() {
       .oneOf([yup.ref("senha")], "A senha não confere")
       .required("Por favor, insira a senha")
       .trim(),
-    cpf: yup.string().required("CPF é obrigatório"),
+    cpf: yup.string().required("CPF é obrigatório").trim(),
+    celular: yup.string().required("O campo celular é obrigatório").trim(),
     nascimento: yup
       .string()
       .required("Data de nascimento é obrigatória")
@@ -132,13 +112,27 @@ export default function SectionCarousel() {
       .required("O campo naturalidade é obrigatório")
       .trim(),
     nacionalidade: yup.string().required("O campo nacionalidade é obrigatório"),
+    estado_civil: yup.string().required("O campo estado civil é obrigatório"),
+    rg: yup.string().required("O campo RG é obrigatório").trim(),
+    emissor: yup.string().required("O campo emissor é obrigatório").trim(),
+    emissao: yup.string().required("O campo emissao é obrigatório"),
     sexo: yup.string().required("O campo sexo é obrigatório"),
+    mae: yup.string().required("Campo mãe é obrigatório").trim(),
+    pai: yup.string().required("Campo pai é obrigatório").trim(),
     cep: yup.string().required("O campo CEP é obrigatório"),
     endereco: yup.string().required("O campo endereço é obrigatório").trim(),
-    numero: yup.string().required("O campo número é obrigatório"),
+    numero: yup.string().required("O campo número é obrigatório").trim(),
     bairro: yup.string().required("O campo bairro é obrigatório").trim(),
     cidade: yup.string().required("O campo cidade é obrigatório").trim(),
     estado: yup.string().required("O campo estado é obrigatório").trim(),
+
+    cepPf: yup.string().required("O campo CEP é obrigatório"),
+    enderecoPf: yup.string().required("O campo endereço é obrigatório").trim(),
+    numeroPf: yup.string().required("O campo número é obrigatório").trim(),
+    bairroPf: yup.string().required("O campo bairro é obrigatório").trim(),
+    cidadePf: yup.string().required("O campo cidade é obrigatório").trim(),
+    estadoPf: yup.string().required("O campo estado é obrigatório").trim(),
+
     cnpj: yup.string().required("Campo CNPJ é obrigatório"),
     nome_fantasia: yup
       .string()
@@ -159,143 +153,106 @@ export default function SectionCarousel() {
     bancopj: yup.string().required("Campo banco é obrigatório"),
     agenciapj: yup.number().required("Campo agência é obrigatório"),
     contapj: yup.number().required("Campo conta é obrigatório"),
-    site: yup.string().url("Insira um site valido"),
+    site: yup
+      .string()
+      .required("Campo Site é obrigatório")
+      .url("Insira um site valido ex: 'https://www.google.com'"),
+    cpfPf: yup.string().required("CPF é obrigatório").trim(),
+    celularPf: yup.string().required("O campo celular é obrigatório").trim(),
+    nascimentoPf: yup
+      .string()
+      .required("Data de nascimento é obrigatória")
+      .trim(),
+    naturalidadePf: yup
+      .string()
+      .required("O campo naturalidade é obrigatório")
+      .trim(),
+    nacionalidadePf: yup
+      .string()
+      .required("O campo nacionalidade é obrigatório"),
+    estadoCivilPf: yup.string().required("O campo estado civil é obrigatório"),
+    rgPf: yup.string().required("O campo RG é obrigatório").trim(),
+    emissorPf: yup.string().required("O campo emissor é obrigatório").trim(),
+    emissaoPf: yup.string().required("O campo emissao é obrigatório"),
+    sexoPf: yup.string().required("O campo sexo é obrigatório"),
+    maePf: yup.string().required("Campo mãe é obrigatório").trim(),
+    paiPf: yup.string().required("Campo pai é obrigatório").trim(),
+    sitePf: yup
+      .string()
+      .required("Campo Site é obrigatório")
+      .url("Insira um site valido ex: 'https://www.google.com'"),
   });
 
   const formik = useFormik({
     initialValues: {
       nome: "",
-      email,
-      senha,
-      senha2,
-      cpf,
-      celular,
-      nascimento,
-      naturalidade,
-      nacionalidade,
-      sexo,
-      estado_civil,
-      rg,
-      emissor,
-      emissao,
-      sexo,
-      mae,
-      pai,
-      cep,
-      endereco,
-      numero,
-      bairro,
-      complemento,
-      cidade,
-      estado,
-      cnpj,
-      telefone,
-      site,
-      razaosocial,
-      cnae,
-      nome_fantasia,
-      ceppj,
-      enderecopj,
-      numeropj,
-      bairropj,
-      cidadepj,
-      complementopj,
-      cidadepj,
-      estadopj,
-      bancopj,
-      agenciapj,
-      contapj,
-      operacaopj,
-      pixpj,
+      email: "",
+      senha: "",
+      senha2: "",
+      cpf: "",
+      celular: "",
+      nascimento: "",
+      naturalidade: "",
+      nacionalidade: "",
+      sexo: "",
+      estado_civil: "",
+      rg: "",
+      emissor: "",
+      emissao: "",
+      sexo: "",
+      mae: "",
+      pai: "",
+      cpfPf: "",
+      celularPf: "",
+      nascimentoPf: "",
+      naturalidadePf: "",
+      nacionalidadePf: "",
+      sexoPf: "",
+      estadoCivilPf: "",
+      rgPf: "",
+      emissorPf: "",
+      emissaoPf: "",
+      sexoPf: "",
+      maePf: "",
+      paiPf: "",
+      sitePf: "",
+      cepPf: "",
+      enderecoPf: "",
+      numeroPf: "",
+      bairroPf: "",
+      complementoPf: "",
+      cidadePf: "",
+      estadoPf: "",
+      cep: "",
+      endereco: "",
+      numero: "",
+      bairro: "",
+      complemento: "",
+      cidade: "",
+      estado: "",
+      cnpj: "",
+      telefone: "",
+      site: "",
+      razaosocial: "",
+      cnae: "",
+      nome_fantasia: "",
+      ceppj: "",
+      enderecopj: "",
+      numeropj: "",
+      bairropj: "",
+      cidadepj: "",
+      complementopj: "",
+      cidadepj: "",
+      estadopj: "",
+      bancopj: "",
+      agenciapj: "",
+      contapj: "",
+      operacaopj: "",
+      pixpj: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      if (
-        !!formik.values.bancopj &&
-        !!formik.values.agenciapj &&
-        !!formik.values.contapj
-      ) {
-        // console.log(values);
-        const body = {
-          usuario: {
-            nome: values.nome,
-            email: values.email,
-            senha: sha256(values.senha).toString().trim(),
-          },
-          pessoa: {
-            cpf: maskNumber(values.cpf),
-            celular: maskNumber(values.celular),
-            nascimento: values.nascimento,
-            naturalidade: values.naturalidade,
-            nacionalidade: values.nacionalidade,
-            estado_civil: values.estado_civil,
-            rg: values.rg,
-            emissor: values.emissor,
-            emissao: values.emissao,
-            sexo: values.sexo,
-            mae: values.mae,
-            pai: values.pai,
-          },
-          empresa: {
-            cnpj: maskNumber(values.cnpj),
-            cnae: values.cnae,
-            razao_social: values.razaosocial,
-            telefone_fixo: maskNumber(values.telefone),
-            celular: maskNumber(values.celular),
-            nome_fantasia: values.nome_fantasia,
-            site: values.site,
-          },
-          conta: {
-            banco: values.bancopj.toString(),
-            agencia: maskNumber(values.agenciapj),
-            conta: maskNumber(values.contapj),
-            operacao: maskNumber(values.operacaopj),
-            pix: values.pixpj,
-          },
-          endereco_cnpj: {
-            cep: maskNumber(values.cep),
-            complemento: values.complementopj,
-            endereco: values.enderecopj,
-            numero: maskNumber(values.numeropj),
-            bairro: values.bairropj,
-            cidade: values.cidadepj,
-            estado: values.estadopj,
-          },
-          endereco_cpf: {
-            cep: maskNumber(values.cep),
-            complemento: values.complemento,
-            endereco: values.endereco,
-            numero: values.numeropj,
-            bairro: values.bairro,
-            cidade: values.cidade,
-            estado: values.estado,
-          },
-        };
-
-        const isPosted = async () => {
-          setOpen(true);
-          const res = await postCnpj(body);
-          setOpen(false);
-          if (res) {
-            console.log("Passar para pagina de token");
-            top.location.href = "/";
-          } else {
-            enqueueSnackbar(
-              "Não foi possível cadastrar agora, por favor, tente mais tarde",
-              {
-                variant: "error",
-              }
-            );
-          }
-          // console.log(res);
-          return res;
-        };
-        isPosted();
-      } else {
-        enqueueSnackbar("Campos obrigatórios não preenchidos", {
-          variant: "error",
-        });
-      }
+      console.log(values);
     },
   });
 
@@ -348,6 +305,7 @@ export default function SectionCarousel() {
   };
 
   const Step2PJ = () => {
+    setIsCnpj(true);
     setHideSlide3(true);
     slickRef.current.slickNext();
     setDOT2(dotInactive);
@@ -355,16 +313,27 @@ export default function SectionCarousel() {
   };
 
   const Step2PF = () => {
-    // Pessoa física será implementado
+    setIsCnpj(false);
+    setHideSlide7(true);
+    slickRef.current.slickNext();
+    setDOT2(dotInactive);
+    setDOT3(dotActive);
   };
 
   const Step3NEXT = () => {
     if (validateCpf(formik.values.cpf)) {
       if (
+        !!formik.values.celular &&
         !!formik.values.nascimento &&
         !!formik.values.naturalidade &&
         !!formik.values.nacionalidade &&
-        !!formik.values.sexo
+        !!formik.values.estado_civil &&
+        !!formik.values.rg &&
+        !!formik.values.emissor &&
+        !!formik.values.emissao &&
+        !!formik.values.sexo &&
+        !!formik.values.mae &&
+        !!formik.values.pai
       ) {
         setHideSlide4(true);
         slickRef.current.slickNext();
@@ -420,7 +389,8 @@ export default function SectionCarousel() {
       !!formik.values.numeropj &&
       !!formik.values.bairropj &&
       !!formik.values.cidadepj &&
-      !!formik.values.estadopj
+      !!formik.values.estadopj &&
+      !!formik.values.site
     ) {
       setHideSlide6(true);
       slickRef.current.slickNext();
@@ -449,8 +419,65 @@ export default function SectionCarousel() {
     }
   };
 
+  const Step7NEXT = () => {
+    if (validateCpf(formik.values.cpfPf)) {
+      if (
+        !!formik.values.celularPf &&
+        !!formik.values.nascimentoPf &&
+        !!formik.values.naturalidadePf &&
+        !!formik.values.nacionalidadePf &&
+        !!formik.values.estadoCivilPf &&
+        !!formik.values.rgPf &&
+        !!formik.values.emissorPf &&
+        !!formik.values.emissaoPf &&
+        !!formik.values.sexoPf &&
+        !!formik.values.maePf &&
+        !!formik.values.paiPf &&
+        !!formik.values.sitePf
+      ) {
+        setHideSlide8(true);
+        slickRef.current.slickNext();
+        setDOT3(dotInactive);
+        setDOT4(dotActive);
+      } else {
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
+        });
+      }
+    } else {
+      enqueueSnackbar("Desculpe, informe um cpf válido!", {
+        variant: "error",
+      });
+    }
+  };
+
+  const Step8NEXT = () => {
+    if (
+      !!formik.values.cepPf &&
+      !!formik.values.enderecoPf &&
+      !!formik.values.numeroPf &&
+      !!formik.values.bairroPf &&
+      !!formik.values.cidadePf &&
+      !!formik.values.estadoPf
+    ) {
+      setHideSlide9(true);
+      slickRef.current.slickNext();
+      setDOT4(dotInactive);
+      setDOT5(dotActive);
+      // insertAddressCPFRequest({
+      //   cep: maskNumber(cep),
+      //   complemento,
+      //   endereco,
+      //   bairro,
+      // });
+    } else {
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
+      });
+    }
+  };
+
   const Step2PREV = () => {
-    setHideSlide2(false);
     slickRef.current.slickPrev();
     setDOT2(dotInactive);
     setDOT1(dotActive);
@@ -484,14 +511,21 @@ export default function SectionCarousel() {
     setDOT5(dotActive);
   };
 
-  const Step6NEXT = () => {
-    // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
+  const Step7PREV = () => {
+    setHideSlide7(false);
+    slickRef.current.slickPrev();
+    setDOT3(dotInactive);
+    setDOT2(dotActive);
   };
 
-  const [openmodal, setOpenmodal] = useState(false);
-  const handleClose = () => {
-    setOpenmodal(false);
-    top.location.href = "/";
+  const Step8PREV = () => {
+    setHideSlide9(false);
+    slickRef.current.slickPrev();
+    setDOT3(dotInactive);
+    setDOT2(dotActive);
+  };
+  const Step6NEXT = () => {
+    // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
   };
 
   return (
@@ -535,7 +569,148 @@ export default function SectionCarousel() {
               <Grid container alignItems="center" justify="center">
                 <Grid item xs={12} md={12}>
                   <form
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={(e) => {
+                      console.log(formik);
+                      const { values } = formik;
+                      if (
+                        !!formik.values.bancopj &&
+                        !!formik.values.agenciapj &&
+                        !!formik.values.contapj
+                      ) {
+                        let body = undefined;
+                        if (isCnpj) {
+                          body = {
+                            usuario: {
+                              nome: values.nome,
+                              email: values.email,
+                              senha: sha256(values.senha).toString().trim(),
+                            },
+                            pessoa: {
+                              cpf: maskNumber(values.cpf),
+                              celular: maskNumber(values.celular),
+                              nascimento: values.nascimento,
+                              naturalidade: values.naturalidade,
+                              nacionalidade: values.nacionalidade,
+                              estado_civil: values.estado_civil,
+                              rg: values.rg,
+                              emissor: values.emissor,
+                              emissao: values.emissao,
+                              sexo: values.sexo,
+                              mae: values.mae,
+                              pai: values.pai,
+                            },
+                            empresa: {
+                              cnpj: maskNumber(values.cnpj),
+                              cnae: values.cnae,
+                              razao_social: values.razaosocial,
+                              telefone_fixo: maskNumber(values.telefone),
+                              celular: maskNumber(values.celular),
+                              nome_fantasia: values.nome_fantasia,
+                              site: values.site,
+                            },
+                            conta: {
+                              banco: values.bancopj.toString(),
+                              agencia: maskNumber(values.agenciapj),
+                              conta: maskNumber(values.contapj),
+                              operacao: maskNumber(values.operacaopj),
+                              pix: values.pixpj,
+                            },
+                            endereco_cnpj: {
+                              cep: maskNumber(values.cep),
+                              complemento: values.complementopj,
+                              endereco: values.enderecopj,
+                              numero: maskNumber(values.numeropj),
+                              bairro: values.bairropj,
+                              cidade: values.cidadepj,
+                              estado: values.estadopj,
+                            },
+                            endereco_cpf: {
+                              cep: maskNumber(values.cep),
+                              complemento: values.complemento,
+                              endereco: values.endereco,
+                              numero: values.numeropj,
+                              bairro: values.bairro,
+                              cidade: values.cidade,
+                              estado: values.estado,
+                            },
+                          };
+
+                          const persistCnpj = async () => {
+                            setOpen(true);
+                            const { sucess, res } = await postCnpj(body);
+                            setOpen(false);
+                            if (sucess) {
+                              dispatch(signupSuccess());
+                              localStorage.setItem("token", res.token);
+                              history.push("/");
+                            } else {
+                              enqueueSnackbar(res, {
+                                variant: "error",
+                              });
+                            }
+                          };
+                          persistCnpj();
+                        } else {
+                          body = {
+                            usuario: {
+                              nome: values.nome,
+                              email: values.email,
+                              senha: sha256(values.senha).toString().trim(),
+                            },
+                            pessoa: {
+                              cpf: maskNumber(values.cpfPf),
+                              celular: maskNumber(values.celularPf),
+                              nascimento: values.nascimentoPf,
+                              naturalidade: values.naturalidadePf,
+                              nacionalidade: values.nacionalidadePf,
+                              estado_civil: values.estadoCivilPf,
+                              rg: values.rgPf,
+                              emissor: values.emissorPf,
+                              emissao: values.emissaoPf,
+                              sexo: values.sexoPf,
+                              mae: values.maePf,
+                              pai: values.paiPf,
+                            },
+                            conta: {
+                              banco: values.bancopj.toString(),
+                              agencia: maskNumber(values.agenciapj),
+                              conta: maskNumber(values.contapj),
+                              operacao: maskNumber(values.operacaopj),
+                              pix: values.pixpj,
+                            },
+                            endereco_cpf: {
+                              cep: maskNumber(values.cepPf),
+                              complemento: values.complementoPf,
+                              endereco: values.enderecoPf,
+                              numero: values.numeroPf,
+                              bairro: values.bairroPf,
+                              cidade: values.cidadePf,
+                              estado: values.estadoPf,
+                            },
+                          };
+                          console.log(body);
+                          const persistPf = async () => {
+                            setOpen(true);
+                            const { sucess, res } = await postPf(body);
+                            if (sucess) {
+                              dispatch(signupSuccess());
+                              localStorage.setItem("token", res.token);
+                              history.push("/");
+                            } else {
+                              enqueueSnackbar(res, {
+                                variant: "error",
+                              });
+                            }
+                          };
+                          persistPf();
+                        }
+                      } else {
+                        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+                          variant: "error",
+                        });
+                      }
+                      formik.handleSubmit(e);
+                    }}
                     style={{ height: "0px" }}
                   >
                     <Card className={classes.cardStyle}>
@@ -581,6 +756,33 @@ export default function SectionCarousel() {
                             ""
                           )}
                           {hideSlide6 ? (
+                            <SlideSix
+                              previousStep={Step6PREV}
+                              formik={formik}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide7 ? (
+                            <SlideSeven
+                              nextStep={Step7NEXT}
+                              previousStep={Step7PREV}
+                              formik={formik}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide8 ? (
+                            <SlideEight
+                              nextStep={Step8NEXT}
+                              previousStep={Step8PREV}
+                              formik={formik}
+                              waitCep={handleBackdrop}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {hideSlide9 ? (
                             <SlideSix
                               previousStep={Step6PREV}
                               formik={formik}

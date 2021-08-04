@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "https://vileveway-backend-lb-develop.vileveway.com.br/api/v1/";
+const url = "http://3.233.0.255:3001/api/v1";
 
 const getCountries = async () => {
   try {
@@ -12,7 +12,6 @@ const getCountries = async () => {
 
     return countries;
   } catch (error) {
-    console.error(error);
     return ["Erro ao encontrar países"];
   }
 };
@@ -47,15 +46,20 @@ const getCnpj = async (value) => {
 };
 
 const postCnpj = async (body) => {
-  console.log(body);
   try {
     const res = await axios.post(`${url}/signup/cnpj`, body);
-    console.log("Dentro do post");
-    console.log(res.status);
-    return true;
+    return { sucess: true, res: res.data };
   } catch (error) {
-    console.log(error);
-    return false;
+    return { sucess: false, res: error.response.data.message };
+  }
+};
+
+const postPf = async (body) => {
+  try {
+    const res = await axios.post(`${url}/signup/cpf`, body);
+    return { sucess: true, res: res.data };
+  } catch (error) {
+    return { sucess: false, res: error.response.data.message };
   }
 };
 
@@ -96,4 +100,4 @@ const api = axios.create({
   baseURL: "http://localhost:80",
 });
 
-export { api, getCountries, getCep, getCnpj, postCnpj, sendTokenSms };
+export { api, getCountries, getCep, getCnpj, postCnpj, postPf, sendTokenSms };

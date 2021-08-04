@@ -132,6 +132,7 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       value={formik.values.site}
                       onChange={formik.handleChange}
                       fullWidth
+                      required
                       error={Boolean(formik.errors.site)}
                       helperText={formik.errors.site}
                     />

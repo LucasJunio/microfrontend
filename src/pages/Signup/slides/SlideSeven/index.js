@@ -13,7 +13,7 @@ import { useStyles } from "../../styles";
 import { maskCpf, maskDate, maskCel } from "../../../../utils/string/masks";
 import { getCountries } from "../../../../services/api/api";
 
-export const SlideThree = ({ nextStep, previousStep, formik }) => {
+export const SlideSeven = ({ nextStep, previousStep, formik }) => {
   const classes = useStyles();
   const [countries, setCountries] = useState([]);
 
@@ -47,9 +47,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       className={classes.label}
                     >
                       Informe os dados de{" "}
-                      <span className={classes.labelUser}>
-                        Representante Legal
-                      </span>
+                      <span className={classes.labelUser}>Pessoa Física</span>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -58,10 +56,10 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={4}>
                     <TextField
-                      id="cpf"
-                      name="cpf"
+                      id="cpfPf"
+                      name="cpfPf"
                       label="CPF"
-                      value={formik.values.cpf}
+                      value={formik.values.cpfPf}
                       onChange={(e) => {
                         formik.setFieldValue(
                           e.target.id,
@@ -75,10 +73,10 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                      id="celular"
-                      name="celular"
+                      id="celularPf"
+                      name="celularPf"
                       label="CELULAR"
-                      value={formik.values.celular}
+                      value={formik.values.celularPf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -88,16 +86,16 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       fullWidth
                       inputProps={{ maxLength: 15 }}
                       required
-                      error={Boolean(formik.errors.celular)}
-                      helperText={formik.errors.celular}
+                      error={Boolean(formik.errors.celularPf)}
+                      helperText={formik.errors.celularPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                      id="nascimento"
-                      name="nascimento"
+                      id="nascimentoPf"
+                      name="nascimentoPf"
                       label="NASCIMENTO"
-                      value={formik.values.nascimento}
+                      value={formik.values.nascimentoPf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -107,8 +105,8 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       inputProps={{ maxLength: 10 }}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nascimento)}
-                      helperText={formik.errors.nascimento}
+                      error={Boolean(formik.errors.nascimentoPf)}
+                      helperText={formik.errors.nascimentoPf}
                     />
                   </Grid>
                 </Grid>
@@ -117,10 +115,10 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={4}>
                     <TextField
-                      id="naturalidade"
-                      name="naturalidade"
+                      id="naturalidadePf"
+                      name="naturalidadePf"
                       label="NATURALIDADE"
-                      value={formik.values.naturalidade}
+                      value={formik.values.naturalidadePf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -129,22 +127,22 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.naturalidade)}
-                      helperText={formik.errors.naturalidade}
+                      error={Boolean(formik.errors.naturalidadePf)}
+                      helperText={formik.errors.naturalidadePf}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                      id="nacionalidade"
-                      name="nacionalidade"
+                      id="nacionalidadePf"
+                      name="nacionalidadePf"
                       select
                       label="NACIONALIDADE"
-                      value={formik.values.nacionalidade}
+                      value={formik.values.nacionalidadePf}
                       onChange={formik.handleChange}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nacionalidade)}
-                      helperText={formik.errors.nacionalidade}
+                      error={Boolean(formik.errors.nacionalidadePf)}
+                      helperText={formik.errors.nacionalidadePf}
                     >
                       {countries.map((country) => {
                         return (
@@ -157,16 +155,16 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                      id="estado_civil"
-                      name="estado_civil"
+                      id="estadoCivilPf"
+                      name="estadoCivilPf"
                       select
                       label="ESTADO CIVIL"
-                      value={formik.values.estado_civil}
+                      value={formik.values.estadoCivilPf}
                       fullWidth
                       onChange={formik.handleChange}
                       required
-                      error={Boolean(formik.errors.nascimento)}
-                      helperText={formik.errors.nascimento}
+                      error={Boolean(formik.errors.estadoCivilPf)}
+                      helperText={formik.errors.estadoCivilPf}
                     >
                       <MenuItem key="sl" value="Solteiro">
                         Solteiro
@@ -191,36 +189,36 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={3}>
                     <TextField
-                      id="rg"
-                      name="rg"
+                      id="rgPf"
+                      name="rgPf"
                       label="RG"
-                      value={formik.values.rg}
+                      value={formik.values.rgPf}
                       onChange={formik.handleChange}
                       fullWidth
                       inputProps={{ maxLength: 10 }}
                       required
-                      error={Boolean(formik.errors.rg)}
-                      helperText={formik.errors.rg}
+                      error={Boolean(formik.errors.rgPf)}
+                      helperText={formik.errors.rgPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
                     <TextField
-                      id="emissor"
-                      name="emissor"
+                      id="emissorPf"
+                      name="emissorPf"
                       label="ORGÃO EMISSOR"
-                      value={formik.values.emissor}
+                      value={formik.values.emissorPf}
                       onChange={formik.handleChange}
                       fullWidth
-                      error={Boolean(formik.errors.emissor)}
-                      helperText={formik.errors.emissor}
+                      error={Boolean(formik.errors.emissorPf)}
+                      helperText={formik.errors.emissorPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
                     <TextField
-                      id="emissao"
-                      name="emissao"
+                      id="emissaoPf"
+                      name="emissaoPf"
                       label="DATA EMISSAO"
-                      value={formik.values.emissao}
+                      value={formik.values.emissaoPf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -230,22 +228,22 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       fullWidth
                       inputProps={{ maxLength: 10 }}
                       required
-                      error={Boolean(formik.errors.emissao)}
-                      helperText={formik.errors.emissao}
+                      error={Boolean(formik.errors.emissaoPf)}
+                      helperText={formik.errors.emissaoPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
                     <TextField
-                      id="sexo"
-                      name="sexo"
+                      id="sexoPf"
+                      name="sexoPf"
                       select
                       label="SEXO"
                       fullWidth
-                      value={formik.values.sexo}
+                      value={formik.values.sexoPf}
                       onChange={formik.handleChange}
                       required
-                      error={Boolean(formik.errors.sexo)}
-                      helperText={formik.errors.sexo}
+                      error={Boolean(formik.errors.sexoPf)}
+                      helperText={formik.errors.sexoPf}
                     >
                       <MenuItem key="M" value="M">
                         Masculino
@@ -259,12 +257,12 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
               </Grid>
               <Grid item>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                     <TextField
-                      id="mae"
-                      name="mae"
+                      id="maePf"
+                      name="maePf"
                       label="NOME DA MÃE"
-                      value={formik.values.mae}
+                      value={formik.values.maePf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -274,20 +272,16 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       fullWidth
                       inputProps={{ maxLength: 150 }}
                       required
-                      error={Boolean(formik.errors.mae)}
-                      helperText={formik.errors.mae}
+                      error={Boolean(formik.errors.maePf)}
+                      helperText={formik.errors.maePf}
                     />
                   </Grid>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                     <TextField
-                      id="pai"
-                      name="pai"
+                      id="paiPf"
+                      name="paiPf"
                       label="NOME DO PAI"
-                      value={formik.values.pai}
+                      value={formik.values.paiPf}
                       onChange={formik.handleChange}
                       fullWidth
                       onChange={(e) =>
@@ -297,8 +291,25 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                         )
                       }
                       inputProps={{ maxLength: 150 }}
-                      error={Boolean(formik.errors.pai)}
-                      helperText={formik.errors.pai}
+                      error={Boolean(formik.errors.paiPf)}
+                      helperText={formik.errors.paiPf}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      id="sitePf"
+                      name="sitePf"
+                      label="SITE DE VENDAS"
+                      value={formik.values.sitePf}
+                      onChange={formik.handleChange}
+                      fullWidth
+                      required
+                      error={Boolean(formik.errors.sitePf)}
+                      helperText={formik.errors.sitePf}
                     />
                   </Grid>
                 </Grid>
@@ -325,7 +336,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                     <Button
                       color="primary"
                       size="sm"
-                      id="BTNSECONDNEXT"
+                      id="BTNSECONDNEXTPF"
                       rel="noopener noreferrer"
                       onClick={() => nextStep()}
                     >

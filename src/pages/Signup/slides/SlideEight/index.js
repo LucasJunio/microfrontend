@@ -7,13 +7,7 @@ import { useStyles } from "../../styles";
 import { maskNumber } from "../../../../utils/string/masks";
 import { getCep } from "../../../../services/api/api";
 
-export const SlideFour = ({
-  nextStep,
-  previousStep,
-  formik,
-  waitCep,
-  isCnpj,
-}) => {
+export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
   const classes = useStyles();
 
   const handleCep = (event) => {
@@ -25,19 +19,19 @@ export const SlideFour = ({
         setTimeout(() => {
           if (!!cep) {
             waitCep(false);
-            formik.setFieldValue("endereco", cep.logradouro);
-            formik.setFieldValue("bairro", cep.bairro);
-            formik.setFieldValue("cidade", cep.localidade);
-            formik.setFieldValue("estado", cep.uf);
+            formik.setFieldValue("enderecoPf", cep.logradouro);
+            formik.setFieldValue("bairroPf", cep.bairro);
+            formik.setFieldValue("cidadePf", cep.localidade);
+            formik.setFieldValue("estadoPf", cep.uf);
           }
         }, 1500);
       });
     } else {
       waitCep(false);
-      formik.setFieldValue("endereco", "");
-      formik.setFieldValue("bairro", "");
-      formik.setFieldValue("cidade", "");
-      formik.setFieldValue("estado", "");
+      formik.setFieldValue("enderecoPf", "");
+      formik.setFieldValue("bairroPf", "");
+      formik.setFieldValue("cidadePf", "");
+      formik.setFieldValue("estadoPf", "");
     }
     formik.handleChange(event);
   };
@@ -71,40 +65,40 @@ export const SlideFour = ({
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={3} lg={3}>
                     <TextField
-                      id="cep"
-                      name="cep"
+                      id="cepPf"
+                      name="cepPf"
                       label="CEP"
-                      value={formik.values.cep}
+                      value={formik.values.cepPf}
                       onChange={(e) => handleCep(e)}
                       fullWidth
                       inputProps={{
                         maxLength: 8,
                         autoComplete: "off",
                       }}
-                      required={isCnpj}
-                      error={Boolean(formik.errors.cep)}
-                      helperText={formik.errors.cep}
+                      required
+                      error={Boolean(formik.errors.cepPf)}
+                      helperText={formik.errors.cepPf}
                     />
                   </Grid>
                   <Grid item md={7} lg={6}>
                     <TextField
-                      id="endereco"
-                      name="endereco"
+                      id="enderecoPf"
+                      name="enderecoPf"
                       label="ENDEREÇO"
-                      value={formik.values.endereco}
+                      value={formik.values.enderecoPf}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
-                      error={Boolean(formik.errors.endereco)}
-                      helperText={formik.errors.endereco}
+                      required
+                      error={Boolean(formik.errors.enderecoPf)}
+                      helperText={formik.errors.enderecoPf}
                     />
                   </Grid>
                   <Grid item md={2} lg={3}>
                     <TextField
-                      id="numero"
-                      name="numero"
+                      id="numeroPf"
+                      name="numeroPf"
                       label="NÚMERO"
-                      value={formik.values.numero}
+                      value={formik.values.numeroPf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -112,9 +106,9 @@ export const SlideFour = ({
                         )
                       }
                       fullWidth
-                      required={isCnpj}
-                      error={Boolean(formik.errors.numero)}
-                      helperText={formik.errors.numero}
+                      required
+                      error={Boolean(formik.errors.numeroPf)}
+                      helperText={formik.errors.numeroPf}
                     />
                   </Grid>
                 </Grid>
@@ -123,23 +117,23 @@ export const SlideFour = ({
                 <Grid container spacing={3}>
                   <Grid item md={6} lg={6}>
                     <TextField
-                      id="bairro"
-                      name="bairro"
+                      id="bairroPf"
+                      name="bairroPf"
                       label="BAIRRO"
-                      value={formik.values.bairro}
+                      value={formik.values.bairroPf}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
-                      error={Boolean(formik.errors.bairro)}
-                      helperText={formik.errors.bairro}
+                      required
+                      error={Boolean(formik.errors.bairroPf)}
+                      helperText={formik.errors.bairroPf}
                     />
                   </Grid>
                   <Grid item md={6} lg={6}>
                     <TextField
-                      id="complemento"
-                      name="complemento"
+                      id="complementoPf"
+                      name="complementoPf"
                       label="COMPLEMENTO"
-                      value={formik.values.complemento}
+                      value={formik.values.complementoPf}
                       onChange={formik.handleChange}
                       fullWidth
                     />
@@ -150,23 +144,23 @@ export const SlideFour = ({
                 <Grid container spacing={3}>
                   <Grid item lg={6}>
                     <TextField
-                      id="cidade"
-                      name="cidade"
+                      id="cidadePf"
+                      name="cidadePf"
                       label="CIDADE"
-                      value={formik.values.cidade}
+                      value={formik.values.cidadePf}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
-                      error={Boolean(formik.errors.cidade)}
-                      helperText={formik.errors.cidade}
+                      required
+                      error={Boolean(formik.errors.cidadePf)}
+                      helperText={formik.errors.cidadePf}
                     />
                   </Grid>
                   <Grid item lg={6}>
                     <TextField
-                      id="estado"
-                      name="estado"
+                      id="estadoPf"
+                      name="estadoPf"
                       label="ESTADO"
-                      value={formik.values.estado}
+                      value={formik.values.estadoPf}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
@@ -174,9 +168,9 @@ export const SlideFour = ({
                         )
                       }
                       fullWidth
-                      required={isCnpj}
-                      error={Boolean(formik.errors.estado)}
-                      helperText={formik.errors.estado}
+                      required
+                      error={Boolean(formik.errors.estadoPf)}
+                      helperText={formik.errors.estadoPf}
                     />
                   </Grid>
                 </Grid>
@@ -202,7 +196,7 @@ export const SlideFour = ({
                   <Button
                     color="primary"
                     size="sm"
-                    id="BTNTHIRDNEXT"
+                    id="BTNTHIRDNEXTPF"
                     rel="noopener noreferrer"
                     onClick={() => nextStep()}
                   >
