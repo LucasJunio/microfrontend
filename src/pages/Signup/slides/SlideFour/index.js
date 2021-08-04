@@ -7,13 +7,7 @@ import { useStyles } from "../../styles";
 import { maskNumber } from "../../../../utils/string/masks";
 import { getCep } from "../../../../services/api/api";
 
-export const SlideFour = ({
-  nextStep,
-  previousStep,
-  formik,
-  waitCep,
-  isCnpj,
-}) => {
+export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
   const classes = useStyles();
 
   const handleCep = (event) => {
@@ -81,7 +75,7 @@ export const SlideFour = ({
                         maxLength: 8,
                         autoComplete: "off",
                       }}
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.cep)}
                       helperText={formik.errors.cep}
                     />
@@ -94,7 +88,7 @@ export const SlideFour = ({
                       value={formik.values.endereco}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.endereco)}
                       helperText={formik.errors.endereco}
                     />
@@ -112,7 +106,7 @@ export const SlideFour = ({
                         )
                       }
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.numero)}
                       helperText={formik.errors.numero}
                     />
@@ -129,7 +123,7 @@ export const SlideFour = ({
                       value={formik.values.bairro}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.bairro)}
                       helperText={formik.errors.bairro}
                     />
@@ -156,7 +150,7 @@ export const SlideFour = ({
                       value={formik.values.cidade}
                       onChange={formik.handleChange}
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.cidade)}
                       helperText={formik.errors.cidade}
                     />
@@ -174,7 +168,7 @@ export const SlideFour = ({
                         )
                       }
                       fullWidth
-                      required={isCnpj}
+                      required
                       error={Boolean(formik.errors.estado)}
                       helperText={formik.errors.estado}
                     />

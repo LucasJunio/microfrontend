@@ -136,6 +136,17 @@ const resendTokenSms = () => {
   });
 };
 
+const signin = async (body) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios.post(`${url}/signin`, body);
+      resolve(res.data);
+    } catch (error) {
+      reject(error.response.data);
+    }
+  });
+};
+
 const api = axios.create({
   baseURL: "http://localhost:80",
 });
@@ -151,4 +162,5 @@ export {
   sendValidationStatus,
   changeCellphone,
   resendTokenSms,
+  signin,
 };
