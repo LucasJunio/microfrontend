@@ -59,8 +59,24 @@ const postCnpj = async (body) => {
   }
 };
 
+const sendTokenSms = async () => {
+  try {
+    const res = await axios.get(`${url}/validation/sms/${token}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const result = res.data;
+    return result;
+  } catch (error) {
+    return false;
+    console.error(error);
+  }
+};
+
 const api = axios.create({
   baseURL: "http://localhost:80",
 });
 
-export { api, getCountries, getCep, getCnpj, postCnpj };
+export { api, getCountries, getCep, getCnpj, postCnpj, sendTokenSms };

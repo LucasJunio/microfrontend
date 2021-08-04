@@ -5,7 +5,11 @@ import clsx from "clsx";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
+import { useSnackbar } from "notistack";
+
 import {
+  Backdrop,
+  CircularProgress,
   Drawer,
   AppBar,
   Toolbar,
@@ -28,29 +32,27 @@ import {
   InputBase,
 } from "@material-ui/core";
 
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import HomeIcon from "@material-ui/icons/Home";
-import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
-import AppsIcon from "@material-ui/icons/Apps";
-
-import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
-import EditIcon from "@material-ui/icons/Edit";
+import {
+  Menu,
+  ChevronLeft,
+  ChevronRight,
+  ExitToApp,
+  Home,
+  AssignmentInd,
+  PhoneIphone,
+  Edit,
+  Apps,
+} from "@material-ui/icons";
 
 import Alert from "@material-ui/lab/Alert";
-
 import logotipo from "../../assets/images/logo-vileve-pay-cor-140px.png";
-
 import ButtonTimer from "../../components/ButtonTimer";
+
+import { sendTokenSms } from "../../services/api/api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
-
-import { Loading, Spinner } from "./styles";
 
 const drawerWidth = 250;
 
@@ -121,6 +123,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
 
+  backdrop: { zIndex: 9999 },
+
   inputcell: {
     padding: "2px 4px",
     display: "flex",
@@ -132,6 +136,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MiniDrawer() {
+  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
 
   const classes = useStyles();
@@ -146,7 +151,10 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const [openmodal, setOpenmodal] = React.useState(false);
+  const [openmodal, setOpenmodal] = React.useState(true);
+
+  const [openbackdrop, setOpenBackDrop] = React.useState(false);
+
   const handleClickOpen = () => {
     setOpenmodal(true);
   };
@@ -166,43 +174,31 @@ export default function MiniDrawer() {
     setTOKEN(v.replace(/\D/g, ""));
   };
 
-  const [Showloading, setShowloading] = React.useState("none");
-
-  const sendtokensms = () => {
-    setShowloading("");
-    $.ajax({
-      url: `http://3.233.0.255:3001/validation/sms/${token}`,
-      type: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-      async: true,
-      crossDomain: true,
-      cache: false,
-      success: (result) => {
-        alert(result.message);
-        setOpenmodal(false);
-        setShowloading("none");
-      },
-      error: (error) => {
-        alert(error.responseJSON.message);
-        setOpenmodal(false);
-        setShowloading("none");
-      },
-    });
-  };
-
   const Logout = () => {
     localStorage.setItem("token", "");
     history.push("/signup");
   };
 
+  const sendToken = async () => {
+    setOpenBackDrop(true);
+    const res = await sendTokenSms();
+    if (res) {
+      setOpenBackDrop(false);
+      enqueueSnackbar("SMS validado com sucesso", {
+        variant: "success",
+      });
+    } else {
+      enqueueSnackbar("Houve um erro no envio do SMS", {
+        variant: "error",
+      });
+    }
+  };
+
   return (
     <>
-      <Loading style={{ display: Showloading }}>
-        <Spinner />
-      </Loading>
+      <Backdrop className={classes.backdrop} open={openbackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       <Dialog
         open={openmodal}
@@ -238,7 +234,7 @@ export default function MiniDrawer() {
 
           <Paper component="form" className={classes.inputcell}>
             <IconButton className={classes.iconButton} aria-label="menu">
-              <PhoneIphoneIcon />
+              <PhoneIphone />
             </IconButton>
             <InputBase placeholder="********" />
             <IconButton
@@ -246,7 +242,7 @@ export default function MiniDrawer() {
               className={classes.iconButton}
               aria-label="celular"
             >
-              <EditIcon />
+              <Edit />
             </IconButton>
           </Paper>
 
@@ -254,7 +250,7 @@ export default function MiniDrawer() {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={sendtokensms} variant="contained" color="primary">
+          <Button onClick={sendToken} variant="contained" color="primary">
             Enviar
           </Button>
         </DialogActions>
@@ -278,7 +274,7 @@ export default function MiniDrawer() {
                 [classes.hide]: open,
               })}
             >
-              <MenuIcon />
+              <Menu />
             </IconButton>
             <Typography variant="h6" noWrap>
               Bem Vindo ao Gateway de Pagamentos Vileve
@@ -304,11 +300,7 @@ export default function MiniDrawer() {
               <img src={logotipo} width="100px"></img>
             </div>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )}
+              {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
             </IconButton>
           </div>
           <Divider />
@@ -318,7 +310,7 @@ export default function MiniDrawer() {
               <ListItem button>
                 <ListItemIcon>
                   {" "}
-                  <HomeIcon />{" "}
+                  <Home />{" "}
                 </ListItemIcon>
                 <ListItemText primary="Home" />
               </ListItem>
@@ -328,7 +320,7 @@ export default function MiniDrawer() {
               <ListItem button>
                 <ListItemIcon>
                   {" "}
-                  <AssignmentIndIcon />{" "}
+                  <AssignmentInd />{" "}
                 </ListItemIcon>
                 <ListItemText primary="Cadastro" />
               </ListItem>
@@ -338,7 +330,7 @@ export default function MiniDrawer() {
               <ListItem button>
                 <ListItemIcon>
                   {" "}
-                  <AppsIcon />{" "}
+                  <Apps />{" "}
                 </ListItemIcon>
                 <ListItemText primary="Produtos" />
               </ListItem>
@@ -352,7 +344,7 @@ export default function MiniDrawer() {
               <ListItem button>
                 <ListItemIcon>
                   {" "}
-                  <ExitToAppIcon />{" "}
+                  <ExitToApp />{" "}
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
               </ListItem>
