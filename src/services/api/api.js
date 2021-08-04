@@ -83,4 +83,4 @@ const api = axios.create({
   baseURL: "http://localhost:80",
 });
 
-export { api, getCountries, getCep, getCnpj, postCnpj, sendTokenSms, postPf };
+export { api, getCountries, getCep, getCnpj, postCnpj, postPf, sendTokenSms };

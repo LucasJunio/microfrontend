@@ -333,8 +333,7 @@ export default function SectionCarousel() {
         !!formik.values.emissao &&
         !!formik.values.sexo &&
         !!formik.values.mae &&
-        !!formik.values.pai &&
-        !!formik.values.site
+        !!formik.values.pai
       ) {
         setHideSlide4(true);
         slickRef.current.slickNext();
@@ -390,7 +389,8 @@ export default function SectionCarousel() {
       !!formik.values.numeropj &&
       !!formik.values.bairropj &&
       !!formik.values.cidadepj &&
-      !!formik.values.estadopj
+      !!formik.values.estadopj &&
+      !!formik.values.site
     ) {
       setHideSlide6(true);
       slickRef.current.slickNext();
