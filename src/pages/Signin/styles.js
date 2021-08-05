@@ -23,6 +23,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "50%",
   },
   backdrop: {
-    zIndex: 9999,
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#e6e6e6",
   },
 }));

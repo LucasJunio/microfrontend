@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   CssBaseline,
@@ -11,7 +11,11 @@ import {
   Typography,
   Container,
   Backdrop,
+  InputAdornment,
+  IconButton,
+  CircularProgress,
 } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useSnackbar } from "notistack";
 import logo from "../../assets/images/logo_vileve_way.png";
 import { useStyles } from "./styles";
@@ -38,8 +42,16 @@ export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
 
-  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const [openBackDrop, setOpenBackDrop] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -61,13 +73,13 @@ export default function SignIn() {
 
       await signin(body)
         .then((res) => {
-          setOpenBackDrop(false);
           setTimeout(() => {
+            setOpenBackDrop(false);
             enqueueSnackbar(res.message, {
               variant: "success",
             });
+            history.push("/");
           }, 1500);
-          history.push("/");
         })
         .catch((error) => {
           setOpenBackDrop(false);
@@ -78,7 +90,9 @@ export default function SignIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Backdrop className={classes.backdrop} open={openBackDrop} />
+      <Backdrop className={classes.backdrop} open={openBackDrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <CssBaseline />
       <div className={classes.paper}>
         <img src={logo} className={classes.logo} alt="logotipo vileve way" />
@@ -111,13 +125,26 @@ export default function SignIn() {
             fullWidth
             name="password"
             label="Senha"
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             autoComplete="current-password"
             value={formik.values.password}
             onChange={formik.handleChange}
             error={Boolean(formik.errors.password)}
             helperText={formik.errors.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
