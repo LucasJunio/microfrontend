@@ -8,16 +8,12 @@ import { useSnackbar } from "notistack";
 const ButtonTimer = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [buttonresend, setbuttonresend] = useState(true);
-  const [durationtime, setduration] = useState(1);
+  const [durationTime, setduration] = useState(1);
 
-  const resendtoken = () => {
-    setduration(durationtime + 1);
+  const resendToken = () => {
+    setduration(durationTime + 1);
     setbuttonresend(true);
-    resendTokenApi();
-  };
-
-  const resendTokenApi = async () => {
-    await resendTokenSms()
+    resendTokenSms()
       .then((res) => {
         enqueueSnackbar("SMS enviado com sucesso", { variant: "success" });
       })
@@ -46,13 +42,13 @@ const ButtonTimer = () => {
   };
 
   useEffect(() => {
-    StartTimer(durationtime);
-  });
+    StartTimer(durationTime);
+  }, [durationTime]);
 
   return (
     <Button
       style={{ margin: 10 }}
-      onClick={resendtoken}
+      onClick={resendToken}
       variant="contained"
       size="sm"
       color="primary"

@@ -24,7 +24,7 @@ export default function Routes() {
         >
           <ConnectedRouter history={history}>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={Home} isPrivate />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/email*" component={Email} />
             </Switch>

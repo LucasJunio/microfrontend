@@ -213,25 +213,21 @@ export default function MiniDrawer() {
       });
   };
 
-  useLayoutEffect(() => {
-    const getValidationStatus = async () => {
-      await sendValidationStatus()
-        .then((res) => {
-          // setCELLPHONE("****-" + res.celular.toString().substring(4, 8));
-          console.log(res.celular);
+  useEffect(() => {
+    sendValidationStatus()
+      .then((res) => {
+        setCELLPHONE("****-" + res.celular.toString().substring(4, 8));
+        console.log(res.celular);
 
-          res.message === "SMS validadox" ||
-          res.message === "SMS e Email validado"
-            ? setOpenmodal(false)
-            : setOpenmodal(true);
-        })
-        .catch((error) => {
-          setOpenmodal(true);
-        });
-    };
-
-    getValidationStatus();
-  });
+        res.message === "SMS validadox" ||
+        res.message === "SMS e Email validado"
+          ? setOpenmodal(false)
+          : setOpenmodal(true);
+      })
+      .catch((error) => {
+        setOpenmodal(true);
+      });
+  }, []);
 
   return (
     <>
