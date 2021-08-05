@@ -216,15 +216,14 @@ export default function MiniDrawer() {
   useEffect(() => {
     sendValidationStatus()
       .then((res) => {
-        setCELLPHONE("****-" + res.celular.toString().substring(4, 8));
-        console.log(res.celular);
-
-        res.message === "SMS validadox" ||
-        res.message === "SMS e Email validado"
+        setCELLPHONE("(**) ****-" + res.celular.toString().substring(7, 15));
+        // console.log(res.celular);
+        res.message === "SMS validado" || res.message === "SMS e Email validado"
           ? setOpenmodal(false)
           : setOpenmodal(true);
       })
       .catch((error) => {
+        console.log(error);
         setOpenmodal(true);
       });
   }, []);
