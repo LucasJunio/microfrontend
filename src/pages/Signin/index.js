@@ -15,6 +15,7 @@ import {
   IconButton,
   CircularProgress,
 } from "@material-ui/core";
+import sha256 from "crypto-js/sha256";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useSnackbar } from "notistack";
 import logo from "../../assets/images/logo_vileve_way.png";
@@ -23,7 +24,13 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { signin } from "../../services/api/api";
+import { useDispatch, useSelector } from "react-redux";
 
+import {
+  signupRequest,
+  signupSuccess,
+} from "../../store/modules/signup/actions";
+import { signInSuccess } from "../../store/modules/signin/actions";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -41,6 +48,7 @@ export default function SignIn() {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -67,7 +75,11 @@ export default function SignIn() {
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
-      const body = { email, senha: password };
+      const body = {
+        email,
+        senha: sha256(password).toString().trim(),
+        // senha: password,
+      };
       console.log(body);
       setOpenBackDrop(true);
 
@@ -75,9 +87,12 @@ export default function SignIn() {
         .then((res) => {
           setTimeout(() => {
             setOpenBackDrop(false);
+            localStorage.setItem("token", res.token);
             enqueueSnackbar(res.message, {
               variant: "success",
             });
+
+            dispatch(signupSuccess());
             history.push("/");
           }, 1500);
         })

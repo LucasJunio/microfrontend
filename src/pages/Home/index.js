@@ -52,6 +52,9 @@ import {
   sendValidationStatus,
   changeCellphone,
 } from "../../services/api/api";
+import { useDispatch, useSelector } from "react-redux";
+
+import { signOut } from "../../store/modules/signin/actions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -141,6 +144,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MiniDrawer() {
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const classes = useStyles();
   const theme = useTheme();
@@ -182,8 +186,9 @@ export default function MiniDrawer() {
   };
 
   const Logout = () => {
+    dispatch(signOut());
     localStorage.setItem("token", "");
-    history.push("/signup");
+    history.push("/signin");
   };
 
   const sendToken = async () => {
@@ -191,6 +196,7 @@ export default function MiniDrawer() {
     await sendTokenSms(token)
       .then((res) => {
         setOpenBackDrop(false);
+        setOpenmodal(false);
         enqueueSnackbar("SMS validado com sucesso", { variant: "success" });
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch } from "react-router-dom";
+import { Switch, BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { Provider } from "react-redux";
 import { SnackbarProvider, useSnackbar } from "notistack";

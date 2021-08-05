@@ -33,9 +33,9 @@ export function* SignIn({ payload }) {
 
 export function Logout() {
   try {
-    api.defaults.headers.Authorization = "";
-    logout();
-    history.push("/");
+    // api.defaults.headers.Authorization = "";
+    // logout();
+    history.push("/signin");
   } catch (err) {
     console.log("Falha no Logout");
   }
