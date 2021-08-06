@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Hidden,
@@ -23,6 +23,9 @@ export const SlideOne = ({ nextStep, formik }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  useEffect(() => {
+    return () => {};
+  });
   return (
     <Grid item xs={12} md={12}>
       <Grid container justify="center" alignItems="center">

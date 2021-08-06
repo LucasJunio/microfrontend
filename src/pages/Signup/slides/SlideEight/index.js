@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Hidden, Typography, TextField } from "@material-ui/core";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
 import Button from "../../../../components/CustomButtons/Button";
@@ -9,7 +9,9 @@ import { getCep } from "../../../../services/api/api";
 
 export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
   const classes = useStyles();
-
+  useEffect(() => {
+    return () => {};
+  });
   const handleCep = (event) => {
     let value = event.target.value;
     value = value.replace(/\D/g, "");

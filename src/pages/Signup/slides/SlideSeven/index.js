@@ -23,7 +23,11 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
     };
 
     countriesNames();
-  }, [countries]);
+  }, []);
+
+  useEffect(() => {
+    return () => {};
+  });
 
   return (
     <Grid item xs={12} md={12}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Hidden, Typography, TextField } from "@material-ui/core";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
 import Button from "../../../../components/CustomButtons/Button";
@@ -35,6 +35,10 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
     }
     formik.handleChange(event);
   };
+
+  useEffect(() => {
+    return () => {};
+  });
 
   return (
     <Grid item xs={12} md={12} lg={12}>

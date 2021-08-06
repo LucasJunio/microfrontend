@@ -1,5 +1,5 @@
 import "@fontsource/roboto";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 // react component for creating beautiful carousel
 import { useSnackbar } from "notistack";
@@ -181,6 +181,14 @@ export default function SectionCarousel() {
       .string()
       .required("Campo Site é obrigatório")
       .url("Insira um site valido ex: 'https://www.google.com'"),
+  });
+
+  useEffect(() => {
+    console.log("Montado");
+
+    return () => {
+      console.log("desmontado");
+    };
   });
 
   const formik = useFormik({
@@ -524,6 +532,7 @@ export default function SectionCarousel() {
     setDOT3(dotInactive);
     setDOT2(dotActive);
   };
+
   const Step6NEXT = () => {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
   };
@@ -717,78 +726,62 @@ export default function SectionCarousel() {
                       <CardBody>
                         <Carousel ref={slickRef} {...settings}>
                           <SlideOne nextStep={Step1NEXT} formik={formik} />
-                          {hideSlide2 ? (
+                          {hideSlide2 && (
                             <SlideTwo
                               nextStep={Step2PJ}
                               StepPF={Step2PF}
                               previousStep={Step2PREV}
                             />
-                          ) : (
-                            <span></span>
                           )}
-                          {hideSlide3 ? (
+                          {hideSlide3 && (
                             <SlideThree
                               nextStep={Step3NEXT}
                               previousStep={Step3PREV}
                               formik={formik}
                             />
-                          ) : (
-                            ""
                           )}
-                          {hideSlide4 ? (
+                          {hideSlide4 && (
                             <SlideFour
                               nextStep={Step4NEXT}
                               previousStep={Step4PREV}
                               formik={formik}
                               waitCep={handleBackdrop}
                             />
-                          ) : (
-                            ""
                           )}
-                          {hideSlide5 ? (
+                          {hideSlide5 && (
                             <SlideFive
                               nextStep={Step5NEXT}
                               previousStep={Step5PREV}
                               formik={formik}
                               waitCnpj={handleBackdrop}
                             />
-                          ) : (
-                            ""
                           )}
-                          {hideSlide6 ? (
+                          {hideSlide6 && (
                             <SlideSix
                               previousStep={Step6PREV}
                               formik={formik}
                             />
-                          ) : (
-                            ""
                           )}
-                          {hideSlide7 ? (
+                          {hideSlide7 && (
                             <SlideSeven
                               nextStep={Step7NEXT}
                               previousStep={Step7PREV}
                               formik={formik}
                             />
-                          ) : (
-                            ""
                           )}
-                          {hideSlide8 ? (
+                          {hideSlide8 && (
                             <SlideEight
                               nextStep={Step8NEXT}
                               previousStep={Step8PREV}
                               formik={formik}
                               waitCep={handleBackdrop}
                             />
-                          ) : (
-                            ""
                           )}
-                          {hideSlide9 ? (
+                          {hideSlide9 && (
                             <SlideSix
                               previousStep={Step6PREV}
                               formik={formik}
                             />
-                          ) : (
-                            ""
                           )}
                         </Carousel>
                       </CardBody>

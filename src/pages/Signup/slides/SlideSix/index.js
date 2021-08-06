@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -156,6 +156,10 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
     }
     formik.handleChange(event);
   };
+
+  useEffect(() => {
+    return () => {};
+  });
 
   return (
     <Grid item md={12}>

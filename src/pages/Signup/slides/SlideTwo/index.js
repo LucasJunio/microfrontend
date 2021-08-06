@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Grid,
@@ -20,6 +20,10 @@ import { useStyles } from "../../styles";
 
 export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    return () => {};
+  });
 
   return (
     <Grid item md={12}>

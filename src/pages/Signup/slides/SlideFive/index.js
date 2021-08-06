@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Hidden, Typography, TextField } from "@material-ui/core";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
 import Button from "../../../../components/CustomButtons/Button";
@@ -13,6 +13,7 @@ import { getCnpj } from "../../../../services/api/api";
 
 export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
   const classes = useStyles();
+
   const handleCNPJ = (event) => {
     let value = event.target.value;
     value = value.replace(/\D/g, "");
@@ -64,6 +65,9 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
     formik.setFieldValue("cnpj", maskCnpj(event.target.value));
   };
 
+  useEffect(() => {
+    return () => {};
+  });
   return (
     <Grid item md={12} lg={12}>
       <div style={{ padding: 20 }}>

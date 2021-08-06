@@ -77,8 +77,8 @@ export default function SignIn() {
     onSubmit: async ({ email, password }) => {
       const body = {
         email,
-        senha: sha256(password).toString().trim(),
-        // senha: password,
+        // senha: sha256(password).toString().trim(),
+        senha: password,
       };
       console.log(body);
       setOpenBackDrop(true);
@@ -103,6 +103,9 @@ export default function SignIn() {
     },
   });
 
+  const handleRegiterLink = () => {
+    history.push("/signup");
+  };
   return (
     <Container component="main" maxWidth="xs">
       <Backdrop className={classes.backdrop} open={openBackDrop}>
@@ -181,9 +184,8 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {/* TODO Fazer rota alterar para signin */}
-                {"Não tem uma conta? Cadastre-se"}
+              <Link href="#" onClick={handleRegiterLink} variant="body2">
+                Não tem uma conta? Cadastre-se
               </Link>
             </Grid>
           </Grid>
