@@ -77,8 +77,7 @@ export default function SignIn() {
     onSubmit: async ({ email, password }) => {
       const body = {
         email,
-        // senha: sha256(password).toString().trim(),
-        senha: password,
+        senha: sha256(password).toString().trim(),
       };
       console.log(body);
       setOpenBackDrop(true);
