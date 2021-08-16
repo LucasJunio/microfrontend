@@ -222,7 +222,6 @@ export default function MiniDrawer() {
     sendValidationStatus()
       .then((res) => {
         setCELLPHONE("(**) ****-" + res.celular.toString().substring(7, 15));
-        // console.log(res.celular);
         res.message === "SMS validado" || res.message === "SMS e Email validado"
           ? setOpenmodal(false)
           : setOpenmodal(true);

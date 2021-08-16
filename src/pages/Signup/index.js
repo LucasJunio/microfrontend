@@ -92,7 +92,7 @@ export default function SectionCarousel() {
       .string()
       .required("Por favor, insira sua senha")
       .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
         `A senha deve conter mínimo de oito caracteres, pelo menos, uma letra maiúscula, uma letra minúscula, números e um caractere especial`
       )
       .trim(),
@@ -184,11 +184,7 @@ export default function SectionCarousel() {
   });
 
   useEffect(() => {
-    console.log("Montado");
-
-    return () => {
-      console.log("desmontado");
-    };
+    return () => {};
   });
 
   const formik = useFormik({
@@ -259,9 +255,7 @@ export default function SectionCarousel() {
       pixpj: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values) => {},
   });
 
   const settings = {
@@ -579,7 +573,6 @@ export default function SectionCarousel() {
                 <Grid item xs={12} md={12}>
                   <form
                     onSubmit={(e) => {
-                      console.log(formik);
                       const { values } = formik;
                       if (
                         !!formik.values.bancopj &&
@@ -697,7 +690,6 @@ export default function SectionCarousel() {
                               estado: values.estadoPf,
                             },
                           };
-                          console.log(body);
                           const persistPf = async () => {
                             setOpen(true);
                             const { sucess, res } = await postPf(body);
