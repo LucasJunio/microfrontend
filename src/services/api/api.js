@@ -1,5 +1,6 @@
 import axios from "axios";
-const url = "https://vileveway-backend-lb-develop.vileveway.com.br/api/v1/";
+// const url = "https://vileveway-backend-lb-develop.vileveway.com.br/api/v1/";
+const url = "http://3.233.0.255:3001/api/v1";
 
 const getCountries = async () => {
   try {
