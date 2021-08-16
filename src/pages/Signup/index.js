@@ -113,7 +113,11 @@ export default function SectionCarousel() {
       .trim(),
     nacionalidade: yup.string().required("O campo nacionalidade é obrigatório"),
     estado_civil: yup.string().required("O campo estado civil é obrigatório"),
-    rg: yup.string().required("O campo RG é obrigatório").trim(),
+    rg: yup
+      .string()
+      .required("O campo RG é obrigatório")
+      .trim()
+      .min(5, "Rg deve ter no minimo 5 caracteries"),
     emissor: yup.string().required("O campo emissor é obrigatório").trim(),
     emissao: yup.string().required("O campo emissao é obrigatório"),
     sexo: yup.string().required("O campo sexo é obrigatório"),
@@ -171,7 +175,11 @@ export default function SectionCarousel() {
       .string()
       .required("O campo nacionalidade é obrigatório"),
     estadoCivilPf: yup.string().required("O campo estado civil é obrigatório"),
-    rgPf: yup.string().required("O campo RG é obrigatório").trim(),
+    rgPf: yup
+      .string()
+      .required("O campo RG é obrigatório")
+      .trim()
+      .min(5, "Rg deve ter no minimo 5 caracteries"),
     emissorPf: yup.string().required("O campo emissor é obrigatório").trim(),
     emissaoPf: yup.string().required("O campo emissao é obrigatório"),
     sexoPf: yup.string().required("O campo sexo é obrigatório"),
@@ -693,6 +701,7 @@ export default function SectionCarousel() {
                           const persistPf = async () => {
                             setOpen(true);
                             const { sucess, res } = await postPf(body);
+                            setOpen(false);
                             if (sucess) {
                               dispatch(signupSuccess());
                               localStorage.setItem("token", res.token);
