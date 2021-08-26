@@ -194,12 +194,17 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
                       name="bancopj"
                       select
                       label="BANCO"
-                      fullWidth
                       value={formik.values.bancopj}
                       onChange={handleBank}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.bancopj && Boolean(formik.errors.bancopj)
+                      }
+                      helperText={
+                        formik.touched.bancopj && formik.errors.bancopj
+                      }
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.bancopj)}
-                      helperText={formik.errors.bancopj}
                     >
                       {bancos.map(({ nomeBanco, numeroBanco }) => {
                         return (
@@ -217,13 +222,19 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
                       label="AGÊNCIA"
                       value={formik.values.agenciapj}
                       onChange={formik.handleChange}
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.agenciapj &&
+                        Boolean(formik.errors.agenciapj)
+                      }
+                      helperText={
+                        formik.touched.agenciapj && formik.errors.agenciapj
+                      }
                       inputProps={{
                         maxLength: 14,
                       }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.agenciapj)}
-                      helperText={formik.errors.agenciapj}
                     />
                   </Grid>
                 </Grid>
@@ -237,10 +248,15 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
                       label="CONTA"
                       value={formik.values.contapj}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.contapj && Boolean(formik.errors.contapj)
+                      }
+                      helperText={
+                        formik.touched.contapj && formik.errors.contapj
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.contapj)}
-                      helperText={formik.errors.contapj}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>

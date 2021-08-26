@@ -70,8 +70,8 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           maskCpf(e.target.value)
                         );
                       }}
-                      fullWidth
                       inputProps={{ maxLength: 14 }}
+                      fullWidth
                       required
                     />
                   </Grid>
@@ -87,11 +87,17 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           maskCel(e.target.value)
                         )
                       }
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.celularPf &&
+                        Boolean(formik.errors.celularPf)
+                      }
+                      helperText={
+                        formik.touched.celularPf && formik.errors.celularPf
+                      }
                       inputProps={{ maxLength: 15 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.celularPf)}
-                      helperText={formik.errors.celularPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -106,11 +112,18 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           maskDate(e.target.value)
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nascimentoPf &&
+                        Boolean(formik.errors.nascimentoPf)
+                      }
+                      helperText={
+                        formik.touched.nascimentoPf &&
+                        formik.errors.nascimentoPf
+                      }
                       inputProps={{ maxLength: 10 }}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nascimentoPf)}
-                      helperText={formik.errors.nascimentoPf}
                     />
                   </Grid>
                 </Grid>
@@ -129,10 +142,17 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           e.target.value.replace(/[^a-zA-ZçÇ]/g, "")
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.naturalidadePf &&
+                        Boolean(formik.errors.naturalidadePf)
+                      }
+                      helperText={
+                        formik.touched.naturalidadePf &&
+                        formik.errors.naturalidadePf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.naturalidadePf)}
-                      helperText={formik.errors.naturalidadePf}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -143,10 +163,17 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       label="NACIONALIDADE"
                       value={formik.values.nacionalidadePf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nacionalidadePf &&
+                        Boolean(formik.errors.nacionalidadePf)
+                      }
+                      helperText={
+                        formik.touched.nacionalidadePf &&
+                        formik.errors.nacionalidadePf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nacionalidadePf)}
-                      helperText={formik.errors.nacionalidadePf}
                     >
                       {countries.map((country) => {
                         return (
@@ -164,11 +191,18 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       select
                       label="ESTADO CIVIL"
                       value={formik.values.estadoCivilPf}
-                      fullWidth
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.estadoCivilPf &&
+                        Boolean(formik.errors.estadoCivilPf)
+                      }
+                      helperText={
+                        formik.touched.estadoCivilPf &&
+                        formik.errors.estadoCivilPf
+                      }
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.estadoCivilPf)}
-                      helperText={formik.errors.estadoCivilPf}
                     >
                       <MenuItem key="sl" value="Solteiro">
                         Solteiro
@@ -198,11 +232,12 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       label="RG"
                       value={formik.values.rgPf}
                       onChange={formik.handleChange}
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.rgPf && Boolean(formik.errors.rgPf)}
+                      helperText={formik.touched.rgPf && formik.errors.rgPf}
                       inputProps={{ maxLength: 10 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.rgPf)}
-                      helperText={formik.errors.rgPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -212,9 +247,16 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       label="ORGÃO EMISSOR"
                       value={formik.values.emissorPf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.emissaoPf &&
+                        Boolean(formik.errors.emissaoPf)
+                      }
+                      helperText={
+                        formik.touched.emissaoPf && formik.errors.emissaoPf
+                      }
+                      required
                       fullWidth
-                      error={Boolean(formik.errors.emissorPf)}
-                      helperText={formik.errors.emissorPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -229,11 +271,17 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           maskDate(e.target.value)
                         )
                       }
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.emissaoPf &&
+                        Boolean(formik.errors.emissaoPf)
+                      }
+                      helperText={
+                        formik.touched.emissaoPf && formik.errors.emissaoPf
+                      }
                       inputProps={{ maxLength: 10 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.emissaoPf)}
-                      helperText={formik.errors.emissaoPf}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -245,9 +293,12 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       fullWidth
                       value={formik.values.sexoPf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.sexoPf && Boolean(formik.errors.sexoPf)
+                      }
+                      helperText={formik.touched.sexoPf && formik.errors.sexoPf}
                       required
-                      error={Boolean(formik.errors.sexoPf)}
-                      helperText={formik.errors.sexoPf}
                     >
                       <MenuItem key="M" value="M">
                         Masculino
@@ -273,11 +324,14 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           e.target.value.replace(/[^a-zA-Z ]/g, "")
                         )
                       }
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.maePf && Boolean(formik.errors.maePf)
+                      }
+                      helperText={formik.touched.maePf && formik.errors.maePf}
                       inputProps={{ maxLength: 150 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.maePf)}
-                      helperText={formik.errors.maePf}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -287,16 +341,22 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       label="NOME DO PAI"
                       value={formik.values.paiPf}
                       onChange={formik.handleChange}
-                      fullWidth
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
                           e.target.value.replace(/[^a-zA-Z ]/g, "")
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.contapj && Boolean(formik.errors.contapj)
+                      }
+                      helperText={
+                        formik.touched.contapj && formik.errors.contapj
+                      }
                       inputProps={{ maxLength: 150 }}
-                      error={Boolean(formik.errors.paiPf)}
-                      helperText={formik.errors.paiPf}
+                      fullWidth
+                      required
                     />
                   </Grid>
                 </Grid>
@@ -310,10 +370,13 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       label="SITE DE VENDAS"
                       value={formik.values.sitePf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.sitePf && Boolean(formik.errors.sitePf)
+                      }
+                      helperText={formik.touched.sitePf && formik.errors.sitePf}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.sitePf)}
-                      helperText={formik.errors.sitePf}
                     />
                   </Grid>
                 </Grid>

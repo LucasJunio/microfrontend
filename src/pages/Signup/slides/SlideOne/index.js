@@ -58,12 +58,13 @@ export const SlideOne = ({ nextStep, formik }) => {
                   id="nome"
                   name="nome"
                   label="NOME COMPLETO"
-                  value={formik.values.nome}
                   onChange={formik.handleChange}
+                  value={formik.values.nome}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.nome && Boolean(formik.errors.nome)}
+                  helperText={formik.touched.nome && formik.errors.nome}
                   fullWidth
                   required
-                  error={Boolean(formik.errors.nome)}
-                  helperText={formik.errors.nome}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -73,10 +74,12 @@ export const SlideOne = ({ nextStep, formik }) => {
                   label="EMAIL"
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  value={formik.values.email}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
                   fullWidth
                   required
-                  error={Boolean(formik.errors.email)}
-                  helperText={formik.errors.email}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -85,11 +88,14 @@ export const SlideOne = ({ nextStep, formik }) => {
                   name="senha"
                   label="SENHA"
                   value={formik.values.senha}
-                  error={Boolean(formik.errors.senha)}
-                  helperText={formik.errors.senha}
-                  type={showPassword ? "text" : "password"}
                   onChange={formik.handleChange}
+                  value={formik.values.senha}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.senha && Boolean(formik.errors.senha)}
+                  helperText={formik.touched.senha && formik.errors.senha}
+                  type={showPassword ? "text" : "password"}
                   required
+                  fullWidth
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -103,8 +109,6 @@ export const SlideOne = ({ nextStep, formik }) => {
                       </InputAdornment>
                     ),
                   }}
-                  onChange={formik.handleChange}
-                  fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -112,11 +116,12 @@ export const SlideOne = ({ nextStep, formik }) => {
                   id="senha2"
                   name="senha2"
                   label="CONFIRME SUA SENHA"
-                  value={formik.values.senha2}
-                  error={Boolean(formik.errors.senha2)}
-                  helperText={formik.errors.senha2}
                   type={showPassword ? "text" : "password"}
                   onChange={formik.handleChange}
+                  value={formik.values.senha2}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.senha2 && Boolean(formik.errors.senha2)}
+                  helperText={formik.touched.senha2 && formik.errors.senha2}
                   required
                   InputProps={{
                     endAdornment: (

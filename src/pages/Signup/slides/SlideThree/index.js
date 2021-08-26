@@ -89,11 +89,17 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           maskCel(e.target.value)
                         )
                       }
+                      value={formik.values.celular}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.celular && Boolean(formik.errors.celular)
+                      }
+                      helperText={
+                        formik.touched.celular && formik.errors.celular
+                      }
                       fullWidth
                       inputProps={{ maxLength: 15 }}
                       required
-                      error={Boolean(formik.errors.celular)}
-                      helperText={formik.errors.celular}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -101,18 +107,24 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       id="nascimento"
                       name="nascimento"
                       label="NASCIMENTO"
-                      value={formik.values.nascimento}
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
                           maskDate(e.target.value)
                         )
                       }
+                      value={formik.values.nascimento}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nascimento &&
+                        Boolean(formik.errors.nascimento)
+                      }
+                      helperText={
+                        formik.touched.nascimento && formik.errors.nascimento
+                      }
                       inputProps={{ maxLength: 10 }}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nascimento)}
-                      helperText={formik.errors.nascimento}
                     />
                   </Grid>
                 </Grid>
@@ -125,16 +137,23 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       name="naturalidade"
                       label="NATURALIDADE"
                       value={formik.values.naturalidade}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.naturalidade &&
+                        Boolean(formik.errors.naturalidade)
+                      }
+                      helperText={
+                        formik.touched.naturalidade &&
+                        formik.errors.naturalidade
+                      }
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
-                          e.target.value.replace(/[^a-zA-ZçÇ]/g, "")
+                          e.target.value.replace(/[^a-zA-ZçÇ ]/g, "")
                         )
                       }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.naturalidade)}
-                      helperText={formik.errors.naturalidade}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
@@ -144,11 +163,18 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       select
                       label="NACIONALIDADE"
                       value={formik.values.nacionalidade}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nacionalidade &&
+                        Boolean(formik.errors.nacionalidade)
+                      }
+                      helperText={
+                        formik.touched.nacionalidade &&
+                        formik.errors.nacionalidade
+                      }
                       onChange={formik.handleChange}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nacionalidade)}
-                      helperText={formik.errors.nacionalidade}
                     >
                       {countries.map((country) => {
                         return (
@@ -166,11 +192,18 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       select
                       label="ESTADO CIVIL"
                       value={formik.values.estado_civil}
-                      fullWidth
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.estado_civil &&
+                        Boolean(formik.errors.estado_civil)
+                      }
+                      helperText={
+                        formik.touched.estado_civil &&
+                        formik.errors.estado_civil
+                      }
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.nascimento)}
-                      helperText={formik.errors.nascimento}
                     >
                       <MenuItem key="sl" value="Solteiro">
                         Solteiro
@@ -200,11 +233,12 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       label="RG"
                       value={formik.values.rg}
                       onChange={formik.handleChange}
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.rg && Boolean(formik.errors.rg)}
+                      helperText={formik.touched.rg && formik.errors.rg}
                       inputProps={{ maxLength: 10 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.rg)}
-                      helperText={formik.errors.rg}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -214,9 +248,15 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       label="ORGÃO EMISSOR"
                       value={formik.values.emissor}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.emissor && Boolean(formik.errors.emissor)
+                      }
+                      helperText={
+                        formik.touched.emissor && formik.errors.emissor
+                      }
                       fullWidth
-                      error={Boolean(formik.errors.emissor)}
-                      helperText={formik.errors.emissor}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -231,11 +271,16 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           maskDate(e.target.value)
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.emissao && Boolean(formik.errors.emissao)
+                      }
+                      helperText={
+                        formik.touched.emissao && formik.errors.emissao
+                      }
                       fullWidth
                       inputProps={{ maxLength: 10 }}
                       required
-                      error={Boolean(formik.errors.emissao)}
-                      helperText={formik.errors.emissao}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -244,12 +289,13 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       name="sexo"
                       select
                       label="SEXO"
-                      fullWidth
                       value={formik.values.sexo}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.sexo && Boolean(formik.errors.sexo)}
+                      helperText={formik.touched.sexo && formik.errors.sexo}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.sexo)}
-                      helperText={formik.errors.sexo}
                     >
                       <MenuItem key="M" value="M">
                         Masculino
@@ -275,11 +321,12 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           e.target.value.replace(/[^a-zA-Z ]/g, "")
                         )
                       }
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.mae && Boolean(formik.errors.mae)}
+                      helperText={formik.touched.mae && formik.errors.mae}
                       inputProps={{ maxLength: 150 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.mae)}
-                      helperText={formik.errors.mae}
                     />
                   </Grid>
                 </Grid>
@@ -292,17 +339,17 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       name="pai"
                       label="NOME DO PAI"
                       value={formik.values.pai}
-                      onChange={formik.handleChange}
-                      fullWidth
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
                           e.target.value.replace(/[^a-zA-Z ]/g, "")
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.pai && Boolean(formik.errors.pai)}
+                      helperText={formik.touched.pai && formik.errors.pai}
                       inputProps={{ maxLength: 150 }}
-                      error={Boolean(formik.errors.pai)}
-                      helperText={formik.errors.pai}
+                      fullWidth
                     />
                   </Grid>
                 </Grid>

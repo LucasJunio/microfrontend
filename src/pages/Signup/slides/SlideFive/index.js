@@ -102,11 +102,12 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       onChange={(e) => {
                         handleCNPJ(e);
                       }}
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.cnpj && Boolean(formik.errors.cnpj)}
+                      helperText={formik.touched.cnpj && formik.errors.cnpj}
                       inputProps={{ maxLength: 18 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.cnpj)}
-                      helperText={formik.errors.cnpj}
                     />
                   </Grid>
                   <Grid item md={4} lg={3}>
@@ -121,11 +122,17 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                           maskTellPhone(e.target.value)
                         )
                       }
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.telefone &&
+                        Boolean(formik.errors.telefone)
+                      }
+                      helperText={
+                        formik.touched.telefone && formik.errors.telefone
+                      }
                       inputProps={{ maxLength: 14 }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.telefone)}
-                      helperText={formik.errors.telefone}
                     />
                   </Grid>
                   <Grid item md={4} lg={5}>
@@ -135,10 +142,11 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="SITE"
                       value={formik.values.site}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.site && Boolean(formik.errors.site)}
+                      helperText={formik.touched.site && formik.errors.site}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.site)}
-                      helperText={formik.errors.site}
                     />
                   </Grid>
                 </Grid>
@@ -152,10 +160,16 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="RAZÃO SOCIAL"
                       value={formik.values.razaosocial}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.razaosocial &&
+                        Boolean(formik.errors.razaosocial)
+                      }
+                      helperText={
+                        formik.touched.razaosocial && formik.errors.razaosocial
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.razaosocial)}
-                      helperText={formik.errors.razaosocial}
                     />
                   </Grid>
                   <Grid item md={4} lg={3}>
@@ -170,10 +184,11 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                           maskNumber(e.target.value)
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.cnae && Boolean(formik.errors.cnae)}
+                      helperText={formik.touched.cnae && formik.errors.cnae}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.cnae)}
-                      helperText={formik.errors.cnae}
                     />
                   </Grid>
                   <Grid item md={4} lg={4}>
@@ -183,10 +198,17 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="NOME FANTASIA"
                       value={formik.values.nome_fantasia}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nome_fantasia &&
+                        Boolean(formik.errors.nome_fantasia)
+                      }
+                      helperText={
+                        formik.touched.nome_fantasia &&
+                        formik.errors.nome_fantasia
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.nome_fantasia)}
-                      helperText={formik.errors.nome_fantasia}
                     />
                   </Grid>
                 </Grid>
@@ -200,10 +222,13 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="CEP"
                       value={formik.values.ceppj}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.ceppj && Boolean(formik.errors.ceppj)
+                      }
+                      helperText={formik.touched.ceppj && formik.errors.ceppj}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.ceppj)}
-                      helperText={formik.errors.ceppj}
                     />
                   </Grid>
                   <Grid item md={6} lg={6}>
@@ -213,10 +238,16 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="ENDEREÇO"
                       value={formik.values.enderecopj}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.enderecopj &&
+                        Boolean(formik.errors.enderecopj)
+                      }
+                      helperText={
+                        formik.touched.enderecopj && formik.errors.enderecopj
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.enderecopj)}
-                      helperText={formik.errors.enderecopj}
                     />
                   </Grid>
                   <Grid item md={3} lg={3}>
@@ -231,10 +262,16 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                           maskNumber(e.target.value)
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.numeropj &&
+                        Boolean(formik.errors.numeropj)
+                      }
+                      helperText={
+                        formik.touched.numeropj && formik.errors.numeropj
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.numeropj)}
-                      helperText={formik.errors.numeropj}
                     />
                   </Grid>
                 </Grid>
@@ -248,10 +285,16 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="BAIRRO"
                       value={formik.values.bairropj}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.bairropj &&
+                        Boolean(formik.errors.bairropj)
+                      }
+                      helperText={
+                        formik.touched.bairropj && formik.errors.bairropj
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.bairropj)}
-                      helperText={formik.errors.bairropj}
                     />
                   </Grid>
                   <Grid item md={6} lg={3}>
@@ -273,8 +316,14 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       onChange={formik.handleChange}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.cidadepj)}
-                      helperText={formik.errors.cidadepj}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.cidadepj &&
+                        Boolean(formik.errors.cidadepj)
+                      }
+                      helperText={
+                        formik.touched.cidadepj && formik.errors.cidadepj
+                      }
                     />
                   </Grid>
                   <Grid item lg={3}>
@@ -284,10 +333,16 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
                       label="ESTADO"
                       value={formik.values.estadopj}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.estadopj &&
+                        Boolean(formik.errors.estadopj)
+                      }
+                      helperText={
+                        formik.touched.estadopj && formik.errors.estadopj
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.estadopj)}
-                      helperText={formik.errors.estadopj}
                     />
                   </Grid>
                 </Grid>

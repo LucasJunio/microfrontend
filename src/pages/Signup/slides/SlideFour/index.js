@@ -74,14 +74,15 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="CEP"
                       value={formik.values.cep}
                       onChange={(e) => handleCep(e)}
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.cep && Boolean(formik.errors.cep)}
+                      helperText={formik.touched.cep && formik.errors.cep}
                       inputProps={{
                         maxLength: 8,
                         autoComplete: "off",
                       }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.cep)}
-                      helperText={formik.errors.cep}
                     />
                   </Grid>
                   <Grid item md={7} lg={6}>
@@ -91,10 +92,16 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="ENDEREÇO"
                       value={formik.values.endereco}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.endereco &&
+                        Boolean(formik.errors.endereco)
+                      }
+                      helperText={
+                        formik.touched.endereco && formik.errors.endereco
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.endereco)}
-                      helperText={formik.errors.endereco}
                     />
                   </Grid>
                   <Grid item md={2} lg={3}>
@@ -109,10 +116,13 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                           maskNumber(e.target.value)
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.numero && Boolean(formik.errors.numero)
+                      }
+                      helperText={formik.touched.numero && formik.errors.numero}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.numero)}
-                      helperText={formik.errors.numero}
                     />
                   </Grid>
                 </Grid>
@@ -126,10 +136,13 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="BAIRRO"
                       value={formik.values.bairro}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.bairro && Boolean(formik.errors.bairro)
+                      }
+                      helperText={formik.touched.bairro && formik.errors.bairro}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.bairro)}
-                      helperText={formik.errors.bairro}
                     />
                   </Grid>
                   <Grid item md={6} lg={6}>
@@ -139,6 +152,14 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="COMPLEMENTO"
                       value={formik.values.complemento}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.complemento &&
+                        Boolean(formik.errors.complemento)
+                      }
+                      helperText={
+                        formik.touched.complemento && formik.errors.complemento
+                      }
                       fullWidth
                     />
                   </Grid>
@@ -153,10 +174,13 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="CIDADE"
                       value={formik.values.cidade}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.cidade && Boolean(formik.errors.cidade)
+                      }
+                      helperText={formik.touched.cidade && formik.errors.cidade}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.cidade)}
-                      helperText={formik.errors.cidade}
                     />
                   </Grid>
                   <Grid item lg={6}>
@@ -171,10 +195,13 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                           e.target.value.replace(/[^a-zA-ZçÇ]/g, "")
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.estado && Boolean(formik.errors.estado)
+                      }
+                      helperText={formik.touched.estado && formik.errors.estado}
                       fullWidth
                       required
-                      error={Boolean(formik.errors.estado)}
-                      helperText={formik.errors.estado}
                     />
                   </Grid>
                 </Grid>

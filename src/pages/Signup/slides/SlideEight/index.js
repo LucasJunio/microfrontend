@@ -72,14 +72,17 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="CEP"
                       value={formik.values.cepPf}
                       onChange={(e) => handleCep(e)}
-                      fullWidth
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.cepPf && Boolean(formik.errors.cepPf)
+                      }
+                      helperText={formik.touched.cepPf && formik.errors.cepPf}
                       inputProps={{
                         maxLength: 8,
                         autoComplete: "off",
                       }}
+                      fullWidth
                       required
-                      error={Boolean(formik.errors.cepPf)}
-                      helperText={formik.errors.cepPf}
                     />
                   </Grid>
                   <Grid item md={7} lg={6}>
@@ -89,10 +92,16 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="ENDEREÇO"
                       value={formik.values.enderecoPf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.enderecoPf &&
+                        Boolean(formik.errors.enderecoPf)
+                      }
+                      helperText={
+                        formik.touched.enderecoPf && formik.errors.enderecoPf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.enderecoPf)}
-                      helperText={formik.errors.enderecoPf}
                     />
                   </Grid>
                   <Grid item md={2} lg={3}>
@@ -107,10 +116,16 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                           maskNumber(e.target.value)
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.numeroPf &&
+                        Boolean(formik.errors.numeroPf)
+                      }
+                      helperText={
+                        formik.touched.numeroPf && formik.errors.numeroPf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.numeroPf)}
-                      helperText={formik.errors.numeroPf}
                     />
                   </Grid>
                 </Grid>
@@ -124,10 +139,16 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="BAIRRO"
                       value={formik.values.bairroPf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.bairroPf &&
+                        Boolean(formik.errors.bairroPf)
+                      }
+                      helperText={
+                        formik.touched.bairroPf && formik.errors.bairroPf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.bairroPf)}
-                      helperText={formik.errors.bairroPf}
                     />
                   </Grid>
                   <Grid item md={6} lg={6}>
@@ -137,6 +158,15 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="COMPLEMENTO"
                       value={formik.values.complementoPf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.complementoPf &&
+                        Boolean(formik.errors.complementoPf)
+                      }
+                      helperText={
+                        formik.touched.complementoPf &&
+                        formik.errors.complementoPf
+                      }
                       fullWidth
                     />
                   </Grid>
@@ -151,10 +181,16 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                       label="CIDADE"
                       value={formik.values.cidadePf}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.cidadePf &&
+                        Boolean(formik.errors.cidadePf)
+                      }
+                      helperText={
+                        formik.touched.cidadePf && formik.errors.cidadePf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.cidadePf)}
-                      helperText={formik.errors.cidadePf}
                     />
                   </Grid>
                   <Grid item lg={6}>
@@ -169,10 +205,16 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
                           e.target.value.replace(/[^a-zA-ZçÇ]/g, "")
                         )
                       }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.estadoPf &&
+                        Boolean(formik.errors.estadoPf)
+                      }
+                      helperText={
+                        formik.touched.estadoPf && formik.errors.estadoPf
+                      }
                       fullWidth
                       required
-                      error={Boolean(formik.errors.estadoPf)}
-                      helperText={formik.errors.estadoPf}
                     />
                   </Grid>
                 </Grid>
