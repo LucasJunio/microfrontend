@@ -6,6 +6,7 @@ import {
   TextField,
   MenuItem,
 } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
 import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
@@ -139,7 +140,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       onChange={(e) =>
                         formik.setFieldValue(
                           e.target.id,
-                          e.target.value.replace(/[^a-zA-ZçÇ]/g, "")
+                          e.target.value.replace(/[^a-zA-ZçÇ ]/g, "")
                         )
                       }
                       onBlur={formik.handleBlur}
@@ -156,33 +157,35 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
-                    <TextField
+                    <Autocomplete
+                      options={countries}
+                      getOptionLabel={(option) => option}
                       id="nacionalidadePf"
-                      name="nacionalidadePf"
-                      select
-                      label="NACIONALIDADE"
-                      value={formik.values.nacionalidadePf}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.nacionalidadePf &&
-                        Boolean(formik.errors.nacionalidadePf)
-                      }
-                      helperText={
-                        formik.touched.nacionalidadePf &&
-                        formik.errors.nacionalidadePf
-                      }
-                      fullWidth
-                      required
-                    >
-                      {countries.map((country) => {
-                        return (
-                          <MenuItem key={country} value={country}>
-                            {country}
-                          </MenuItem>
-                        );
-                      })}
-                    </TextField>
+                      disableCloseOnSelect
+                      noOptionsText={"País não encontrado"}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          style={{ marginTop: "0px" }}
+                          label="NACIONALIDADE"
+                          name="nacionalidadePf"
+                          margin="normal"
+                          value={formik.values.nacionalidadePf}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.nacionalidadePf &&
+                            Boolean(formik.errors.nacionalidadePf)
+                          }
+                          helperText={
+                            formik.touched.nacionalidadePf &&
+                            formik.errors.nacionalidadePf
+                          }
+                          fullWidth
+                          required
+                        />
+                      )}
+                    />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
@@ -240,7 +243,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} md={4}>
                     <TextField
                       id="emissorPf"
                       name="emissorPf"
@@ -284,7 +287,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} md={2}>
                     <TextField
                       id="sexoPf"
                       name="sexoPf"
