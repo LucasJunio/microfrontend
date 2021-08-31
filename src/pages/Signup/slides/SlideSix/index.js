@@ -231,7 +231,7 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
                         formik.touched.agenciapj && formik.errors.agenciapj
                       }
                       inputProps={{
-                        maxLength: 14,
+                        maxLength: 4,
                       }}
                       fullWidth
                       required

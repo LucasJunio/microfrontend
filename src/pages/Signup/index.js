@@ -155,7 +155,10 @@ export default function SectionCarousel() {
     cidadepj: yup.string().required("Campo cidade é obrigatório").trim(),
     estadopj: yup.string().required("Campo estado é obrigatório").trim(),
     bancopj: yup.string().required("Campo banco é obrigatório"),
-    agenciapj: yup.number().required("Campo agência é obrigatório"),
+    agenciapj: yup
+      .number()
+      .typeError("Agencia deve ser número")
+      .required("Campo agência é obrigatório"),
     contapj: yup.number().required("Campo conta é obrigatório"),
     site: yup
       .string()
