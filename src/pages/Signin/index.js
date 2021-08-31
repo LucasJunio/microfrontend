@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   CssBaseline,
@@ -23,14 +23,15 @@ import { useStyles } from "./styles";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { signin } from "../../services/api/api";
+// import { signin } from "../../services/api/api";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  signupRequest,
-  signupSuccess,
-} from "../../store/modules/signup/actions";
-import { signInSuccess } from "../../store/modules/signin/actions";
+// import {
+//   signupRequest,
+//   signupSuccess,
+// } from "../../store3/modules/signup/actions";
+import { signInSuccess } from "../../store3/modules/signin/actions";
+import { signin } from "../../store/ducks/Signer/index";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -49,9 +50,34 @@ export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  
+  const [open, setOpen] = useState(false);
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const state = useSelector((state) => {
+    return state;
+  });
+
+  const signinStatus = state.signer.status;
+  const message = state.signer.message;
+
+  useEffect(() => {
+    if (signinStatus === "completed") {
+      setOpen(false);
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+      history.push("/");
+    } else if (signinStatus === "loading") {
+      setOpen(true);
+    } else if (signinStatus === "failed") {
+      setOpen(false);
+      enqueueSnackbar(message, {
+        variant: "error",
+      });
+    }
+  }, [signinStatus, message]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -70,8 +96,8 @@ export default function SignIn() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "lucas.verdine41@gmail.com",
+      password: "7e882f971",
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
@@ -82,23 +108,25 @@ export default function SignIn() {
       console.log(body);
       setOpenBackDrop(true);
 
-      await signin(body)
-        .then((res) => {
-          setTimeout(() => {
-            setOpenBackDrop(false);
-            localStorage.setItem("token", res.token);
-            enqueueSnackbar(res.message, {
-              variant: "success",
-            });
+      dispatch(signin(body))
 
-            dispatch(signupSuccess());
-            history.push("/");
-          }, 1500);
-        })
-        .catch((error) => {
-          setOpenBackDrop(false);
-          enqueueSnackbar(`${error}`, { variant: "error" });
-        });
+      // await signin(body)
+      //   .then((res) => {
+      //     setTimeout(() => {
+      //       setOpenBackDrop(false);
+      //       localStorage.setItem("token", res.token);
+      //       enqueueSnackbar(res.message, {
+      //         variant: "success",
+      //       });
+
+      //       dispatch(signupSuccess());
+      //       history.push("/");
+      //     }, 1500);
+      //   })
+      //   .catch((error) => {
+      //     setOpenBackDrop(false);
+      //     enqueueSnackbar(`${error}`, { variant: "error" });
+      //   });
     },
   });
 
@@ -107,7 +135,7 @@ export default function SignIn() {
   };
   return (
     <Container component="main" maxWidth="xs">
-      <Backdrop className={classes.backdrop} open={openBackDrop}>
+      <Backdrop className={classes.backdrop} open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <CssBaseline />

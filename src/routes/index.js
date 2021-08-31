@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import store from "../store";
 import Route from "./Route";
-import history from "../services/history";
+// import history from "../services/history";
 
 import Signup from "../pages/Signup";
 import Home from "../pages/Home";
@@ -23,14 +23,14 @@ export default function Routes() {
             horizontal: "right",
           }}
         >
-          <ConnectedRouter history={history}>
+          {/* <ConnectedRouter history={history}> */}
             <Switch>
-              <Route exact path="/" component={Home} isPrivate />
+              <Route exact path="/" component={Home} />
               <Route exact path="/signin" component={Signin} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/email*" component={Email} />
             </Switch>
-          </ConnectedRouter>
+          {/* </ConnectedRouter> */}
         </SnackbarProvider>
       </Provider>
     </>

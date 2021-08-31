@@ -1,6 +1,6 @@
 import { takeLatest, call, put, all } from "redux-saga/effects";
 
-import history from "../../../services/history";
+// import history from "../../../services/history";
 import { api } from "../../../services/api/api";
 
 import { signInSuccess, signFailure } from "./actions";
@@ -35,7 +35,7 @@ export function Logout() {
   try {
     // api.defaults.headers.Authorization = "";
     // logout();
-    history.push("/signin");
+    // history.push("/signin");
   } catch (err) {
     console.log("Falha no Logout");
   }
