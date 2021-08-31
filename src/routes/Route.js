@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Redirect, Route } from "react-router-dom";
 // import { useSelector } from 'react-redux';
 
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 // Private router
 export default function RouteWrapper({
@@ -11,15 +11,15 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  let validation = useSelector((state) => state.signin.signed);
+  // let validation = useSelector((state) => state.signin.signed);
 
-  if (!validation && isPrivate) {
-    return <Redirect to="/signin" />;
-  }
+  // if (!validation && isPrivate) {
+  //   return <Redirect to="/signin" />;
+  // }
 
-  if (validation && !isPrivate) {
-    return <Redirect to="/" />;
-  }
+  // if (validation && !isPrivate) {
+  //   return <Redirect to="/" />;
+  // }
   return <Route {...rest} render={(props) => <Component {...props} />} />;
 }
 

@@ -21,12 +21,12 @@ import sha256 from "crypto-js/sha256";
 import { ClassBackground, useStyles } from "./styles";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
-import {
-  insertAddressCPFRequest,
-  insertAddressCNPJRequest,
-} from "../../store/modules/address/actions";
-import { insertEnterpriseRequest } from "../../store/modules/enterprise/actions";
-import { signupSuccess } from "../../store/modules/signup/actions";
+// import {
+//   insertAddressCPFRequest,
+//   insertAddressCNPJRequest,
+// } from "../../store3/modules/address/actions";
+// import { insertEnterpriseRequest } from "../../store3/modules/enterprise/actions";
+// import { signupSuccess } from "../../store3/modules/signup/actions";
 import "./stylepagination.scss";
 import { maskNumber } from "../../utils/string/masks";
 import { validateCpf } from "../../utils/string/validateCpf";
@@ -377,12 +377,12 @@ export default function SectionCarousel() {
       slickRef.current.slickNext();
       setDOT4(dotInactive);
       setDOT5(dotActive);
-      insertAddressCPFRequest({
-        cep: maskNumber(cep),
-        complemento,
-        endereco,
-        bairro,
-      });
+      // insertAddressCPFRequest({
+      //   cep: maskNumber(cep),
+      //   complemento,
+      //   endereco,
+      //   bairro,
+      // });
     } else {
       enqueueSnackbar("Campos obrigatórios não preenchidos", {
         variant: "error",
@@ -409,22 +409,22 @@ export default function SectionCarousel() {
       slickRef.current.slickNext();
       setDOT5(dotInactive);
       setDOT6(dotActive);
-      insertAddressCNPJRequest({
-        cep: maskNumber(ceppj),
-        complemento: complementopj,
-        endereco: enderecopj,
-        numero: maskNumber(numeropj),
-        bairro: bairropj,
-      });
-      insertEnterpriseRequest({
-        cnpj: maskNumber(cnpj),
-        cnae: cnae,
-        razao_social: razaosocial,
-        telefone_fixo: maskNumber(telefone),
-        celular: maskNumber(celular),
-        nome_fantasia: nome_fantasia,
-        site: site,
-      });
+      // insertAddressCNPJRequest({
+      //   cep: maskNumber(ceppj),
+      //   complemento: complementopj,
+      //   endereco: enderecopj,
+      //   numero: maskNumber(numeropj),
+      //   bairro: bairropj,
+      // });
+      // insertEnterpriseRequest({
+      //   cnpj: maskNumber(cnpj),
+      //   cnae: cnae,
+      //   razao_social: razaosocial,
+      //   telefone_fixo: maskNumber(telefone),
+      //   celular: maskNumber(celular),
+      //   nome_fantasia: nome_fantasia,
+      //   site: site,
+      // });
     } else {
       enqueueSnackbar("Campos obrigatórios não preenchidos", {
         variant: "error",
@@ -653,7 +653,7 @@ export default function SectionCarousel() {
                             const { sucess, res } = await postCnpj(body);
                             setOpen(false);
                             if (sucess) {
-                              dispatch(signupSuccess());
+                              // dispatch(signupSuccess());
                               localStorage.setItem("token", res.token);
                               history.push("/");
                             } else {
@@ -706,7 +706,7 @@ export default function SectionCarousel() {
                             const { sucess, res } = await postPf(body);
                             setOpen(false);
                             if (sucess) {
-                              dispatch(signupSuccess());
+                              // dispatch(signupSuccess());
                               localStorage.setItem("token", res.token);
                               history.push("/");
                             } else {

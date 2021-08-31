@@ -11,7 +11,7 @@ import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 
 import { ClassBackground } from "./styles";
 
-import history from "../../services/history";
+// import history from "../../services/history";
 
 const getUrlParameter = () => {
   const location = useLocation();
@@ -44,7 +44,7 @@ const Email = () => {
   });
 
   const handleClose = () => {
-    history.push("/");
+    // history.push("/");
   };
 
   return (

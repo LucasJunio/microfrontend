@@ -54,7 +54,7 @@ import {
 } from "../../services/api/api";
 import { useDispatch, useSelector } from "react-redux";
 
-import { signOut } from "../../store/modules/signin/actions";
+// import { signOut } from "../../store3/modules/signin/actions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -186,7 +186,7 @@ export default function MiniDrawer() {
   };
 
   const Logout = () => {
-    dispatch(signOut());
+    // dispatch(signOut());
     localStorage.setItem("token", "");
     history.push("/signin");
   };

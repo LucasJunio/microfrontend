@@ -1,29 +1,44 @@
-// Where most of the application information is stored
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router';
+// import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+// import thunk from "redux-thunk";
+import storage from "redux-persist/lib/storage";
+import reducers from "./reducers";
+// import systemUserReducer from "./ducks/systemUser";
+// import userReducer from "./ducks/User";
+// import signerReducer from "./ducks/Signer";
 
-import history from '../services/history';
+// const reducers = combineReducers({
+//   // systemUser: systemUserReducer,
+//   user: userReducer,
+//   signer: signerReducer,
+// });
 
-import rootReducer from './modules/rootReducer';
-import rootSaga from './modules/rootSaga';
+const persistConfig = {
+  key: "vileveWay-Client",
+  version: 1,
+  storage,
+  // blacklist: ["user", "group"],
+};
 
-const sagaMiddleware = createSagaMiddleware();
-const rootMiddleware = routerMiddleware(history);
+const persistedReducer = persistReducer(persistConfig, reducers);
 
-const middlewares = [
-    sagaMiddleware,
-    rootMiddleware    
-]
-
-/**
- * createStore parameters 
- * @param  {object} rootReducer function that returns the initial state of combineReducers
- * @return {Array} States tree
- */
-const store = createStore(rootReducer(history), applyMiddleware(...middlewares));
-
-
-sagaMiddleware.run(rootSaga);
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
 
 export default store;
