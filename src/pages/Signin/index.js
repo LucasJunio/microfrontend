@@ -134,6 +134,7 @@ export default function SignIn() {
             onChange={formik.handleChange}
             error={Boolean(formik.errors.email)}
             helperText={formik.errors.email}
+            inputProps={{ tabIndex: "1" }}
           />
           <TextField
             variant="outlined"
@@ -149,10 +150,12 @@ export default function SignIn() {
             onChange={formik.handleChange}
             error={Boolean(formik.errors.password)}
             helperText={formik.errors.password}
+            inputProps={{ tabIndex: "2" }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
+                    inputProps={{ tabIndex: "4" }}
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
@@ -164,7 +167,7 @@ export default function SignIn() {
             }}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" color="primary" tabIndex="5" />}
             label="Lembrar-me"
           />
           <Button
@@ -173,6 +176,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            tabIndex="3"
           >
             Entrar
           </Button>
