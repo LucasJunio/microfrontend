@@ -8,7 +8,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-// import Route as  from "./routes/Route";
+import Layout from "./components/Layout"
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Email from "./pages/Email";
@@ -26,9 +26,10 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/layout" component={Layout} />
             <Route exact path="/signin" component={Signin} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/email*" component={Email} />
+            <Route exact path="/email/:token" component={Email} />
           </Switch>
         </Router>
       </SnackbarProvider>
