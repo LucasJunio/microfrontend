@@ -162,169 +162,157 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
   });
 
   return (
-    <Grid item md={12}>
-      <div style={{ padding: 20 }}>
-        <Grid container justify="center" alignItems="center">
-          <Hidden only={["xs", "sm"]}>
-            <Grid item md={6}>
-              <Grid container justify="center" alignItems="center">
-                <img src={manPc} className={classes.manPc} alt="logotipo" />
+    // <Grid container>
+    //   <Grid item md={12}>
+    //     <div style={{ padding: 20 }}>
+    <Grid container justify="center" alignItems="center">
+      <Hidden only={["xs", "sm"]}>
+        <Grid item md={6}>
+          <Grid container justify="center" alignItems="center">
+            <img src={manPc} className={classes.manPc} alt="logotipo" />
+          </Grid>
+        </Grid>
+      </Hidden>
+      <Grid item xs={12} md={6}>
+        <Grid container direction="column" spacing={7}>
+          <Grid item xs={11}>
+            <Typography variant="body1" gutterBottom className={classes.label}>
+              Ainda sobre o seu negócio, quais os{" "}
+              <span className={classes.labelUser}>
+                dados bancários da sua empresa?
+              </span>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Grid container spacing={3}>
+              <Grid item xs={10} sm={6} md={6} lg={6} xl={6}>
+                <TextField
+                  id="bancopj"
+                  name="bancopj"
+                  select
+                  label="BANCO"
+                  value={formik.values.bancopj}
+                  onChange={handleBank}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.bancopj && Boolean(formik.errors.bancopj)
+                  }
+                  helperText={formik.touched.bancopj && formik.errors.bancopj}
+                  fullWidth
+                  required
+                >
+                  {bancos.map(({ nomeBanco, numeroBanco }) => {
+                    return (
+                      <MenuItem key={numeroBanco} value={numeroBanco}>
+                        {nomeBanco}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              </Grid>
+              <Grid item xs={10} sm={6} md={6} lg={6} xl={6}>
+                <TextField
+                  id="agenciapj"
+                  name="agenciapj"
+                  label="AGÊNCIA"
+                  value={formik.values.agenciapj}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.agenciapj && Boolean(formik.errors.agenciapj)
+                  }
+                  helperText={
+                    formik.touched.agenciapj && formik.errors.agenciapj
+                  }
+                  inputProps={{
+                    maxLength: 4,
+                  }}
+                  fullWidth
+                  required
+                />
               </Grid>
             </Grid>
-          </Hidden>
-          <Grid item md={6}>
-            <Grid container direction="column" spacing={7}>
+          </Grid>
+          <Grid item>
+            <Grid container spacing={3}>
+              <Grid item xs={10} sm={6} md={6} lg={6} xl={6}>
+                <TextField
+                  id="contapj"
+                  name="contapj"
+                  label="CONTA"
+                  value={formik.values.contapj}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.contapj && Boolean(formik.errors.contapj)
+                  }
+                  helperText={formik.touched.contapj && formik.errors.contapj}
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item xs={10} sm={6} md={6} lg={6} xl={6}>
+                <Box visibility={isCaixa}>
+                  <TextField
+                    id="operacaopj"
+                    name="operacaopj"
+                    label="OPERAÇÃO"
+                    value={formik.values.operacaopj}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    helperText="*Caso tenha conta na Caixa"
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container>
+              <Grid item xs={10} sm={12} md={12} lg={12} xl={12}>
+                <TextField
+                  id="pixpj"
+                  name="pixpj"
+                  label="CHAVE PIX"
+                  value={formik.values.pixpj}
+                  onChange={formik.handleChange}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={11} md={12}>
+            <Grid container justify="flex-end" alignItems="center" spacing={3}>
               <Grid item>
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  className={classes.label}
+                <Button
+                  color="warning"
+                  size="sm"
+                  rel="noopener noreferrer"
+                  onClick={() => previousStep()}
                 >
-                  Ainda sobre o seu negócio, quais os{" "}
-                  <span className={classes.labelUser}>
-                    dados bancários da sua empresa?
-                  </span>
-                </Typography>
+                  <ArrowBack className={classes.arrowIconBack} />
+                  Anterior
+                </Button>
               </Grid>
               <Grid item>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <TextField
-                      id="bancopj"
-                      name="bancopj"
-                      select
-                      label="BANCO"
-                      value={formik.values.bancopj}
-                      onChange={handleBank}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.bancopj && Boolean(formik.errors.bancopj)
-                      }
-                      helperText={
-                        formik.touched.bancopj && formik.errors.bancopj
-                      }
-                      fullWidth
-                      required
-                    >
-                      {bancos.map(({ nomeBanco, numeroBanco }) => {
-                        return (
-                          <MenuItem key={numeroBanco} value={numeroBanco}>
-                            {nomeBanco}
-                          </MenuItem>
-                        );
-                      })}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <TextField
-                      id="agenciapj"
-                      name="agenciapj"
-                      label="AGÊNCIA"
-                      value={formik.values.agenciapj}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.agenciapj &&
-                        Boolean(formik.errors.agenciapj)
-                      }
-                      helperText={
-                        formik.touched.agenciapj && formik.errors.agenciapj
-                      }
-                      inputProps={{
-                        maxLength: 4,
-                      }}
-                      fullWidth
-                      required
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <TextField
-                      id="contapj"
-                      name="contapj"
-                      label="CONTA"
-                      value={formik.values.contapj}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.contapj && Boolean(formik.errors.contapj)
-                      }
-                      helperText={
-                        formik.touched.contapj && formik.errors.contapj
-                      }
-                      fullWidth
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <Box visibility={isCaixa}>
-                      <TextField
-                        id="operacaopj"
-                        name="operacaopj"
-                        label="OPERAÇÃO"
-                        value={formik.values.operacaopj}
-                        onChange={formik.handleChange}
-                        fullWidth
-                        helperText="*Caso tenha conta na Caixa"
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Grid container>
-                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                    <TextField
-                      id="pixpj"
-                      name="pixpj"
-                      label="CHAVE PIX"
-                      value={formik.values.pixpj}
-                      onChange={formik.handleChange}
-                      fullWidth
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item md={12}>
-                <Grid
-                  container
-                  justify="flex-end"
-                  alignItems="center"
-                  spacing={3}
+                <Button
+                  color="primary"
+                  id="BTNFIFTHNEXT"
+                  size="sm"
+                  rel="noopener noreferrer"
+                  type="submit"
+                  // onClick={() => Register()}
                 >
-                  <Grid item>
-                    <Button
-                      color="warning"
-                      size="sm"
-                      rel="noopener noreferrer"
-                      onClick={() => previousStep()}
-                    >
-                      <ArrowBack className={classes.arrowIconBack} />
-                      Anterior
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      color="primary"
-                      id="BTNFIFTHNEXT"
-                      size="sm"
-                      rel="noopener noreferrer"
-                      type="submit"
-                      // onClick={() => Register()}
-                    >
-                      Salvar
-                      <Save className={classes.saveIcon} />
-                    </Button>
-                  </Grid>
-                </Grid>
+                  Salvar
+                  <Save className={classes.saveIcon} />
+                </Button>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </div>
+      </Grid>
     </Grid>
+    //     </div>
+    //   </Grid>
+    // </Grid>
   );
 };

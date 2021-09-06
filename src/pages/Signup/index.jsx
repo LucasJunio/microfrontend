@@ -4,10 +4,28 @@ import { useFormik } from "formik";
 // react component for creating beautiful carousel
 import { useSnackbar } from "notistack";
 import Carousel from "react-slick";
-import { Backdrop, CircularProgress, Grid } from "@material-ui/core";
+import {
+  Backdrop,
+  CircularProgress,
+  Grid,
+  Card,
+  CardContent,
+  Tab,
+  Tabs,
+  Box,
+} from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
+
+import TabPanel from "./TabPanel";
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
 import { useHistory } from "react-router-dom";
-import Card from "components/Card/Card.js";
-import CardBody from "components/Card/CardBody";
+import SwipeableViews from "react-swipeable-views";
+// import Card from "components/Card/Card.js";
+// import CardBody from "components/Card/CardBody";
 import { SlideOne } from "./slides/SlideOne/index";
 import { SlideTwo } from "./slides/SlideTwo/index";
 import { SlideThree } from "./slides/SlideThree/index";
@@ -16,21 +34,24 @@ import { SlideFive } from "./slides/SlideFive/index";
 import { SlideSix } from "./slides/SlideSix/index";
 import { SlideSeven } from "./slides/SlideSeven";
 import { SlideEight } from "./slides/SlideEight";
+import PropTypes from "prop-types";
+
 import logo from "../../assets/images/logo_vileve_way.png";
 import sha256 from "crypto-js/sha256";
 import { ClassBackground, useStyles } from "./styles";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
-// import {
-//   insertAddressCPFRequest,
-//   insertAddressCNPJRequest,
-// } from "../../store3/modules/address/actions";
-// import { insertEnterpriseRequest } from "../../store3/modules/enterprise/actions";
-// import { signupSuccess } from "../../store3/modules/signup/actions";
 import "./stylepagination.scss";
 import { maskNumber } from "../../utils/string/masks";
 import { validateCpf } from "../../utils/string/validateCpf";
 import { postCnpj, postPf } from "../../services/api/api";
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export default function SectionCarousel() {
   const { enqueueSnackbar } = useSnackbar();
@@ -38,25 +59,9 @@ export default function SectionCarousel() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const theme = useTheme();
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
-  const [celular, setCelular] = useState("");
-  const [cep, setCEP] = useState("");
-  const [endereco, setENDERECO] = useState("");
-  const [bairro, setBAIRRO] = useState("");
-  const [complemento, setCOMPLEMENTO] = useState("");
-  const [razaosocial, setRAZAOSOCIAL] = useState("");
-  const [nome_fantasia, setNOMEFANTASIA] = useState("");
-  const [cnpj, setCNPJ] = useState("");
-  const [telefone, setTELEFONE] = useState("");
-  const [site, setSITE] = useState("");
-  const [ceppj, setCEPPJ] = useState("");
-  const [cnae, setCNAE] = useState("");
-  const [enderecopj, setENDERECOPJ] = useState("");
-  const [numeropj, setNUMEROPJ] = useState("");
-  const [bairropj, setBAIRROPJ] = useState("");
-  const [complementopj, setCOMPLEMENTOPJ] = useState("");
   const [dot1, setDOT1] = useState(dotActive);
   const [dot2, setDOT2] = useState(dotInactive);
   const [dot3, setDOT3] = useState(dotInactive);
@@ -73,6 +78,11 @@ export default function SectionCarousel() {
   const [hideSlide8, setHideSlide8] = useState(false);
   const [hideSlide9, setHideSlide9] = useState(false);
   const [isCnpj, setIsCnpj] = useState(false);
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const validationSchema = yup.object({
     nome: yup
@@ -305,8 +315,9 @@ export default function SectionCarousel() {
         !!formik.values.senha &&
         !!formik.values.senha2
       ) {
-        setHideSlide2(true);
-        slickRef.current.slickNext();
+        setValue(1);
+        // setHideSlide2(true);
+        // slickRef.current.slickNext();
         setDOT1(dotInactive);
         setDOT2(dotActive);
       } else {
@@ -318,17 +329,19 @@ export default function SectionCarousel() {
   };
 
   const Step2PJ = () => {
+    setValue(2);
     setIsCnpj(true);
-    setHideSlide3(true);
-    slickRef.current.slickNext();
+    // setHideSlide3(true);
+    // slickRef.current.slickNext();
     setDOT2(dotInactive);
     setDOT3(dotActive);
   };
 
   const Step2PF = () => {
     setIsCnpj(false);
-    setHideSlide7(true);
-    slickRef.current.slickNext();
+    setValue(6);
+    // setHideSlide7(true);
+    // slickRef.current.slickNext();
     setDOT2(dotInactive);
     setDOT3(dotActive);
   };
@@ -348,8 +361,9 @@ export default function SectionCarousel() {
         !!formik.values.mae &&
         !!formik.values.pai
       ) {
-        setHideSlide4(true);
-        slickRef.current.slickNext();
+        setValue(3);
+        // setHideSlide4(true);
+        // slickRef.current.slickNext();
         setDOT3(dotInactive);
         setDOT4(dotActive);
       } else {
@@ -373,8 +387,9 @@ export default function SectionCarousel() {
       !!formik.values.cidade &&
       !!formik.values.estado
     ) {
-      setHideSlide5(true);
-      slickRef.current.slickNext();
+      setValue(4);
+      // setHideSlide5(true);
+      // slickRef.current.slickNext();
       setDOT4(dotInactive);
       setDOT5(dotActive);
       // insertAddressCPFRequest({
@@ -405,8 +420,9 @@ export default function SectionCarousel() {
       !!formik.values.estadopj &&
       !!formik.values.site
     ) {
-      setHideSlide6(true);
-      slickRef.current.slickNext();
+      setValue(5);
+      // setHideSlide6(true);
+      // slickRef.current.slickNext();
       setDOT5(dotInactive);
       setDOT6(dotActive);
       // insertAddressCNPJRequest({
@@ -448,8 +464,9 @@ export default function SectionCarousel() {
         !!formik.values.paiPf &&
         !!formik.values.sitePf
       ) {
-        setHideSlide8(true);
-        slickRef.current.slickNext();
+        setValue(7);
+        // setHideSlide8(true);
+        // slickRef.current.slickNext();
         setDOT3(dotInactive);
         setDOT4(dotActive);
       } else {
@@ -473,8 +490,9 @@ export default function SectionCarousel() {
       !!formik.values.cidadePf &&
       !!formik.values.estadoPf
     ) {
-      setHideSlide9(true);
-      slickRef.current.slickNext();
+      setValue(5);
+      // setHideSlide9(true);
+      // slickRef.current.slickNext();
       setDOT4(dotInactive);
       setDOT5(dotActive);
       // insertAddressCPFRequest({
@@ -491,49 +509,56 @@ export default function SectionCarousel() {
   };
 
   const Step2PREV = () => {
-    slickRef.current.slickPrev();
+    setValue(0);
+    // slickRef.current.slickPrev();
     setDOT2(dotInactive);
     setDOT1(dotActive);
   };
 
   const Step3PREV = () => {
-    slickRef.current.slickPrev();
-    setHideSlide3(false);
+    setValue(1);
+    // slickRef.current.slickPrev();
+    // setHideSlide3(false);
     setDOT3(dotInactive);
     setDOT2(dotActive);
   };
 
   const Step4PREV = () => {
-    setHideSlide4(false);
-    slickRef.current.slickPrev();
+    setValue(2);
+    // setHideSlide4(false);
+    // slickRef.current.slickPrev();
     setDOT4(dotInactive);
     setDOT3(dotActive);
   };
 
   const Step5PREV = () => {
-    setHideSlide5(false);
-    slickRef.current.slickPrev();
+    setValue(3);
+    // setHideSlide5(false);
+    // slickRef.current.slickPrev();
     setDOT5(dotInactive);
     setDOT4(dotActive);
   };
 
   const Step6PREV = () => {
-    setHideSlide6(false);
-    slickRef.current.slickPrev();
+    // setHideSlide6(false);
+    // slickRef.current.slickPrev();
+    setValue(4);
     setDOT6(dotInactive);
     setDOT5(dotActive);
   };
 
   const Step7PREV = () => {
-    setHideSlide7(false);
-    slickRef.current.slickPrev();
+    setValue(1);
+    // setHideSlide7(false);
+    // slickRef.current.slickPrev();
     setDOT3(dotInactive);
     setDOT2(dotActive);
   };
 
   const Step8PREV = () => {
-    setHideSlide9(false);
-    slickRef.current.slickPrev();
+    setValue(6);
+    // setHideSlide9(false);
+    // slickRef.current.slickPrev();
     setDOT3(dotInactive);
     setDOT2(dotActive);
   };
@@ -542,262 +567,347 @@ export default function SectionCarousel() {
     // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
   };
 
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
+
   return (
-    <>
-      <Grid container direction="column" style={{ position: "absolute" }}>
-        <Backdrop className={classes.backdrop} open={open}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-        <Grid item style={{ height: "85px" }}>
-          <img src={logo} className={classes.logo} alt="logotipo"></img>
-        </Grid>
-        <Grid item lg={12}>
-          <Grid container justify="flex-end" alignItems="center">
-            <Grid item style={{ height: "0px" }}>
-              <ul className="pagination">
-                <li className="pagination__item">
-                  <a href="#" className={dot1}></a>
-                </li>
-                <li className="pagination__item">
-                  <a href="#" className={dot2}></a>
-                </li>
-                <li className="pagination__item">
-                  <a href="#" className={dot3}></a>
-                </li>
-                <li className="pagination__item">
-                  <a href="#" className={dot4}></a>
-                </li>
-                <li className="pagination__item">
-                  <a href="#" className={dot5}></a>
-                </li>
-                <li className="pagination__item">
-                  <a href="#" className={dot6}></a>
-                </li>
-              </ul>
+    <div className={classes.root}>
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      {/* <ClassBackground /> */}
+      <Grid container direction="column" justify="center">
+        <Grid item style={{ height: "80px" }}>
+          <Grid container justify="flex-start">
+            <Grid item>
+              <img src={logo} className={classes.logo} alt="logotipo"></img>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item zeroMinWidth xs={12} md={12} lg={12}>
-          <Grid container>
-            <Grid item zeroMinWidth xs={12} md={12}>
-              <Grid container alignItems="center" justify="center">
-                <Grid item xs={12} md={12}>
-                  <form
-                    onSubmit={(e) => {
-                      const { values } = formik;
-                      if (
-                        !!formik.values.bancopj &&
-                        !!formik.values.agenciapj &&
-                        !!formik.values.contapj
-                      ) {
-                        let body = undefined;
-                        if (isCnpj) {
-                          body = {
-                            usuario: {
-                              nome: values.nome,
-                              email: values.email,
-                              senha: sha256(values.senha).toString().trim(),
-                            },
-                            pessoa: {
-                              cpf: maskNumber(values.cpf),
-                              celular: maskNumber(values.celular),
-                              nascimento: values.nascimento,
-                              naturalidade: values.naturalidade,
-                              nacionalidade: values.nacionalidade,
-                              estado_civil: values.estado_civil,
-                              rg: values.rg,
-                              emissor: values.emissor,
-                              emissao: values.emissao,
-                              sexo: values.sexo,
-                              mae: values.mae,
-                              pai: values.pai,
-                            },
-                            empresa: {
-                              cnpj: maskNumber(values.cnpj),
-                              cnae: values.cnae,
-                              razao_social: values.razaosocial,
-                              telefone_fixo: maskNumber(values.telefone),
-                              celular: maskNumber(values.celular),
-                              nome_fantasia: values.nome_fantasia,
-                              site: values.site,
-                            },
-                            conta: {
-                              banco: values.bancopj.toString(),
-                              agencia: maskNumber(values.agenciapj),
-                              conta: maskNumber(values.contapj),
-                              operacao: maskNumber(values.operacaopj),
-                              pix: values.pixpj,
-                            },
-                            endereco_cnpj: {
-                              cep: maskNumber(values.cep),
-                              complemento: values.complementopj,
-                              endereco: values.enderecopj,
-                              numero: maskNumber(values.numeropj),
-                              bairro: values.bairropj,
-                              cidade: values.cidadepj,
-                              estado: values.estadopj,
-                            },
-                            endereco_cpf: {
-                              cep: maskNumber(values.cep),
-                              complemento: values.complemento,
-                              endereco: values.endereco,
-                              numero: values.numeropj,
-                              bairro: values.bairro,
-                              cidade: values.cidade,
-                              estado: values.estado,
-                            },
-                          };
+        <form
+          onSubmit={(e) => {
+            console.log(formik);
+            const { values } = formik;
+            if (
+              !!formik.values.bancopj &&
+              !!formik.values.agenciapj &&
+              !!formik.values.contapj
+            ) {
+              let body = undefined;
+              if (isCnpj) {
+                body = {
+                  usuario: {
+                    nome: values.nome,
+                    email: values.email,
+                    senha: sha256(values.senha).toString().trim(),
+                  },
+                  pessoa: {
+                    cpf: maskNumber(values.cpf),
+                    celular: maskNumber(values.celular),
+                    nascimento: values.nascimento,
+                    naturalidade: values.naturalidade,
+                    nacionalidade: values.nacionalidade,
+                    estado_civil: values.estado_civil,
+                    rg: values.rg,
+                    emissor: values.emissor,
+                    emissao: values.emissao,
+                    sexo: values.sexo,
+                    mae: values.mae,
+                    pai: values.pai,
+                  },
+                  empresa: {
+                    cnpj: maskNumber(values.cnpj),
+                    cnae: values.cnae,
+                    razao_social: values.razaosocial,
+                    telefone_fixo: maskNumber(values.telefone),
+                    celular: maskNumber(values.celular),
+                    nome_fantasia: values.nome_fantasia,
+                    site: values.site,
+                  },
+                  conta: {
+                    banco: values.bancopj.toString(),
+                    agencia: maskNumber(values.agenciapj),
+                    conta: maskNumber(values.contapj),
+                    operacao: maskNumber(values.operacaopj),
+                    pix: values.pixpj,
+                  },
+                  endereco_cnpj: {
+                    cep: maskNumber(values.cep),
+                    complemento: values.complementopj,
+                    endereco: values.enderecopj,
+                    numero: maskNumber(values.numeropj),
+                    bairro: values.bairropj,
+                    cidade: values.cidadepj,
+                    estado: values.estadopj,
+                  },
+                  endereco_cpf: {
+                    cep: maskNumber(values.cep),
+                    complemento: values.complemento,
+                    endereco: values.endereco,
+                    numero: values.numeropj,
+                    bairro: values.bairro,
+                    cidade: values.cidade,
+                    estado: values.estado,
+                  },
+                };
 
-                          const persistCnpj = async () => {
-                            setOpen(true);
-                            const { sucess, res } = await postCnpj(body);
-                            setOpen(false);
-                            if (sucess) {
-                              // dispatch(signupSuccess());
-                              localStorage.setItem("token", res.token);
-                              history.push("/");
-                            } else {
-                              enqueueSnackbar(res, {
-                                variant: "error",
-                              });
-                            }
-                          };
-                          persistCnpj();
-                        } else {
-                          body = {
-                            usuario: {
-                              nome: values.nome,
-                              email: values.email,
-                              senha: sha256(values.senha).toString().trim(),
-                            },
-                            pessoa: {
-                              cpf: maskNumber(values.cpfPf),
-                              celular: maskNumber(values.celularPf),
-                              nascimento: values.nascimentoPf,
-                              naturalidade: values.naturalidadePf,
-                              nacionalidade: values.nacionalidadePf,
-                              estado_civil: values.estadoCivilPf,
-                              rg: values.rgPf,
-                              emissor: values.emissorPf,
-                              emissao: values.emissaoPf,
-                              sexo: values.sexoPf,
-                              mae: values.maePf,
-                              pai: values.paiPf,
-                            },
-                            conta: {
-                              banco: values.bancopj.toString(),
-                              agencia: maskNumber(values.agenciapj),
-                              conta: maskNumber(values.contapj),
-                              operacao: maskNumber(values.operacaopj),
-                              pix: values.pixpj,
-                            },
-                            endereco_cpf: {
-                              cep: maskNumber(values.cepPf),
-                              complemento: values.complementoPf,
-                              endereco: values.enderecoPf,
-                              numero: values.numeroPf,
-                              bairro: values.bairroPf,
-                              cidade: values.cidadePf,
-                              estado: values.estadoPf,
-                            },
-                          };
-                          const persistPf = async () => {
-                            setOpen(true);
-                            const { sucess, res } = await postPf(body);
-                            setOpen(false);
-                            if (sucess) {
-                              // dispatch(signupSuccess());
-                              localStorage.setItem("token", res.token);
-                              history.push("/");
-                            } else {
-                              enqueueSnackbar(res, {
-                                variant: "error",
-                              });
-                            }
-                          };
-                          persistPf();
-                        }
-                      } else {
-                        enqueueSnackbar("Campos obrigatórios não preenchidos", {
-                          variant: "error",
-                        });
-                      }
-                      formik.handleSubmit(e);
-                    }}
-                    style={{ height: "0px" }}
+                const persistCnpj = async () => {
+                  setOpen(true);
+                  const { sucess, res } = await postCnpj(body);
+                  setOpen(false);
+                  if (sucess) {
+                    // dispatch(signupSuccess());
+                    localStorage.setItem("token", res.token);
+                    history.push("/");
+                  } else {
+                    enqueueSnackbar(res, {
+                      variant: "error",
+                    });
+                  }
+                };
+
+                persistCnpj();
+              } else {
+                body = {
+                  usuario: {
+                    nome: values.nome,
+                    email: values.email,
+                    senha: sha256(values.senha).toString().trim(),
+                  },
+                  pessoa: {
+                    cpf: maskNumber(values.cpfPf),
+                    celular: maskNumber(values.celularPf),
+                    nascimento: values.nascimentoPf,
+                    naturalidade: values.naturalidadePf,
+                    nacionalidade: values.nacionalidadePf,
+                    estado_civil: values.estadoCivilPf,
+                    rg: values.rgPf,
+                    emissor: values.emissorPf,
+                    emissao: values.emissaoPf,
+                    sexo: values.sexoPf,
+                    mae: values.maePf,
+                    pai: values.paiPf,
+                  },
+                  conta: {
+                    banco: values.bancopj.toString(),
+                    agencia: maskNumber(values.agenciapj),
+                    conta: maskNumber(values.contapj),
+                    operacao: maskNumber(values.operacaopj),
+                    pix: values.pixpj,
+                  },
+                  endereco_cpf: {
+                    cep: maskNumber(values.cepPf),
+                    complemento: values.complementoPf,
+                    endereco: values.enderecoPf,
+                    numero: values.numeroPf,
+                    bairro: values.bairroPf,
+                    cidade: values.cidadePf,
+                    estado: values.estadoPf,
+                  },
+                };
+                const persistPf = async () => {
+                  console.log(body);
+
+                  setOpen(true);
+                  const { sucess, res } = await postPf(body);
+                  setOpen(false);
+                  if (sucess) {
+                    // dispatch(signupSuccess());
+                    localStorage.setItem("token", res.token);
+                    history.push("/dashboard");
+                  } else {
+                    enqueueSnackbar(res, {
+                      variant: "error",
+                    });
+                  }
+                };
+                persistPf();
+              }
+            } else {
+              enqueueSnackbar("Campos obrigatórios não preenchidos", {
+                variant: "error",
+              });
+            }
+            formik.handleSubmit(e);
+          }}
+          // style={{ height: "0px" }}
+        >
+          <Grid item xs={12} md={12} style={{ height: "30px" }}>
+            {/* <div className={classes.carroseulDot}> */}
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              m={1}
+              p={1}
+              // bgcolor="background.paper"
+            >
+              <Tabs value={value} onChange={handleChange} aria-label="Tabs Dot">
+                <Tab
+                  label={<a href="#" className={dot1}></a>}
+                  {...a11yProps(0)}
+                  style={{ minWidth: "2px" }}
+                  // disabled
+                />
+                <Tab
+                  label={<a href="#" className={dot2}></a>}
+                  {...a11yProps(1)}
+                  style={{ minWidth: "2px" }}
+                  // disabled
+                />
+                <Tab
+                  label={<a href="#" className={dot3}></a>}
+                  {...a11yProps(2)}
+                  style={{ minWidth: "2px" }}
+                  // disabled
+                />
+                <Tab
+                  label={<a href="#" className={dot4}></a>}
+                  {...a11yProps(3)}
+                  style={{ minWidth: "2px" }}
+                />
+                <Tab
+                  label={<a href="#" className={dot5}></a>}
+                  {...a11yProps(4)}
+                  style={{ minWidth: "2px" }}
+                />
+                <Tab
+                  label={<a href="#" className={dot6}></a>}
+                  {...a11yProps(5)}
+                  style={{ minWidth: "2px" }}
+                />
+                <Tab
+                  label={<a href="#" className={dot3}></a>}
+                  {...a11yProps(6)}
+                  style={{ minWidth: "2px" }}
+                />
+                <Tab
+                  label={<a href="#" className={dot4}></a>}
+                  {...a11yProps(7)}
+                  style={{ minWidth: "2px" }}
+                />
+                <Tab
+                  label={<a href="#" className={dot5}></a>}
+                  {...a11yProps(8)}
+                  style={{ minWidth: "2px" }}
+                />
+              </Tabs>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container alignItems="center" justify="center">
+              <Grid item xs={12} md={12} lg={12}>
+                <div
+                  style={{
+                    transform: "scale(0.76)",
+                    // width: "calc(100% - 70px)",
+                    position: "sticky",
+                  }}
+                >
+                  <SwipeableViews
+                    axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                    index={value}
+                    onChangeIndex={handleChangeIndex}
                   >
-                    <Card className={classes.cardStyle}>
-                      <CardBody>
-                        <Carousel ref={slickRef} {...settings}>
+                    <TabPanel value={value} index={0}>
+                      <Card>
+                        <CardContent>
                           <SlideOne nextStep={Step1NEXT} formik={formik} />
-                          {hideSlide2 && (
-                            <SlideTwo
-                              nextStep={Step2PJ}
-                              StepPF={Step2PF}
-                              previousStep={Step2PREV}
-                            />
-                          )}
-                          {hideSlide3 && (
-                            <SlideThree
-                              nextStep={Step3NEXT}
-                              previousStep={Step3PREV}
-                              formik={formik}
-                            />
-                          )}
-                          {hideSlide4 && (
-                            <SlideFour
-                              nextStep={Step4NEXT}
-                              previousStep={Step4PREV}
-                              formik={formik}
-                              waitCep={handleBackdrop}
-                            />
-                          )}
-                          {hideSlide5 && (
-                            <SlideFive
-                              nextStep={Step5NEXT}
-                              previousStep={Step5PREV}
-                              formik={formik}
-                              waitCnpj={handleBackdrop}
-                            />
-                          )}
-                          {hideSlide6 && (
-                            <SlideSix
-                              previousStep={Step6PREV}
-                              formik={formik}
-                            />
-                          )}
-                          {hideSlide7 && (
-                            <SlideSeven
-                              nextStep={Step7NEXT}
-                              previousStep={Step7PREV}
-                              formik={formik}
-                            />
-                          )}
-                          {hideSlide8 && (
-                            <SlideEight
-                              nextStep={Step8NEXT}
-                              previousStep={Step8PREV}
-                              formik={formik}
-                              waitCep={handleBackdrop}
-                            />
-                          )}
-                          {hideSlide9 && (
-                            <SlideSix
-                              previousStep={Step6PREV}
-                              formik={formik}
-                            />
-                          )}
-                        </Carousel>
-                      </CardBody>
-                    </Card>
-                  </form>
-                </Grid>
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                      <Card>
+                        <CardContent>
+                          <SlideTwo
+                            nextStep={Step2PJ}
+                            StepPF={Step2PF}
+                            previousStep={Step2PREV}
+                          />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                      <Card>
+                        <CardContent>
+                          <SlideThree
+                            nextStep={Step3NEXT}
+                            previousStep={Step3PREV}
+                            formik={formik}
+                          />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={3}>
+                      <Card>
+                        <CardContent>
+                          <SlideFour
+                            nextStep={Step4NEXT}
+                            previousStep={Step4PREV}
+                            formik={formik}
+                            waitCep={handleBackdrop}
+                          />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={4}>
+                      <Card>
+                        <CardContent>
+                          <SlideFive
+                            nextStep={Step5NEXT}
+                            previousStep={Step5PREV}
+                            formik={formik}
+                            waitCnpj={handleBackdrop}
+                          />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={5}>
+                      <Card>
+                        <CardContent>
+                          <SlideSix previousStep={Step6PREV} formik={formik} />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={6}>
+                      <Card>
+                        <CardContent>
+                          <SlideSeven
+                            nextStep={Step7NEXT}
+                            previousStep={Step7PREV}
+                            formik={formik}
+                          />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={7}>
+                      <Card>
+                        <CardContent>
+                          <SlideEight
+                            nextStep={Step8NEXT}
+                            previousStep={Step8PREV}
+                            formik={formik}
+                            waitCep={handleBackdrop}
+                          />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                    <TabPanel value={value} index={8}>
+                      <Card>
+                        <CardContent>
+                          <SlideSix previousStep={Step6PREV} formik={formik} />
+                        </CardContent>
+                      </Card>
+                    </TabPanel>
+                  </SwipeableViews>
+                </div>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </form>
       </Grid>
-      <ClassBackground />
-    </>
+      {/* </Grid> */}
+      {/* </Grid> */}
+    </div>
   );
 }

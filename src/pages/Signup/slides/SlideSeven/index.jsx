@@ -30,6 +30,10 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
     return () => {};
   });
 
+  const handleNationality = (event, value) => {
+    formik.setFieldValue("nacionalidadePf", value);
+  };
+
   return (
     <Grid item xs={12} md={12}>
       <div className={classes.divCentralization}>
@@ -163,6 +167,8 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       id="nacionalidadePf"
                       disableCloseOnSelect
                       noOptionsText={"País não encontrado"}
+                      value={formik.values.nacionalidadePf}
+                      onChange={handleNationality}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -170,8 +176,6 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                           label="NACIONALIDADE"
                           name="nacionalidadePf"
                           margin="normal"
-                          value={formik.values.nacionalidadePf}
-                          onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           error={
                             formik.touched.nacionalidadePf &&
@@ -352,11 +356,9 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       }
                       onBlur={formik.handleBlur}
                       error={
-                        formik.touched.contapj && Boolean(formik.errors.contapj)
+                        formik.touched.paiPf && Boolean(formik.errors.paiPf)
                       }
-                      helperText={
-                        formik.touched.contapj && formik.errors.contapj
-                      }
+                      helperText={formik.touched.paiPf && formik.errors.paiPf}
                       inputProps={{ maxLength: 150 }}
                       fullWidth
                       required

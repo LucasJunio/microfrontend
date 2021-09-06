@@ -30,6 +30,10 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
     return () => {};
   });
 
+  const handleNationality = (event, value) => {
+    formik.setFieldValue("nacionalidade", value);
+  };
+
   return (
     <Grid item xs={12} md={12}>
       <div className={classes.divCentralization}>
@@ -72,6 +76,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           e.target.id,
                           maskCpf(e.target.value)
                         );
+                        formik.handleChange(e);
                       }}
                       fullWidth
                       inputProps={{ maxLength: 14 }}
@@ -84,12 +89,13 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       name="celular"
                       label="CELULAR"
                       value={formik.values.celular}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         formik.setFieldValue(
                           e.target.id,
                           maskCel(e.target.value)
-                        )
-                      }
+                        );
+                        formik.handleChange(e);
+                      }}
                       value={formik.values.celular}
                       onBlur={formik.handleBlur}
                       error={
@@ -161,7 +167,9 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                     <Autocomplete
                       options={countries}
                       getOptionLabel={(option) => option}
-                      id="nacionalidadePf"
+                      id="nacionalidade"
+                      onChange={handleNationality}
+                      value={formik.values.nacionalidade}
                       disableCloseOnSelect
                       noOptionsText={"País não encontrado"}
                       renderInput={(params) => (
@@ -169,18 +177,16 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           {...params}
                           style={{ marginTop: "0px" }}
                           label="NACIONALIDADE"
-                          name="nacionalidadePf"
+                          name="nacionalidade"
                           margin="normal"
-                          value={formik.values.nacionalidadePf}
-                          onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           error={
-                            formik.touched.nacionalidadePf &&
-                            Boolean(formik.errors.nacionalidadePf)
+                            formik.touched.nacionalidade &&
+                            Boolean(formik.errors.nacionalidade)
                           }
                           helperText={
-                            formik.touched.nacionalidadePf &&
-                            formik.errors.nacionalidadePf
+                            formik.touched.nacionalidade &&
+                            formik.errors.nacionalidade
                           }
                           fullWidth
                           required
