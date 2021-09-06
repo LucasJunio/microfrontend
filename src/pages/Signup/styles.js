@@ -1,15 +1,21 @@
 import styled from "styled-components";
 import Background from "../../assets/images/White-Abstract.jpg";
-import imagelef1 from "../../assets/images/register.png";
-import imagelef2 from "../../assets/images/register.png";
-import bg_card_vileve from "../../assets/images/bg_card_assistencia.jpg";
-import bg_card_gateway from "../../assets/images/bg_card_vilevepay.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
+  // root: {
+  //   minWidth: 275,
+  //   position: "absolute",
+  // },
   root: {
-    minWidth: 275,
+    backgroundImage: `url(${Background})`,
     position: "absolute",
+    width: "98%",
+    height: "98%",
+    // overflowY: "hidden",
+    // overflowX: "hidden",
+    // margin: 0,
+    // marginLeft: 0,
   },
   logo: {
     width: "150px",
@@ -60,9 +66,9 @@ export const useStyles = makeStyles((theme) => ({
 export const ClassBackground = styled.div`
   background-image: url(${Background});
   position: absolute;
-  width: 100%;
-  height: 100%;
-
+  width: 98%;
+  height: 98%;
+  margin: "0px";
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;

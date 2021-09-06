@@ -8,6 +8,6 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    outline: 'none'
+    outline: "none",
   },
 }));

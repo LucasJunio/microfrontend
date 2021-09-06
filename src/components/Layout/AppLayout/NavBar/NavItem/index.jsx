@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore, Dashboard } from "@material-ui/icons";
 import { useStyles } from "./styles";
 import { sections } from "../../../../../menus";
 import { Link } from "react-router-dom";
@@ -25,6 +25,7 @@ export const NavItens = () => {
     newArray[currentSection].open = !sections[currentSection].open;
     setOpenSection(newArray);
   };
+
   const Sections = sections.map((section) => {
     return (
       <List
@@ -93,6 +94,14 @@ export const NavItens = () => {
   return (
     <div>
       <Divider />
+      <List>
+        <ListItem button component={Link} to="/dashboard">
+          <ListItemIcon>
+            <Dashboard />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+      </List>
       {Sections}
     </div>
   );

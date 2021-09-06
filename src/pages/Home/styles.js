@@ -1,98 +1,82 @@
-import styled from 'styled-components'
+import { makeStyles } from "@material-ui/core/styles";
 
-// import Background from '../../assets/images/bg0.jpg'
+const drawerWidth = 250;
 
-export const Classlogotipo = styled.div`
-position: absolute;
-margin:30px;
-margin-left:10%;
-z-index:2
-`
+export const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    display: "none",
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  logotipo: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-export const TitleWelcome = styled.div`
-position: absolute;
-text-align:center;
-align-items:center;
-color:#fff;
-font-size:25px;
-margin-top:120px;
-text-shadow: 0 0 3px #ccc;
-width:100%;
-z-index:2
-`
+  backdrop: { zIndex: 9999 },
 
-export const ContainerCard = styled.div`
-position: absolute;
-display:flex;
-direction:row;
-justify-content:space-around;
-width:100%;
-margin-top:145px;
-z-index:10
-`
-
-export const ContainerCardSize = styled.div`
-align-items:center;
-max-width:85%;
-`
-
-
-
-// export const ClassBackground = styled.div`
-// background-image:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.2)),url(${Background});
-// position:absolute;
-// width:100%;
-// height:100%;
-// background-attachment: fixed;
-//  background-repeat: no-repeat;
-//  background-size: cover;
-//  -moz-background-size: cover;
-//  overflow-x: hidden;
-//  overflow-y: hidden;
-// `
-export const PositionFooter = styled.div`
-position:absolute;
-width:100%;
-bottom:0;
-`
-export const PositionButton = styled.div`
-float:right
-`
-export const DescriptionText = styled.div`
-position:relative;
-font-size:11px;
-color:#9C27B0;
-margin-top:-10px
-`
-
-
-export const Loading = styled.div`
-margin: 0px;
-padding: 0px;
-position: fixed;
-display: '';
-right: 0px;
-top: 0px;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.4);
-z-index: 9999;
-`
-
-export const Spinner = styled.div`
-border: 4px solid rgba(0, 0, 0, 0.1);
-border-left-color:#2f0aff;
-border-radius: 50%;
-width: 20px;
-height: 20px;
-z-index: 999;
-position: absolute;
-left: 50%;
-top: 40%;
-animation: spin 1s linear infinite;
-
-@keyframes spin{
-    to { transform: rotate(360deg); }
-  }
-
-`
+  inputcell: {
+    padding: "2px 4px",
+    display: "flex",
+    float: "left",
+    marginLeft: 5,
+    // alignItems: "center",
+    width: 210,
+  },
+}));
