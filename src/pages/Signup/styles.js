@@ -8,7 +8,8 @@ export const useStyles = makeStyles((theme) => ({
   //   position: "absolute",
   // },
   root: {
-    backgroundImage: `url(${Background})`,
+    // backgroundImage: `url(${Background})`,
+    backgroundColor: "black",
     position: "absolute",
     width: "98%",
     height: "98%",
