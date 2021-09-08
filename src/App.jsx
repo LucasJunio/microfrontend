@@ -1,5 +1,6 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { ThemeProvider } from "@material-ui/core";
+import lightTheme from "./styles/themes/light";
 import { SnackbarProvider } from "notistack";
 import {
   Switch,
@@ -15,7 +16,7 @@ import Email from "./pages/Email";
 import Signin from "./pages/Signin";
 const App = () => {
   return (
-    <>
+    <ThemeProvider theme={lightTheme}>
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{
@@ -33,7 +34,7 @@ const App = () => {
           </Switch>
         </Router>
       </SnackbarProvider>
-    </>
+    </ThemeProvider>
   );
 };
 

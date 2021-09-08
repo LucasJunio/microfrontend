@@ -3,13 +3,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 // react component for creating beautiful carousel
 import { useSnackbar } from "notistack";
-import Carousel from "react-slick";
+import { CustomTabs } from "../../components/CustomTabs";
 import {
   Backdrop,
   CircularProgress,
   Grid,
   Card,
   CardContent,
+  Container,
   Tab,
   Tabs,
   Box,
@@ -69,16 +70,10 @@ export default function SectionCarousel() {
   const [dot5, setDOT5] = useState(dotInactive);
   const [dot6, setDOT6] = useState(dotInactive);
   const [open, setOpen] = useState(false);
-  const [hideSlide2, setHideSlide2] = useState(false);
-  const [hideSlide3, setHideSlide3] = useState(false);
-  const [hideSlide4, setHideSlide4] = useState(false);
-  const [hideSlide5, setHideSlide5] = useState(false);
-  const [hideSlide6, setHideSlide6] = useState(false);
-  const [hideSlide7, setHideSlide7] = useState(false);
-  const [hideSlide8, setHideSlide8] = useState(false);
-  const [hideSlide9, setHideSlide9] = useState(false);
   const [isCnpj, setIsCnpj] = useState(false);
   const [value, setValue] = useState(0);
+
+  const elevation = 5;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -572,7 +567,8 @@ export default function SectionCarousel() {
   };
 
   return (
-    <div className={classes.root}>
+    // <div className={classes.root}>
+    <Container maxWidth="xl" disableGutters>
       <Backdrop className={classes.backdrop} open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -742,7 +738,12 @@ export default function SectionCarousel() {
               p={1}
               // bgcolor="background.paper"
             >
-              <Tabs value={value} onChange={handleChange} aria-label="Tabs Dot">
+              <CustomTabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                aria-label="Tabs Dot"
+              >
                 <Tab
                   label={<a href="#" className={dot1}></a>}
                   {...a11yProps(0)}
@@ -791,17 +792,17 @@ export default function SectionCarousel() {
                   {...a11yProps(8)}
                   style={{ minWidth: "2px" }}
                 />
-              </Tabs>
+              </CustomTabs>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item>
             <Grid container alignItems="center" justify="center">
               <Grid item xs={12} md={12} lg={12}>
                 <div
                   style={{
                     transform: "scale(0.76)",
-                    // width: "calc(100% - 70px)",
                     position: "sticky",
+                    height: 300,
                   }}
                 >
                   <SwipeableViews
@@ -810,14 +811,14 @@ export default function SectionCarousel() {
                     onChangeIndex={handleChangeIndex}
                   >
                     <TabPanel value={value} index={0}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideOne nextStep={Step1NEXT} formik={formik} />
                         </CardContent>
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideTwo
                             nextStep={Step2PJ}
@@ -828,7 +829,7 @@ export default function SectionCarousel() {
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideThree
                             nextStep={Step3NEXT}
@@ -839,7 +840,7 @@ export default function SectionCarousel() {
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideFour
                             nextStep={Step4NEXT}
@@ -851,7 +852,7 @@ export default function SectionCarousel() {
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideFive
                             nextStep={Step5NEXT}
@@ -863,14 +864,14 @@ export default function SectionCarousel() {
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={5}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideSix previousStep={Step6PREV} formik={formik} />
                         </CardContent>
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={6}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideSeven
                             nextStep={Step7NEXT}
@@ -881,7 +882,7 @@ export default function SectionCarousel() {
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={7}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideEight
                             nextStep={Step8NEXT}
@@ -893,7 +894,7 @@ export default function SectionCarousel() {
                       </Card>
                     </TabPanel>
                     <TabPanel value={value} index={8}>
-                      <Card>
+                      <Card elevation={elevation}>
                         <CardContent>
                           <SlideSix previousStep={Step6PREV} formik={formik} />
                         </CardContent>
@@ -906,8 +907,6 @@ export default function SectionCarousel() {
           </Grid>
         </form>
       </Grid>
-      {/* </Grid> */}
-      {/* </Grid> */}
-    </div>
+    </Container>
   );
 }
