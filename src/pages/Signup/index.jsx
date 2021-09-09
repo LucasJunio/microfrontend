@@ -1,7 +1,6 @@
 import "@fontsource/roboto";
 import React, { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
-// react component for creating beautiful carousel
 import { useSnackbar } from "notistack";
 import { CustomTabs } from "../../components/CustomTabs";
 import {
@@ -12,7 +11,6 @@ import {
   CardContent,
   Container,
   Tab,
-  Tabs,
   Box,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
@@ -25,8 +23,6 @@ TabPanel.propTypes = {
 };
 import { useHistory } from "react-router-dom";
 import SwipeableViews from "react-swipeable-views";
-// import Card from "components/Card/Card.js";
-// import CardBody from "components/Card/CardBody";
 import { SlideOne } from "./slides/SlideOne/index";
 import { SlideTwo } from "./slides/SlideTwo/index";
 import { SlideThree } from "./slides/SlideThree/index";
@@ -39,7 +35,7 @@ import PropTypes from "prop-types";
 
 import logo from "../../assets/images/logo_vileve_way.png";
 import sha256 from "crypto-js/sha256";
-import { ClassBackground, useStyles } from "./styles";
+import { useStyles } from "./styles";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import "./stylepagination.scss";
@@ -63,14 +59,16 @@ export default function SectionCarousel() {
   const theme = useTheme();
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
-  const [dot1, setDOT1] = useState(dotActive);
+  const [dot1, setDOT1] = useState(dotInactive);
   const [dot2, setDOT2] = useState(dotInactive);
   const [dot3, setDOT3] = useState(dotInactive);
   const [dot4, setDOT4] = useState(dotInactive);
   const [dot5, setDOT5] = useState(dotInactive);
   const [dot6, setDOT6] = useState(dotInactive);
+  const [dot7, setDOT7] = useState(dotInactive);
   const [open, setOpen] = useState(false);
   const [isCnpj, setIsCnpj] = useState(false);
+  const [showDot, setShowDot] = useState(false);
   const [value, setValue] = useState(0);
 
   const elevation = 5;
@@ -274,21 +272,6 @@ export default function SectionCarousel() {
     onSubmit: (values) => {},
   });
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 300,
-    // fade:true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    swipeToSlide: false,
-    autoplay: false,
-    initialSlide: 0,
-    touchMove: false,
-    draggable: false,
-    arrows: false,
-  };
-
   const handleBackdrop = (isOpen) => {
     setOpen(isOpen);
   };
@@ -311,10 +294,6 @@ export default function SectionCarousel() {
         !!formik.values.senha2
       ) {
         setValue(1);
-        // setHideSlide2(true);
-        // slickRef.current.slickNext();
-        setDOT1(dotInactive);
-        setDOT2(dotActive);
       } else {
         enqueueSnackbar("Campos obrigatórios não preenchidos", {
           variant: "error",
@@ -326,19 +305,15 @@ export default function SectionCarousel() {
   const Step2PJ = () => {
     setValue(2);
     setIsCnpj(true);
-    // setHideSlide3(true);
-    // slickRef.current.slickNext();
-    setDOT2(dotInactive);
-    setDOT3(dotActive);
+    setShowDot(true);
+    setDOT1(dotActive);
   };
 
   const Step2PF = () => {
-    setIsCnpj(false);
     setValue(6);
-    // setHideSlide7(true);
-    // slickRef.current.slickNext();
-    setDOT2(dotInactive);
-    setDOT3(dotActive);
+    setIsCnpj(false);
+    setShowDot(true);
+    setDOT5(dotActive);
   };
 
   const Step3NEXT = () => {
@@ -357,10 +332,8 @@ export default function SectionCarousel() {
         !!formik.values.pai
       ) {
         setValue(3);
-        // setHideSlide4(true);
-        // slickRef.current.slickNext();
-        setDOT3(dotInactive);
-        setDOT4(dotActive);
+        setDOT1(dotInactive);
+        setDOT2(dotActive);
       } else {
         enqueueSnackbar("Campos obrigatórios não preenchidos", {
           variant: "error",
@@ -383,16 +356,8 @@ export default function SectionCarousel() {
       !!formik.values.estado
     ) {
       setValue(4);
-      // setHideSlide5(true);
-      // slickRef.current.slickNext();
-      setDOT4(dotInactive);
-      setDOT5(dotActive);
-      // insertAddressCPFRequest({
-      //   cep: maskNumber(cep),
-      //   complemento,
-      //   endereco,
-      //   bairro,
-      // });
+      setDOT2(dotInactive);
+      setDOT3(dotActive);
     } else {
       enqueueSnackbar("Campos obrigatórios não preenchidos", {
         variant: "error",
@@ -416,26 +381,8 @@ export default function SectionCarousel() {
       !!formik.values.site
     ) {
       setValue(5);
-      // setHideSlide6(true);
-      // slickRef.current.slickNext();
-      setDOT5(dotInactive);
-      setDOT6(dotActive);
-      // insertAddressCNPJRequest({
-      //   cep: maskNumber(ceppj),
-      //   complemento: complementopj,
-      //   endereco: enderecopj,
-      //   numero: maskNumber(numeropj),
-      //   bairro: bairropj,
-      // });
-      // insertEnterpriseRequest({
-      //   cnpj: maskNumber(cnpj),
-      //   cnae: cnae,
-      //   razao_social: razaosocial,
-      //   telefone_fixo: maskNumber(telefone),
-      //   celular: maskNumber(celular),
-      //   nome_fantasia: nome_fantasia,
-      //   site: site,
-      // });
+      setDOT3(dotInactive);
+      setDOT4(dotActive);
     } else {
       enqueueSnackbar("Campos obrigatórios não preenchidos", {
         variant: "error",
@@ -460,10 +407,8 @@ export default function SectionCarousel() {
         !!formik.values.sitePf
       ) {
         setValue(7);
-        // setHideSlide8(true);
-        // slickRef.current.slickNext();
-        setDOT3(dotInactive);
-        setDOT4(dotActive);
+        setDOT5(dotInactive);
+        setDOT6(dotActive);
       } else {
         enqueueSnackbar("Campos obrigatórios não preenchidos", {
           variant: "error",
@@ -485,17 +430,9 @@ export default function SectionCarousel() {
       !!formik.values.cidadePf &&
       !!formik.values.estadoPf
     ) {
-      setValue(5);
-      // setHideSlide9(true);
-      // slickRef.current.slickNext();
-      setDOT4(dotInactive);
-      setDOT5(dotActive);
-      // insertAddressCPFRequest({
-      //   cep: maskNumber(cep),
-      //   complemento,
-      //   endereco,
-      //   bairro,
-      // });
+      setValue(8);
+      setDOT6(dotInactive);
+      setDOT7(dotActive);
     } else {
       enqueueSnackbar("Campos obrigatórios não preenchidos", {
         variant: "error",
@@ -505,74 +442,66 @@ export default function SectionCarousel() {
 
   const Step2PREV = () => {
     setValue(0);
-    // slickRef.current.slickPrev();
     setDOT2(dotInactive);
     setDOT1(dotActive);
   };
 
   const Step3PREV = () => {
     setValue(1);
-    // slickRef.current.slickPrev();
-    // setHideSlide3(false);
+    setIsCnpj(false);
+    setShowDot(false);
+    setDOT1(dotInactive);
+    setDOT2(dotInactive);
     setDOT3(dotInactive);
-    setDOT2(dotActive);
+    setDOT4(dotInactive);
   };
 
   const Step4PREV = () => {
     setValue(2);
-    // setHideSlide4(false);
-    // slickRef.current.slickPrev();
-    setDOT4(dotInactive);
-    setDOT3(dotActive);
+    setDOT2(dotInactive);
+    setDOT1(dotActive);
   };
 
   const Step5PREV = () => {
     setValue(3);
-    // setHideSlide5(false);
-    // slickRef.current.slickPrev();
-    setDOT5(dotInactive);
-    setDOT4(dotActive);
+    setDOT3(dotInactive);
+    setDOT2(dotActive);
   };
 
   const Step6PREV = () => {
-    // setHideSlide6(false);
-    // slickRef.current.slickPrev();
     setValue(4);
-    setDOT6(dotInactive);
-    setDOT5(dotActive);
+    setDOT4(dotInactive);
+    setDOT3(dotActive);
   };
 
   const Step7PREV = () => {
     setValue(1);
-    // setHideSlide7(false);
-    // slickRef.current.slickPrev();
-    setDOT3(dotInactive);
-    setDOT2(dotActive);
+    setShowDot(false);
+    setDOT5(dotInactive);
+    setDOT6(dotInactive);
+    setDOT7(dotInactive);
   };
 
   const Step8PREV = () => {
     setValue(6);
-    // setHideSlide9(false);
-    // slickRef.current.slickPrev();
-    setDOT3(dotInactive);
-    setDOT2(dotActive);
+    setDOT6(dotInactive);
+    setDOT5(dotActive);
   };
 
-  const Step6NEXT = () => {
-    // slickRef.current.slickNext();setDOT6(dotInactive);setDOT7(dotActive)
+  const Step9PREV = () => {
+    setValue(7);
+    setDOT7(dotInactive);
+    setDOT6(dotActive);
   };
-
   const handleChangeIndex = (index) => {
     setValue(index);
   };
 
   return (
-    // <div className={classes.root}>
-    <Container maxWidth="xl" disableGutters>
+    <Container maxWidth="xl">
       <Backdrop className={classes.backdrop} open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      {/* <ClassBackground /> */}
       <Grid container direction="column" justify="center">
         <Grid item style={{ height: "80px" }}>
           <Grid container justify="flex-start">
@@ -653,7 +582,6 @@ export default function SectionCarousel() {
                   const { sucess, res } = await postCnpj(body);
                   setOpen(false);
                   if (sucess) {
-                    // dispatch(signupSuccess());
                     localStorage.setItem("token", res.token);
                     history.push("/");
                   } else {
@@ -709,7 +637,6 @@ export default function SectionCarousel() {
                   const { sucess, res } = await postPf(body);
                   setOpen(false);
                   if (sucess) {
-                    // dispatch(signupSuccess());
                     localStorage.setItem("token", res.token);
                     history.push("/dashboard");
                   } else {
@@ -727,14 +654,12 @@ export default function SectionCarousel() {
             }
             formik.handleSubmit(e);
           }}
-          // style={{ height: "0px" }}
         >
           <Grid item xs={12} md={12} style={{ height: "30px" }}>
-            {/* <div className={classes.carroseulDot}> */}
             <Box
               display="flex"
               justifyContent="flex-end"
-              m={1}
+              // m={1}
               p={1}
               // bgcolor="background.paper"
             >
@@ -744,54 +669,69 @@ export default function SectionCarousel() {
                 indicatorColor="primary"
                 aria-label="Tabs Dot"
               >
-                <Tab
-                  label={<a href="#" className={dot1}></a>}
-                  {...a11yProps(0)}
-                  style={{ minWidth: "2px" }}
-                  // disabled
-                />
-                <Tab
-                  label={<a href="#" className={dot2}></a>}
-                  {...a11yProps(1)}
-                  style={{ minWidth: "2px" }}
-                  // disabled
-                />
-                <Tab
-                  label={<a href="#" className={dot3}></a>}
-                  {...a11yProps(2)}
-                  style={{ minWidth: "2px" }}
-                  // disabled
-                />
-                <Tab
-                  label={<a href="#" className={dot4}></a>}
-                  {...a11yProps(3)}
-                  style={{ minWidth: "2px" }}
-                />
-                <Tab
-                  label={<a href="#" className={dot5}></a>}
-                  {...a11yProps(4)}
-                  style={{ minWidth: "2px" }}
-                />
-                <Tab
-                  label={<a href="#" className={dot6}></a>}
-                  {...a11yProps(5)}
-                  style={{ minWidth: "2px" }}
-                />
-                <Tab
-                  label={<a href="#" className={dot3}></a>}
-                  {...a11yProps(6)}
-                  style={{ minWidth: "2px" }}
-                />
-                <Tab
-                  label={<a href="#" className={dot4}></a>}
-                  {...a11yProps(7)}
-                  style={{ minWidth: "2px" }}
-                />
-                <Tab
-                  label={<a href="#" className={dot5}></a>}
-                  {...a11yProps(8)}
-                  style={{ minWidth: "2px" }}
-                />
+                {isCnpj && showDot && (
+                  <div>
+                    <Tab
+                      label=""
+                      {...a11yProps(0)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                    <Tab
+                      label=""
+                      {...a11yProps(1)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                    <Tab
+                      label={<a href="#" className={dot1} />}
+                      {...a11yProps(2)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                    <Tab
+                      label={<a href="#" className={dot2} />}
+                      {...a11yProps(3)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                    <Tab
+                      label={<a href="#" className={dot3} />}
+                      {...a11yProps(4)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                    <Tab
+                      label={<a href="#" className={dot4} />}
+                      {...a11yProps(5)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />{" "}
+                  </div>
+                )}
+                {!isCnpj && showDot && (
+                  <div>
+                    <Tab
+                      label={<a href="#" className={dot5} />}
+                      {...a11yProps(6)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                    <Tab
+                      label={<a href="#" className={dot6} />}
+                      {...a11yProps(7)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+
+                    <Tab
+                      label={<a href="#" className={dot7} />}
+                      {...a11yProps(8)}
+                      style={{ minWidth: "2px" }}
+                      disabled
+                    />
+                  </div>
+                )}
               </CustomTabs>
             </Box>
           </Grid>
@@ -896,7 +836,7 @@ export default function SectionCarousel() {
                     <TabPanel value={value} index={8}>
                       <Card elevation={elevation}>
                         <CardContent>
-                          <SlideSix previousStep={Step6PREV} formik={formik} />
+                          <SlideSix previousStep={Step9PREV} formik={formik} />
                         </CardContent>
                       </Card>
                     </TabPanel>

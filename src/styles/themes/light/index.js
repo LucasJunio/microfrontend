@@ -5,8 +5,12 @@ const lightTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#005882",
+      // secondary: "#BFD72D",
     },
-    // secondary: purple,
+    secondary: {
+      main: "#BFD72D",
+      contrastText: "#005882",
+    },
     type: "light",
   },
 });
