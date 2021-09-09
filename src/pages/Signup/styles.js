@@ -3,21 +3,6 @@ import Background from "../../assets/images/White-Abstract.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   minWidth: 275,
-  //   position: "absolute",
-  // },
-  root: {
-    // backgroundImage: `url(${Background})`,
-    backgroundColor: "black",
-    position: "absolute",
-    width: "98%",
-    height: "98%",
-    // overflowY: "hidden",
-    // overflowX: "hidden",
-    // margin: 0,
-    // marginLeft: 0,
-  },
   logo: {
     width: "150px",
     marginLeft: "7%",
@@ -41,7 +26,7 @@ export const useStyles = makeStyles((theme) => ({
     color: "#999",
   },
   labelUser: {
-    color: "#9D2AB1",
+    color: "#005882",
   },
   media: {
     height: 200,
@@ -63,18 +48,3 @@ export const useStyles = makeStyles((theme) => ({
     color: "#e6e6e6",
   },
 }));
-
-export const ClassBackground = styled.div`
-  background-image: url(${Background});
-  position: absolute;
-  width: 98%;
-  height: 98%;
-  margin: "0px";
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  -moz-background-size: cover;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  z-index: -1;
-`;

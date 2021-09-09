@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Grid, Hidden, Typography, TextField } from "@material-ui/core";
+import { Button, Grid, Hidden, Typography, TextField } from "@material-ui/core";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
-import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 import {
@@ -71,7 +70,7 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
   return (
     <Grid item md={12} lg={12}>
       <div style={{ padding: 20 }}>
-        <Grid container justify="center" alignItems="center">
+        <Grid container justify="center" alignItems="center" spacing={2}>
           <Hidden only={["xs", "sm"]}>
             <Grid item md={5}>
               <Grid container justify="center">
@@ -80,7 +79,7 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
             </Grid>
           </Hidden>
           <Grid item md={7}>
-            <Grid container direction="column" spacing={3}>
+            <Grid container direction="column" spacing={4}>
               <Grid item>
                 <Typography
                   variant="body1"
@@ -353,7 +352,8 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
             <Grid container justify="flex-end" alignItems="center" spacing={3}>
               <Grid item>
                 <Button
-                  color="warning"
+                  variant="contained"
+                  color="secondary"
                   size="sm"
                   rel="noopener noreferrer"
                   onClick={() => previousStep()}
@@ -364,6 +364,7 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
               </Grid>
               <Grid item>
                 <Button
+                  variant="contained"
                   color="primary"
                   size="sm"
                   id="BTNFOURTHNEXT"

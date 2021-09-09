@@ -9,12 +9,13 @@ import {
   CardMedia,
   CardContent,
   CardActions,
+  Button,
 } from "@material-ui/core";
 
 import { ArrowBack } from "@material-ui/icons";
 import bg_card_vileve from "../../../../assets/images/bg_card_assistencia.jpg";
 import bg_card_gateway from "../../../../assets/images/bg_card_vilevepay.jpg";
-import Button from "../../../../components/CustomButtons/Button";
+// import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 
@@ -64,6 +65,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                     <Button
                       id="BTNFIRSTNEXT2"
                       size="sm"
+                      variant="contained"
                       color="primary"
                       onClick={() => nextStep()}
                     >
@@ -101,7 +103,8 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                   <CardActions>
                     <Button
                       size="sm"
-                      color="success"
+                      variant="contained"
+                      color="primary"
                       id="BTNFIRSTNEXPF"
                       onClick={() => StepPF()}
                     >
@@ -118,7 +121,8 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
             <div>
               <Button
                 id="BTNFIRSTBACK2"
-                color="warning"
+                variant="contained"
+                color="secondary"
                 size="sm"
                 rel="noopener noreferrer"
                 onClick={() => previousStep()}

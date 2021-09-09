@@ -6,11 +6,10 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  Button,
 } from "@material-ui/core";
 
 import { ArrowForward, Visibility, VisibilityOff } from "@material-ui/icons";
-import Button from "../../../../components/CustomButtons/Button";
-
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 
@@ -28,7 +27,7 @@ export const SlideOne = ({ nextStep, formik }) => {
   });
   return (
     <Grid item xs={12} md={12}>
-      <Grid container justify="center" alignItems="center">
+      <Grid container justify="center" alignItems="center" spacing={5}>
         <Hidden only={["xs", "sm"]}>
           <Grid item md={6}>
             <Grid container justify="center" alignItems="center">
@@ -38,7 +37,7 @@ export const SlideOne = ({ nextStep, formik }) => {
         </Hidden>
         <Grid item xs={12} md={6}>
           <div className={classes.divCentralization}>
-            <Grid container direction="column" spacing={2}>
+            <Grid container direction="column" spacing={3}>
               <Grid item xs={12} sm={12}>
                 <Grid container>
                   <Grid item>
@@ -144,6 +143,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                 <Grid container justify="flex-end" alignItems="center">
                   <Grid item>
                     <Button
+                      variant="contained"
                       color="primary"
                       size="sm"
                       id="BTNFIRSTNEXT"

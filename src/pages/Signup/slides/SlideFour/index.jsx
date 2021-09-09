@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Grid, Hidden, Typography, TextField } from "@material-ui/core";
+import { Button, Grid, Hidden, Typography, TextField } from "@material-ui/core";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
-import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 import { maskNumber } from "../../../../utils/string/masks";
@@ -52,7 +51,7 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
             </Grid>
           </Hidden>
           <Grid item md={6}>
-            <Grid container direction="column" spacing={4}>
+            <Grid container direction="column" spacing={6}>
               <Grid item>
                 <Typography
                   variant="body1"
@@ -215,7 +214,8 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                 >
                   <Grid item>
                     <Button
-                      color="warning"
+                      variant="contained"
+                      color="secondary"
                       size="sm"
                       rel="noopener noreferrer"
                       onClick={() => previousStep()}
@@ -225,6 +225,7 @@ export const SlideFour = ({ nextStep, previousStep, formik, waitCep }) => {
                     </Button>
                   </Grid>
                   <Button
+                    variant="contained"
                     color="primary"
                     size="sm"
                     id="BTNTHIRDNEXT"

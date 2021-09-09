@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
+  Button,
   Grid,
   Hidden,
   Typography,
@@ -9,7 +10,6 @@ import {
 } from "@material-ui/core";
 
 import { ArrowBack, Save } from "@material-ui/icons";
-import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 
@@ -162,9 +162,6 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
   });
 
   return (
-    // <Grid container>
-    //   <Grid item md={12}>
-    //     <div style={{ padding: 20 }}>
     <Grid container justify="center" alignItems="center">
       <Hidden only={["xs", "sm"]}>
         <Grid item md={6}>
@@ -284,7 +281,8 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
             <Grid container justify="flex-end" alignItems="center" spacing={3}>
               <Grid item>
                 <Button
-                  color="warning"
+                  variant="contained"
+                  color="secondary"
                   size="sm"
                   rel="noopener noreferrer"
                   onClick={() => previousStep()}
@@ -295,12 +293,12 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
               </Grid>
               <Grid item>
                 <Button
+                  variant="contained"
                   color="primary"
                   id="BTNFIFTHNEXT"
                   size="sm"
                   rel="noopener noreferrer"
                   type="submit"
-                  // onClick={() => Register()}
                 >
                   Salvar
                   <Save className={classes.saveIcon} />
@@ -311,8 +309,5 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
         </Grid>
       </Grid>
     </Grid>
-    //     </div>
-    //   </Grid>
-    // </Grid>
   );
 };

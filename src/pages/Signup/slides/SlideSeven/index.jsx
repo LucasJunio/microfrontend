@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Button,
   Grid,
   Hidden,
   Typography,
@@ -8,7 +9,6 @@ import {
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { ArrowForward, ArrowBack } from "@material-ui/icons";
-import Button from "../../../../components/CustomButtons/Button";
 import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 import { maskCpf, maskDate, maskCel } from "../../../../utils/string/masks";
@@ -46,7 +46,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
             </Grid>
           </Hidden>
           <Grid item md={8}>
-            <Grid container direction="column" spacing={1}>
+            <Grid container direction="column" spacing={3}>
               <Grid item>
                 <Grid container>
                   <Grid item>
@@ -395,7 +395,8 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                 >
                   <Grid item>
                     <Button
-                      color="warning"
+                      variant="contained"
+                      color="secondary"
                       size="sm"
                       rel="noopener noreferrer"
                       onClick={() => previousStep()}
@@ -406,6 +407,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                   </Grid>
                   <Grid item>
                     <Button
+                      variant="contained"
                       color="primary"
                       size="sm"
                       id="BTNSECONDNEXTPF"
