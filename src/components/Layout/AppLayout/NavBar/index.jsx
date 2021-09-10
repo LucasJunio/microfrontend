@@ -123,50 +123,51 @@ function NavBar(props) {
         handleAnchorEl={handleAnchorEl}
         isMobileMenuOpen={isMobileMenuOpen}
       />
-      <BrowserRouter>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
+      {/* <BrowserRouter> */}
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            <NavItens />
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            <div
+              className={
+                // eslint-disable-next-line no-sequences
+                (classes.toolbar, classes.header)
+              }
             >
-              <NavItens />
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              <div
-                className={
-                  // eslint-disable-next-line no-sequences
-                  (classes.toolbar, classes.header)
-                }
-              >
-                <img src={logo} alt="Logo vileveWay" className={classes.logo} />
-              </div>
-              <NavItens />
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-            {routes.map((route) => {
+              <img src={logo} alt="Logo vileveWay" className={classes.logo} />
+            </div>
+            <NavItens />
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Switch>
+          {routes.map((route) => {
+            if (route.private) {
               return (
                 <Route
                   exact
@@ -175,10 +176,12 @@ function NavBar(props) {
                   key={route.path}
                 />
               );
-            })}
-          </Switch>
-        </main>
-      </BrowserRouter>
+            }
+            return;
+          })}
+        </Switch>
+      </main>
+      {/* </BrowserRouter> */}
     </>
   );
 }
