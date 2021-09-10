@@ -115,6 +115,7 @@ export default function MiniDrawer() {
       setOpenBackDrop(false);
       enqueueSnackbar(`${error}`, { variant: "error" });
     }
+    const history = useHistory();
 
     // await sendTokenSms(token)
     //   .then((res) => {
@@ -161,7 +162,7 @@ export default function MiniDrawer() {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Dialog
-        open={openmodal}
+        open={false}
         aria-labelledby="form-dialog-title"
         data-keyboard="false"
         data-backdrop="static"
@@ -222,7 +223,7 @@ export default function MiniDrawer() {
           </Button>
         </DialogActions>
       </Dialog>
-      Bolinha louca
+      <Button onClick={() => history.push("/signin")}>Bolinha louca</Button>
     </>
   );
 }

@@ -8,7 +8,7 @@ import {
   BrowserRouter as Router,
   Redirect,
 } from "react-router-dom";
-
+import { routes } from "./routes";
 import Layout from "./components/Layout";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -26,11 +26,17 @@ const App = () => {
       >
         <Router>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/layout" component={Layout} />
-            <Route exact path="/signin" component={Signin} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/email/:token" component={Email} />
+            {routes.map(({ path, component, private: privateRoute }) => {
+              if (!privateRoute) {
+                return <Route exact path={path} component={component} />;
+              }
+              return;
+            })}
+            {/* <Route exact path="/" component={Home} /> */}
+            {/* <Route exact path="/signin" component={Signin} /> */}
+            {/* <Route exact path="/signup" component={Signup} /> */}
+            {/* <Route exact path="/email/:token" component={Email} /> */}
+            <Layout />
           </Switch>
         </Router>
       </SnackbarProvider>

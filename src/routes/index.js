@@ -1,4 +1,5 @@
 import Home from "../pages/Home";
+import Signin from "pages/Signin";
 // import RegisterList from "../pages/Customer/ApproveRegister/ListView";
 // import UserList from "../pages/UserSystem/User/ListView";
 // import User from "../pages/UserSystem/User/FormView";
@@ -6,7 +7,8 @@ import Home from "../pages/Home";
 // import EditUser from "../pages/UserSystem/User/EditView";
 
 export const routes = [
-  { path: "/dashboard", title: "Home", component: Home },
+  { path: "/dashboard", title: "Home", component: Home, private: true },
+  { path: "/signin", title: "Signin", component: Signin, private: false },
   // { path: "/userList", title: "Usuário", component: UserList },
   // {
   //   path: "/userConfig",
