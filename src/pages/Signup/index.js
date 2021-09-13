@@ -553,7 +553,7 @@ export default function SectionCarousel() {
         </Grid>
         <Grid item lg={12}>
           <Grid container justify="flex-end" alignItems="center">
-            <Grid item style={{ height: "0px" }}>
+            <Grid item style={{ height: "0px", display:"none" }}>
               <ul className="pagination">
                 <li className="pagination__item">
                   <a href="#" className={dot1}></a>
