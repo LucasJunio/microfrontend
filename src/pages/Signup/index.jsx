@@ -14,13 +14,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
-
 import TabPanel from "./TabPanel";
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 import { useHistory } from "react-router-dom";
 import SwipeableViews from "react-swipeable-views";
 import { SlideOne } from "./slides/SlideOne/index";
@@ -32,16 +26,15 @@ import { SlideSix } from "./slides/SlideSix/index";
 import { SlideSeven } from "./slides/SlideSeven";
 import { SlideEight } from "./slides/SlideEight";
 import PropTypes from "prop-types";
-
 import logo from "../../assets/images/logo_vileve_way.png";
 import sha256 from "crypto-js/sha256";
 import { useStyles } from "./styles";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./stylepagination.scss";
 import { maskNumber } from "../../utils/string/masks";
 import { validateCpf } from "../../utils/string/validateCpf";
-import { postCnpj, postPf } from "../../services/api/api";
+import { createCnpj, createPf } from "store/ducks/Signup";
 
 function a11yProps(index) {
   return {
@@ -50,13 +43,19 @@ function a11yProps(index) {
   };
 }
 
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
 export default function SectionCarousel() {
   const { enqueueSnackbar } = useSnackbar();
-  const slickRef = useRef();
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
+  const { message, status } = useSelector((state) => state.signup);
   const dotActive = "pagination__link";
   const dotInactive = "pagination__link is_active";
   const [dot1, setDOT1] = useState(dotInactive);
@@ -196,6 +195,24 @@ export default function SectionCarousel() {
       .required("Campo Site é obrigatório")
       .url("Insira um site valido ex: 'https://www.google.com'"),
   });
+
+  useEffect(() => {
+    if (status === "loading") {
+      setOpen(true);
+    } else if (status === "completed") {
+      setOpen(false);
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+      history.push("/");
+    } else if (status === "failed") {
+      setOpen(false);
+      enqueueSnackbar(message, {
+        variant: "error",
+      });
+    }
+    return () => {};
+  }, [status, message]);
 
   useEffect(() => {
     return () => {};
@@ -498,7 +515,7 @@ export default function SectionCarousel() {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" className={classes.container}>
       <Backdrop className={classes.backdrop} open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -577,21 +594,7 @@ export default function SectionCarousel() {
                   },
                 };
 
-                const persistCnpj = async () => {
-                  setOpen(true);
-                  const { sucess, res } = await postCnpj(body);
-                  setOpen(false);
-                  if (sucess) {
-                    localStorage.setItem("token", res.token);
-                    history.push("/");
-                  } else {
-                    enqueueSnackbar(res, {
-                      variant: "error",
-                    });
-                  }
-                };
-
-                persistCnpj();
+                dispatch(createCnpj(body));
               } else {
                 body = {
                   usuario: {
@@ -630,22 +633,7 @@ export default function SectionCarousel() {
                     estado: values.estadoPf,
                   },
                 };
-                const persistPf = async () => {
-                  console.log(body);
-
-                  setOpen(true);
-                  const { sucess, res } = await postPf(body);
-                  setOpen(false);
-                  if (sucess) {
-                    localStorage.setItem("token", res.token);
-                    history.push("/dashboard");
-                  } else {
-                    enqueueSnackbar(res, {
-                      variant: "error",
-                    });
-                  }
-                };
-                persistPf();
+                dispatch(createPf(body));
               }
             } else {
               enqueueSnackbar("Campos obrigatórios não preenchidos", {
@@ -740,7 +728,7 @@ export default function SectionCarousel() {
               <Grid item xs={12} md={12} lg={12}>
                 <div
                   style={{
-                    transform: "scale(0.76)",
+                    transform: "scale(0.80)",
                     position: "sticky",
                     height: 300,
                   }}

@@ -50,7 +50,7 @@ export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  
+
   const [open, setOpen] = useState(false);
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -108,7 +108,7 @@ export default function SignIn() {
       console.log(body);
       setOpenBackDrop(true);
 
-      dispatch(signin(body))
+      dispatch(signin(body));
 
       // await signin(body)
       //   .then((res) => {
@@ -211,7 +211,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" onClick={handleRegiterLink} variant="body2">
+              <Link href="/signup" variant="body2">
                 Não tem uma conta? Cadastre-se
               </Link>
             </Grid>

@@ -1,25 +1,11 @@
-import React, { useEffect, useMemo, useLayoutEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import clsx from "clsx";
-
-// import { makeStyles, useTheme } from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
 import { useSnackbar } from "notistack";
-
 import {
   Backdrop,
   CircularProgress,
-  Drawer,
-  AppBar,
-  Toolbar,
-  List,
-  CssBaseline,
-  Typography,
-  Divider,
   IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Button,
   TextField,
   Dialog,
@@ -30,62 +16,67 @@ import {
   Paper,
   InputBase,
 } from "@material-ui/core";
-
-import {
-  Menu,
-  ChevronLeft,
-  ChevronRight,
-  ExitToApp,
-  Home,
-  AssignmentInd,
-  PhoneIphone,
-  Edit,
-  Apps,
-} from "@material-ui/icons";
-
-import Alert from "@material-ui/lab/Alert";
-import logotipo from "../../assets/images/logo-vileve-pay-cor-140px.png";
+import { PhoneIphone, Edit } from "@material-ui/icons";
 import ButtonTimer from "../../components/ButtonTimer";
-
-import {
-  sendTokenSms,
-  sendValidationStatus,
-  changeCellphone,
-} from "../../services/api/api";
+import { validationStatus } from "../../store/ducks/Validation";
+import { editCellphone, confirmTokenSMS } from "../../store/ducks/Message";
 import { useDispatch, useSelector } from "react-redux";
-
-// import { signOut } from "../../store3/modules/signin/actions";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
 
 export default function MiniDrawer() {
   const { enqueueSnackbar } = useSnackbar();
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const {
+    validation: { message, celular },
+    signer: { token: tokenSigner },
+    signup: { token: tokenSignup },
+    message: { status: statusMessage, message: messageCellphone, type },
+  } = useSelector((state) => state);
 
-  const classes = useStyles();
-  // const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openBackDrop, setOpenBackDrop] = useState(false);
 
-  const [openmodal, setOpenmodal] = useState(false);
+  useEffect(() => {
+    if (!!tokenSigner) {
+      validateSMSandEmail(tokenSigner);
+    } else if (!!tokenSignup) {
+      validateSMSandEmail(tokenSignup);
+    }
+  }, [tokenSigner, message, celular]);
 
-  const [openbackdrop, setOpenBackDrop] = useState(false);
+  useEffect(() => {
+    if (statusMessage === "loading" && type === "confirmTokenSMS") {
+      setOpenBackDrop(true);
+    } else if (statusMessage === "completed" && type === "confirmTokenSMS") {
+      setOpenBackDrop(false);
+      setOpenModal(false);
+      enqueueSnackbar(messageCellphone, {
+        variant: "success",
+      });
+    } else if (statusMessage === "failed" && type === "confirmTokenSMS") {
+      setOpenBackDrop(false);
+      enqueueSnackbar(messageCellphone, {
+        variant: "error",
+      });
+    }
+  }, [statusMessage]);
 
-  const handleClickOpen = () => {
-    setOpenmodal(true);
-  };
-
-  const handleClose = () => {
-    //sendtokensms();
-  };
-
-  const getIconRender = (i) => {
-    if (i === 0) return <HomeIcon />;
-    if (i === 1) return <AssignmentIndIcon />;
-    if (i === 2) return <AppsIcon />;
-  };
+  useEffect(() => {
+    if (statusMessage === "loading" && type === "editCellphone") {
+      setOpenBackDrop(true);
+    } else if (statusMessage === "completed" && type === "editCellphone") {
+      setOpenBackDrop(false);
+      enqueueSnackbar(messageCellphone, {
+        variant: "success",
+      });
+    } else if (statusMessage === "failed" && type === "editCellphone") {
+      setOpenBackDrop(false);
+      enqueueSnackbar(messageCellphone, {
+        variant: "error",
+      });
+    }
+  }, [statusMessage]);
 
   const [token, setTOKEN] = useState("");
   const OnchangeTOKEN = (v) => {
@@ -96,73 +87,43 @@ export default function MiniDrawer() {
     setCELLPHONE(v);
   };
 
-  const Logout = () => {
-    // dispatch(signOut());
-    localStorage.setItem("token", "");
-    history.push("/signin");
-  };
-
-  const sendToken = async () => {
-    setOpenBackDrop(true);
-    const res = await sendTokenSms(token);
-    if (res) {
-      setOpenBackDrop(false);
-      setOpenmodal(false);
-      enqueueSnackbar("SMS validado com sucesso", {
-        variant: "success",
-      });
-    } else {
-      setOpenBackDrop(false);
-      enqueueSnackbar(`${error}`, { variant: "error" });
+  const handleSendTokenSMS = () => {
+    let tokens = { tokenSMS: token };
+    if (!!tokenSigner) {
+      tokens = { ...tokens, token: tokenSigner };
+      dispatch(confirmTokenSMS(tokens));
+    } else if (!!tokenSignup) {
+      tokens = { ...tokens, token: tokenSignup };
+      dispatch(confirmTokenSMS(tokens));
     }
-    const history = useHistory();
-
-    // await sendTokenSms(token)
-    //   .then((res) => {
-    //     setOpenBackDrop(false);
-    //     setOpenmodal(false);
-    //     enqueueSnackbar("SMS validado com sucesso", { variant: "success" });
-    //   })
-    //   .catch((error) => {
-    //     setOpenBackDrop(false);
-    //     enqueueSnackbar(`${error}`, { variant: "error" });
-    //   });
   };
 
   const changeCell = async () => {
-    setOpenBackDrop(true);
-    await changeCellphone(cellphone)
-      .then((res) => {
-        setOpenBackDrop(false);
-        enqueueSnackbar("Celular alterado com sucesso", { variant: "success" });
-      })
-      .catch((error) => {
-        setOpenBackDrop(false);
-        enqueueSnackbar(`${error}`, { variant: "error" });
-      });
+    let body = { celular: cellphone };
+    if (!!tokenSigner) {
+      body = { ...body, token: tokenSigner };
+      dispatch(editCellphone(body));
+    } else if (!!tokenSignup) {
+      body = { ...body, token: tokenSignup };
+      dispatch(editCellphone(body));
+    }
   };
 
-  useEffect(() => {
-    sendValidationStatus()
-      .then((res) => {
-        setCELLPHONE("(**) ****-" + res.celular.toString().substring(7, 15));
-        res.message === "SMS validado" || res.message === "SMS e Email validado"
-          ? setOpenmodal(false)
-          : setOpenmodal(true);
-      })
-      .catch((error) => {
-        console.log(error);
-        setOpenmodal(true);
-      });
-  }, []);
+  const validateSMSandEmail = (token) => {
+    dispatch(validationStatus(token));
+    setCELLPHONE(`(**) ****-${celular.toString().substring(7, 15)}`);
+    message === "SMS validado" || message === "SMS e Email validado"
+      ? setOpenModal(false)
+      : setOpenModal(true);
+  };
 
   return (
     <>
-      <Backdrop className={classes.backdrop} open={openbackdrop}>
+      <Backdrop className={classes.backdrop} open={openBackDrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <Dialog
-        open={false}
+        open={openModal}
         aria-labelledby="form-dialog-title"
         data-keyboard="false"
         data-backdrop="static"
@@ -218,7 +179,11 @@ export default function MiniDrawer() {
           <ButtonTimer style={{ float: "left" }} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={sendToken} variant="contained" color="primary">
+          <Button
+            onClick={handleSendTokenSMS}
+            variant="contained"
+            color="primary"
+          >
             Enviar
           </Button>
         </DialogActions>

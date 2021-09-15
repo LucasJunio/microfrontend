@@ -28,7 +28,9 @@ const App = () => {
           <Switch>
             {routes.map(({ path, component, private: privateRoute }) => {
               if (!privateRoute) {
-                return <Route exact path={path} component={component} />;
+                return (
+                  <Route exact key={path} path={path} component={component} />
+                );
               }
               return;
             })}
