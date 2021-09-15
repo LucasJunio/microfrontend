@@ -1,18 +1,18 @@
 import api from "../../../services/api";
 
-const signinPost = async (body) => {
-  const res = await api.post(`/signin`, body);
-  api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
+const postCnpj = async (body) => {
+  const res = await api.post(`signup/cnpj`, body);
   return res;
 };
 
-export { signinPost };
+const postPf = async (body) => {
+  const res = await api.post(`/signup/cpf`, body);
+  return res;
+};
 
-const sendValidationStatus = () => {
-  // headers: {
-  //   "Content-Type": "application/json",
-  //   Authorization: "Bearer " + localStorage.getItem("token"),
-  // },
-  const res = await axios.get(`${url}/validation/status`);
+const sendValidationStatus = async () => {
+  const res = await api.get(`/validation/status`);
   api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
 };
+
+export { postCnpj, postPf, sendValidationStatus };

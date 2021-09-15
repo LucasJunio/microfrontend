@@ -235,7 +235,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
               </Grid>
               <Grid item>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField
                       id="rg"
                       name="rg"
@@ -250,7 +250,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField
                       id="emissor"
                       name="emissor"
@@ -268,7 +268,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField
                       id="emissao"
                       name="emissao"
@@ -292,7 +292,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField
                       id="sexo"
                       name="sexo"

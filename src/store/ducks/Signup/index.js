@@ -1,11 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { signinPost } from "./service";
+import { postCnpj, postPf } from "./service";
 
-export const signin = createAsyncThunk(
-  "signer/signin",
+export const createCnpj = createAsyncThunk(
+  "signup/createCnpj",
   async (body, { rejectWithValue }) => {
     try {
-      const { data } = await signinPost(body);
+      const { data } = await postCnpj(body);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createPf = createAsyncThunk(
+  "signup/createPf",
+  async (body, { rejectWithValue }) => {
+    try {
+      const { data } = await postPf(body);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -22,24 +37,15 @@ const initialState = {
   status: "idle",
   message: null,
 };
-const signer = createSlice({
-  name: "signer",
+const signup = createSlice({
+  name: "signup",
   initialState,
-  reducers: {
-    logOut(state) {
-      return (state = {});
-    },
-    clearMessage(state) {
-      return (state = { ...state, message: null });
-    },
-  },
   extraReducers: (builder) => {
     builder
-      .addCase(signin.pending, (state) => {
+      .addCase(createCnpj.pending, (state) => {
         return (state = { ...state, status: "loading" });
-        // state.status = "loading";
       })
-      .addCase(signin.fulfilled, (state, action) => {
+      .addCase(createCnpj.fulfilled, (state, action) => {
         return (state = {
           ...state,
           status: "completed",
@@ -48,17 +54,57 @@ const signer = createSlice({
           message: action.payload.message,
         });
       })
-      .addCase(signin.rejected, (state, action) => {
+      .addCase(createCnpj.rejected, (state, action) => {
+        console.log(action);
+        return (state = {
+          ...state,
+          status: "failed",
+          message: action.payload.message,
+        });
+      })
+      .addCase(createPf.pending, (state) => {
+        return (state = { ...state, status: "loading" });
+      })
+      .addCase(createPf.fulfilled, (state, action) => {
+        return (state = {
+          ...state,
+          status: "completed",
+          token: action.payload.token,
+          signed: true,
+          message: action.payload.message,
+        });
+      })
+      .addCase(createPf.rejected, (state, action) => {
+        console.log(action);
         return (state = {
           ...state,
           status: "failed",
           message: action.payload.message,
         });
       });
+    // .addCase(signin.pending, (state) => {
+    //   return (state = { ...state, status: "loading" });
+    // })
+    // .addCase(signin.fulfilled, (state, action) => {
+    //   return (state = {
+    //     ...state,
+    //     status: "completed",
+    //     token: action.payload.token,
+    //     signed: true,
+    //     message: action.payload.message,
+    //   });
+    // })
+    // .addCase(signin.rejected, (state, action) => {
+    //   return (state = {
+    //     ...state,
+    //     status: "failed",
+    //     message: action.payload.message,
+    //   });
+    // });
   },
 });
 
-export const { logOut, clearMessage } = signer.actions;
+// export const { logOut, clearMessage } = signer.actions;
 // export const { increment, decrement } = systemUser.actions;
 
-export default signer.reducer;
+export default signup.reducer;

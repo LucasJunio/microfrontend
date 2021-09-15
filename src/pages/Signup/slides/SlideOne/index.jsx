@@ -145,7 +145,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                     <Button
                       variant="contained"
                       color="primary"
-                      size="sm"
+                      size="small"
                       id="BTNFIRSTNEXT"
                       rel="noopener noreferrer"
                       onClick={() => {

@@ -1,25 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Button from "components/CustomButtons/Button.js";
 import $ from "jquery";
-
-import { resendTokenSms } from "../../services/api/api";
 import { useSnackbar } from "notistack";
+import { useDispatch, useSelector } from "react-redux";
+import { resendSms } from "../../store/ducks/Message";
 
 const ButtonTimer = () => {
+  const dispatch = useDispatch();
+  const {
+    signer: { token: tokenSigner },
+    signup: { token: tokenSignup },
+    message: { status, type },
+  } = useSelector((state) => state);
   const { enqueueSnackbar } = useSnackbar();
   const [buttonresend, setbuttonresend] = useState(true);
   const [durationTime, setduration] = useState(1);
 
+  useEffect(() => {
+    if (status === "completed" && type === "SMS") {
+      enqueueSnackbar("SMS enviado com sucesso", { variant: "success" });
+    } else if (status === "failed" && type === "SMS") {
+      enqueueSnackbar("Token não validado", { variant: "error" });
+    }
+  }, [status]);
+
   const resendToken = () => {
     setduration(durationTime + 1);
     setbuttonresend(true);
-    resendTokenSms()
-      .then((res) => {
-        enqueueSnackbar("SMS enviado com sucesso", { variant: "success" });
-      })
-      .catch((error) => {
-        enqueueSnackbar(`${error}`, { variant: "error" });
-      });
+    console.log(tokenSigner);
+    if (!!tokenSignup) {
+      dispatch(resendSms(tokenSignup));
+    } else {
+      dispatch(resendSms(tokenSigner));
+    }
   };
 
   const StartTimer = (duration) => {

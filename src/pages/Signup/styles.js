@@ -3,6 +3,15 @@ import Background from "../../assets/images/White-Abstract.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundImage: `url(${Background})`,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    [theme.breakpoints.down("xs")]: {
+      height: "200%",
+    },
+  },
   logo: {
     width: "150px",
     marginLeft: "7%",
@@ -12,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "60%",
   },
   cardStyle: {
-    transform: "scale(0.92)",
+    // transform: "scale(0.95)",
     postion: "absolute",
   },
   divCentralization: {

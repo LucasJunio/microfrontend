@@ -148,14 +148,14 @@ const signin = async (body) => {
   });
 };
 
-const api = axios.create({
-  baseURL: "http://localhost:80",
-});
+// const api = axios.create({
+//   baseURL: "https://vileveway-backend-lb-develop.vileveway.com.br/api/v1/",
+// });
 
-export default api;
+// export default api;
 
 export {
-  api,
+  // api,
   getCountries,
   getCep,
   getCnpj,
