@@ -66,6 +66,7 @@ export default function SignIn() {
     if (signinStatus === "completed") {
       setOpen(false);
       enqueueSnackbar(message, {
+        autoHideDuration: 100,
         variant: "success",
       });
       history.push("/");
@@ -107,26 +108,7 @@ export default function SignIn() {
       };
       console.log(body);
       setOpenBackDrop(true);
-
       dispatch(signin(body));
-
-      // await signin(body)
-      //   .then((res) => {
-      //     setTimeout(() => {
-      //       setOpenBackDrop(false);
-      //       localStorage.setItem("token", res.token);
-      //       enqueueSnackbar(res.message, {
-      //         variant: "success",
-      //       });
-
-      //       dispatch(signupSuccess());
-      //       history.push("/");
-      //     }, 1500);
-      //   })
-      //   .catch((error) => {
-      //     setOpenBackDrop(false);
-      //     enqueueSnackbar(`${error}`, { variant: "error" });
-      //   });
     },
   });
 
@@ -141,12 +123,6 @@ export default function SignIn() {
       <CssBaseline />
       <div className={classes.paper}>
         <img src={logo} className={classes.logo} alt="logotipo vileve way" />
-        {/* <Avatar className={classes.avatar}>
-          <LockOutlined />
-        </Avatar> */}
-        {/* <Typography component="h1" variant="h5">
-          Vileve Gateway
-        </Typography> */}
         <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
             variant="outlined"
