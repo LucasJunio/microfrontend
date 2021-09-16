@@ -9,13 +9,14 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import Validation from "./ducks/Validation";
 import reducers from "./reducers";
 
 const persistConfig = {
   key: "vileveWay-Client",
   version: 1,
   storage,
-  blacklist: ["signup", "message"],
+  blacklist: ["signup", "message", "validation"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

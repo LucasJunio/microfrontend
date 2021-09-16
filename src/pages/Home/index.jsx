@@ -15,6 +15,7 @@ import {
   DialogTitle,
   Paper,
   InputBase,
+  Grid,
 } from "@material-ui/core";
 import { PhoneIphone, Edit } from "@material-ui/icons";
 import ButtonTimer from "../../components/ButtonTimer";
@@ -22,7 +23,7 @@ import { validationStatus } from "../../store/ducks/Validation";
 import { editCellphone, confirmTokenSMS } from "../../store/ducks/Message";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function MiniDrawer() {
+export default function Dashboard() {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const history = useHistory();
@@ -56,7 +57,11 @@ export default function MiniDrawer() {
       });
     } else if (statusMessage === "failed" && type === "confirmTokenSMS") {
       setOpenBackDrop(false);
-      enqueueSnackbar(messageCellphone, {
+      let message = "Por favor, insira um token de SMS";
+      if (!!messageCellphone) {
+        message = messageCellphone;
+      }
+      enqueueSnackbar(message, {
         variant: "error",
       });
     }
@@ -136,47 +141,56 @@ export default function MiniDrawer() {
             Informe o token enviado para seu celular para que confirme sua conta
             no gateway de pagamentos Vileve.
           </DialogContentText>
-
-          <TextField
-            style={{ float: "left", width: 90 }}
-            autoFocus
-            // margin="dense"
-            id="name"
-            label="Token"
-            type="text"
-            autoComplete="off"
-            variant="outlined"
-            inputProps={{
-              maxLength: 6,
-              onChange: (e) => OnchangeTOKEN(e.target.value),
-              value: token,
-            }}
-            // fullWidth
-          />
-
-          <Paper component="form" className={classes.inputcell}>
-            <IconButton className={classes.iconButton} aria-label="menu">
-              <PhoneIphone />
-            </IconButton>
-            <InputBase
-              placeholder="********"
-              inputProps={{
-                maxLength: 11,
-                onChange: (e) => OnchangeCELLPHONE(e.target.value),
-                value: cellphone,
-              }}
-            />
-            <IconButton
-              type="button"
-              onClick={changeCell}
-              className={classes.iconButton}
-              aria-label="celular"
-            >
-              <Edit />
-            </IconButton>
-          </Paper>
-
-          <ButtonTimer style={{ float: "left" }} />
+          <Grid container>
+            <Grid item>
+              <TextField
+                style={{ float: "left", width: 90 }}
+                autoFocus
+                // margin="dense"
+                id="name"
+                label="Token"
+                type="text"
+                autoComplete="off"
+                variant="outlined"
+                inputProps={{
+                  maxLength: 6,
+                  onChange: (e) => OnchangeTOKEN(e.target.value),
+                  value: token,
+                }}
+                // fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <Paper
+                component="form"
+                className={classes.inputcell}
+                elevation={5}
+              >
+                <IconButton className={classes.iconButton} aria-label="menu">
+                  <PhoneIphone />
+                </IconButton>
+                <InputBase
+                  placeholder="********"
+                  inputProps={{
+                    maxLength: 11,
+                    onChange: (e) => OnchangeCELLPHONE(e.target.value),
+                    value: cellphone,
+                  }}
+                />
+                <IconButton
+                  type="button"
+                  onClick={changeCell}
+                  className={classes.iconButton}
+                  aria-label="celular"
+                >
+                  <Edit />
+                </IconButton>
+              </Paper>
+            </Grid>
+            <Grid item>
+              <ButtonTimer style={{ float: "left" }} />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button
