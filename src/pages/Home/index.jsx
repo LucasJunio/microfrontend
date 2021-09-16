@@ -202,7 +202,6 @@ export default function Dashboard() {
           </Button>
         </DialogActions>
       </Dialog>
-      <Button onClick={() => history.push("/signin")}>Bolinha louca</Button>
     </>
   );
 }

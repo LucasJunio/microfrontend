@@ -66,7 +66,7 @@ export default function SignIn() {
     if (signinStatus === "completed") {
       setOpen(false);
       enqueueSnackbar(message, {
-        autoHideDuration: 100,
+        autoHideDuration: 2000,
         variant: "success",
       });
       history.push("/");

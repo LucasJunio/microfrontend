@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "@material-ui/core";
 import lightTheme from "./styles/themes/light";
 import { SnackbarProvider } from "notistack";
+import api from "./services/api";
+import { useSelector } from "react-redux";
 import {
   Switch,
   Route,
@@ -10,11 +12,16 @@ import {
 } from "react-router-dom";
 import { routes } from "./routes";
 import Layout from "./components/Layout";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-import Email from "./pages/Email";
-import Signin from "./pages/Signin";
 const App = () => {
+  const { signed, token } = useSelector((state) => {
+    return state.signer;
+  });
+
+  useEffect(() => {
+    if (!!token) {
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+    }
+  }, []);
   return (
     <ThemeProvider theme={lightTheme}>
       <SnackbarProvider
@@ -34,11 +41,7 @@ const App = () => {
               }
               return;
             })}
-            {/* <Route exact path="/" component={Home} /> */}
-            {/* <Route exact path="/signin" component={Signin} /> */}
-            {/* <Route exact path="/signup" component={Signup} /> */}
-            {/* <Route exact path="/email/:token" component={Email} /> */}
-            <Layout />
+            {signed ? <Layout /> : <Redirect to="/signin" />}
           </Switch>
         </Router>
       </SnackbarProvider>
