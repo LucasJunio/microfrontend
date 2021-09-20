@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import Background from "../../assets/images/White-Abstract.jpg";
-import imagelef1 from "../../assets/images/register.png";
-import imagelef2 from "../../assets/images/register.png";
-import bg_card_vileve from "../../assets/images/bg_card_assistencia.jpg";
-import bg_card_gateway from "../../assets/images/bg_card_vilevepay.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: 275,
+  container: {
+    backgroundImage: `url(${Background})`,
+    width: "100%",
+    height: "100%",
     position: "absolute",
+    [theme.breakpoints.down("xs")]: {
+      height: "200%",
+    },
   },
   logo: {
     width: "150px",
@@ -20,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "60%",
   },
   cardStyle: {
-    transform: "scale(0.92)",
+    // transform: "scale(0.95)",
     postion: "absolute",
   },
   divCentralization: {
@@ -34,7 +35,7 @@ export const useStyles = makeStyles((theme) => ({
     color: "#999",
   },
   labelUser: {
-    color: "#9D2AB1",
+    color: "#005882",
   },
   media: {
     height: 200,
@@ -56,18 +57,3 @@ export const useStyles = makeStyles((theme) => ({
     color: "#e6e6e6",
   },
 }));
-
-export const ClassBackground = styled.div`
-  background-image: url(${Background});
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  -moz-background-size: cover;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  z-index: -1;
-`;
