@@ -1,4 +1,4 @@
-import api from "../../../services/api";
+import { api, apiRecovery } from "../../../services/api";
 
 const signinPost = async (body) => {
   const res = await api.post(`/signin`, body);
@@ -6,4 +6,14 @@ const signinPost = async (body) => {
   return res;
 };
 
-export { signinPost };
+const recoverPassword = async (body) => {
+  const res = await apiRecovery.put("/password", body);
+  return res;
+};
+
+const sendEmailRecover = async (body) => {
+  const res = await apiRecovery.post("/recovery", body);
+  return res;
+};
+
+export { signinPost, recoverPassword, sendEmailRecover};

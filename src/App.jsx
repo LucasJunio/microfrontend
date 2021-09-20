@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ThemeProvider } from "@material-ui/core";
 import lightTheme from "./styles/themes/light";
 import { SnackbarProvider } from "notistack";
-import api from "./services/api";
+import { api } from "./services/api";
 import { useSelector } from "react-redux";
 import {
   Switch,

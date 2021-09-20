@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { signinPost } from "./service";
+import { signinPost, sendEmailRecover, recoverPassword } from "./service";
 
 export const signin = createAsyncThunk(
   "signer/signin",
@@ -16,11 +16,42 @@ export const signin = createAsyncThunk(
   }
 );
 
+export const recoveryPassword = createAsyncThunk(
+  "signer/recoveryPassword",
+  async (body, { rejectWithValue }) => {
+    try {
+      const { data }  = await recoverPassword(body);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const sendEmailRecovery = createAsyncThunk(
+  "signer/sendEmailRecovery",
+  async (body, { rejectWithValue }) => {
+    try {
+      const { data }  = await sendEmailRecover(body);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   token: "",
   signed: false,
   status: "idle",
   message: null,
+  statusMessage: null,
 };
 const signer = createSlice({
   name: "signer",
@@ -45,6 +76,7 @@ const signer = createSlice({
           status: "completed",
           token: action.payload.token,
           signed: true,
+          statusMessage: action.payload.name,
           message: action.payload.message
         });
       })
@@ -53,6 +85,45 @@ const signer = createSlice({
           ...state,
           status: "failed",
           message: action.payload.message,
+          statusMessage: action.payload.name,
+        });
+      })           
+      .addCase(recoveryPassword.pending, (state) => {
+        return (state = { ...state, status: "loading" });
+      })
+      .addCase(recoveryPassword.fulfilled, (state, action) => {
+        return (state = {
+          ...state,
+          status: "completed",
+          message: action.payload.message,
+          statusMessage: action.payload.name,
+        });
+      })
+      .addCase(recoveryPassword.rejected, (state, action) => {
+        return (state = {
+          ...state,
+          status: "failed",
+          message: action.payload.message,
+          statusMessage: action.payload.name,
+        });
+      })
+      .addCase(sendEmailRecovery.pending, (state) => {
+        return (state = { ...state, status: "loading" });
+      })
+      .addCase(sendEmailRecovery.fulfilled, (state, action) => {
+        return (state = {
+          ...state,
+          status: "completed",
+          message: action.payload.message,
+          statusMessage: action.payload.name,
+        });
+      })
+      .addCase(sendEmailRecovery.rejected, (state, action) => {
+        return (state = {
+          ...state,
+          status: "failed",
+          message: action.payload.message,
+          statusMessage: action.payload.name,
         });
       });
   },

@@ -1,4 +1,4 @@
-import api from "../../../services/api";
+import { api } from "../../../services/api";
 
 const emailValidationGet = async (token) => {
   const res = await api.get(`/validation/email/${token}`);

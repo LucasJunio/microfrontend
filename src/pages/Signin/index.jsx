@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   CssBaseline,
   TextField,
+  Slide,
   FormControlLabel,
   Checkbox,
   Link,
@@ -23,15 +29,9 @@ import { useStyles } from "./styles";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-// import { signin } from "../../services/api/api";
+import { signin, sendEmailRecovery } from "../../store/ducks/Signer";
 import { useDispatch, useSelector } from "react-redux";
 
-// import {
-//   signupRequest,
-//   signupSuccess,
-// } from "../../store3/modules/signup/actions";
-// import { signInSuccess } from "../../store3/modules/signin/actions";
-import { signin } from "../../store/ducks/Signer/index";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -45,6 +45,10 @@ function Copyright() {
   );
 }
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function SignIn() {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
@@ -52,41 +56,11 @@ export default function SignIn() {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-  const [openBackDrop, setOpenBackDrop] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  const state = useSelector((state) => {
-    return state;
-  });
+  const state = useSelector((state) => state);
 
-  const signinStatus = state.signer.status;
-  const message = state.signer.message;
-
-  useEffect(() => {
-    if (signinStatus === "completed") {
-      setOpen(false);
-      enqueueSnackbar(message, {
-        autoHideDuration: 2000,
-        variant: "success",
-      });
-      history.push("/");
-    } else if (signinStatus === "loading") {
-      setOpen(true);
-    } else if (signinStatus === "failed") {
-      setOpen(false);
-      enqueueSnackbar(message, {
-        variant: "error",
-      });
-    }
-  }, [signinStatus, message]);
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -97,32 +71,117 @@ export default function SignIn() {
 
   const formik = useFormik({
     initialValues: {
-      email: "lucas.verdine41@gmail.com",
-      password: "7e882f971",
+      email: "",
+      password: "",
     },
     validationSchema,
-    onSubmit: async ({ email, password }) => {
+    onSubmit: ({ email, password }) => {
       const body = {
         email,
+        // senha: sha256(password).toString().trim(),
         senha: sha256(password).toString().trim(),
       };
-      console.log(body);
-      setOpenBackDrop(true);
       dispatch(signin(body));
     },
   });
 
-  const handleRegiterLink = () => {
-    history.push("/signup");
+  useEffect(() => {
+    if (state.signer.status === "completed") {
+      setOpen(false);
+      enqueueSnackbar(state.signer.message, {
+        variant: state.signer.statusMessage,
+      });
+      if(state.signer.signed) {
+        history.push("/");
+      }
+
+    } else if (state.signer.status === "loading") {
+      setOpen(true);
+    } else if (state.signer.status === "failed") {
+      setOpen(false);
+      enqueueSnackbar(state.signer.message, {
+        variant: "error",
+      });
+    }
+  }, [state.signer.status, state.signer.message]);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSend = () => {
+    const body = {
+      email: formik.values.email, 
+      product: "vilevewayadmin"
+    };
+    dispatch(sendEmailRecovery(body));
+    setOpenDialog(false);
+    setOpen(true);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Backdrop className={classes.backdrop} open={open}>
-        <CircularProgress color="inherit" />
+        <CircularProgress color="primary" />
       </Backdrop>
+
+      <Dialog
+        open={openDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">
+          {"Esqueci a senha"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Digite seu e-mail de cadastro abaixo e clique em enviar. <br /> Nós
+            lhe enviaremos um e-mail com link para recadastrar sua senha.
+            <TextField
+              margin="normal"
+              fullWidth
+              id="outlined-required"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleSend}>Enviar</Button>
+        </DialogActions>
+      </Dialog>
+
       <CssBaseline />
+
       <div className={classes.paper}>
         <img src={logo} className={classes.logo} alt="logotipo vileve way" />
+        {/* <Avatar className={classes.avatar}>
+          <LockOutlined />
+        </Avatar> */}
+        {/* <Typography component="h1" variant="h5">
+          Vileve Gateway
+        </Typography> */}
         <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
             variant="outlined"
@@ -133,12 +192,11 @@ export default function SignIn() {
             label="Email"
             name="email"
             autoComplete="email"
-            autoFocus
+            onBlur={formik.handleBlur}
             value={formik.values.email}
             onChange={formik.handleChange}
-            error={Boolean(formik.errors.email)}
-            helperText={formik.errors.email}
-            inputProps={{ tabIndex: "1" }}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             variant="outlined"
@@ -149,17 +207,16 @@ export default function SignIn() {
             label="Senha"
             type={showPassword ? "text" : "password"}
             id="password"
+            onBlur={formik.handleBlur}
             autoComplete="current-password"
             value={formik.values.password}
             onChange={formik.handleChange}
-            error={Boolean(formik.errors.password)}
-            helperText={formik.errors.password}
-            inputProps={{ tabIndex: "2" }}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    inputProps={{ tabIndex: "4" }}
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
@@ -171,7 +228,7 @@ export default function SignIn() {
             }}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" tabIndex="5" />}
+            control={<Checkbox value="remember" color="primary" />}
             label="Lembrar-me"
           />
           <Button
@@ -180,13 +237,12 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            tabIndex="3"
           >
             Entrar
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={handleClickOpen}>
                 Esqueceu a senha?
               </Link>
             </Grid>

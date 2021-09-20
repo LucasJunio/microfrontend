@@ -2,6 +2,7 @@ import Home from "../pages/Home";
 import Signin from "pages/Signin";
 import Email from "pages/Email";
 import Signup from "pages/Signup";
+import RecoveryPassword from "pages/RecoveryPassword";
 // import RegisterList from "../pages/Customer/ApproveRegister/ListView";
 // import UserList from "../pages/UserSystem/User/ListView";
 // import User from "../pages/UserSystem/User/FormView";
@@ -13,6 +14,12 @@ export const routes = [
   { path: "/signin", title: "Signin", component: Signin, private: false },
   { path: "/signup", title: "Signup", component: Signup, private: false },
   { path: "/dashboard", title: "Home", component: Home, private: true },
+  {
+    path: "/recoverypassword/:base64",
+    title: "Recovery Password",
+    component: RecoveryPassword,
+    private: false,
+  },
   // { path: "/userList", title: "Usuário", component: UserList },
   // {
   //   path: "/userConfig",

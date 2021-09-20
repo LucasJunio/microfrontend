@@ -1,4 +1,4 @@
-import api from "../../../services/api";
+import { api } from "../../../services/api";
 
 const sendValidationStatus = async (token) => {
   const res = await api.get(`/validation/status`, {

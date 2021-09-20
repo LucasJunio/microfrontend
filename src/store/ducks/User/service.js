@@ -1,4 +1,4 @@
-import api from "../../../services/api/api";
+import { api } from "../../../services/api/api";
 
 const getUsers = async () => {
   const res = await api.get("/user");

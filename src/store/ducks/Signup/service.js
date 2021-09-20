@@ -1,4 +1,4 @@
-import api from "../../../services/api";
+import { api } from "../../../services/api";
 
 const postCnpj = async (body) => {
   const res = await api.post(`signup/cnpj`, body);
