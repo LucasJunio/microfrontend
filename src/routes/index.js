@@ -11,6 +11,7 @@ import Signup from "../pages/Signup";
 import Home from "../pages/Home";
 import Email from "../pages/Email";
 import Signin from "../pages/Signin";
+import RecoveryPassword from "../pages/RecoveryPassword";
 
 export default function Routes() {
   return (
@@ -29,6 +30,7 @@ export default function Routes() {
               <Route exact path="/signin" component={Signin} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/email*" component={Email} />
+              <Route exact path="/recoverypassword/:base64" component={RecoveryPassword} />
             </Switch>
           </ConnectedRouter>
         </SnackbarProvider>
