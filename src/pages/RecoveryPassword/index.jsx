@@ -79,9 +79,8 @@ export default function RecoveryPassword() {
     }) => {
       const body = {
         id : JSON.parse(decodedData).id,
-        // password: sha256(password).toString().trim(),
-        password: password,
-        product: "vilevewayadmin"        
+        password: sha256(password).toString().trim(),
+        product: "vilevewayclient"        
       };
       dispatch(await recoveryPassword(body));
     },
@@ -91,7 +90,7 @@ export default function RecoveryPassword() {
     if (state.signer.status === "completed") {
       setOpen(false);
 
-      if (state.signer.statusMessage === "success") {
+      if (state.signer.statusMessage === "success" && state.signer.type === "recoveryPassword") {
         setOpenDialog(true);
       }
       enqueueSnackbar(state.signer.message, {

@@ -52,6 +52,7 @@ const initialState = {
   status: "idle",
   message: null,
   statusMessage: null,
+  type: null, 
 };
 const signer = createSlice({
   name: "signer",
@@ -97,6 +98,7 @@ const signer = createSlice({
           status: "completed",
           message: action.payload.message,
           statusMessage: action.payload.name,
+          type: "recoveryPassword"
         });
       })
       .addCase(recoveryPassword.rejected, (state, action) => {
