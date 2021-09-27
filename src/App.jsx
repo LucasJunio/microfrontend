@@ -11,6 +11,10 @@ import {
   Redirect,
 } from "react-router-dom";
 import { routes } from "./routes";
+import ptBR from "dayjs/locale/pt-br";
+// import DayJsUtils from "@date-io/dayjs";
+import DayJsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import Layout from "./components/Layout";
 const App = () => {
   const { signed, token } = useSelector((state) => {
@@ -24,27 +28,29 @@ const App = () => {
   }, []);
   return (
     <ThemeProvider theme={lightTheme}>
-      <SnackbarProvider
-        maxSnack={3}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <Router>
-          <Switch>
-            {routes.map(({ path, component, private: privateRoute }) => {
-              if (!privateRoute) {
-                return (
-                  <Route exact key={path} path={path} component={component} />
-                );
-              }
-              return;
-            })}
-            {signed ? <Layout /> : <Redirect to="/signin" />}
-          </Switch>
-        </Router>
-      </SnackbarProvider>
+      <MuiPickersUtilsProvider locale={} utils={DayJsUtils}>
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <Router>
+            <Switch>
+              {routes.map(({ path, component, private: privateRoute }) => {
+                if (!privateRoute) {
+                  return (
+                    <Route exact key={path} path={path} component={component} />
+                  );
+                }
+                return;
+              })}
+              {signed ? <Layout /> : <Redirect to="/signin" />}
+            </Switch>
+          </Router>
+        </SnackbarProvider>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   );
 };

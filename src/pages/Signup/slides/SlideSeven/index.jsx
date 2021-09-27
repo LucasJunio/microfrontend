@@ -325,12 +325,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       name="maePf"
                       label="NOME DA MÃE"
                       value={formik.values.maePf}
-                      onChange={(e) =>
-                        formik.setFieldValue(
-                          e.target.id,
-                          e.target.value.replace(/[^a-zA-Z ]/g, "")
-                        )
-                      }
+                      onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={
                         formik.touched.maePf && Boolean(formik.errors.maePf)
@@ -348,12 +343,6 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       label="NOME DO PAI"
                       value={formik.values.paiPf}
                       onChange={formik.handleChange}
-                      onChange={(e) =>
-                        formik.setFieldValue(
-                          e.target.id,
-                          e.target.value.replace(/[^a-zA-Z ]/g, "")
-                        )
-                      }
                       onBlur={formik.handleBlur}
                       error={
                         formik.touched.paiPf && Boolean(formik.errors.paiPf)

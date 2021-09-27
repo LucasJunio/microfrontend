@@ -90,11 +90,11 @@ export default function SignIn() {
       setOpen(false);
       enqueueSnackbar(state.signer.message, {
         variant: state.signer.statusMessage,
+        autoHideDuration: 2000,
       });
-      if(state.signer.signed) {
+      if (state.signer.signed) {
         history.push("/");
       }
-
     } else if (state.signer.status === "loading") {
       setOpen(true);
     } else if (state.signer.status === "failed") {
@@ -123,8 +123,8 @@ export default function SignIn() {
 
   const handleSend = () => {
     const body = {
-      email: formik.values.email, 
-      product: "dev-vilevewayclient"
+      email: formik.values.email,
+      product: "dev-vilevewayclient",
     };
     dispatch(sendEmailRecovery(body));
     setOpenDialog(false);
@@ -162,7 +162,7 @@ export default function SignIn() {
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
+              helperText={formik.touched.email && formik.errors.email}
             />
           </DialogContentText>
         </DialogContent>

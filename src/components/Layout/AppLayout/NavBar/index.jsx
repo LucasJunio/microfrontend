@@ -74,7 +74,7 @@ function NavBar(props) {
             <Menu />
           </IconButton>
           <Typography variant="h6" noWrap>
-            VileveWay Cliente
+            VileveWay Lojista
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

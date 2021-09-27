@@ -13,7 +13,7 @@ import manPc from "../../../../assets/images/register.png";
 import { useStyles } from "../../styles";
 import { maskCpf, maskDate, maskCel } from "../../../../utils/string/masks";
 import { getCountries } from "../../../../services/api/api";
-
+import { KeyboardDatePicker } from "@material-ui/pickers";
 export const SlideThree = ({ nextStep, previousStep, formik }) => {
   const classes = useStyles();
   const [countries, setCountries] = useState([]);
@@ -110,7 +110,30 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
-                    <TextField
+                    <KeyboardDatePicker
+                      id="nascimento"
+                      name="nascimento"
+                      margin="normal"
+                      label="Date picker dialog"
+                      format="dd/MM/yyyy"
+                      value={formik.values.nascimento}
+                      onChange={formik.handleChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nascimento &&
+                        Boolean(formik.errors.nascimento)
+                      }
+                      helperText={
+                        formik.touched.nascimento && formik.errors.nascimento
+                      }
+                      inputProps={{ maxLength: 10 }}
+                      fullWidth
+                      required
+                    />
+                    {/* <TextField
                       id="nascimento"
                       name="nascimento"
                       label="NASCIMENTO"
@@ -132,7 +155,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       inputProps={{ maxLength: 10 }}
                       fullWidth
                       required
-                    />
+                    /> */}
                   </Grid>
                 </Grid>
               </Grid>
@@ -324,12 +347,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       name="mae"
                       label="NOME DA MÃE"
                       value={formik.values.mae}
-                      onChange={(e) =>
-                        formik.setFieldValue(
-                          e.target.id,
-                          e.target.value.replace(/[^a-zA-Z ]/g, "")
-                        )
-                      }
+                      onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={formik.touched.mae && Boolean(formik.errors.mae)}
                       helperText={formik.touched.mae && formik.errors.mae}
@@ -348,12 +366,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       name="pai"
                       label="NOME DO PAI"
                       value={formik.values.pai}
-                      onChange={(e) =>
-                        formik.setFieldValue(
-                          e.target.id,
-                          e.target.value.replace(/[^a-zA-Z ]/g, "")
-                        )
-                      }
+                      onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={formik.touched.pai && Boolean(formik.errors.pai)}
                       helperText={formik.touched.pai && formik.errors.pai}
