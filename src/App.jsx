@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
-import { ThemeProvider } from "@material-ui/core";
-import lightTheme from "./styles/themes/light";
-import { SnackbarProvider } from "notistack";
-import { api } from "./services/api";
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { ThemeProvider } from '@material-ui/core';
+import lightTheme from './styles/themes/light';
+import { SnackbarProvider } from 'notistack';
+import { api } from './services/api';
+import { useSelector } from 'react-redux';
 import {
   Switch,
   Route,
   BrowserRouter as Router,
   Redirect,
-} from "react-router-dom";
-import { routes } from "./routes";
-import ptBR from "dayjs/locale/pt-br";
-// import DayJsUtils from "@date-io/dayjs";
-import DayJsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import Layout from "./components/Layout";
+} from 'react-router-dom';
+import { routes } from './routes';
+import ptBR from 'date-fns/locale/pt-BR';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import Layout from './components/Layout';
 const App = () => {
   const { signed, token } = useSelector((state) => {
     return state.signer;
@@ -28,12 +27,12 @@ const App = () => {
   }, []);
   return (
     <ThemeProvider theme={lightTheme}>
-      <MuiPickersUtilsProvider locale={} utils={DayJsUtils}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
         <SnackbarProvider
           maxSnack={3}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
         >
           <Router>
@@ -46,7 +45,7 @@ const App = () => {
                 }
                 return;
               })}
-              {signed ? <Layout /> : <Redirect to="/signin" />}
+              {signed ? <Layout /> : <Redirect to='/signin' />}
             </Switch>
           </Router>
         </SnackbarProvider>
