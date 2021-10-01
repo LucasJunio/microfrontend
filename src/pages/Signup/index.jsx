@@ -204,7 +204,7 @@ export default function SectionCarousel() {
       enqueueSnackbar(message, {
         variant: 'success',
       });
-      history.push('/');
+      history.push('/dashboard');
     } else if (status === 'failed') {
       setOpen(false);
       enqueueSnackbar(message, {

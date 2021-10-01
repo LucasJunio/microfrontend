@@ -373,6 +373,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       helperText={formik.touched.pai && formik.errors.pai}
                       inputProps={{ maxLength: 150 }}
                       fullWidth
+                      required
                     />
                   </Grid>
                 </Grid>
