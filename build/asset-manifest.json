@@ -1,29 +1,30 @@
 {
   "files": {
-    "main.css": "/static/css/main.c4df8c8b.chunk.css",
-    "main.js": "/static/js/main.7b010b8c.chunk.js",
-    "main.js.map": "/static/js/main.7b010b8c.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.784543ff.js",
-    "runtime-main.js.map": "/static/js/runtime-main.784543ff.js.map",
-    "static/js/2.98968523.chunk.js": "/static/js/2.98968523.chunk.js",
-    "static/js/2.98968523.chunk.js.map": "/static/js/2.98968523.chunk.js.map",
+    "main.css": "/static/css/main.9307c729.chunk.css",
+    "main.js": "/static/js/main.6381656a.chunk.js",
+    "main.js.map": "/static/js/main.6381656a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.41552c10.js",
+    "runtime-main.js.map": "/static/js/runtime-main.41552c10.js.map",
+    "static/css/2.8c49bb0a.chunk.css": "/static/css/2.8c49bb0a.chunk.css",
+    "static/js/2.8b5bc32e.chunk.js": "/static/js/2.8b5bc32e.chunk.js",
+    "static/js/2.8b5bc32e.chunk.js.map": "/static/js/2.8b5bc32e.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.c4df8c8b.chunk.css.map": "/static/css/main.c4df8c8b.chunk.css.map",
-    "static/js/2.98968523.chunk.js.LICENSE.txt": "/static/js/2.98968523.chunk.js.LICENSE.txt",
+    "static/css/2.8c49bb0a.chunk.css.map": "/static/css/2.8c49bb0a.chunk.css.map",
+    "static/css/main.9307c729.chunk.css.map": "/static/css/main.9307c729.chunk.css.map",
+    "static/js/2.8b5bc32e.chunk.js.LICENSE.txt": "/static/js/2.8b5bc32e.chunk.js.LICENSE.txt",
     "static/media/White-Abstract.804244a6.jpg": "/static/media/White-Abstract.804244a6.jpg",
     "static/media/backgroundpresentation.a75986e8.png": "/static/media/backgroundpresentation.a75986e8.png",
-    "static/media/bg.527ceab2.jpg": "/static/media/bg.527ceab2.jpg",
-    "static/media/bg2.adb0a4f1.jpg": "/static/media/bg2.adb0a4f1.jpg",
-    "static/media/bg3.6584b707.jpg": "/static/media/bg3.6584b707.jpg",
     "static/media/bg_card_assistencia.0a3066b1.jpg": "/static/media/bg_card_assistencia.0a3066b1.jpg",
     "static/media/bg_card_vilevepay.b990363f.jpg": "/static/media/bg_card_vilevepay.b990363f.jpg",
     "static/media/logo_vileve_way.154c5d89.png": "/static/media/logo_vileve_way.154c5d89.png",
-    "static/media/register.9b190449.png": "/static/media/register.9b190449.png"
+    "static/media/register.9b190449.png": "/static/media/register.9b190449.png",
+    "static/media/index.css": "/static/media/roboto-vietnamese-400-normal.c0bec65d.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.784543ff.js",
-    "static/js/2.98968523.chunk.js",
-    "static/css/main.c4df8c8b.chunk.css",
-    "static/js/main.7b010b8c.chunk.js"
+    "static/js/runtime-main.41552c10.js",
+    "static/css/2.8c49bb0a.chunk.css",
+    "static/js/2.8b5bc32e.chunk.js",
+    "static/css/main.9307c729.chunk.css",
+    "static/js/main.6381656a.chunk.js"
   ]
 }
