@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThumbUpAltOutlined } from "@material-ui/icons/";
 import { ClassBackground } from "./styles";
@@ -16,11 +17,12 @@ import { emailValidation } from "../../store/ducks/Email";
 
 const Email = () => {
   const { token } = useParams();
-  const dispach = useDispatch();
-
   const { status, message } = useSelector((state) => {
     return state.email;
   });
+
+  const history = useHistory();  
+  const dispach = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -44,8 +46,8 @@ const Email = () => {
     dispach(emailValidation(token));
   }, []);
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
+  const handleRedirect = () => {
+    history.push("/signin");
   };
 
   return (
@@ -65,7 +67,7 @@ const Email = () => {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={handleCloseModal}
+            onClick={handleRedirect}
             color={status === "completed" ? "success" : "danger"}
           >
             Ok

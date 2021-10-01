@@ -6,9 +6,9 @@
  */
 
 export const maskCpf = (value) => {
-  value = value.replace(/\D/g, "");
-  value = value.replace(/^(\d{3})/g, "$1.");
-  value = value.replace(/(\d{3})(\d{3})/g, "$1.$2-");
+  value = value.replace(/\D/g, '');
+  value = value.replace(/^(\d{3})/g, '$1.');
+  value = value.replace(/(\d{3})(\d{3})/g, '$1.$2-');
   return value;
 };
 
@@ -19,9 +19,9 @@ export const maskCpf = (value) => {
  *
  */
 export const maskDate = (value) => {
-  value = value.replace(/\D/g, "");
-  value = value.replace(/^(\d{2})(\d)/g, "$1/$2");
-  value = value.replace(/(\d)(\d{4})$/, "$1/$2");
+  value = value.replace(/\D/g, '');
+  value = value.replace(/^(\d{2})(\d)/g, '$1/$2');
+  value = value.replace(/(\d)(\d{4})$/, '$1/$2');
   return value;
 };
 
@@ -32,9 +32,9 @@ export const maskDate = (value) => {
  *
  */
 export const maskCel = (value) => {
-  value = value.replace(/\D/g, ""); //Remove tudo o que não é dígito
-  value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-  value = value.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+  value = value.replace(/\D/g, ''); //Remove tudo o que não é dígito
+  value = value.replace(/^(\d{2})(\d)/g, '($1) $2'); //Coloca parênteses em volta dos dois primeiros dígitos
+  value = value.replace(/(\d)(\d{4})$/, '$1-$2'); //Coloca hífen entre o quarto e o quinto dígitos
   return value;
 };
 
@@ -47,13 +47,13 @@ export const maskCel = (value) => {
 
 export const maskTellPhone = (value) => {
   if (value) {
-    value = value.replace(/\D/g, ""); //Remove tudo o que não é dígito
-    value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    value = value.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+    value = value.replace(/\D/g, ''); //Remove tudo o que não é dígito
+    value = value.replace(/^(\d{2})(\d)/g, '($1) $2'); //Coloca parênteses em volta dos dois primeiros dígitos
+    value = value.replace(/(\d)(\d{4})$/, '$1-$2'); //Coloca hífen entre o quarto e o quinto dígitos
     return value;
   }
 
-  return "";
+  return '';
 };
 
 /**
@@ -64,22 +64,39 @@ export const maskTellPhone = (value) => {
  */
 export const maskNumber = (value) => {
   if (value) {
-    value = value.replace(/\D/g, "");
+    value = value.replace(/\D/g, '');
     return value;
   }
-  return "";
+  return '';
 };
 
 export const maskCnpj = (value) => {
   if (value) {
-    let formatedNum = "";
-    formatedNum = value.replace(/\D/g, "");
-    formatedNum = formatedNum.replace(/^(\d{2})(\d)/, "$1.$2");
-    formatedNum = formatedNum.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-    formatedNum = formatedNum.replace(/\.(\d{3})(\d)/, ".$1/$2");
-    formatedNum = formatedNum.replace(/(\d{4})(\d)/, "$1-$2");
-    formatedNum = formatedNum.replace(/(-\d{2})\d+?$/, "$1");
+    let formatedNum = '';
+    formatedNum = value.replace(/\D/g, '');
+    formatedNum = formatedNum.replace(/^(\d{2})(\d)/, '$1.$2');
+    formatedNum = formatedNum.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+    formatedNum = formatedNum.replace(/\.(\d{3})(\d)/, '.$1/$2');
+    formatedNum = formatedNum.replace(/(\d{4})(\d)/, '$1-$2');
+    formatedNum = formatedNum.replace(/(-\d{2})\d+?$/, '$1');
     return formatedNum;
   }
-  return "";
+  return '';
+};
+
+/**
+ * Change a date to yyyy-mm-dd
+ * @argument date
+ * @returns string
+ *
+ */
+
+export const formatDate = (date) => {
+  const newDate = new Intl.DateTimeFormat('fr-CA', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  }).format(date);
+
+  return newDate;
 };
