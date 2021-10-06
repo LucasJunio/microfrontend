@@ -28,10 +28,12 @@ const Upload = () => {
 
   const createObjectDocuments = (values = undefined) => {
     if (!!values) {
+      let formData = new FormData();
+
       const docIdentifications = ["rgImg", "rgVersoImg"];
 
-      const files = Object.keys(values).map((key) => {
-        return values[key];
+      const files = Object.keys(values).forEach((key) => {
+        return formData.append("file", values[key]);
       });
 
       const itens = Object.keys(values).map((key) => {
@@ -52,9 +54,9 @@ const Upload = () => {
       //     itens: [...itens],
       //   }),
       // };
-      const obj = {
-        file: [...files],
-      };
+      // const obj = {
+      //   file: [...files],
+      // };
 
       const bodyobject = {
         idClient: 172,
@@ -65,11 +67,10 @@ const Upload = () => {
         ],
       };
 
-      let formData = new FormData();
-
-      formData.append("file", [...files]);
       formData.append("info", JSON.stringify(bodyobject));
 
+      console.log(formData);
+      console.log(formData.getAll("file"));
       return formData;
     }
 
