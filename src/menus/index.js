@@ -1,27 +1,20 @@
-import { Person, Group, LibraryAddCheck } from '@material-ui/icons';
+import { Description, Person } from "@material-ui/icons";
 
 export const sections = [
   {
-    subheader: 'Cliente',
-    section: 'customer',
-    open: false,
+    subheader: "Dados pessoais",
+    section: "personalData",
+    open: true,
     items: [
       {
-        title: 'Aprovar Cadastro',
-        icon: LibraryAddCheck,
-        href: '/dashboard',
+        title: "Perfil",
+        icon: Person,
+        href: "/profile",
       },
-    ],
-  },
-  {
-    subheader: 'Configurações',
-    section: 'settings',
-    open: false,
-    items: [
       {
-        title: 'Settings',
-        icon: LibraryAddCheck,
-        href: '/',
+        title: "Documentos",
+        icon: Description,
+        href: "/personalDocuments",
       },
     ],
   },

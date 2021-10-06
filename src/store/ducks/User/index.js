@@ -5,6 +5,7 @@ import {
   getUserById,
   postUser,
   editUserById,
+  uploadDocuments,
 } from "./service";
 
 export const userList = createAsyncThunk(
@@ -61,6 +62,21 @@ export const editUser = createAsyncThunk("user/editUserById", async (body) => {
   const { data } = await editUserById(body);
   return data;
 });
+
+export const persistDocuments = createAsyncThunk(
+  "user/persistDocuments",
+  async (body, { rejectWithValue }) => {
+    try {
+      const { data } = await uploadDocuments(body);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const initialState = {
   data: [],
@@ -175,6 +191,23 @@ const user = createSlice({
         });
       })
       .addCase(editUser.rejected, (state, action) => {
+        return (state = {
+          ...state,
+          status: "failed",
+          message: action.payload.message,
+        });
+      })
+      .addCase(persistDocuments.pending, (state) => {
+        return (state = { ...state, status: "loading" });
+      })
+      .addCase(persistDocuments.fulfilled, (state, action) => {
+        return (state = {
+          ...state,
+          status: "completed",
+          message: action.payload.message,
+        });
+      })
+      .addCase(persistDocuments.rejected, (state, action) => {
         return (state = {
           ...state,
           status: "failed",

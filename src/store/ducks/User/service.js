@@ -1,4 +1,4 @@
-import { api } from "../../../services/api/api";
+import { api } from "../../../services/api/index";
 
 const getUsers = async () => {
   const res = await api.get("/user");
@@ -25,4 +25,23 @@ const editUserById = async (body) => {
   const res = await api.put(`/user/${id}`, putBody);
   return res;
 };
-export { getUsers, getRelatedGroups, postUser, getUserById, editUserById };
+
+const uploadDocuments = async (body) => {
+  console.log(body);
+  const res = await api.post(`shopkeepers/upload`, body, {
+    // headers: {
+    //   "Content-Type": "multipart/form-data",
+    // },
+  });
+
+  return res;
+};
+
+export {
+  getUsers,
+  getRelatedGroups,
+  postUser,
+  getUserById,
+  editUserById,
+  uploadDocuments,
+};

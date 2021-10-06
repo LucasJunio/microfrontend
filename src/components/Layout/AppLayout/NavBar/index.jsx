@@ -62,7 +62,7 @@ function NavBar(props) {
 
   return (
     <>
-      <AppBar position="absolute" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
