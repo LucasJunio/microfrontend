@@ -29,9 +29,9 @@ const editUserById = async (body) => {
 const uploadDocuments = async (body) => {
   console.log(body);
   const res = await api.post(`shopkeepers/upload`, body, {
-    // headers: {
-    //   "Content-Type": "multipart/form-data",
-    // },
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   return res;

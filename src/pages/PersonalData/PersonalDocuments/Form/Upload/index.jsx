@@ -59,12 +59,9 @@ const Upload = () => {
       // };
 
       const bodyobject = {
-        idClient: 172,
+        idClient: 175,
         product: "vilevewayclient",
-        itens: [
-          { categorie: "identificacao", filename: "selectedFiles[0].name" },
-          { categorie: "residencia", filename: "selectedFiles1[0].name" },
-        ],
+        itens,
       };
 
       formData.append("info", JSON.stringify(bodyobject));
