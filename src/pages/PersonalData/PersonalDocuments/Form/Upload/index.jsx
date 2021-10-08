@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Card,
@@ -7,72 +7,44 @@ import {
   Typography,
 } from "@material-ui/core";
 import ImgUpload from "components/ImgUpload";
+import ProgressBarLinear from "components/ProgressBarLinear";
 import { useStyles } from "./styles";
 import { useFormik } from "formik";
-import { persistDocuments } from "../../../../../store/ducks/User";
-import { useDispatch } from "react-redux";
+import {
+  persistDocuments,
+  clearImgUpload,
+} from "../../../../../store/ducks/User";
+import { useDispatch, useSelector } from "react-redux";
+import { createObjectDocuments } from "../../../../../utils/img/imgUpload";
+
 const Upload = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const {
+    signer: { userId },
+    user: { percentUploadImg },
+  } = useSelector((state) => {
+    return state;
+  });
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearImgUpload());
+    };
+  }, []);
+
+  console.log(percentUploadImg);
   const formik = useFormik({
     initialValues: {
       rgImg: null,
       rgVersoImg: null,
     },
     onSubmit: (values) => {
-      const body = createObjectDocuments(values);
-      console.log(body);
+      const body = createObjectDocuments(values, userId, "vilevewayclient");
       dispatch(persistDocuments(body));
     },
   });
 
-  const createObjectDocuments = (values = undefined) => {
-    if (!!values) {
-      let formData = new FormData();
-
-      const docIdentifications = ["rgImg", "rgVersoImg"];
-
-      const files = Object.keys(values).forEach((key) => {
-        return formData.append("file", values[key]);
-      });
-
-      const itens = Object.keys(values).map((key) => {
-        if (docIdentifications.indexOf(key) > -1) {
-          return {
-            categorie: "identificacao",
-            filename: values[key].name,
-          };
-        }
-      });
-
-      // const obj = {
-      //   file: [...files],
-      //   info: JSON.stringify({
-      //     idClient: 172,
-      //     product: "vilevewayclient",
-
-      //     itens: [...itens],
-      //   }),
-      // };
-      // const obj = {
-      //   file: [...files],
-      // };
-
-      const bodyobject = {
-        idClient: 175,
-        product: "vilevewayclient",
-        itens,
-      };
-
-      formData.append("info", JSON.stringify(bodyobject));
-
-      console.log(formData);
-      console.log(formData.getAll("file"));
-      return formData;
-    }
-
-    return undefined;
-  };
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -86,13 +58,21 @@ const Upload = () => {
                   <Divider />
                 </Grid>
                 <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
-                  <ImgUpload name="rgImg" formik={formik} />
-                  {/* <ImgUpload name="rgImg" formik={formik} /> */}
+                  <ImgUpload
+                    name="rgImg"
+                    formik={formik}
+                    category="indetificação"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
-                  <ImgUpload name="rgVersoImg" formik={formik} />
+                  <ImgUpload
+                    name="rgVersoImg"
+                    formik={formik}
+                    category="teste"
+                  />
                 </Grid>
                 <Grid item>
+                  <ProgressBarLinear percent={percentUploadImg} width="308px" />
                   <button type="submit">salvar</button>
                 </Grid>
               </Grid>

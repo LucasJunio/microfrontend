@@ -10,7 +10,7 @@ export const Page = ({ children, Icon, buttonRouter, title = "" }) => {
     <Container maxWidth="xl">
       <Grid container direction="column" spacing={2}>
         <Grid item>
-          <Grid container justifyContent="space-between" alignItems="center">
+          <Grid container justify="space-between" alignItems="center">
             <Grid item>{/* TODO: Implementar breadcrumb */}</Grid>
             {buttonRouter && (
               <Grid item>

@@ -16,4 +16,4 @@ const sendEmailRecover = async (body) => {
   return res;
 };
 
-export { signinPost, recoverPassword, sendEmailRecover};
+export { signinPost, recoverPassword, sendEmailRecover };

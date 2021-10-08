@@ -5,7 +5,12 @@ import { AddPhotoAlternate } from "@material-ui/icons";
 import { Fab } from "@material-ui/core";
 import { useStyles } from "./styles";
 
-const ImgUpload = ({ name, formik }) => {
+/**
+ * Component to img. Use the funciton imgUpload if you send in request.
+ * Formik is required
+ */
+
+const ImgUpload = ({ name, category, formik }) => {
   const classes = useStyles();
 
   const handleUploadClick = (event) => {
@@ -13,6 +18,7 @@ const ImgUpload = ({ name, formik }) => {
       (document.getElementById(`${name}/img`).src = window.URL.createObjectURL(
         event.currentTarget.files[0]
       ));
+    event.currentTarget.files[0].category = category;
     formik.setFieldValue(`${name}`, event.currentTarget.files[0]);
   };
 
@@ -47,8 +53,9 @@ const ImgUpload = ({ name, formik }) => {
 };
 
 ImgUpload.propTypes = {
-  id: PropTypes.number,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  formik: PropTypes.object.isRequired,
 };
 
 export default ImgUpload;
