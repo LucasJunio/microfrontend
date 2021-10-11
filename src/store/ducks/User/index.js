@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { uploadDocuments } from "./service";
+import { uploadDocuments, getDocumentsByUser } from "./service";
 
 export const persistDocuments = createAsyncThunk(
   "user/persistDocuments",
@@ -16,10 +16,26 @@ export const persistDocuments = createAsyncThunk(
   }
 );
 
+export const documentsByUser = createAsyncThunk(
+  "user/documentsByUser",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await getDocumentsByUser(id);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   message: null,
   status: "idle",
   percentUploadImg: 0,
+  imgData: [],
 };
 
 const user = createSlice({
@@ -30,7 +46,7 @@ const user = createSlice({
       return (state = { ...state, percentUploadImg: action.payload });
     },
     clearImgUpload: (state) => {
-      return (state = { ...state, percentUploadImg: 0 });
+      return (state = { ...state, percentUploadImg: 0, imgData: null });
     },
   },
   extraReducers: (builder) => {
@@ -51,13 +67,27 @@ const user = createSlice({
           status: "failed",
           message: action.payload.message,
         });
+      })
+      .addCase(documentsByUser.pending, (state) => {
+        return (state = { ...state, status: "loading" });
+      })
+      .addCase(documentsByUser.fulfilled, (state, action) => {
+        return (state = {
+          ...state,
+          status: "loading",
+          imgData: action.payload.message,
+        });
+      })
+      .addCase(documentsByUser.rejected, (state, action) => {
+        return (state = {
+          ...state,
+          status: "failed",
+          imgData: action.payload.message,
+        });
       });
   },
 });
 
 export const { percentUploadImg, clearImgUpload } = user.actions;
-
-// export const { addSelectedGroups, clearUser, clearSelectedGroups } =
-//   validation.actions;
 
 export default user.reducer;

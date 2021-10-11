@@ -14,16 +14,25 @@ const createObjectDocuments = (
 ) => {
   if (!!values && !!id && !!product) {
     let formData = new FormData();
-    Object.keys(values).forEach((key) => {
-      return formData.append("file", values[key]);
+    Object.keys(values).forEach((key, index) => {
+      if (!!values[key]?.name) {
+        return formData.append("file", values[key]);
+      }
     });
 
-    const itens = Object.keys(values).map((key) => {
-      return {
-        categorie: values[key].category,
-        filename: values[key].name,
-      };
+    const itens = Object.keys(values).map((key, index) => {
+      if (!!values[key]) {
+        return {
+          categorie: values[key].category,
+          filename: values[key].name,
+        };
+      }
     });
+
+    itens.forEach((value) => {
+      !value && itens.pop(value);
+    });
+
     const bodyObject = {
       idClient: id,
       product: product,

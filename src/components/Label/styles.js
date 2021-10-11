@@ -1,23 +1,23 @@
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
     fontFamily: theme.typography.fontFamily,
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 2,
-    display: 'inline-flex',
+    display: "inline-flex",
     flexGrow: 0,
-    whiteSpace: 'nowrap',
-    cursor: 'default',
+    whiteSpace: "nowrap",
+    cursor: "default",
     flexShrink: 0,
     fontSize: theme.typography.pxToRem(12),
     fontWeight: theme.typography.fontWeightMedium,
     height: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
     letterSpacing: 0.5,
     minWidth: 20,
     padding: theme.spacing(0.5, 1),
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   primary: {
     color: theme.palette.primary.main,

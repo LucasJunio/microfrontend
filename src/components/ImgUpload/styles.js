@@ -28,4 +28,33 @@ export const useStyles = makeStyles((theme) => ({
   btnColor: {
     backgroundColor: "#4182A1",
   },
+  divOpacity: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    // border: "1px solid #ccc",
+    position: "absolute",
+    zIndex: 99,
+    width: "360px",
+    height: "230px",
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  backDropImg: {
+    position: "absolute",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    borderRadius: "3px",
+    backgroundColor: "#D5D5D5",
+    fontWeight: 600,
+    // color: "#fff",
+  },
+  reprovado: {
+    color: "red",
+  },
+  aprovado: {
+    color: "green",
+  },
+  aguarandoaprovacao: {
+    color: "orange",
+  },
 }));

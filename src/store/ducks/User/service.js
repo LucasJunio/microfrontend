@@ -16,4 +16,9 @@ const uploadDocuments = async (body, dispatch) => {
   return res;
 };
 
-export { uploadDocuments };
+const getDocumentsByUser = async (id) => {
+  const res = await api.get(`documents/${id}`);
+  return res;
+};
+
+export { uploadDocuments, getDocumentsByUser };
