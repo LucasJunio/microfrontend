@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   Grid,
   Card,
   CardContent,
@@ -24,21 +25,22 @@ const Upload = () => {
   const dispatch = useDispatch();
   const {
     signer: { userId },
-    user: { percentUploadImg, imgData },
+    user: { percentUploadImg, imgData, status },
   } = useSelector((state) => {
     return state;
   });
 
+  let readOnly = true;
   const [openModal, setOpenModal] = useState(false);
-  const [isCnpj] = useState(true);
 
   const handleModal = () => {
     setOpenModal(!openModal);
+    dispatch(documentsByUser(userId));
   };
 
   useEffect(() => {
-    percentUploadImg === 100 && handleModal();
-  }, [percentUploadImg]);
+    percentUploadImg === 100 && status !== "loading" && handleModal();
+  }, [percentUploadImg, status]);
 
   useEffect(() => {
     dispatch(documentsByUser(userId));
@@ -47,19 +49,26 @@ const Upload = () => {
     };
   }, []);
 
+  const obj = {};
+  imgData.forEach(({ categoria, status }) => {
+    if (status === "Reprovado" || !status) {
+      readOnly = false;
+    }
+    obj[categoria] = categoria;
+  });
+
   const formik = useFormik({
     initialValues: {
-      indetificacao: null,
-      rgVersoImg: null,
+      ...obj,
     },
+
     onSubmit: (values) => {
       const body = createObjectDocuments(values, userId, "vilevewayclient");
       dispatch(persistDocuments(body));
     },
   });
-  console.log(imgData);
   return (
-    <Grid container>
+    <Grid container direction="column">
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <Card className={classes.root}>
           <CardContent>
@@ -67,14 +76,15 @@ const Upload = () => {
               <ProgressBarLinear percent={percentUploadImg} width="100%" />
             </TransitionsModal>
             <form onSubmit={formik.handleSubmit}>
-              <Grid container direction="column" spacing={2}>
+              <Grid container direction="column" spacing={5}>
                 <Grid item>
                   <Typography variant="h5">Documentos Pessoa Física</Typography>
                   <br />
                   <Divider />
                 </Grid>
                 {imgData &&
-                  imgData.map(({ base64, categoria, status }) => {
+                  imgData.length > 0 &&
+                  imgData.map(({ base64, categoria, status, descricao }) => {
                     return (
                       <Grid
                         item
@@ -85,37 +95,35 @@ const Upload = () => {
                         xl={8}
                         key={categoria}
                       >
+                        <Typography variant="subtitle1">{descricao}</Typography>
                         <ImgUpload
                           name={categoria}
                           formik={formik}
                           category={categoria}
-                          base64={`data:image/png;base64,${base64}`}
-                          showButton={status === "Reprovado" ? true : false}
+                          base64={base64 && `data:image/png;base64,${base64}`}
+                          showButton={
+                            status === "Reprovado" || !status ? true : false
+                          }
                           status={status}
                           showDivOpacity={true}
                         />
                       </Grid>
                     );
                   })}
-
-                <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
-                  <ImgUpload
-                    name="rgImg"
-                    formik={formik}
-                    category="indetificação"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
-                  <ImgUpload
-                    name="rgVersoImg"
-                    formik={formik}
-                    category="teste"
-                  />
-                </Grid>
                 <Grid item>
-                  <button type="submit" onClick={handleModal}>
-                    salvar
-                  </button>
+                  <Grid container justify="flex-end">
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleModal}
+                        disabled={readOnly}
+                      >
+                        salvar
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </form>

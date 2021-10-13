@@ -22,4 +22,8 @@ export const useStyles = makeStyles((theme) => ({
     right: "-300px",
     zIndex: 999,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: theme.palette.primary,
+  },
 }));

@@ -1,5 +1,4 @@
 import { api } from "../../../services/api/index";
-// import store from "../../index";
 import { percentUploadImg } from "../User";
 
 const uploadDocuments = async (body, dispatch) => {
@@ -9,7 +8,6 @@ const uploadDocuments = async (body, dispatch) => {
     },
     onUploadProgress: (data) => {
       dispatch(percentUploadImg(Math.round((100 * data.loaded) / data.total)));
-      console.log(Math.round((100 * data.loaded) / data.total));
     },
   });
 

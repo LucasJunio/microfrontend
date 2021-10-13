@@ -54,7 +54,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                       <Typography
                         variant="body2"
                         color="textSecondary"
-                        component="p"
+                        component="span"
                       >
                         Clique abaixo para contratar o produto Vileve
                         Assitência.
@@ -93,7 +93,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                       <Typography
                         variant="body2"
                         color="textSecondary"
-                        component="p"
+                        component={"span"}
                       >
                         Clique abaixo para contratar o produto Vileve
                         Assitência.

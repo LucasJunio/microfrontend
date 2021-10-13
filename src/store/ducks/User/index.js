@@ -46,7 +46,7 @@ const user = createSlice({
       return (state = { ...state, percentUploadImg: action.payload });
     },
     clearImgUpload: (state) => {
-      return (state = { ...state, percentUploadImg: 0, imgData: null });
+      return (state = { ...state, percentUploadImg: 0, imgData: [] });
     },
   },
   extraReducers: (builder) => {

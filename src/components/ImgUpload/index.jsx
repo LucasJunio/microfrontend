@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Img from "../../assets/images/no-image-found-360x250.png";
 import { AddPhotoAlternate } from "@material-ui/icons";
-import { Fab } from "@material-ui/core";
+import { Fab, Typo } from "@material-ui/core";
 import clsx from "clsx";
 import { useStyles } from "./styles";
 // import { width } from "dom-helpers";
@@ -20,6 +20,7 @@ const ImgUpload = ({
   showButton = true,
   status = "",
   showDivOpacity = false,
+  label,
 }) => {
   const classes = useStyles();
   const [show, setShow] = useState(showDivOpacity);
@@ -33,7 +34,9 @@ const ImgUpload = ({
     setShow(false);
   };
   let labelStatus = "";
-  if (status === "Aguardando Aprovação") {
+  if (status === null) {
+    status = "";
+  } else if (status === "Aguardando Aprovação") {
     status = "aguarandoAprovacao";
     labelStatus = "Aguardando Aprovação";
   } else {
@@ -42,7 +45,7 @@ const ImgUpload = ({
 
   // console.log(width("body"));
   return (
-    <>
+    <div className={classes.container}>
       {show && (
         <div className={classes.divOpacity}>
           <div
@@ -83,7 +86,7 @@ const ImgUpload = ({
           </label>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

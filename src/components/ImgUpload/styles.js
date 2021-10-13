@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-// import noImg from "assets/images/no-image-found-360x250.png";
 export const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -32,9 +31,8 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    // border: "1px solid #ccc",
     position: "absolute",
-    zIndex: 99,
+    zIndex: 999,
     width: "360px",
     height: "230px",
     backgroundColor: "rgba(255,255,255,0.4)",
@@ -46,7 +44,6 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: "3px",
     backgroundColor: "#D5D5D5",
     fontWeight: 600,
-    // color: "#fff",
   },
   reprovado: {
     color: "red",
@@ -56,5 +53,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   aguarandoaprovacao: {
     color: "orange",
+  },
+  container: {
+    width: "360px",
+    height: "230px",
   },
 }));

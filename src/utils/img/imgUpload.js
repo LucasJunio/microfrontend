@@ -38,7 +38,6 @@ const createObjectDocuments = (
       product: product,
       itens,
     };
-
     formData.append("info", JSON.stringify(bodyObject));
     return formData;
   }
