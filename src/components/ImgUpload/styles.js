@@ -11,13 +11,13 @@ export const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   img: {
-    width: "360px",
+    width: "330px",
     height: "230px",
   },
   imgUpload: {
     position: "absolute",
     maxHeight: "230px",
-    maxWidth: "360px",
+    maxWidth: "330px",
   },
   positionBtnUpload: {
     bottom: "-165px",
@@ -33,9 +33,10 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "absolute",
     zIndex: 999,
-    width: "360px",
+    width: "330px",
     height: "230px",
     backgroundColor: "rgba(255,255,255,0.4)",
+    // backgroundColor: "rgba(0,0,0,0.3)",
   },
   backDropImg: {
     position: "absolute",
@@ -45,17 +46,8 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: "#D5D5D5",
     fontWeight: 600,
   },
-  reprovado: {
-    color: "red",
-  },
-  aprovado: {
-    color: "green",
-  },
-  aguarandoaprovacao: {
-    color: "orange",
-  },
   container: {
-    width: "360px",
+    width: "330px",
     height: "230px",
   },
 }));

@@ -7,8 +7,10 @@ import {
   Divider,
   Typography,
 } from "@material-ui/core";
+import { Save } from "@material-ui/icons";
 import ImgUpload from "components/ImgUpload";
 import ProgressBarLinear from "components/ProgressBarLinear";
+import SkeletonImgDocuments from "components/SkeletonImgDocuments";
 import TransitionsModal from "components/Modal";
 import { useStyles } from "./styles";
 import { useFormik } from "formik";
@@ -51,7 +53,7 @@ const Upload = () => {
 
   const obj = {};
   imgData.forEach(({ categoria, status }) => {
-    if (status === "Reprovado" || !status) {
+    if (status.toLowerCase() === "reprovado" || !status) {
       readOnly = false;
     }
     obj[categoria] = categoria;
@@ -82,8 +84,7 @@ const Upload = () => {
                   <br />
                   <Divider />
                 </Grid>
-                {imgData &&
-                  imgData.length > 0 &&
+                {imgData && imgData.length > 0 ? (
                   imgData.map(({ base64, categoria, status, descricao }) => {
                     return (
                       <Grid
@@ -102,25 +103,47 @@ const Upload = () => {
                           category={categoria}
                           base64={base64 && `data:image/png;base64,${base64}`}
                           showButton={
-                            status === "Reprovado" || !status ? true : false
+                            status.toLowerCase() === "reprovado" || !status
+                              ? true
+                              : false
                           }
                           status={status}
                           showDivOpacity={true}
                         />
                       </Grid>
                     );
-                  })}
+                  })
+                ) : (
+                  <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
+                    <SkeletonImgDocuments
+                      widthImg={360}
+                      widthText={360}
+                      heightImg={250}
+                    />
+                    <SkeletonImgDocuments
+                      widthImg={360}
+                      widthText={360}
+                      heightImg={250}
+                    />
+                    <SkeletonImgDocuments
+                      widthImg={360}
+                      widthText={360}
+                      heightImg={250}
+                    />
+                  </Grid>
+                )}
                 <Grid item>
                   <Grid container justify="flex-end">
                     <Grid item>
                       <Button
-                        type="submit"
                         variant="contained"
                         color="primary"
+                        type="submit"
                         onClick={handleModal}
                         disabled={readOnly}
+                        startIcon={<Save />}
                       >
-                        salvar
+                        Salvar
                       </Button>
                     </Grid>
                   </Grid>

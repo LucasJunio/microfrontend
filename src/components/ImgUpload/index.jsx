@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Img from "../../assets/images/no-image-found-360x250.png";
 import { AddPhotoAlternate } from "@material-ui/icons";
-import { Fab, Typo } from "@material-ui/core";
-import clsx from "clsx";
+import { Fab } from "@material-ui/core";
+import Label from "components/Label";
 import { useStyles } from "./styles";
+import clsx from "clsx";
 // import { width } from "dom-helpers";
 
 /**
@@ -20,7 +21,6 @@ const ImgUpload = ({
   showButton = true,
   status = "",
   showDivOpacity = false,
-  label,
 }) => {
   const classes = useStyles();
   const [show, setShow] = useState(showDivOpacity);
@@ -33,7 +33,15 @@ const ImgUpload = ({
     formik.setFieldValue(`${name}`, event.currentTarget.files[0]);
     setShow(false);
   };
+
   let labelStatus = "";
+
+  const objStatus = {
+    reprovado: "disapproved",
+    aprovado: "approved",
+    aguarandoaprovacao: "waitApproved",
+  };
+
   if (status === null) {
     status = "";
   } else if (status === "Aguardando Aprovação") {
@@ -48,14 +56,9 @@ const ImgUpload = ({
     <div className={classes.container}>
       {show && (
         <div className={classes.divOpacity}>
-          <div
-            className={clsx(
-              [classes[status.toLocaleLowerCase()]],
-              classes.backDropImg
-            )}
-          >
-            {labelStatus}
-          </div>
+          <Label color={objStatus[status.toLocaleLowerCase()]}>
+            {labelStatus.toLocaleUpperCase()}
+          </Label>
         </div>
       )}
       <div className={classes.img}>

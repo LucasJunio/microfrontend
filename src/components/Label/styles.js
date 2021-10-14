@@ -47,4 +47,33 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey[600],
     backgroundColor: alpha(theme.palette.grey[600], 0.08),
   },
+  approved: {
+    color: "#00d631",
+    fontSize: "12px",
+    backgroundColor: alpha(theme.palette.grey[900], 0.8),
+    padding: "2px",
+    paddingLeft: "8px",
+    paddingRight: "8px",
+    borderRadius: "8px",
+  },
+
+  waitApproved: {
+    color: "#fff600",
+    fontSize: "12px",
+    backgroundColor: alpha(theme.palette.grey[900], 0.8),
+    padding: "2px",
+    paddingLeft: "8px",
+    paddingRight: "8px",
+    borderRadius: "8px",
+  },
+
+  disapproved: {
+    color: "#ff0000",
+    fontSize: "12px",
+    backgroundColor: alpha(theme.palette.grey[900], 0.8),
+    padding: "2px",
+    paddingLeft: "8px",
+    paddingRight: "8px",
+    borderRadius: "8px",
+  },
 }));
