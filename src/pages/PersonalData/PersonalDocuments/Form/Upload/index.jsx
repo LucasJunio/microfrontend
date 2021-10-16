@@ -53,6 +53,7 @@ const Upload = () => {
 
   const obj = {};
   imgData.forEach(({ categoria, status }) => {
+    status = status ?? "";
     if (status.toLowerCase() === "reprovado" || !status) {
       readOnly = false;
     }
@@ -86,6 +87,7 @@ const Upload = () => {
                 </Grid>
                 {imgData && imgData.length > 0 ? (
                   imgData.map(({ base64, categoria, status, descricao }) => {
+                    status = status ?? "";
                     return (
                       <Grid
                         item
@@ -103,7 +105,7 @@ const Upload = () => {
                           category={categoria}
                           base64={base64 && `data:image/png;base64,${base64}`}
                           showButton={
-                            status.toLowerCase() === "reprovado" || !status
+                            !status || status.toLowerCase() === "reprovado"
                               ? true
                               : false
                           }
