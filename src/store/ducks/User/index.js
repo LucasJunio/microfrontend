@@ -35,7 +35,7 @@ const initialState = {
   message: null,
   status: "idle",
   percentUploadImg: 0,
-  imgData: [],
+  imgData: [{ base64: "", categoria: "", status: "", descricao: "" }],
 };
 
 const user = createSlice({
