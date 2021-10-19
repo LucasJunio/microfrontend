@@ -23,7 +23,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    return () => {};
+    return () => { };
   });
 
   return (
@@ -41,7 +41,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
             <Grid container justify="center" alignItems="center">
               <Grid item>
                 <CardM className={classes.cardPJPF}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => nextStep()}>
                     <CardMedia
                       className={classes.media}
                       image={bg_card_gateway}
@@ -80,7 +80,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
             <Grid container justify="center" alignItems="center">
               <Grid item>
                 <CardM className={classes.cardPJPF}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => StepPF()}>
                     <CardMedia
                       className={classes.media}
                       image={bg_card_vileve}
