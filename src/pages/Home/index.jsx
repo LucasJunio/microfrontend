@@ -16,12 +16,14 @@ import {
   Paper,
   InputBase,
   Grid,
+  Typography
 } from "@material-ui/core";
 import { PhoneIphone, Edit } from "@material-ui/icons";
 import ButtonTimer from "../../components/ButtonTimer";
 import { validationStatus } from "../../store/ducks/Validation";
 import { editCellphone, confirmTokenSMS } from "../../store/ducks/Message";
 import { useDispatch, useSelector } from "react-redux";
+import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel,  VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
 
 export default function Dashboard() {
   const { enqueueSnackbar } = useSnackbar();
@@ -127,6 +129,82 @@ export default function Dashboard() {
       <Backdrop className={classes.backdrop} open={openBackDrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
+
+      <Grid container direction='column' spacing={4}>
+        <Grid item>
+          <Grid container direction='row' spacing={4}>
+            <Grid item xs={12} lg={6}>
+              <VictoryChart
+                theme={VictoryTheme.material}
+                domainPadding={{ x: 10 }}
+                style={{
+                  fill: "hsl(355, 20%, 90%)",
+                  fontSize: 11
+                }}
+                height={250}
+                horizontal
+              >
+                <VictoryBar
+                  barRatio={0.35}
+                  style={{
+                    data: { fill: "#005882" }                    
+                  }}
+                  data={[
+                    { x: 1, y: 2 },
+                    { x: 2, y: 3 },
+                    { x: 3, y: 5 },
+                    { x: 4, y: 4 },
+                    { x: 5, y: 16 }
+                  ]}
+                />
+              </VictoryChart>
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <VictoryChart
+                  theme={VictoryTheme.material}
+                  domainPadding={{ x: 15 }}
+                  height={250}
+                >
+                  <VictoryLine
+                    data={[
+                      { x: 1, y: -3 },
+                      { x: 2, y: 5 },
+                      { x: 3, y: 3 },
+                      { x: 4, y: 1 },
+                      { x: 5, y: -2 },
+                      { x: 6, y: -2 },
+                      { x: 7, y: 5 }
+                    ]}
+                  />
+                </VictoryChart>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction='row' spacing={4}>
+            <Grid item xs={12} lg={6}>
+              <Typography variant="h1" component="div" gutterBottom>
+                5,14M
+              </Typography>
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <VictoryChart
+                  theme={VictoryTheme.material}
+                  domainPadding={{ x: 15 }}
+                >
+                <VictoryBar
+                  barRatio={0.8}
+                  style={{
+                    data: { fill: "#c43a31" }
+                  }}
+                  // data={sampleData}
+                />
+              </VictoryChart>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+
       <Dialog
         open={openModal}
         aria-labelledby="form-dialog-title"
