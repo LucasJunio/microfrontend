@@ -14,7 +14,7 @@ export const sections = [
       {
         title: "Documentos",
         icon: Description,
-        href: "/personalDocuments",
+        href: "/documents",
       },
     ],
   },

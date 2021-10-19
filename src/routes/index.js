@@ -3,7 +3,8 @@ import Signin from "pages/Signin";
 import Email from "pages/Email";
 import Signup from "pages/Signup";
 import RecoveryPassword from "pages/RecoveryPassword";
-import PersonalDocuments from "pages/PersonalData/PersonalDocuments";
+import Documents from "pages/PersonalData/Documents";
+import Profile from "pages/PersonalData/Profile"
 
 export const routes = [
   { path: "/email/:token", title: "Email", component: Email, private: false },
@@ -17,9 +18,15 @@ export const routes = [
     private: false,
   },
   {
-    path: "/personalDocuments",
+    path: "/documents",
     title: "Personal Documents",
-    component: PersonalDocuments,
+    component: Documents,
+    private: true,
+  },  
+  {
+    path: "/profile",
+    title: "Profile",
+    component: Profile,
     private: true,
   },
 ];
