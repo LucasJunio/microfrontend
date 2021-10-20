@@ -16,14 +16,16 @@ import {
   Paper,
   InputBase,
   Grid,
-  Typography
+  Typography, 
+  Container
 } from "@material-ui/core";
 import { PhoneIphone, Edit } from "@material-ui/icons";
+import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel,  VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
+import { useDispatch, useSelector } from "react-redux";
 import ButtonTimer from "../../components/ButtonTimer";
 import { validationStatus } from "../../store/ducks/Validation";
 import { editCellphone, confirmTokenSMS } from "../../store/ducks/Message";
-import { useDispatch, useSelector } from "react-redux";
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel,  VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
+import Page from "../../components/Page";
 
 export default function Dashboard() {
   const { enqueueSnackbar } = useSnackbar();
@@ -125,12 +127,12 @@ export default function Dashboard() {
   };
 
   return (
-    <>
+    <Page>
       <Backdrop className={classes.backdrop} open={openBackDrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Grid container direction='column' spacing={4}>
+      <Grid container direction='column' style={{ backgroundColor: "#eaeef3" }} spacing={2} alignItems="center" >
         <Grid item>
           <Grid container direction='row' spacing={4}>
             <Grid item xs={12} lg={6}>
@@ -180,6 +182,7 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item>
           <Grid container direction='row' spacing={4}>
             <Grid item xs={12} lg={6}>
@@ -188,18 +191,9 @@ export default function Dashboard() {
               </Typography>
             </Grid>
             <Grid item xs={12} lg={6}>
-              <VictoryChart
-                  theme={VictoryTheme.material}
-                  domainPadding={{ x: 15 }}
-                >
-                <VictoryBar
-                  barRatio={0.8}
-                  style={{
-                    data: { fill: "#c43a31" }
-                  }}
-                  // data={sampleData}
-                />
-              </VictoryChart>
+              <Typography variant="h1" component="div" gutterBottom>
+                  5,14M
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -280,6 +274,6 @@ export default function Dashboard() {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Page>
   );
 }
