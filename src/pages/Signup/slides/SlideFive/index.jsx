@@ -70,10 +70,10 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
   return (
     <Grid item md={12} lg={12}>
       <div style={{ padding: 20 }}>
-        <Grid container justify="center" alignItems="center" spacing={2}>
+        <Grid container justifyContent="center" alignItems="center" spacing={2}>
           <Hidden only={["xs", "sm"]}>
             <Grid item md={5}>
-              <Grid container justify="center">
+              <Grid container justifyContent="center">
                 <img src={manPc} className={classes.manPc} alt="logotipo" />
               </Grid>
             </Grid>
@@ -349,7 +349,12 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
             </Grid>
           </Grid>
           <Grid item md={12} style={{ marginTop: "10px" }}>
-            <Grid container justify="flex-end" alignItems="center" spacing={3}>
+            <Grid
+              container
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={3}
+            >
               <Grid item>
                 <Button
                   variant="contained"

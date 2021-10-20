@@ -162,10 +162,10 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
   });
 
   return (
-    <Grid container justify="center" alignItems="center">
+    <Grid container justifyContent="center" alignItems="center">
       <Hidden only={["xs", "sm"]}>
         <Grid item md={6}>
-          <Grid container justify="center" alignItems="center">
+          <Grid container justifyContent="center" alignItems="center">
             <img src={manPc} className={classes.manPc} alt="logotipo" />
           </Grid>
         </Grid>
@@ -278,7 +278,12 @@ export const SlideSix = ({ nextStep, previousStep, submitForm, formik }) => {
             </Grid>
           </Grid>
           <Grid item xs={11} md={12}>
-            <Grid container justify="flex-end" alignItems="center" spacing={3}>
+            <Grid
+              container
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={3}
+            >
               <Grid item>
                 <Button
                   variant="contained"

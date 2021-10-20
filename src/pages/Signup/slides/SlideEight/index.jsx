@@ -40,10 +40,10 @@ export const SlideEight = ({ nextStep, previousStep, formik, waitCep }) => {
   return (
     <Grid item xs={12} md={12} lg={12}>
       <div className={classes.divCentralization}>
-        <Grid container justify="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center">
           <Hidden only={["xs", "sm"]}>
             <Grid item md={6}>
-              <Grid container justify="center" alignItems="center">
+              <Grid container justifyContent="center" alignItems="center">
                 <img src={manPc} className={classes.manPc} alt="logotipo" />
               </Grid>
             </Grid>
