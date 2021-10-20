@@ -66,6 +66,14 @@ const signer = createSlice({
     clearMessage(state) {
       return (state = { ...state, message: null });
     },
+    signed(state, action) {
+      return (state = {
+        ...state,
+        token: action.payload.token,
+        signed: true,
+        userId: action.payload.id,
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -134,7 +142,7 @@ const signer = createSlice({
   },
 });
 
-export const { logOut, clearMessage } = signer.actions;
+export const { logOut, clearMessage, signed } = signer.actions;
 // export const { increment, decrement } = systemUser.actions;
 
 export default signer.reducer;

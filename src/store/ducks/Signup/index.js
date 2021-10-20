@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { postCnpj, postPf } from "./service";
+import { signed } from "../Signer";
 
 export const createCnpj = createAsyncThunk(
   "signup/createCnpj",
-  async (body, { rejectWithValue }) => {
+  async (body, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await postCnpj(body);
+      dispatch(signed({ token: data.token, id: data.id }));
       return data;
     } catch (error) {
       if (!error.response) {
@@ -18,9 +20,10 @@ export const createCnpj = createAsyncThunk(
 
 export const createPf = createAsyncThunk(
   "signup/createPf",
-  async (body, { rejectWithValue }) => {
+  async (body, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await postPf(body);
+      dispatch(signed({ token: data.token, id: data.id }));
       return data;
     } catch (error) {
       if (!error.response) {
@@ -79,28 +82,9 @@ const signup = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       });
-    // .addCase(signin.pending, (state) => {
-    //   return (state = { ...state, status: "loading" });
-    // })
-    // .addCase(signin.fulfilled, (state, action) => {
-    //   return (state = {
-    //     ...state,
-    //     status: "completed",
-    //     token: action.payload.token,
-    //     signed: true,
-    //     message: action.payload.message,
-    //   });
-    // })
-    // .addCase(signin.rejected, (state, action) => {
-    //   return (state = {
-    //     ...state,
-    //     status: "failed",
-    //     message: action.payload.message,
-    //   });
-    // });
   },
 });
 

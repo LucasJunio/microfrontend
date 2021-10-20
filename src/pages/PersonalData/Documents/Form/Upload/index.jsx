@@ -52,13 +52,14 @@ const Upload = () => {
   }, []);
 
   const obj = {};
-  imgData.forEach(({ categoria, status }) => {
-    status = status ?? "";
-    if (status.toLowerCase() === "reprovado" || !status) {
-      readOnly = false;
-    }
-    obj[categoria] = categoria;
-  });
+  !imgData &&
+    imgData.forEach(({ categoria, status }) => {
+      status = status ?? "";
+      if (status.toLowerCase() === "reprovado" || !status) {
+        readOnly = false;
+      }
+      obj[categoria] = categoria;
+    });
 
   const formik = useFormik({
     initialValues: {
@@ -135,7 +136,7 @@ const Upload = () => {
                   </Grid>
                 )}
                 <Grid item>
-                  <Grid container justify="flex-end">
+                  <Grid container justifyContent="flex-end">
                     <Grid item>
                       <Button
                         variant="contained"

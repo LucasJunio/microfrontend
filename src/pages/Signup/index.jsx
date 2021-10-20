@@ -1,8 +1,8 @@
-import '@fontsource/roboto';
-import React, { useState, useRef, useEffect } from 'react';
-import { useFormik } from 'formik';
-import { useSnackbar } from 'notistack';
-import { CustomTabs } from '../../components/CustomTabs';
+import "@fontsource/roboto";
+import React, { useState, useRef, useEffect } from "react";
+import { useFormik } from "formik";
+import { useSnackbar } from "notistack";
+import { CustomTabs } from "../../components/CustomTabs";
 import {
   Backdrop,
   CircularProgress,
@@ -12,34 +12,34 @@ import {
   Container,
   Tab,
   Box,
-} from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
-import TabPanel from './TabPanel';
-import { useHistory } from 'react-router-dom';
-import SwipeableViews from 'react-swipeable-views';
-import { SlideOne } from './slides/SlideOne/index';
-import { SlideTwo } from './slides/SlideTwo/index';
-import { SlideThree } from './slides/SlideThree/index';
-import { SlideFour } from './slides/SlideFour/index';
-import { SlideFive } from './slides/SlideFive/index';
-import { SlideSix } from './slides/SlideSix/index';
-import { SlideSeven } from './slides/SlideSeven';
-import { SlideEight } from './slides/SlideEight';
-import PropTypes from 'prop-types';
-import logo from '../../assets/images/logo_vileve_way.png';
-import sha256 from 'crypto-js/sha256';
-import { useStyles } from './styles';
-import * as yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import './stylepagination.scss';
-import { maskNumber } from '../../utils/string/masks';
-import { validateCpf } from '../../utils/string/validateCpf';
-import { createCnpj, createPf } from 'store/ducks/Signup';
+} from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
+import TabPanel from "./TabPanel";
+import { useHistory } from "react-router-dom";
+import SwipeableViews from "react-swipeable-views";
+import { SlideOne } from "./slides/SlideOne/index";
+import { SlideTwo } from "./slides/SlideTwo/index";
+import { SlideThree } from "./slides/SlideThree/index";
+import { SlideFour } from "./slides/SlideFour/index";
+import { SlideFive } from "./slides/SlideFive/index";
+import { SlideSix } from "./slides/SlideSix/index";
+import { SlideSeven } from "./slides/SlideSeven";
+import { SlideEight } from "./slides/SlideEight";
+import PropTypes from "prop-types";
+import logo from "../../assets/images/logo_vileve_way.png";
+import sha256 from "crypto-js/sha256";
+import { useStyles } from "./styles";
+import * as yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import "./stylepagination.scss";
+import { maskNumber } from "../../utils/string/masks";
+import { validateCpf } from "../../utils/string/validateCpf";
+import { createCnpj, createPf } from "store/ducks/Signup";
 
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -56,8 +56,8 @@ export default function SectionCarousel() {
   const history = useHistory();
   const theme = useTheme();
   const { message, status } = useSelector((state) => state.signup);
-  const dotActive = 'pagination__link';
-  const dotInactive = 'pagination__link is_active';
+  const dotActive = "pagination__link";
+  const dotInactive = "pagination__link is_active";
   const [dot1, setDOT1] = useState(dotInactive);
   const [dot2, setDOT2] = useState(dotInactive);
   const [dot3, setDOT3] = useState(dotInactive);
@@ -79,20 +79,20 @@ export default function SectionCarousel() {
   const validationSchema = yup.object({
     nome: yup
       .string()
-      .required('Nome é obrigatório')
-      .matches(/^[aA-zZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/, 'Somente letras')
-      .min(10, 'Nome completo deve conter no minimo 10 caractéries')
-      .max(40, 'Máximo de 40 caractéries')
+      .required("Nome é obrigatório")
+      .matches(/^[aA-zZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+$/, "Somente letras")
+      .min(10, "Nome completo deve conter no minimo 10 caractéries")
+      .max(40, "Máximo de 40 caractéries")
       .trim(),
     email: yup
       .string()
       .trim()
-      .email('Não é um e-mail válido')
-      .required('Favor informar e-mail')
+      .email("Não é um e-mail válido")
+      .required("Favor informar e-mail")
       .trim(),
     senha: yup
       .string()
-      .required('Por favor, insira sua senha')
+      .required("Por favor, insira sua senha")
       .matches(
         /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/,
         `A senha deve conter mínimo de oito caracteres, pelo menos, uma letra maiúscula, uma letra minúscula, números e um caractere especial`
@@ -100,115 +100,115 @@ export default function SectionCarousel() {
       .trim(),
     senha2: yup
       .string()
-      .oneOf([yup.ref('senha')], 'A senha não confere')
-      .required('Por favor, insira a senha')
+      .oneOf([yup.ref("senha")], "A senha não confere")
+      .required("Por favor, insira a senha")
       .trim(),
-    cpf: yup.string().required('CPF é obrigatório').trim(),
-    celular: yup.string().required('O campo celular é obrigatório').trim(),
+    cpf: yup.string().required("CPF é obrigatório").trim(),
+    celular: yup.string().required("O campo celular é obrigatório").trim(),
     nascimento: yup
       .string()
-      .required('Data de nascimento é obrigatória')
+      .required("Data de nascimento é obrigatória")
       .trim(),
     naturalidade: yup
       .string()
-      .required('O campo naturalidade é obrigatório')
+      .required("O campo naturalidade é obrigatório")
       .trim(),
-    nacionalidade: yup.string().required('O campo nacionalidade é obrigatório'),
-    estado_civil: yup.string().required('O campo estado civil é obrigatório'),
+    nacionalidade: yup.string().required("O campo nacionalidade é obrigatório"),
+    estado_civil: yup.string().required("O campo estado civil é obrigatório"),
     rg: yup
       .string()
-      .required('O campo RG é obrigatório')
+      .required("O campo RG é obrigatório")
       .trim()
-      .min(5, 'Rg deve ter no minimo 5 caracteries'),
-    emissor: yup.string().required('O campo emissor é obrigatório').trim(),
-    emissao: yup.string().required('O campo emissao é obrigatório'),
-    sexo: yup.string().required('O campo sexo é obrigatório'),
-    mae: yup.string().required('Campo mãe é obrigatório').trim(),
-    pai: yup.string().required('Campo pai é obrigatório').trim(),
-    cep: yup.string().required('O campo CEP é obrigatório'),
-    endereco: yup.string().required('O campo endereço é obrigatório').trim(),
-    numero: yup.string().required('O campo número é obrigatório').trim(),
-    bairro: yup.string().required('O campo bairro é obrigatório').trim(),
-    cidade: yup.string().required('O campo cidade é obrigatório').trim(),
-    estado: yup.string().required('O campo estado é obrigatório').trim(),
+      .min(5, "Rg deve ter no minimo 5 caracteries"),
+    emissor: yup.string().required("O campo emissor é obrigatório").trim(),
+    emissao: yup.string().required("O campo emissao é obrigatório"),
+    sexo: yup.string().required("O campo sexo é obrigatório"),
+    mae: yup.string().required("Campo mãe é obrigatório").trim(),
+    pai: yup.string().required("Campo pai é obrigatório").trim(),
+    cep: yup.string().required("O campo CEP é obrigatório"),
+    endereco: yup.string().required("O campo endereço é obrigatório").trim(),
+    numero: yup.string().required("O campo número é obrigatório").trim(),
+    bairro: yup.string().required("O campo bairro é obrigatório").trim(),
+    cidade: yup.string().required("O campo cidade é obrigatório").trim(),
+    estado: yup.string().required("O campo estado é obrigatório").trim(),
 
-    cepPf: yup.string().required('O campo CEP é obrigatório'),
-    enderecoPf: yup.string().required('O campo endereço é obrigatório').trim(),
-    numeroPf: yup.string().required('O campo número é obrigatório').trim(),
-    bairroPf: yup.string().required('O campo bairro é obrigatório').trim(),
-    cidadePf: yup.string().required('O campo cidade é obrigatório').trim(),
-    estadoPf: yup.string().required('O campo estado é obrigatório').trim(),
+    cepPf: yup.string().required("O campo CEP é obrigatório"),
+    enderecoPf: yup.string().required("O campo endereço é obrigatório").trim(),
+    numeroPf: yup.string().required("O campo número é obrigatório").trim(),
+    bairroPf: yup.string().required("O campo bairro é obrigatório").trim(),
+    cidadePf: yup.string().required("O campo cidade é obrigatório").trim(),
+    estadoPf: yup.string().required("O campo estado é obrigatório").trim(),
 
-    cnpj: yup.string().required('Campo CNPJ é obrigatório'),
+    cnpj: yup.string().required("Campo CNPJ é obrigatório"),
     nome_fantasia: yup
       .string()
-      .required('Campo nome fantasia é obrigatório')
+      .required("Campo nome fantasia é obrigatório")
       .trim(),
-    telefone: yup.string().required('Campo telefone é obrigatório'),
+    telefone: yup.string().required("Campo telefone é obrigatório"),
     razaosocial: yup
       .string()
-      .required('Campo Razão Social é obrigatório')
+      .required("Campo Razão Social é obrigatório")
       .trim(),
-    cnae: yup.number().required('Campo CNAE é obrigatório'),
-    ceppj: yup.number().required('Campo CEP é obrigatório'),
-    enderecopj: yup.string().required('Campo Endereço é obrigatório').trim(),
-    numeropj: yup.number().required('Campo número é obrigatório'),
-    bairropj: yup.string().required('Campo Bairro é obrigatório').trim(),
-    cidadepj: yup.string().required('Campo cidade é obrigatório').trim(),
-    estadopj: yup.string().required('Campo estado é obrigatório').trim(),
-    bancopj: yup.string().required('Campo banco é obrigatório'),
+    cnae: yup.number().required("Campo CNAE é obrigatório"),
+    ceppj: yup.number().required("Campo CEP é obrigatório"),
+    enderecopj: yup.string().required("Campo Endereço é obrigatório").trim(),
+    numeropj: yup.number().required("Campo número é obrigatório"),
+    bairropj: yup.string().required("Campo Bairro é obrigatório").trim(),
+    cidadepj: yup.string().required("Campo cidade é obrigatório").trim(),
+    estadopj: yup.string().required("Campo estado é obrigatório").trim(),
+    bancopj: yup.string().required("Campo banco é obrigatório"),
     agenciapj: yup
       .number()
-      .typeError('Agencia deve ser número')
-      .required('Campo agência é obrigatório'),
-    contapj: yup.number().required('Campo conta é obrigatório'),
+      .typeError("Agencia deve ser número")
+      .required("Campo agência é obrigatório"),
+    contapj: yup.number().required("Campo conta é obrigatório"),
     site: yup
       .string()
-      .required('Campo Site é obrigatório')
+      .required("Campo Site é obrigatório")
       .url("Insira um site valido ex: 'https://www.google.com'"),
-    cpfPf: yup.string().required('CPF é obrigatório').trim(),
-    celularPf: yup.string().required('O campo celular é obrigatório').trim(),
+    cpfPf: yup.string().required("CPF é obrigatório").trim(),
+    celularPf: yup.string().required("O campo celular é obrigatório").trim(),
     nascimentoPf: yup
       .string()
-      .required('Data de nascimento é obrigatória')
+      .required("Data de nascimento é obrigatória")
       .trim(),
     naturalidadePf: yup
       .string()
-      .required('O campo naturalidade é obrigatório')
+      .required("O campo naturalidade é obrigatório")
       .trim(),
     nacionalidadePf: yup
       .string()
-      .required('O campo nacionalidade é obrigatório'),
-    estadoCivilPf: yup.string().required('O campo estado civil é obrigatório'),
+      .required("O campo nacionalidade é obrigatório"),
+    estadoCivilPf: yup.string().required("O campo estado civil é obrigatório"),
     rgPf: yup
       .string()
-      .required('O campo RG é obrigatório')
+      .required("O campo RG é obrigatório")
       .trim()
-      .min(5, 'Rg deve ter no minimo 5 caracteries'),
-    emissorPf: yup.string().required('O campo emissor é obrigatório').trim(),
-    emissaoPf: yup.string().required('O campo emissao é obrigatório'),
-    sexoPf: yup.string().required('O campo sexo é obrigatório'),
-    maePf: yup.string().required('Campo mãe é obrigatório').trim(),
-    paiPf: yup.string().required('Campo pai é obrigatório').trim(),
+      .min(5, "Rg deve ter no minimo 5 caracteries"),
+    emissorPf: yup.string().required("O campo emissor é obrigatório").trim(),
+    emissaoPf: yup.string().required("O campo emissao é obrigatório"),
+    sexoPf: yup.string().required("O campo sexo é obrigatório"),
+    maePf: yup.string().required("Campo mãe é obrigatório").trim(),
+    paiPf: yup.string().required("Campo pai é obrigatório").trim(),
     sitePf: yup
       .string()
-      .required('Campo Site é obrigatório')
+      .required("Campo Site é obrigatório")
       .url("Insira um site valido ex: 'https://www.google.com'"),
   });
 
   useEffect(() => {
-    if (status === 'loading') {
+    if (status === "loading") {
       setOpen(true);
-    } else if (status === 'completed') {
+    } else if (status === "completed") {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: 'success',
+        variant: "success",
       });
-      history.push('/dashboard');
-    } else if (status === 'failed') {
+      history.push("/documents");
+    } else if (status === "failed") {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: 'error',
+        variant: "error",
       });
     }
     return () => {};
@@ -220,70 +220,70 @@ export default function SectionCarousel() {
 
   const formik = useFormik({
     initialValues: {
-      nome: '',
-      email: '',
-      senha: '',
-      senha2: '',
-      cpf: '',
-      celular: '',
-      nascimento: '',
-      naturalidade: '',
-      nacionalidade: '',
-      sexo: '',
-      estado_civil: '',
-      rg: '',
-      emissor: '',
-      emissao: '',
-      sexo: '',
-      mae: '',
-      pai: '',
-      cpfPf: '',
-      celularPf: '',
-      nascimentoPf: '',
-      naturalidadePf: '',
-      nacionalidadePf: '',
-      sexoPf: '',
-      estadoCivilPf: '',
-      rgPf: '',
-      emissorPf: '',
-      emissaoPf: '',
-      sexoPf: '',
-      maePf: '',
-      paiPf: '',
-      sitePf: '',
-      cepPf: '',
-      enderecoPf: '',
-      numeroPf: '',
-      bairroPf: '',
-      complementoPf: '',
-      cidadePf: '',
-      estadoPf: '',
-      cep: '',
-      endereco: '',
-      numero: '',
-      bairro: '',
-      complemento: '',
-      cidade: '',
-      estado: '',
-      cnpj: '',
-      telefone: '',
-      site: '',
-      razaosocial: '',
-      cnae: '',
-      nome_fantasia: '',
-      ceppj: '',
-      enderecopj: '',
-      numeropj: '',
-      bairropj: '',
-      cidadepj: '',
-      complementopj: '',
-      cidadepj: '',
-      estadopj: '',
-      bancopj: '',
-      agenciapj: '',
-      contapj: '',
-      operacaopj: '',
-      pixpj: '',
+      nome: "",
+      email: "",
+      senha: "",
+      senha2: "",
+      cpf: "",
+      celular: "",
+      nascimento: "",
+      naturalidade: "",
+      nacionalidade: "",
+      sexo: "",
+      estado_civil: "",
+      rg: "",
+      emissor: "",
+      emissao: "",
+      sexo: "",
+      mae: "",
+      pai: "",
+      cpfPf: "",
+      celularPf: "",
+      nascimentoPf: "",
+      naturalidadePf: "",
+      nacionalidadePf: "",
+      sexoPf: "",
+      estadoCivilPf: "",
+      rgPf: "",
+      emissorPf: "",
+      emissaoPf: "",
+      sexoPf: "",
+      maePf: "",
+      paiPf: "",
+      sitePf: "",
+      cepPf: "",
+      enderecoPf: "",
+      numeroPf: "",
+      bairroPf: "",
+      complementoPf: "",
+      cidadePf: "",
+      estadoPf: "",
+      cep: "",
+      endereco: "",
+      numero: "",
+      bairro: "",
+      complemento: "",
+      cidade: "",
+      estado: "",
+      cnpj: "",
+      telefone: "",
+      site: "",
+      razaosocial: "",
+      cnae: "",
+      nome_fantasia: "",
+      ceppj: "",
+      enderecopj: "",
+      numeropj: "",
+      bairropj: "",
+      cidadepj: "",
+      complementopj: "",
+      cidadepj: "",
+      estadopj: "",
+      bancopj: "",
+      agenciapj: "",
+      contapj: "",
+      operacaopj: "",
+      pixpj: "",
     },
     validationSchema,
     onSubmit: (values) => {},
@@ -300,8 +300,8 @@ export default function SectionCarousel() {
       !!formik.errors.senha ||
       !!formik.errors.senha2
     ) {
-      enqueueSnackbar('Preencha todos os campos como nas instruções', {
-        variant: 'error',
+      enqueueSnackbar("Preencha todos os campos como nas instruções", {
+        variant: "error",
       });
     } else {
       if (
@@ -312,8 +312,8 @@ export default function SectionCarousel() {
       ) {
         setValue(1);
       } else {
-        enqueueSnackbar('Campos obrigatórios não preenchidos', {
-          variant: 'error',
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
         });
       }
     }
@@ -352,13 +352,13 @@ export default function SectionCarousel() {
         setDOT1(dotInactive);
         setDOT2(dotActive);
       } else {
-        enqueueSnackbar('Campos obrigatórios não preenchidos', {
-          variant: 'error',
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
         });
       }
     } else {
-      enqueueSnackbar('Desculpe, informe um cpf válido!', {
-        variant: 'error',
+      enqueueSnackbar("Desculpe, informe um cpf válido!", {
+        variant: "error",
       });
     }
   };
@@ -376,8 +376,8 @@ export default function SectionCarousel() {
       setDOT2(dotInactive);
       setDOT3(dotActive);
     } else {
-      enqueueSnackbar('Campos obrigatórios não preenchidos', {
-        variant: 'error',
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
       });
     }
   };
@@ -401,8 +401,8 @@ export default function SectionCarousel() {
       setDOT3(dotInactive);
       setDOT4(dotActive);
     } else {
-      enqueueSnackbar('Campos obrigatórios não preenchidos', {
-        variant: 'error',
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
       });
     }
   };
@@ -427,13 +427,13 @@ export default function SectionCarousel() {
         setDOT5(dotInactive);
         setDOT6(dotActive);
       } else {
-        enqueueSnackbar('Campos obrigatórios não preenchidos', {
-          variant: 'error',
+        enqueueSnackbar("Campos obrigatórios não preenchidos", {
+          variant: "error",
         });
       }
     } else {
-      enqueueSnackbar('Desculpe, informe um cpf válido!', {
-        variant: 'error',
+      enqueueSnackbar("Desculpe, informe um cpf válido!", {
+        variant: "error",
       });
     }
   };
@@ -451,8 +451,8 @@ export default function SectionCarousel() {
       setDOT6(dotInactive);
       setDOT7(dotActive);
     } else {
-      enqueueSnackbar('Campos obrigatórios não preenchidos', {
-        variant: 'error',
+      enqueueSnackbar("Campos obrigatórios não preenchidos", {
+        variant: "error",
       });
     }
   };
@@ -515,21 +515,20 @@ export default function SectionCarousel() {
   };
 
   return (
-    <Container maxWidth='xl' className={classes.container}>
+    <Container maxWidth="xl" className={classes.container}>
       <Backdrop className={classes.backdrop} open={open}>
-        <CircularProgress color='inherit' />
+        <CircularProgress color="inherit" />
       </Backdrop>
-      <Grid container direction='column' justify='center'>
-        <Grid item style={{ height: '80px' }}>
-          <Grid container justify='flex-start'>
+      <Grid container direction="column" justify="center">
+        <Grid item style={{ height: "80px" }}>
+          <Grid container justifyContent="flex-start">
             <Grid item>
-              <img src={logo} className={classes.logo} alt='logotipo'></img>
+              <img src={logo} className={classes.logo} alt="logotipo"></img>
             </Grid>
           </Grid>
         </Grid>
         <form
           onSubmit={(e) => {
-            console.log(formik);
             const { values } = formik;
             if (
               !!formik.values.bancopj &&
@@ -636,17 +635,17 @@ export default function SectionCarousel() {
                 dispatch(createPf(body));
               }
             } else {
-              enqueueSnackbar('Campos obrigatórios não preenchidos', {
-                variant: 'error',
+              enqueueSnackbar("Campos obrigatórios não preenchidos", {
+                variant: "error",
               });
             }
             formik.handleSubmit(e);
           }}
         >
-          <Grid item xs={12} md={12} style={{ height: '30px' }}>
+          <Grid item xs={12} md={12} style={{ height: "30px" }}>
             <Box
-              display='flex'
-              justifyContent='flex-end'
+              display="flex"
+              justifyContent="flex-end"
               // m={1}
               p={1}
               // bgcolor="background.paper"
@@ -654,68 +653,68 @@ export default function SectionCarousel() {
               <CustomTabs
                 value={value}
                 onChange={handleChange}
-                indicatorColor='primary'
-                aria-label='Tabs Dot'
+                indicatorColor="primary"
+                aria-label="Tabs Dot"
               >
                 {isCnpj && showDot && (
                   <div>
                     <Tab
-                      label=''
+                      label=""
                       {...a11yProps(0)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                     <Tab
-                      label=''
+                      label=""
                       {...a11yProps(1)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                     <Tab
-                      label={<a href='#' className={dot1} />}
+                      label={<a href="#" className={dot1} />}
                       {...a11yProps(2)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                     <Tab
-                      label={<a href='#' className={dot2} />}
+                      label={<a href="#" className={dot2} />}
                       {...a11yProps(3)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                     <Tab
-                      label={<a href='#' className={dot3} />}
+                      label={<a href="#" className={dot3} />}
                       {...a11yProps(4)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                     <Tab
-                      label={<a href='#' className={dot4} />}
+                      label={<a href="#" className={dot4} />}
                       {...a11yProps(5)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
-                    />{' '}
+                    />{" "}
                   </div>
                 )}
                 {!isCnpj && showDot && (
                   <div>
                     <Tab
-                      label={<a href='#' className={dot5} />}
+                      label={<a href="#" className={dot5} />}
                       {...a11yProps(6)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                     <Tab
-                      label={<a href='#' className={dot6} />}
+                      label={<a href="#" className={dot6} />}
                       {...a11yProps(7)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
 
                     <Tab
-                      label={<a href='#' className={dot7} />}
+                      label={<a href="#" className={dot7} />}
                       {...a11yProps(8)}
-                      style={{ minWidth: '2px' }}
+                      style={{ minWidth: "2px" }}
                       disabled
                     />
                   </div>
@@ -724,17 +723,17 @@ export default function SectionCarousel() {
             </Box>
           </Grid>
           <Grid item>
-            <Grid container alignItems='center' justify='center'>
+            <Grid container alignItems="center" justify="center">
               <Grid item xs={12} md={12} lg={12}>
                 <div
                   style={{
-                    transform: 'scale(0.80)',
-                    position: 'sticky',
+                    transform: "scale(0.80)",
+                    position: "sticky",
                     height: 300,
                   }}
                 >
                   <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                    axis={theme.direction === "rtl" ? "x-reverse" : "x"}
                     index={value}
                     onChangeIndex={handleChangeIndex}
                   >
