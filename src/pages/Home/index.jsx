@@ -37,6 +37,7 @@ export default function Dashboard() {
     signer: { token: tokenSigner },
     signup: { token: tokenSignup },
     message: { status: statusMessage, message: messageCellphone, type },
+    dashboard: { chartTransactedAmount, chartMovingAverage, valuePeriod, valueWay },
   } = useSelector((state) => state);
 
   const [openModal, setOpenModal] = useState(false);
@@ -151,13 +152,7 @@ export default function Dashboard() {
                   style={{
                     data: { fill: "#005882" }                    
                   }}
-                  data={[
-                    { x: 1, y: 2 },
-                    { x: 2, y: 3 },
-                    { x: 3, y: 5 },
-                    { x: 4, y: 4 },
-                    { x: 5, y: 16 }
-                  ]}
+                  data={chartTransactedAmount}
                 />
               </VictoryChart>
             </Grid>
@@ -168,15 +163,7 @@ export default function Dashboard() {
                   height={250}
                 >
                   <VictoryLine
-                    data={[
-                      { x: 1, y: -3 },
-                      { x: 2, y: 5 },
-                      { x: 3, y: 3 },
-                      { x: 4, y: 1 },
-                      { x: 5, y: -2 },
-                      { x: 6, y: -2 },
-                      { x: 7, y: 5 }
-                    ]}
+                    data={chartMovingAverage}
                   />
                 </VictoryChart>
             </Grid>
@@ -187,12 +174,12 @@ export default function Dashboard() {
           <Grid container direction='row' spacing={4}>
             <Grid item xs={12} lg={6}>
               <Typography variant="h1" component="div" gutterBottom>
-                5,14M
+                {valuePeriod}M
               </Typography>
             </Grid>
             <Grid item xs={12} lg={6}>
               <Typography variant="h1" component="div" gutterBottom>
-                  5,14M
+                {valueWay}%
               </Typography>
             </Grid>
           </Grid>
