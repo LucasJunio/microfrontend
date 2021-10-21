@@ -18,11 +18,14 @@ import {
   Grid,
   Typography, 
   Container, 
-  Card, CardContent
+  Card, CardContent, Link
 } from "@material-ui/core";
 import { PhoneIphone, Edit } from "@material-ui/icons";
 import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel,  VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
+import { scaleOrdinal } from 'd3-scale';
+import { schemeCategory10 } from 'd3-scale-chromatic';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import ButtonTimer from "../../components/ButtonTimer";
 import { validationStatus } from "../../store/ducks/Validation";
@@ -127,53 +130,28 @@ export default function Dashboard() {
     message === "SMS validado" || message === "SMS e Email validado"
       ? setOpenModal(false)
       : setOpenModal(true);
+  };  
+
+  const getPath = (x, y, width, height) => `M${x},${y + height}
+          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${x + width / 2}, ${y}
+          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+          Z`;
+
+  const colors = scaleOrdinal(schemeCategory10).range();
+
+  const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
   };
 
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-  
+  TriangleBar.propTypes = {
+    fill: PropTypes.string,
+    x: PropTypes.number,
+    y: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+  };
 
   return (
     <Page>
@@ -181,75 +159,97 @@ export default function Dashboard() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Grid container direction='column' style={{ backgroundColor: "#F6F6F6" }} spacing={2} alignItems="center" >
-        <Grid item>
-          <Grid container direction='row' spacing={3}>                        
-            <Grid item xs={12} lg={8}>
-              <Card >
-                <CardContent>
-                  {/* <ResponsiveContainer width="100%" height="100%"> */}
-                    <LineChart
-                      width={500}
-                      height={300}
-                      data={data}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                    >          
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                    </LineChart>
-                  {/* </ResponsiveContainer> */}
-                </CardContent>
-              </Card>
-              
-            </Grid>           
-
-            <Grid item xs={12} lg={4}>
-              {/* <Card >
-                <CardContent> */}
-                  <VictoryChart
-                    theme={VictoryTheme.material}
-                    domainPadding={{ x: 15 }}
-                    height={250}
-                  >
-                    <VictoryLine
-                      data={chartMovingAverage}
-                    />
-                 </VictoryChart>
-                {/* </CardContent>
-              </Card> */}
-            </Grid>
-          </Grid>
+      <Grid container alignItems="center" spacing={2}>                        
+        <Grid item xs={12} lg={6}>
+          <Paper elevation={4}> 
+            <ResponsiveContainer width="99%" aspect={2}>
+              <LineChart
+                width={500}
+                height={300}
+                data={chartTransactedAmount}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >          
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+              </LineChart>
+            </ResponsiveContainer>
+          </Paper>              
+        </Grid>           
+        
+        <Grid item xs={12} lg={3}>
+          <Paper elevation={4}>                 
+              <ResponsiveContainer width="99%" aspect={.98}>
+              <BarChart
+                width={500}
+                height={300}
+                data={chartMovingAverage}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Bar dataKey="female" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
+                  {chartMovingAverage.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </Paper>
         </Grid>
 
-        <Grid item>
-          <Grid container direction='row' spacing={3}>
-            <Grid item xs={12} lg={6}>
-              <Card >
-                <CardContent>
+        <Grid item xs={12} lg={3}>
+          <Grid container direction='column' spacing={2} alignItems="">
+            <Grid item >
+              <Paper  elevation={4}> 
+                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                  Recent Deposits
+                </Typography>
+                <Typography component="p" variant="h4">
+                  ${valuePeriod}
+                </Typography>
+                <Typography color="textSecondary" >
+                  on 15 March, 2019
+                </Typography>
+                {/* <ResponsiveContainer width="99%" aspect={2}>
                   <Typography variant="h1" component="div" gutterBottom>
                     {valuePeriod}M
-                  </Typography>              
-                </CardContent>
-              </Card>
+                  </Typography> 
+                </ResponsiveContainer>              */}
+              </Paper>  
             </Grid>
-            <Grid item xs={12} lg={6}>
-              <Card >
-                <CardContent>
+            <Grid item >
+              <Paper  elevation={4}>
+                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                    Recent Deposits
+                  </Typography>
+                  <Typography component="p" variant="h4">
+                    ${valuePeriod}
+                  </Typography>
+                  <Typography color="textSecondary" >
+                    on 15 March, 2019
+                  </Typography>
+                {/* <ResponsiveContainer width="99%" aspect={2}>
                   <Typography variant="h1" component="div" gutterBottom>
                     {valueWay}%
                   </Typography>
-                </CardContent>
-              </Card>              
+                </ResponsiveContainer>              */}
+              </Paper>         
             </Grid>
           </Grid>
         </Grid>
