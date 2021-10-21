@@ -19,4 +19,8 @@ export const useStyles = makeStyles((theme) => ({
   fieldCentralization: {
     marginTop: "0px",
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#e6e6e6",
+  },
 }));

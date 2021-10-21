@@ -19,4 +19,9 @@ const getDocumentsByUser = async (id) => {
   return res;
 };
 
-export { uploadDocuments, getDocumentsByUser };
+const getUserById = async (id) => {
+  const res = await api.get(`shopkeepers/${id}`);
+  return res;
+};
+
+export { uploadDocuments, getDocumentsByUser, getUserById };
