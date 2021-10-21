@@ -15,11 +15,21 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 import countries from "../../../../utils/data/countries";
 import { ExpandMore } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { useSelector, useDispatch } from "react-redux";
+import {useFormik} from "formik";
+import * as yup from "yup";
 
 const Form = () => {
   const classes = useStyles();
   const spaceColumn = 2;
   const elevetionAccordion = 3;
+
+  const formik = useFormik({
+    initialValues: {
+      
+    },
+    onSubmit: (values) => {},
+  });
 
   const handleNationality = (event, value) => {
     console.log(event);
@@ -137,6 +147,7 @@ const Form = () => {
                             label="Naturalidade"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -175,6 +186,7 @@ const Form = () => {
                             label="Nome da Mãe"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -182,6 +194,7 @@ const Form = () => {
                             label="Nome do Pai"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -220,6 +233,7 @@ const Form = () => {
                             label="RG"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -231,6 +245,7 @@ const Form = () => {
                             label="Orgão Emissor"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -294,6 +309,7 @@ const Form = () => {
                             label="CEP"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -317,6 +333,7 @@ const Form = () => {
                             label="Bairro"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
@@ -324,6 +341,7 @@ const Form = () => {
                             label="Número"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
@@ -331,6 +349,7 @@ const Form = () => {
                             label="Completo"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -342,6 +361,7 @@ const Form = () => {
                             label="Estado"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -349,6 +369,7 @@ const Form = () => {
                             label="Cidade"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -375,6 +396,7 @@ const Form = () => {
                             label="CEP"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -398,6 +420,7 @@ const Form = () => {
                             label="Bairro"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
@@ -405,6 +428,7 @@ const Form = () => {
                             label="Número"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
@@ -412,6 +436,7 @@ const Form = () => {
                             label="Completo"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -423,6 +448,7 @@ const Form = () => {
                             label="Estado"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -430,6 +456,7 @@ const Form = () => {
                             label="Cidade"
                             variant="outlined"
                             size="small"
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
