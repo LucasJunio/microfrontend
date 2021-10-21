@@ -185,6 +185,7 @@ export default function SignIn() {
         <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
             variant="outlined"
+            tabIndex="0"
             margin="normal"
             required
             fullWidth
@@ -200,6 +201,7 @@ export default function SignIn() {
           />
           <TextField
             variant="outlined"
+            tabIndex="1"
             margin="normal"
             required
             fullWidth
@@ -217,6 +219,7 @@ export default function SignIn() {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
+                    tabIndex="2"
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
@@ -228,7 +231,7 @@ export default function SignIn() {
             }}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" tabIndex="3"  color="primary" />}
             label="Lembrar-me"
           />
           <Button
@@ -242,12 +245,12 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2" onClick={handleClickOpen}>
+              <Link href="#" variant="body2"  onClick={handleClickOpen}>
                 Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link href="/signup"  variant="body2">
                 Não tem uma conta? Cadastre-se
               </Link>
             </Grid>
