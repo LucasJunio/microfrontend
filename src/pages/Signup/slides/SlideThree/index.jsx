@@ -94,7 +94,6 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           e.target.id,
                           maskCpf(e.target.value)
                         );
-                        formik.handleChange(e);
                       }}
                       fullWidth
                       inputProps={{ maxLength: 14 }}
@@ -112,7 +111,6 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                           e.target.id,
                           maskCel(e.target.value)
                         );
-                        formik.handleChange(e);
                       }}
                       value={formik.values.celular}
                       onBlur={formik.handleBlur}
@@ -150,7 +148,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       helperText={
                         formik.touched.nascimento && formik.errors.nascimento
                       }
-                      inputProps={{ maxLength: 10 }}
+                      inputProps={{ maxLength: 20 }}
                       fullWidth
                       required
                     />
@@ -311,7 +309,7 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       helperText={
                         formik.touched.emissao && formik.errors.emissao
                       }
-                      inputProps={{ maxLength: 10 }}
+                      inputProps={{ maxLength: 20 }}
                       fullWidth
                       required
                     />

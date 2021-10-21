@@ -150,7 +150,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                         formik.touched.nascimentoPf &&
                         formik.errors.nascimentoPf
                       }
-                      inputProps={{ maxLength: 10 }}
+                      inputProps={{ maxLength: 20 }}
                       fullWidth
                       required
                     />
@@ -337,7 +337,7 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       helperText={
                         formik.touched.emissaoPf && formik.errors.emissaoPf
                       }
-                      inputProps={{ maxLength: 10 }}
+                      inputProps={{ maxLength: 20 }}
                       fullWidth
                       required
                     />

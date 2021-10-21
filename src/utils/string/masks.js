@@ -92,16 +92,17 @@ export const maskCnpj = (value) => {
  */
 
 export const formatDate = (date) => {
-  if (date !== "Invalid Date") {
-    const plusDay = new Date(date);
-    plusDay.setDate(plusDay.getDate() + 1);
-    const newDate = new Intl.DateTimeFormat("fr-CA", {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    }).format(plusDay);
-    console.log(newDate);
-    return newDate;
-  }
+
+  // if (date !== "Invalid Date") {
+  //   const plusDay = new Date(date);
+  //   plusDay.setDate(plusDay.getDate() + 1);
+  //   const newDate = new Intl.DateTimeFormat("fr-CA", {
+  //     year: "numeric",
+  //     month: "numeric",
+  //     day: "numeric",
+  //   }).format(plusDay);
+  //   console.log(newDate);
+  //   return newDate;
+  // }
   return date;
 };
