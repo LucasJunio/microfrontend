@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useStyles } from "./styles";
+import React, { useEffect, useState } from 'react';
+import { useStyles } from './styles';
 import {
   Accordion,
   AccordionSummary,
@@ -12,23 +12,22 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-} from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import countries from "../../../../utils/data/countries";
-import { ExpandMore } from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { useSelector, useDispatch } from "react-redux";
-import { userById } from "../../../../store/ducks/User";
-import { useFormik } from "formik";
-import { useSnackbar } from "notistack";
-import validationSchema from "./validateSchema";
+} from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import countries from '../../../../utils/data/countries';
+import { ExpandMore } from '@material-ui/icons';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useSelector, useDispatch } from 'react-redux';
+import { userById } from '../../../../store/ducks/User';
+import { useFormik } from 'formik';
+import { useSnackbar } from 'notistack';
+import validationSchema from './validateSchema';
 
 const Form = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
 
   const spaceColumn = 2;
   const elevetionAccordion = 3;
@@ -37,17 +36,15 @@ const Form = () => {
     signer: { userId },
     user: { type, status, dataUser },
   } = useSelector((state) => state);
-  console.log(dataUser);
+
   useEffect(() => {
     dispatch(userById(userId));
   }, []);
 
   useEffect(() => {
-    if (status === "loading" && type === "userById") {
+    if (status === 'loading' && type === 'userById') {
       setOpen(true);
-    } else if (status === "completed" && type === "userById") {
-      // setCurrentUser(...dataUser);
-      // console.log(currentUser);
+    } else if (status === 'completed' && type === 'userById') {
       setOpen(false);
     }
   }, [status]);
@@ -59,18 +56,15 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
+      console.log('Tô no onSubmit');
       console.log(values);
     },
   });
 
   const handleNationality = (event, value) => {
-    console.log(event);
-    // formik.setFieldValue("nacionalidade", value);
+    formik.setFieldValue("pessoa.nacionalidade", value);
   };
 
-  console.log(dataUser);
-  console.log(formik.values.usuario?.nome);
-  // console.log(formik.values?.usuario?.nome);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -165,12 +159,12 @@ const Form = () => {
                               size="small"
                               className={classes.fieldCentralization}
                               format="dd/MM/yyyy"
-                              value={formik.values.pessoa.nascimento}
+                              value={formik.values.pessoa?.nascimento}
                               onChange={(date) =>
-                                formik.setFieldValue("pessoa.nascimento", date)
+                                formik.setFieldValue('pessoa.nascimento', date)
                               }
                               KeyboardButtonProps={{
-                                "aria-label": "change date",
+                                'aria-label': 'change date',
                               }}
                               invalidLabel="Date of purchase"
                               fullWidth
@@ -185,7 +179,7 @@ const Form = () => {
                               onChange={handleNationality}
                               value={formik.values.pessoa?.nacionalidade}
                               disableCloseOnSelect
-                              noOptionsText={"País não encontrado"}
+                              noOptionsText={'País não encontrado'}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -349,7 +343,8 @@ const Form = () => {
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
-                  <Hidden only={("xs", "sm", "md")}>
+
+                  <Hidden only={('xs', 'sm', 'md')}>
                     <Divider
                       orientation="vertical"
                       flexItem
@@ -366,9 +361,22 @@ const Form = () => {
                           <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <TextField
                               label="RG"
+                              id="rg"
+                              name="pessoa.rg"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.pessoa?.rg}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.pessoa?.rg &&
+                                Boolean(formik.errors.pessoa?.rg)
+                              }
+                              helperText={
+                                formik.touched.pessoa?.rg &&
+                                formik.errors.pessoa?.rg
+                              }
                             />
                           </Grid>
                         </Grid>
@@ -377,23 +385,44 @@ const Form = () => {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <TextField
+                              id="emissor"
+                              name="pessoa.emissor"
                               label="Orgão Emissor"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.pessoa?.emissor}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.pessoa?.emissor &&
+                                Boolean(formik.errors.pessoa?.emissor)
+                              }
+                              helperText={
+                                formik.touched.pessoa?.emissor &&
+                                formik.errors.pessoa?.emissor
+                              }
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <KeyboardDatePicker
                               id="emissao"
+                              name="pessoa.emissao"
                               variant="dialog"
                               inputVariant="outlined"
-                              name="pessoa.emissao"
                               margin="normal"
                               label="Data de emissão"
                               size="small"
                               className={classes.fieldCentralization}
                               format="dd/MM/yyyy"
+                              value={formik.values.pessoa?.emissao}
+                              onChange={(date) =>
+                                formik.setFieldValue('pessoa.emissao', date)
+                              }
+                              KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                              }}
+                              invalidLabel="Date of purchase"
                               fullWidth
                               required
                             />
@@ -404,10 +433,23 @@ const Form = () => {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <TextField
+                              id="cpf"
+                              name="pessoa.cpf"
                               label="CPF"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.pessoa?.cpf}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.pessoa?.cpf &&
+                                Boolean(formik.errors.pessoa?.cpf)
+                              }
+                              helperText={
+                                formik.touched.pessoa?.cpf &&
+                                formik.errors.pessoa?.cpf
+                              }
                             />
                           </Grid>
                         </Grid>
@@ -441,10 +483,23 @@ const Form = () => {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <TextField
+                              id="cep-pf"
+                              name="endereco_cpf.cep"
                               label="CEP"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.cep}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.cep &&
+                                Boolean(formik.errors.endereco_cpf?.cep)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.cep &&
+                                formik.errors.endereco_cpf?.cep
+                              }
                             />
                           </Grid>
                         </Grid>
@@ -453,10 +508,23 @@ const Form = () => {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={6} md={6} lg={12} xl={6}>
                             <TextField
+                              id="endereco-pf"
+                              name="endereco_cpf.endereco"
                               label="Endereço"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.endereco}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.endereco &&
+                                Boolean(formik.errors.endereco_cpf?.endereco)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.endereco &&
+                                formik.errors.endereco_cpf?.endereco
+                              }
                             />
                           </Grid>
                         </Grid>
@@ -465,26 +533,65 @@ const Form = () => {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
                             <TextField
+                              id="bairro-pf"
+                              name="endereco_cpf.bairro"
                               label="Bairro"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.bairro}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.bairro &&
+                                Boolean(formik.errors.endereco_cpf?.bairro)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.bairro &&
+                                formik.errors.endereco_cpf?.bairro
+                              }
                             />
                           </Grid>
                           <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                             <TextField
+                              id="numero-pf"
+                              name="endereco_cpf.numero"
                               label="Número"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.numero}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.numero &&
+                                Boolean(formik.errors.endereco_cpf?.numero)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.numero &&
+                                formik.errors.endereco_cpf?.numero
+                              }
                             />
                           </Grid>
                           <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                             <TextField
+                              id="complemento-pf"
+                              name="endereco_cpf.complemento"
                               label="Completo"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.complemento}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.complemento &&
+                                Boolean(formik.errors.endereco_cpf?.complemento)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.complemento &&
+                                formik.errors.endereco_cpf?.complemento
+                              }
                             />
                           </Grid>
                         </Grid>
@@ -493,18 +600,44 @@ const Form = () => {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <TextField
+                              id="estado-pf"
+                              name="endereco_cpf.estado"
                               label="Estado"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.estado}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.estado &&
+                                Boolean(formik.errors.endereco_cpf?.estado)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.estado &&
+                                formik.errors.endereco_cpf?.estado
+                              }
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <TextField
+                              id="cidade-pf"
+                              name="endereco_cpf.cidade"
                               label="Cidade"
                               variant="outlined"
                               size="small"
                               fullWidth
+                              value={formik.values.endereco_cpf?.cidade}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.endereco_cpf?.cidade &&
+                                Boolean(formik.errors.endereco_cpf?.cidade)
+                              }
+                              helperText={
+                                formik.touched.endereco_cpf?.cidade &&
+                                formik.errors.endereco_cpf?.cidade
+                              }
                             />
                           </Grid>
                         </Grid>
@@ -512,93 +645,190 @@ const Form = () => {
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
-                  <Hidden only={("xs", "sm", "md")}>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      // className={classes.dividerHeight}
-                    />
-                  </Hidden>
-                  <Grid item lg={5}>
-                    <Grid container direction="column" spacing={spaceColumn}>
-                      <Grid item>
-                        <Typography>Endereço Pessoa Jurídica</Typography>
-                      </Grid>
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                            <TextField
-                              label="CEP"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
+                  {dataUser.endereco_cpf && (
+                    <Hidden only={('xs', 'sm', 'md')}>
+                      <Divider
+                        orientation="vertical"
+                        flexItem
+                        // className={classes.dividerHeight}
+                      />
+                    </Hidden>
+                  )}
+                  {dataUser.endereco_cpf && (
+                    <Grid item lg={5}>
+                      <Grid container direction="column" spacing={spaceColumn}>
+                        <Grid item>
+                          <Typography>Endereço Pessoa Jurídica</Typography>
+                        </Grid>
+                        <Grid item>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                              <TextField
+                                id="cep-cnpf"
+                                name="endereco_cnpf.cep"
+                                label="CEP"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.cep}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.cep &&
+                                  Boolean(formik.errors.endereco_cpf?.cep)
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.cep &&
+                                  formik.errors.endereco_cpf?.cep
+                                }
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6} md={6} lg={12} xl={6}>
+                              <TextField
+                                id="endereco-cnpf"
+                                name="endereco_cnpf.endereco"
+                                label="Endereço"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.endereco}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.endereco &&
+                                  Boolean(formik.errors.endereco_cpf?.endereco)
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.endereco &&
+                                  formik.errors.endereco_cpf?.endereco
+                                }
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                              <TextField
+                                id="bairro-cnpf"
+                                name="endereco_cnpf.bairro"
+                                label="Bairro"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.bairro}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.bairro &&
+                                  Boolean(formik.errors.endereco_cpf?.bairro)
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.bairro &&
+                                  formik.errors.endereco_cpf?.bairro
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                              <TextField
+                                id="numero-cnpf"
+                                name="endereco_cnpf.numero"
+                                label="Número"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.numero}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.numero &&
+                                  Boolean(formik.errors.endereco_cpf?.numero)
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.numero &&
+                                  formik.errors.endereco_cpf?.numero
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                              <TextField
+                                id="complemento-cnpf"
+                                name="endereco_cnpf.complemento"
+                                label="Completo"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.complemento}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.complemento &&
+                                  Boolean(
+                                    formik.errors.endereco_cpf?.complemento
+                                  )
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.complemento &&
+                                  formik.errors.endereco_cpf?.complemento
+                                }
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                              <TextField
+                                id="estado-cnpf"
+                                name="endereco_cnpf.estado"
+                                label="Estado"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.estado}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.estado &&
+                                  Boolean(formik.errors.endereco_cpf?.estado)
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.estado &&
+                                  formik.errors.endereco_cpf?.estado
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                              <TextField
+                                id="cidade-cnpf"
+                                name="endereco_cnpf.cidade"
+                                label="Cidade"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={formik.values.endereco_cpf?.cidade}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={
+                                  formik.touched.endereco_cpf?.cidade &&
+                                  Boolean(formik.errors.endereco_cpf?.cidade)
+                                }
+                                helperText={
+                                  formik.touched.endereco_cpf?.cidade &&
+                                  formik.errors.endereco_cpf?.cidade
+                                }
+                              />
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={6} md={6} lg={12} xl={6}>
-                            <TextField
-                              label="Endereço"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                            <TextField
-                              label="Bairro"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                            <TextField
-                              label="Número"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                            <TextField
-                              label="Completo"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                            <TextField
-                              label="Estado"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                            <TextField
-                              label="Cidade"
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                      <Grid item></Grid>
                     </Grid>
-                    <Grid item></Grid>
-                  </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
