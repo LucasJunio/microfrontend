@@ -82,8 +82,7 @@ const Form = () => {
       dispatch(editUser(values));
     },
   });
-  console.log(data);
-  console.log(data.length === 0);
+
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>

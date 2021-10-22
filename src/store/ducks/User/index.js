@@ -221,7 +221,6 @@ const user = createSlice({
         return (state = { ...state, status: "loading", type: "editUser" });
       })
       .addCase(editUser.fulfilled, (state, action) => {
-        console.log(action.type);
         return (state = {
           ...state,
           status: "completed",
