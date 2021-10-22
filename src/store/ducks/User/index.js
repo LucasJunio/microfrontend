@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { uploadDocuments, getDocumentsByUser, getUserById } from "./service";
+import {
+  uploadDocuments,
+  getDocumentsByUser,
+  getUserById,
+  putEditUser,
+} from "./service";
 
 export const persistDocuments = createAsyncThunk(
   "user/persistDocuments",
@@ -46,12 +51,93 @@ export const userById = createAsyncThunk(
   }
 );
 
+export const editUser = createAsyncThunk(
+  "user/editUser",
+  async (body, { rejectWithValue }) => {
+    try {
+      const { data } = await putEditUser(body);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   message: null,
   status: "idle",
   percentUploadImg: 0,
   imgData: [],
-  dataUser: {},
+  dataUser: {
+    usuario: {
+      nome: "",
+      email: "",
+      client_id: null,
+      cliente_secret: null,
+      base_64: null,
+      status: "",
+    },
+    pessoa: {
+      cpf: "",
+      celular: "",
+      nascimento: "",
+      naturalidade: "",
+      nacionalidade: "",
+      estado_civil: "",
+      rg: "",
+      emissor: "",
+      emissao: "",
+      sexo: "",
+      mae: "",
+      pai: "",
+    },
+    empresa: {
+      cnpj: "",
+      cnae: 0,
+      razao_social: "",
+      telefone_fixo: "",
+      celular: "",
+      nome_fantasia: "",
+      site: "",
+    },
+    conta: {
+      banco: "",
+      agencia: "",
+      conta: "",
+      operacao: "",
+      pix: "",
+    },
+    endereco_cnpj: {
+      cep: "",
+      endereco: "",
+      complemento: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+    },
+    endereco_cpf: {
+      cep: "",
+      complemento: "",
+      endereco: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+    },
+    tarifa: {
+      risco: null,
+      periodo: null,
+      observacao: null,
+      segmento: null,
+      cobranca: null,
+      faturamento: null,
+      taxa: null,
+    },
+  },
   type: "",
 };
 
@@ -119,6 +205,25 @@ const user = createSlice({
           status: "failed",
           message: action.payload.message,
           type: "userById",
+        });
+      })
+      .addCase(editUser.pending, (state) => {
+        return (state = { ...state, status: "loading", type: "editUser" });
+      })
+      .addCase(editUser.fulfilled, (state) => {
+        return (state = {
+          ...state,
+          status: "completed",
+          message: "Atualizado com sucesso",
+          type: "editUser",
+        });
+      })
+      .addCase(editUser.rejected, (state) => {
+        return (state = {
+          ...state,
+          status: "failed",
+          message: "Algo deu errado, tente novamente",
+          type: "editUser",
         });
       });
   },
