@@ -137,7 +137,7 @@ const initialState = {
       segmento: "",
       cobranca: "",
       faturamento: "",
-      taxa: "",
+      tipo_cobranca: "",
     },
   },
   type: "",
@@ -220,8 +220,7 @@ const user = createSlice({
       .addCase(editUser.pending, (state) => {
         return (state = { ...state, status: "loading", type: "editUser" });
       })
-      .addCase(editUser.fulfilled, (state, action) => {
-        console.log(action.type);
+      .addCase(editUser.fulfilled, (state) => {
         return (state = {
           ...state,
           status: "completed",
