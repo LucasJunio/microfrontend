@@ -34,14 +34,11 @@ const Form = () => {
     signer: { userId },
     user: { type, status, dataUser, message },
   } = useSelector((state) => state);
-
   useEffect(() => {
     dispatch(userById(userId));
   }, []);
 
   useEffect(async () => {
-    console.log(status);
-    console.log(type);
     await dispatch(clearUser());
     if (status === "loading" && (type === "userById" || type === "editUser")) {
       setOpen(true);
@@ -62,7 +59,7 @@ const Form = () => {
         variant: "error",
       });
     }
-  }, [type]);
+  }, [status]);
 
   const formik = useFormik({
     initialValues: {
@@ -71,13 +68,11 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log("Tô no onSubmit");
       delete values.tarifa;
       delete values.usuario;
       delete values.pessoa;
       delete values.conta;
       delete values.endereco_cpf;
-      console.log(values);
       dispatch(editUser(values));
     },
   });
