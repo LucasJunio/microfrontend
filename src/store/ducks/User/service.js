@@ -24,4 +24,9 @@ const getUserById = async (id) => {
   return res;
 };
 
-export { uploadDocuments, getDocumentsByUser, getUserById };
+const putEditUser = async (body) => {
+  const res = await api.put(`shopkeepers`, body);
+  return res;
+};
+
+export { uploadDocuments, getDocumentsByUser, getUserById, putEditUser };
