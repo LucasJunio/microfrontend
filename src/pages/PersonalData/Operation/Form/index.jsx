@@ -39,7 +39,6 @@ const Form = () => {
   useEffect(() => {
     dispatch(userById(userId));
     return async () => {
-      console.log("Clearup");
       await dispatch(clearUser());
     };
   }, []);
@@ -73,9 +72,6 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log("Tô no onSubmit");
-      // delete values.tarifa;
-      // delete values.usuario;
       delete values.pessoa;
       delete values.conta;
       delete values.endereco_cpf;
@@ -221,6 +217,8 @@ const Form = () => {
                           <TextField
                             id="estabelecimento"
                             variant="outlined"
+                            name="usuario.terminal"
+                            label="Terminal (mid)"
                             size="small"
                             disabled
                             name="usuario.numero_estabelecimento"

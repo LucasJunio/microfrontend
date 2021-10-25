@@ -220,7 +220,8 @@ const user = createSlice({
       .addCase(editUser.pending, (state) => {
         return (state = { ...state, status: "loading", type: "editUser" });
       })
-      .addCase(editUser.fulfilled, (state) => {
+      .addCase(editUser.fulfilled, (state, action) => {
+        console.log(action.type);
         return (state = {
           ...state,
           status: "completed",

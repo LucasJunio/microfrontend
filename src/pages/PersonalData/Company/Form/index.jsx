@@ -59,7 +59,7 @@ const Form = () => {
         variant: "error",
       });
     }
-  }, [status]);
+  }, [type]);
 
   const formik = useFormik({
     initialValues: {
