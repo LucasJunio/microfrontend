@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useStyles } from "./styles";
+import React, { useEffect, useState } from 'react';
+import { useStyles } from './styles';
 import {
   Accordion,
   AccordionSummary,
@@ -13,17 +13,17 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-} from "@material-ui/core";
-import { Save } from "@material-ui/icons";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import countries from "../../../../utils/data/countries";
-import { ExpandMore } from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { useSelector, useDispatch } from "react-redux";
-import { userById, editUser } from "../../../../store/ducks/User";
-import { useFormik } from "formik";
-import { useSnackbar } from "notistack";
-import validationSchema from "./validateSchema";
+} from '@material-ui/core';
+import { Save } from '@material-ui/icons';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import countries from '../../../../utils/data/countries';
+import { ExpandMore } from '@material-ui/icons';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useSelector, useDispatch } from 'react-redux';
+import { userById, editUser } from '../../../../store/ducks/User';
+import { useFormik } from 'formik';
+import { useSnackbar } from 'notistack';
+import validationSchema from './validateSchema';
 
 const Form = () => {
   const classes = useStyles();
@@ -44,23 +44,23 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (status === "loading" && (type === "userById" || type === "editUser")) {
+    if (status === 'loading' && (type === 'userById' || type === 'editUser')) {
       setOpen(true);
     } else if (
-      status === "completed" &&
-      (type === "userById" || type === "editUser")
+      status === 'completed' &&
+      (type === 'userById' || type === 'editUser')
     ) {
-      if (type === "editUser") {
+      if (type === 'editUser') {
         setOpen(false);
         enqueueSnackbar(message, {
-          variant: "success",
+          variant: 'success',
         });
       }
       setOpen(false);
-    } else if (status === "failed" && type === "editUser") {
+    } else if (status === 'failed' && type === 'editUser') {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: "error",
+        variant: 'error',
       });
     }
   }, [status]);
@@ -72,7 +72,6 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log("Tô no onSubmit");
       delete values.tarifa;
       delete values.conta;
       delete values.empresa;
@@ -82,9 +81,9 @@ const Form = () => {
   });
 
   const handleNationality = (event, value) => {
-    formik.setFieldValue("pessoa.nacionalidade", value);
+    formik.setFieldValue('pessoa.nacionalidade', value);
   };
-
+  console.log(formik);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -189,12 +188,12 @@ const Form = () => {
                                   value={formik.values.pessoa?.nascimento}
                                   onChange={(date) =>
                                     formik.setFieldValue(
-                                      "pessoa.nascimento",
+                                      'pessoa.nascimento',
                                       date
                                     )
                                   }
                                   KeyboardButtonProps={{
-                                    "aria-label": "change date",
+                                    'aria-label': 'change date',
                                   }}
                                   invalidLabel="Date of purchase"
                                   fullWidth
@@ -209,7 +208,7 @@ const Form = () => {
                                   onChange={handleNationality}
                                   value={formik.values.pessoa?.nacionalidade}
                                   disableCloseOnSelect
-                                  noOptionsText={"País não encontrado"}
+                                  noOptionsText={'País não encontrado'}
                                   renderInput={(params) => (
                                     <TextField
                                       {...params}
@@ -403,7 +402,7 @@ const Form = () => {
                         <Grid item></Grid>
                       </Grid>
 
-                      <Hidden only={("xs", "sm", "md")}>
+                      <Hidden only={('xs', 'sm', 'md')}>
                         <Divider
                           orientation="vertical"
                           flexItem
@@ -482,10 +481,10 @@ const Form = () => {
                                   format="dd/MM/yyyy"
                                   value={formik.values.pessoa?.emissao}
                                   onChange={(date) =>
-                                    formik.setFieldValue("pessoa.emissao", date)
+                                    formik.setFieldValue('pessoa.emissao', date)
                                   }
                                   KeyboardButtonProps={{
-                                    "aria-label": "change date",
+                                    'aria-label': 'change date',
                                   }}
                                   invalidLabel="Date of purchase"
                                   fullWidth

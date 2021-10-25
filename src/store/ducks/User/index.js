@@ -1,13 +1,13 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   uploadDocuments,
   getDocumentsByUser,
   getUserById,
   putEditUser,
-} from "./service";
+} from './service';
 
 export const persistDocuments = createAsyncThunk(
-  "user/persistDocuments",
+  'user/persistDocuments',
   async (body, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await uploadDocuments(body, dispatch);
@@ -22,7 +22,7 @@ export const persistDocuments = createAsyncThunk(
 );
 
 export const documentsByUser = createAsyncThunk(
-  "user/documentsByUser",
+  'user/documentsByUser',
   async (id, { rejectWithValue }) => {
     try {
       const { data } = await getDocumentsByUser(id);
@@ -37,7 +37,7 @@ export const documentsByUser = createAsyncThunk(
 );
 
 export const userById = createAsyncThunk(
-  "user/userById",
+  'user/userById',
   async (id, { rejectWithValue }) => {
     try {
       const { data } = await getUserById(id);
@@ -52,7 +52,7 @@ export const userById = createAsyncThunk(
 );
 
 export const editUser = createAsyncThunk(
-  "user/editUser",
+  'user/editUser',
   async (body, { rejectWithValue }) => {
     try {
       const { data } = await putEditUser(body);
@@ -68,81 +68,81 @@ export const editUser = createAsyncThunk(
 
 const initialState = {
   message: null,
-  status: "idle",
+  status: 'idle',
   percentUploadImg: 0,
   imgData: [],
   dataUser: {
     usuario: {
-      nome: "",
-      email: "",
+      nome: '',
+      email: '',
       client_id: null,
       cliente_secret: null,
       base_64: null,
-      status: "",
+      status: '',
     },
     pessoa: {
-      cpf: "",
-      celular: "",
-      nascimento: "",
-      naturalidade: "",
-      nacionalidade: "",
-      estado_civil: "",
-      rg: "",
-      emissor: "",
-      emissao: "",
-      sexo: "",
-      mae: "",
-      pai: "",
+      cpf: '',
+      celular: '',
+      nascimento: '',
+      naturalidade: '',
+      nacionalidade: '',
+      estado_civil: '',
+      rg: '',
+      emissor: '',
+      emissao: '',
+      sexo: '',
+      mae: '',
+      pai: '',
     },
     empresa: {
-      cnpj: "",
+      cnpj: '',
       cnae: 0,
-      razao_social: "",
-      telefone_fixo: "",
-      celular: "",
-      nome_fantasia: "",
-      site: "",
+      razao_social: '',
+      telefone_fixo: '',
+      celular: '',
+      nome_fantasia: '',
+      site: '',
     },
     conta: {
-      banco: "",
-      agencia: "",
-      conta: "",
-      operacao: "",
-      pix: "",
+      banco: '',
+      agencia: '',
+      conta: '',
+      operacao: '',
+      pix: '',
     },
     endereco_cnpj: {
-      cep: "",
-      endereco: "",
-      complemento: "",
-      numero: "",
-      bairro: "",
-      cidade: "",
-      estado: "",
+      cep: '',
+      endereco: '',
+      complemento: '',
+      numero: '',
+      bairro: '',
+      cidade: '',
+      estado: '',
     },
     endereco_cpf: {
-      cep: "",
-      complemento: "",
-      endereco: "",
-      numero: "",
-      bairro: "",
-      cidade: "",
-      estado: "",
+      cep: '',
+      complemento: '',
+      endereco: '',
+      numero: '',
+      bairro: '',
+      cidade: '',
+      estado: '',
     },
     tarifa: {
-      risco: null,
-      periodo: null,
-      observacao: null,
-      segmento: null,
-      cobranca: null,
-      faturamento: null,
-      taxa: null,
+      risco: '',
+      periodo: '',
+      observacao: '',
+      segmento: '',
+      cobranca: '',
+      faturamento: '',
+      taxa: '',
     },
   },
-  type: "",
+  type: '',
 };
 
 const user = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     percentUploadImg: (state, action) => {
@@ -151,84 +151,93 @@ const user = createSlice({
     clearImgUpload: (state) => {
       return (state = { ...state, percentUploadImg: 0, imgData: [] });
     },
+    clearUser: (state) => {
+      return (state = {
+        ...state,
+        status: 'idle',
+        message: '',
+        type: '',
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(persistDocuments.pending, (state) => {
-        return (state = { ...state, status: "loading" });
+        return (state = { ...state, status: 'loading' });
       })
       .addCase(persistDocuments.fulfilled, (state, action) => {
         return (state = {
           ...state,
-          status: "completed",
+          status: 'completed',
           message: action.payload.message,
         });
       })
       .addCase(persistDocuments.rejected, (state, action) => {
         return (state = {
           ...state,
-          status: "failed",
+          status: 'failed',
           message: action.payload.message,
         });
       })
       .addCase(documentsByUser.pending, (state) => {
-        return (state = { ...state, status: "loading" });
+        return (state = { ...state, status: 'loading' });
       })
       .addCase(documentsByUser.fulfilled, (state, action) => {
         return (state = {
           ...state,
-          status: "completed",
+          status: 'completed',
           imgData: action.payload.message,
         });
       })
       .addCase(documentsByUser.rejected, (state, action) => {
         return (state = {
           ...state,
-          status: "failed",
+          status: 'failed',
           imgData: action.payload.message,
         });
       })
       .addCase(userById.pending, (state) => {
-        return (state = { ...state, status: "loading", type: "userById" });
+        return (state = { ...state, status: 'loading', type: 'userById' });
       })
       .addCase(userById.fulfilled, (state, action) => {
         return (state = {
           ...state,
-          status: "completed",
+          status: 'completed',
           dataUser: action.payload.message,
-          type: "userById",
+          type: 'userById',
         });
       })
       .addCase(userById.rejected, (state, action) => {
         return (state = {
           ...state,
-          status: "failed",
+          status: 'failed',
           message: action.payload.message,
-          type: "userById",
+          type: 'userById',
         });
       })
       .addCase(editUser.pending, (state) => {
-        return (state = { ...state, status: "loading", type: "editUser" });
+        return (state = { ...state, status: 'loading', type: 'editUser' });
       })
-      .addCase(editUser.fulfilled, (state) => {
+      .addCase(editUser.fulfilled, (state, action) => {
+        console.log(action.type);
         return (state = {
           ...state,
-          status: "completed",
-          message: "Atualizado com sucesso",
-          type: "editUser",
+          status: 'completed',
+          message: 'Atualizado com sucesso',
+          type: 'editUser',
         });
       })
       .addCase(editUser.rejected, (state) => {
         return (state = {
           ...state,
-          status: "failed",
-          message: "Algo deu errado, tente novamente",
-          type: "editUser",
+          status: 'failed',
+          message: 'Algo deu errado, tente novamente',
+          type: 'editUser',
         });
       });
   },
 });
 
-export const { percentUploadImg, clearImgUpload } = user.actions;
+export const { percentUploadImg, clearImgUpload, clearUser } = user.actions;
 
 export default user.reducer;
