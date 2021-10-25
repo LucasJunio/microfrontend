@@ -101,17 +101,30 @@ export const maskCnpj = (value) => {
  */
 
 export const formatDate = (date) => {
-
-  // if (date !== "Invalid Date") {
-  //   const plusDay = new Date(date);
-  //   plusDay.setDate(plusDay.getDate() + 1);
-  //   const newDate = new Intl.DateTimeFormat("fr-CA", {
-  //     year: "numeric",
-  //     month: "numeric",
-  //     day: "numeric",
-  //   }).format(plusDay);
-  //   console.log(newDate);
-  //   return newDate;
-  // }
+  if (date !== "Invalid Date") {
+    const plusDay = new Date(date);
+    plusDay.setDate(plusDay.getDate() + 1);
+    const newDate = new Intl.DateTimeFormat("fr-CA", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    }).format(plusDay);
+    console.log(newDate);
+    return newDate;
+  }
   return date;
+};
+
+export const maskRealMoney = (value) => {
+  if (value) {
+    value = value.toString();
+    let realFormated = value.replace(/\D/g, "");
+    realFormated = realFormated.replace("R$", "");
+    realFormated = (realFormated / 100).toFixed(2) + "";
+    realFormated = realFormated.replace(".", ",");
+    realFormated = realFormated.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+    realFormated = realFormated.replace(/(\d)(\d{3}),/g, "$1.$2,");
+    return `R$: ${realFormated}`;
+  }
+  return "";
 };

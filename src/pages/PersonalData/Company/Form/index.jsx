@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useStyles } from "./styles";
+import React, { useEffect, useState } from 'react';
+import { useStyles } from './styles';
 import {
   Accordion,
   AccordionSummary,
@@ -10,15 +10,16 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-} from "@material-ui/core";
-import { Save } from "@material-ui/icons";
-import { ExpandMore } from "@material-ui/icons";
-import { useSelector, useDispatch } from "react-redux";
-import { userById, editUser } from "../../../../store/ducks/User";
-import { useFormik } from "formik";
-import { useSnackbar } from "notistack";
-import validationSchema from "./validateSchema";
-import { maskCnpj, maskTellPhone, maskCel } from "utils/string/masks";
+} from '@material-ui/core';
+import { Save } from '@material-ui/icons';
+import { ExpandMore } from '@material-ui/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { userById, editUser } from '../../../../store/ducks/User';
+import { useFormik } from 'formik';
+import { useSnackbar } from 'notistack';
+import validationSchema from './validateSchema';
+import { maskCnpj, maskTellPhone, maskCel } from 'utils/string/masks';
+import { clearUser } from '../../../../store/ducks/User';
 
 const Form = () => {
   const classes = useStyles();
@@ -33,32 +34,35 @@ const Form = () => {
     signer: { userId },
     user: { type, status, dataUser, message },
   } = useSelector((state) => state);
-  console.log(dataUser);
+
   useEffect(() => {
     dispatch(userById(userId));
   }, []);
 
-  useEffect(() => {
-    if (status === "loading" && (type === "userById" || type === "editUser")) {
+  useEffect(async () => {
+    console.log(status);
+    console.log(type);
+    await dispatch(clearUser());
+    if (status === 'loading' && (type === 'userById' || type === 'editUser')) {
       setOpen(true);
     } else if (
-      status === "completed" &&
-      (type === "userById" || type === "editUser")
+      status === 'completed' &&
+      (type === 'userById' || type === 'editUser')
     ) {
-      if (type === "editUser") {
+      if (type === 'editUser') {
         setOpen(false);
         enqueueSnackbar(message, {
-          variant: "success",
+          variant: 'success',
         });
       }
       setOpen(false);
-    } else if (status === "failed" && type === "editUser") {
+    } else if (status === 'failed' && type === 'editUser') {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: "error",
+        variant: 'error',
       });
     }
-  }, [status]);
+  }, [type]);
 
   const formik = useFormik({
     initialValues: {
@@ -67,7 +71,7 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log("Tô no onSubmit");
+      console.log('Tô no onSubmit');
       delete values.tarifa;
       delete values.usuario;
       delete values.pessoa;
@@ -124,7 +128,7 @@ const Form = () => {
                                   fullWidth
                                   value={maskCnpj(formik.values.empresa?.cnpj)}
                                   onChange={() => {
-                                    formik.setFieldValue("empresa.cnpj", value);
+                                    formik.setFieldValue('empresa.cnpj', value);
                                   }}
                                   onBlur={formik.handleBlur}
                                   error={
