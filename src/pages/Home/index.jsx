@@ -161,9 +161,13 @@ export default function Dashboard() {
 
       <Grid container spacing={2} justifyContent="center">
 
+
         <Grid item xs={12} lg={4}>
-          <Paper elevation={4} style={{ width: '100%', height: '100%' }}>
+
+          <div style={{ position: 'absolute', paddingLeft: '10px' }}><h3>Gráfico1</h3></div>
+          <Paper elevation={4} style={{ width: '100%', height: '100%', padding: '10px', paddingTop: '30px' }}>
             <ResponsiveContainer width="99%">
+
               <BarChart
                 data={chartMovingAverage}
                 margin={{
@@ -185,8 +189,16 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </Paper>
         </Grid>
+
+
+
+
+
         <Grid item xs={12} lg={6}>
-          <Paper elevation={4} style={{ width: '100%', height: '100%' }}>
+
+          <div style={{ position: 'absolute', paddingLeft: '10px' }}><h3>Gráfico2</h3></div>
+          <Paper elevation={4} style={{ width: '100%', height: '100%', padding: '10px', paddingTop: '50px' }}>
+
             <ResponsiveContainer width="99%">
               <LineChart
                 data={chartTransactedAmount}
@@ -217,7 +229,7 @@ export default function Dashboard() {
 
 
             <Grid item >
-              <Paper elevation={4} style={{ padding: '15px' }}>
+              <Paper elevation={4} style={{ padding: '20px', borderLeft: '5px solid #005882' }}>
 
                 <Typography component="h2" variant="h6" color="primary" gutterBottom>
                   Recent Deposits
@@ -237,7 +249,7 @@ export default function Dashboard() {
 
 
             <Grid item >
-              <Paper elevation={4} style={{ padding: '15px' }} >
+              <Paper elevation={4} style={{ padding: '20px', borderLeft: '5px solid #005882' }} >
 
                 <Typography component="h2" variant="h6" color="primary" gutterBottom>
                   Recent Deposits
