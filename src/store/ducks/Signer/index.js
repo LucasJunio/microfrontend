@@ -55,6 +55,7 @@ const initialState = {
   userName: null,
   userId: null,
   type: null,
+  cnpj: null,
 };
 const signer = createSlice({
   name: "signer",
@@ -90,6 +91,7 @@ const signer = createSlice({
           message: action.payload.message,
           userName: action.payload.userName,
           userId: action.payload.userId,
+          cnpj: action.payload.cnpj,
         });
       })
       .addCase(signin.rejected, (state, action) => {

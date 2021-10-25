@@ -22,18 +22,21 @@ import { routes } from "../../../../routes";
 import logo from "../../../../assets/images/logo_vileve_way.png";
 import AppBarAction from "../../../AppBarActions";
 import NavItens from "./NavItem";
-
+import { useSelector } from "react-redux";
+import { maskCnpj } from "../../../../utils/string/masks";
 function NavBar(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const {
+    signer: { cnpj, userName },
+  } = useSelector((state) => state);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -77,6 +80,7 @@ function NavBar(props) {
             VileveWay Lojista
           </Typography>
           <div className={classes.grow} />
+          <div>{cnpj ? `CNPJ: ${maskCnpj(cnpj)}` : userName}</div>
           <div className={classes.sectionDesktop}>
             {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">

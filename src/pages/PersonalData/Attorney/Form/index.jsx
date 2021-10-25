@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useStyles } from './styles';
+import React, { useEffect, useState } from "react";
+import { useStyles } from "./styles";
 import {
   Accordion,
   AccordionSummary,
@@ -13,17 +13,17 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-} from '@material-ui/core';
-import { Save } from '@material-ui/icons';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import countries from '../../../../utils/data/countries';
-import { ExpandMore } from '@material-ui/icons';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useSelector, useDispatch } from 'react-redux';
-import { userById, editUser } from '../../../../store/ducks/User';
-import { useFormik } from 'formik';
-import { useSnackbar } from 'notistack';
-import validationSchema from './validateSchema';
+} from "@material-ui/core";
+import { Save } from "@material-ui/icons";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import countries from "../../../../utils/data/countries";
+import { ExpandMore } from "@material-ui/icons";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { useSelector, useDispatch } from "react-redux";
+import { userById, editUser } from "../../../../store/ducks/User";
+import { useFormik } from "formik";
+import { useSnackbar } from "notistack";
+import validationSchema from "./validateSchema";
 
 const Form = () => {
   const classes = useStyles();
@@ -44,23 +44,23 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (status === 'loading' && (type === 'userById' || type === 'editUser')) {
+    if (status === "loading" && (type === "userById" || type === "editUser")) {
       setOpen(true);
     } else if (
-      status === 'completed' &&
-      (type === 'userById' || type === 'editUser')
+      status === "completed" &&
+      (type === "userById" || type === "editUser")
     ) {
-      if (type === 'editUser') {
+      if (type === "editUser") {
         setOpen(false);
         enqueueSnackbar(message, {
-          variant: 'success',
+          variant: "success",
         });
       }
       setOpen(false);
-    } else if (status === 'failed' && type === 'editUser') {
+    } else if (status === "failed" && type === "editUser") {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: 'error',
+        variant: "error",
       });
     }
   }, [status]);
@@ -81,9 +81,9 @@ const Form = () => {
   });
 
   const handleNationality = (event, value) => {
-    formik.setFieldValue('pessoa.nacionalidade', value);
+    formik.setFieldValue("pessoa.nacionalidade", value);
   };
-  console.log(formik);
+
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -126,6 +126,7 @@ const Form = () => {
                                   required
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.usuario?.nome}
                                   onChange={formik.handleChange}
@@ -147,6 +148,7 @@ const Form = () => {
                                   label="Sexo"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   select
@@ -183,17 +185,18 @@ const Form = () => {
                                   margin="normal"
                                   label="Data de Nascimento"
                                   size="small"
+                                  disabled
                                   className={classes.fieldCentralization}
                                   format="dd/MM/yyyy"
                                   value={formik.values.pessoa?.nascimento}
                                   onChange={(date) =>
                                     formik.setFieldValue(
-                                      'pessoa.nascimento',
+                                      "pessoa.nascimento",
                                       date
                                     )
                                   }
                                   KeyboardButtonProps={{
-                                    'aria-label': 'change date',
+                                    "aria-label": "change date",
                                   }}
                                   invalidLabel="Date of purchase"
                                   fullWidth
@@ -207,8 +210,9 @@ const Form = () => {
                                   getOptionLabel={(option) => option}
                                   onChange={handleNationality}
                                   value={formik.values.pessoa?.nacionalidade}
+                                  disabled
                                   disableCloseOnSelect
-                                  noOptionsText={'País não encontrado'}
+                                  noOptionsText={"País não encontrado"}
                                   renderInput={(params) => (
                                     <TextField
                                       {...params}
@@ -246,6 +250,7 @@ const Form = () => {
                                   label="Naturalidade"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.naturalidade}
@@ -268,6 +273,7 @@ const Form = () => {
                                   label="Estado Civil"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   select
@@ -311,6 +317,7 @@ const Form = () => {
                                   label="Nome da Mãe"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.mae}
@@ -333,6 +340,7 @@ const Form = () => {
                                   label="Nome do Pai"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.pai}
@@ -359,6 +367,7 @@ const Form = () => {
                                   label="Email"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.usuario?.email}
@@ -381,6 +390,7 @@ const Form = () => {
                                   label="Celular"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.celular}
@@ -402,7 +412,7 @@ const Form = () => {
                         <Grid item></Grid>
                       </Grid>
 
-                      <Hidden only={('xs', 'sm', 'md')}>
+                      <Hidden only={("xs", "sm", "md")}>
                         <Divider
                           orientation="vertical"
                           flexItem
@@ -427,6 +437,7 @@ const Form = () => {
                                   name="pessoa.rg"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.rg}
@@ -453,6 +464,7 @@ const Form = () => {
                                   label="Orgão Emissor"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.emissor}
@@ -477,14 +489,15 @@ const Form = () => {
                                   margin="normal"
                                   label="Data de emissão"
                                   size="small"
+                                  disabled
                                   className={classes.fieldCentralization}
                                   format="dd/MM/yyyy"
                                   value={formik.values.pessoa?.emissao}
                                   onChange={(date) =>
-                                    formik.setFieldValue('pessoa.emissao', date)
+                                    formik.setFieldValue("pessoa.emissao", date)
                                   }
                                   KeyboardButtonProps={{
-                                    'aria-label': 'change date',
+                                    "aria-label": "change date",
                                   }}
                                   invalidLabel="Date of purchase"
                                   fullWidth
@@ -509,6 +522,7 @@ const Form = () => {
                                   label="CPF"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.pessoa?.cpf}
@@ -535,7 +549,7 @@ const Form = () => {
             </Accordion>
           </Grid>
           <Grid item>
-            <Accordion elevation={elevetionAccordion}>
+            <Accordion defaultExpanded elevation={elevetionAccordion}>
               <AccordionSummary
                 expandIcon={<ExpandMore />}
                 aria-controls="panel-content-personal-data"
@@ -565,6 +579,7 @@ const Form = () => {
                                   label="CEP"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.endereco_cpf?.cep}
                                   onChange={formik.handleChange}
@@ -590,6 +605,7 @@ const Form = () => {
                                   label="Endereço"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.endereco_cpf?.endereco}
                                   onChange={formik.handleChange}
@@ -610,13 +626,14 @@ const Form = () => {
                           </Grid>
                           <Grid item>
                             <Grid container spacing={2}>
-                              <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                              <Grid item xs={12} sm={5} md={5} lg={6} xl={6}>
                                 <TextField
                                   id="bairro-pf"
                                   name="endereco_cpf.bairro"
                                   label="Bairro"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.endereco_cpf?.bairro}
                                   onChange={formik.handleChange}
@@ -631,13 +648,14 @@ const Form = () => {
                                   }
                                 />
                               </Grid>
-                              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                              <Grid item xs={12} sm={3} md={3} lg={2} xl={2}>
                                 <TextField
                                   id="numero-pf"
                                   name="endereco_cpf.numero"
                                   label="Número"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.endereco_cpf?.numero}
                                   onChange={formik.handleChange}
@@ -659,6 +677,7 @@ const Form = () => {
                                   label="Completo"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={
                                     formik.values.endereco_cpf?.complemento
@@ -688,6 +707,7 @@ const Form = () => {
                                   label="Estado"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.endereco_cpf?.estado}
                                   onChange={formik.handleChange}
@@ -709,6 +729,7 @@ const Form = () => {
                                   label="Cidade"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.endereco_cpf?.cidade}
                                   onChange={formik.handleChange}
@@ -728,190 +749,6 @@ const Form = () => {
                         </Grid>
                         <Grid item></Grid>
                       </Grid>
-                      {/* {dataUser.endereco_cnpj && (
-                    <Hidden only={("xs", "sm", "md")}>
-                      <Divider
-                        orientation="vertical"
-                        flexItem
-                        // className={classes.dividerHeight}
-                      />
-                    </Hidden>
-                  )}
-                  {dataUser.endereco_cnpj && (
-                    <Grid item lg={5}>
-                      <Grid container direction="column" spacing={spaceColumn}>
-                        <Grid item>
-                          <Typography>Endereço Pessoa Jurídica</Typography>
-                        </Grid>
-                        <Grid item>
-                          <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                              <TextField
-                                id="cep-cnpj"
-                                name="endereco_cnpj.cep"
-                                label="CEP"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cpf?.cep}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cpf?.cep &&
-                                  Boolean(formik.errors.endereco_cpf?.cep)
-                                }
-                                helperText={
-                                  formik.touched.endereco_cpf?.cep &&
-                                  formik.errors.endereco_cpf?.cep
-                                }
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                        <Grid item>
-                          <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={12} xl={6}>
-                              <TextField
-                                id="endereco-cnpf"
-                                name="endereco_cnpj.endereco"
-                                label="Endereço"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cpf?.endereco}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cpf?.endereco &&
-                                  Boolean(formik.errors.endereco_cpf?.endereco)
-                                }
-                                helperText={
-                                  formik.touched.endereco_cpf?.endereco &&
-                                  formik.errors.endereco_cpf?.endereco
-                                }
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                        <Grid item>
-                          <Grid container spacing={2}>
-                            <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                              <TextField
-                                id="bairro-cnpf"
-                                name="endereco_cnpj.bairro"
-                                label="Bairro"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cnpj?.bairro}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cnpj?.bairro &&
-                                  Boolean(formik.errors.endereco_cnpj?.bairro)
-                                }
-                                helperText={
-                                  formik.touched.endereco_cnpj?.bairro &&
-                                  formik.errors.endereco_cnpj?.bairro
-                                }
-                              />
-                            </Grid>
-                            <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                              <TextField
-                                id="numero-cnpf"
-                                name="endereco_cnpj.numero"
-                                label="Número"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cnpj?.numero}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cnpj?.numero &&
-                                  Boolean(formik.errors.endereco_cnpj?.numero)
-                                }
-                                helperText={
-                                  formik.touched.endereco_cnpj?.numero &&
-                                  formik.errors.endereco_cnpj?.numero
-                                }
-                              />
-                            </Grid>
-                            <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                              <TextField
-                                id="complemento-cnpf"
-                                name="endereco_cnpj.complemento"
-                                label="Completo"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cnpj?.complemento}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cnpj?.complemento &&
-                                  Boolean(
-                                    formik.errors.endereco_cnpj?.complemento
-                                  )
-                                }
-                                helperText={
-                                  formik.touched.endereco_cnpj?.complemento &&
-                                  formik.errors.endereco_cnpj?.complemento
-                                }
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                        <Grid item>
-                          <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                              <TextField
-                                id="estado-cnpf"
-                                name="endereco_cnpj.estado"
-                                label="Estado"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cnpj?.estado}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cnpj?.estado &&
-                                  Boolean(formik.errors.endereco_cnpj?.estado)
-                                }
-                                helperText={
-                                  formik.touched.endereco_cnpj?.estado &&
-                                  formik.errors.endereco_cnpj?.estado
-                                }
-                              />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                              <TextField
-                                id="cidade-cnpf"
-                                name="endereco_cnpj.cidade"
-                                label="Cidade"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={formik.values.endereco_cnpj?.cidade}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.endereco_cnpj?.cidade &&
-                                  Boolean(formik.errors.endereco_cnpj?.cidade)
-                                }
-                                helperText={
-                                  formik.touched.endereco_cnpj?.cidade &&
-                                  formik.errors.endereco_cnpj?.cidade
-                                }
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item></Grid>
-                    </Grid>
-                  )} */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -924,6 +761,7 @@ const Form = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled
                   startIcon={<Save fontSize="small" />}
                   type="submit"
                 >

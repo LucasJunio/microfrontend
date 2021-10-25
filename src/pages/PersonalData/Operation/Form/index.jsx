@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useStyles } from './styles';
+import React, { useEffect, useState } from "react";
+import { useStyles } from "./styles";
 import {
   Accordion,
   AccordionSummary,
@@ -11,16 +11,16 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-} from '@material-ui/core';
-import { Save } from '@material-ui/icons';
-import { ExpandMore } from '@material-ui/icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { userById, editUser } from '../../../../store/ducks/User';
-import { useFormik } from 'formik';
-import { useSnackbar } from 'notistack';
-import validationSchema from './validateSchema';
-import { clearUser } from '../../../../store/ducks/User';
-import { maskRealMoney } from '../../../../utils/string/masks';
+} from "@material-ui/core";
+import { Save } from "@material-ui/icons";
+import { ExpandMore } from "@material-ui/icons";
+import { useSelector, useDispatch } from "react-redux";
+import { userById, editUser } from "../../../../store/ducks/User";
+import { useFormik } from "formik";
+import { useSnackbar } from "notistack";
+import validationSchema from "./validateSchema";
+import { clearUser } from "../../../../store/ducks/User";
+import { maskRealMoney } from "../../../../utils/string/masks";
 
 const Form = () => {
   const classes = useStyles();
@@ -39,29 +39,29 @@ const Form = () => {
   useEffect(() => {
     dispatch(userById(userId));
     return async () => {
-      console.log('Clearup');
+      console.log("Clearup");
       await dispatch(clearUser());
     };
   }, []);
 
   useEffect(() => {
-    if (status === 'loading' && (type === 'userById' || type === 'editUser')) {
+    if (status === "loading" && (type === "userById" || type === "editUser")) {
       setOpen(true);
     } else if (
-      status === 'completed' &&
-      (type === 'userById' || type === 'editUser')
+      status === "completed" &&
+      (type === "userById" || type === "editUser")
     ) {
-      if (type === 'editUser') {
+      if (type === "editUser") {
         setOpen(false);
         enqueueSnackbar(message, {
-          variant: 'success',
+          variant: "success",
         });
       }
       setOpen(false);
-    } else if (status === 'failed' && type === 'editUser') {
+    } else if (status === "failed" && type === "editUser") {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: 'error',
+        variant: "error",
       });
     }
   }, [status]);
@@ -73,7 +73,7 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log('Tô no onSubmit');
+      console.log("Tô no onSubmit");
       // delete values.tarifa;
       // delete values.usuario;
       delete values.pessoa;
@@ -124,20 +124,21 @@ const Form = () => {
                                 <TextField
                                   id="cobranca"
                                   variant="outlined"
-                                  name="tarifa.cobranca"
+                                  name="tarifa.tipo_cobranca"
                                   label="Tipo Cobrança"
                                   size="small"
+                                  disabled
                                   select
-                                  value={formik.values.tarifa?.cobranca}
+                                  value={formik.values.tarifa?.tipo_cobranca}
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
                                   error={
-                                    formik.touched.tarifa?.cobranca &&
-                                    Boolean(formik.errors.tarifa?.cobranca)
+                                    formik.touched.tarifa?.tipo_cobranca &&
+                                    Boolean(formik.errors.tarifa?.tipo_cobranca)
                                   }
                                   helperText={
-                                    formik.touched.tarifa?.cobranca &&
-                                    formik.errors.tarifa?.cobranca
+                                    formik.touched.tarifa?.tipo_cobranca &&
+                                    formik.errors.tarifa?.tipo_cobranca
                                   }
                                   fullWidth
                                   required
@@ -167,6 +168,7 @@ const Form = () => {
                                   required
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   inputProps={{
                                     maxLength: 18,
@@ -220,6 +222,7 @@ const Form = () => {
                             id="estabelecimento"
                             variant="outlined"
                             size="small"
+                            disabled
                             name="usuario.estabelecimento"
                             label="Número do estabelecimento"
                             value={formik.values.usuario?.estabelecimento}
@@ -244,6 +247,7 @@ const Form = () => {
                             name="usuario.terminal"
                             label="Terminal (mid)"
                             size="small"
+                            disabled
                             value={formik.values.usuario?.terminal}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -272,6 +276,7 @@ const Form = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled
                   startIcon={<Save fontSize="small" />}
                   type="submit"
                 >
