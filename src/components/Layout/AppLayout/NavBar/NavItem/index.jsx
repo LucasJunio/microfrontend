@@ -10,23 +10,23 @@ import {
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { ExpandLess, ExpandMore, Dashboard } from "@material-ui/icons";
 import { useStyles } from "./styles";
-import { sections } from "../../../../../menus";
 import { Link } from "react-router-dom";
+import { sections as sectionsFunc } from "../../../../../menus";
 
 export const NavItens = () => {
   const classes = useStyles();
+  const sections = sectionsFunc();
   const [openSection, setOpenSection] = useState(sections);
-
   const handleClick = (section) => {
     const currentSection = sections.findIndex((obj) => {
       return obj.section === section;
     });
     const newArray = [...sections];
-    newArray[currentSection].open = !sections[currentSection].open;
+    newArray[currentSection].open = !openSection[currentSection].open;
     setOpenSection(newArray);
   };
 
-  const Sections = sections.map((section) => {
+  const Sections = openSection.map((section) => {
     return (
       <List
         key={section.subheader}
@@ -60,28 +60,30 @@ export const NavItens = () => {
             {section.items.map((item) => {
               const Icon = item.icon;
               return (
-                <ListItem
-                  key={item.title}
-                  button
-                  component={Link}
-                  to={item.href}
-                  className={classes.nested}
-                >
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography
-                        variant="caption"
-                        display="block"
-                        gutterBottom
-                      >
-                        {item.title}{" "}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
+                !item.isCnpj && (
+                  <ListItem
+                    key={item.title}
+                    button
+                    component={Link}
+                    to={item.href}
+                    className={classes.nested}
+                  >
+                    <ListItemIcon>
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Typography
+                          variant="caption"
+                          display="block"
+                          gutterBottom
+                        >
+                          {item.title}{" "}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                )
               );
             })}
           </List>

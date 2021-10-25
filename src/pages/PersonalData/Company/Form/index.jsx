@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useStyles } from './styles';
+import React, { useEffect, useState } from "react";
+import { useStyles } from "./styles";
 import {
   Accordion,
   AccordionSummary,
@@ -10,16 +10,16 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-} from '@material-ui/core';
-import { Save } from '@material-ui/icons';
-import { ExpandMore } from '@material-ui/icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { userById, editUser } from '../../../../store/ducks/User';
-import { useFormik } from 'formik';
-import { useSnackbar } from 'notistack';
-import validationSchema from './validateSchema';
-import { maskCnpj, maskTellPhone, maskCel } from 'utils/string/masks';
-import { clearUser } from '../../../../store/ducks/User';
+} from "@material-ui/core";
+import { Save } from "@material-ui/icons";
+import { ExpandMore } from "@material-ui/icons";
+import { useSelector, useDispatch } from "react-redux";
+import { userById, editUser } from "../../../../store/ducks/User";
+import { useFormik } from "formik";
+import { useSnackbar } from "notistack";
+import validationSchema from "./validateSchema";
+import { maskCnpj, maskTellPhone, maskCel } from "utils/string/masks";
+import { clearUser } from "../../../../store/ducks/User";
 
 const Form = () => {
   const classes = useStyles();
@@ -43,23 +43,23 @@ const Form = () => {
     console.log(status);
     console.log(type);
     await dispatch(clearUser());
-    if (status === 'loading' && (type === 'userById' || type === 'editUser')) {
+    if (status === "loading" && (type === "userById" || type === "editUser")) {
       setOpen(true);
     } else if (
-      status === 'completed' &&
-      (type === 'userById' || type === 'editUser')
+      status === "completed" &&
+      (type === "userById" || type === "editUser")
     ) {
-      if (type === 'editUser') {
+      if (type === "editUser") {
         setOpen(false);
         enqueueSnackbar(message, {
-          variant: 'success',
+          variant: "success",
         });
       }
       setOpen(false);
-    } else if (status === 'failed' && type === 'editUser') {
+    } else if (status === "failed" && type === "editUser") {
       setOpen(false);
       enqueueSnackbar(message, {
-        variant: 'error',
+        variant: "error",
       });
     }
   }, [type]);
@@ -71,7 +71,7 @@ const Form = () => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log('Tô no onSubmit');
+      console.log("Tô no onSubmit");
       delete values.tarifa;
       delete values.usuario;
       delete values.pessoa;
@@ -125,10 +125,11 @@ const Form = () => {
                                   required
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={maskCnpj(formik.values.empresa?.cnpj)}
                                   onChange={() => {
-                                    formik.setFieldValue('empresa.cnpj', value);
+                                    formik.setFieldValue("empresa.cnpj", value);
                                   }}
                                   onBlur={formik.handleBlur}
                                   error={
@@ -149,6 +150,7 @@ const Form = () => {
                                   required
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.empresa?.razao_social}
                                   onChange={formik.handleChange}
@@ -175,6 +177,7 @@ const Form = () => {
                                   required
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.empresa?.nome_fantasia}
                                   onChange={formik.handleChange}
@@ -199,6 +202,7 @@ const Form = () => {
                                   required
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   value={formik.values.empresa?.cnae}
                                   onChange={formik.handleChange}
@@ -224,6 +228,7 @@ const Form = () => {
                                   label="Telefone Fixo"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={maskTellPhone(
@@ -250,6 +255,7 @@ const Form = () => {
                                   label="Celular"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={maskCel(
@@ -285,6 +291,7 @@ const Form = () => {
                                   label="Site"
                                   variant="outlined"
                                   size="small"
+                                  disabled
                                   fullWidth
                                   required
                                   value={formik.values.empresa?.site}
@@ -335,6 +342,7 @@ const Form = () => {
                             label="CEP"
                             variant="outlined"
                             size="small"
+                            disabled
                             inputProps={{ maxLength: 8 }}
                             fullWidth
                             value={formik.values.endereco_cnpj?.cep}
@@ -361,6 +369,7 @@ const Form = () => {
                             label="Endereço"
                             variant="outlined"
                             size="small"
+                            disabled
                             fullWidth
                             value={formik.values.endereco_cnpj?.endereco}
                             onChange={formik.handleChange}
@@ -379,13 +388,14 @@ const Form = () => {
                     </Grid>
                     <Grid item>
                       <Grid container spacing={2}>
-                        <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                        <Grid item xs={12} sm={12} md={5} lg={6} xl={6}>
                           <TextField
                             id="bairro-cnpf"
                             name="endereco_cnpj.bairro"
                             label="Bairro"
                             variant="outlined"
                             size="small"
+                            disabled
                             fullWidth
                             value={formik.values.endereco_cnpj?.bairro}
                             onChange={formik.handleChange}
@@ -400,13 +410,14 @@ const Form = () => {
                             }
                           />
                         </Grid>
-                        <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                        <Grid item xs={12} sm={12} md={3} lg={6} xl={2}>
                           <TextField
                             id="numero-cnpf"
                             name="endereco_cnpj.numero"
                             label="Número"
                             variant="outlined"
                             size="small"
+                            disabled
                             fullWidth
                             value={formik.values.endereco_cnpj?.numero}
                             onChange={formik.handleChange}
@@ -421,13 +432,14 @@ const Form = () => {
                             }
                           />
                         </Grid>
-                        <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                        <Grid item xs={12} sm={12} md={4} lg={12} xl={4}>
                           <TextField
                             id="complemento-cnpf"
                             name="endereco_cnpj.complemento"
                             label="Completo"
                             variant="outlined"
                             size="small"
+                            disabled
                             fullWidth
                             value={formik.values.endereco_cnpj?.complemento}
                             onChange={formik.handleChange}
@@ -453,6 +465,7 @@ const Form = () => {
                             label="Estado"
                             variant="outlined"
                             size="small"
+                            disabled
                             fullWidth
                             value={formik.values.endereco_cnpj?.estado}
                             onChange={formik.handleChange}
@@ -474,6 +487,7 @@ const Form = () => {
                             label="Cidade"
                             variant="outlined"
                             size="small"
+                            disabled
                             fullWidth
                             value={formik.values.endereco_cnpj?.cidade}
                             onChange={formik.handleChange}
@@ -501,6 +515,7 @@ const Form = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled
                   startIcon={<Save fontSize="small" />}
                   type="submit"
                 >
