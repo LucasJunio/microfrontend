@@ -171,12 +171,12 @@ const Form = () => {
                                   }}
                                   onBlur={formik.handleBlur}
                                   error={
-                                    formik.touched.tarifa?.cobranca &&
-                                    Boolean(formik.errors.tarifa?.cobranca)
+                                    formik.touched.tarifa?.taxa &&
+                                    Boolean(formik.errors.tarifa?.taxa)
                                   }
                                   helperText={
-                                    formik.touched.tarifa?.cobranca &&
-                                    formik.errors.tarifa?.cobranca
+                                    formik.touched.tarifa?.taxa &&
+                                    formik.errors.tarifa?.taxa
                                   }
                                 />
                               </Grid>
