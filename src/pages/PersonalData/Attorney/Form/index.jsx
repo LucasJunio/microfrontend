@@ -84,7 +84,7 @@ const Form = () => {
   const handleNationality = (event, value) => {
     formik.setFieldValue("pessoa.nacionalidade", value);
   };
-  console.log(formik);
+
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
