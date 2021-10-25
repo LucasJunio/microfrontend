@@ -16,12 +16,12 @@ import {
   Paper,
   InputBase,
   Grid,
-  Typography, 
-  Container, 
+  Typography,
+  Container,
   Card, CardContent, Link
 } from "@material-ui/core";
 import { PhoneIphone, Edit } from "@material-ui/icons";
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel,  VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
+import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel, VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
@@ -130,7 +130,7 @@ export default function Dashboard() {
     message === "SMS validado" || message === "SMS e Email validado"
       ? setOpenModal(false)
       : setOpenModal(true);
-  };  
+  };
 
   const getPath = (x, y, width, height) => `M${x},${y + height}
           C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${x + width / 2}, ${y}
@@ -159,39 +159,12 @@ export default function Dashboard() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Grid container alignItems="center" spacing={2}>                        
-        <Grid item xs={12} lg={6}>
-          <Paper elevation={4}> 
-            <ResponsiveContainer width="99%" aspect={2}>
-              <LineChart
-                width={500}
-                height={300}
-                data={chartTransactedAmount}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >          
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-              </LineChart>
-            </ResponsiveContainer>
-          </Paper>              
-        </Grid>           
-        
-        <Grid item xs={12} lg={3}>
-          <Paper elevation={4}>                 
-              <ResponsiveContainer width="99%" aspect={.98}>
+      <Grid container spacing={2} justifyContent="center">
+
+        <Grid item xs={12} lg={4}>
+          <Paper elevation={4} style={{ width: '100%', height: '100%' }}>
+            <ResponsiveContainer width="99%">
               <BarChart
-                width={500}
-                height={300}
                 data={chartMovingAverage}
                 margin={{
                   top: 20,
@@ -212,11 +185,40 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </Paper>
         </Grid>
+        <Grid item xs={12} lg={6}>
+          <Paper elevation={4} style={{ width: '100%', height: '100%' }}>
+            <ResponsiveContainer width="99%">
+              <LineChart
+                data={chartTransactedAmount}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+              </LineChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
 
-        <Grid item xs={12} lg={3}>
-          <Grid container direction='column' spacing={2} alignItems="">
+        <Grid item xs={12} lg={2} xl={2}>
+          <Grid container direction='column' spacing={2} >
+
+
+
+
+
             <Grid item >
-              <Paper  elevation={4}> 
+              <Paper elevation={4} style={{ padding: '15px' }}>
+
                 <Typography component="h2" variant="h6" color="primary" gutterBottom>
                   Recent Deposits
                 </Typography>
@@ -226,31 +228,35 @@ export default function Dashboard() {
                 <Typography color="textSecondary" >
                   on 15 March, 2019
                 </Typography>
-                {/* <ResponsiveContainer width="99%" aspect={2}>
-                  <Typography variant="h1" component="div" gutterBottom>
-                    {valuePeriod}M
-                  </Typography> 
-                </ResponsiveContainer>              */}
-              </Paper>  
+
+              </Paper>
             </Grid>
+
+
+
+
+
             <Grid item >
-              <Paper  elevation={4}>
+              <Paper elevation={4} style={{ padding: '15px' }} >
+
                 <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                    Recent Deposits
-                  </Typography>
-                  <Typography component="p" variant="h4">
-                    ${valuePeriod}
-                  </Typography>
-                  <Typography color="textSecondary" >
-                    on 15 March, 2019
-                  </Typography>
-                {/* <ResponsiveContainer width="99%" aspect={2}>
-                  <Typography variant="h1" component="div" gutterBottom>
-                    {valueWay}%
-                  </Typography>
-                </ResponsiveContainer>              */}
-              </Paper>         
+                  Recent Deposits
+                </Typography>
+                <Typography component="p" variant="h4">
+                  ${valuePeriod}
+                </Typography>
+                <Typography color="textSecondary" >
+                  on 15 March, 2019
+                </Typography>
+
+              </Paper>
             </Grid>
+
+
+
+
+
+
           </Grid>
         </Grid>
       </Grid>
@@ -285,7 +291,7 @@ export default function Dashboard() {
                   onChange: (e) => OnchangeTOKEN(e.target.value),
                   value: token,
                 }}
-                // fullWidth
+              // fullWidth
               />
             </Grid>
             <Grid item>
@@ -330,6 +336,6 @@ export default function Dashboard() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Page>
+    </Page >
   );
 }
