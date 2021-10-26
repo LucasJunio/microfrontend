@@ -12,34 +12,35 @@ import {
   Backdrop,
   CircularProgress,
 } from "@material-ui/core";
-import { Save } from "@material-ui/icons";
-import { ExpandMore } from "@material-ui/icons";
+import { Save, ExpandMore } from "@material-ui/icons";
+import { Autocomplete } from "@material-ui/lab";
 import { useSelector, useDispatch } from "react-redux";
 import { userById, editUser } from "../../../../store/ducks/User";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import validationSchema from "./validateSchema";
 import { clearUser } from "../../../../store/ducks/User";
+import { getListWhereClause } from "../../../../store/ducks/Lists";
 import { maskRealMoney } from "../../../../utils/string/masks";
 
 const Form = () => {
+  const {
+    signer: { userId },
+    user: { type, status, dataUser, message },
+    lists: { data, status: statusList },
+  } = useSelector((state) => state);
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
-
   const spaceColumn = 2;
   const elevetionAccordion = 3;
 
-  const {
-    signer: { userId },
-    user: { type, status, dataUser, message },
-  } = useSelector((state) => state);
-
   useEffect(() => {
+    dispatch(getListWhereClause("'cobranca'"));
     dispatch(userById(userId));
     return async () => {
-      console.log("Clearup");
       await dispatch(clearUser());
     };
   }, []);
@@ -74,8 +75,6 @@ const Form = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log("Tô no onSubmit");
-      // delete values.tarifa;
-      // delete values.usuario;
       delete values.pessoa;
       delete values.conta;
       delete values.endereco_cpf;
@@ -85,7 +84,8 @@ const Form = () => {
       dispatch(editUser(values));
     },
   });
-
+  console.log(data);
+  console.log(data.length === 0);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -143,21 +143,14 @@ const Form = () => {
                                   fullWidth
                                   required
                                 >
-                                  <MenuItem key="FIXA" value="FIXA">
-                                    FIXA
-                                  </MenuItem>
-                                  <MenuItem
-                                    key="PORCENTAGEM"
-                                    value="PORCENTAGEM"
-                                  >
-                                    PORCENTAGEM
-                                  </MenuItem>
-                                  <MenuItem
-                                    key="MENSAL_FIXA"
-                                    value="MENSAL FIXA"
-                                  >
-                                    MENSAL FIXA
-                                  </MenuItem>
+                                  {data.length > 0 &&
+                                    data.map(({ valor }) => {
+                                      return (
+                                        <MenuItem key={valor} value={valor}>
+                                          {valor}
+                                        </MenuItem>
+                                      );
+                                    })}
                                 </TextField>
                               </Grid>
                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -174,19 +167,19 @@ const Form = () => {
                                     maxLength: 18,
                                   }}
                                   value={maskRealMoney(
-                                    formik.values.tarifa?.taxa
+                                    formik.values.tarifa?.cobranca
                                   )}
                                   onChange={(e) => {
                                     formik.handleChange(e);
                                   }}
                                   onBlur={formik.handleBlur}
                                   error={
-                                    formik.touched.tarifa?.taxa &&
-                                    Boolean(formik.errors.tarifa?.taxa)
+                                    formik.touched.tarifa?.cobranca &&
+                                    Boolean(formik.errors.tarifa?.cobranca)
                                   }
                                   helperText={
-                                    formik.touched.tarifa?.taxa &&
-                                    formik.errors.tarifa?.taxa
+                                    formik.touched.tarifa?.cobranca &&
+                                    formik.errors.tarifa?.cobranca
                                   }
                                 />
                               </Grid>
@@ -224,7 +217,7 @@ const Form = () => {
                             size="small"
                             disabled
                             name="usuario.numero_estabelecimento"
-                            label="Número do estabelecimento"
+                            label="Núm. do estabelecimento"
                             value={
                               formik.values.usuario?.numero_estabelecimento
                             }

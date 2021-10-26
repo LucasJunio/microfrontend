@@ -7,6 +7,7 @@ import validationReducer from "./ducks/Validation";
 import messageReducer from "./ducks/Message";
 import userReducer from "./ducks/User";
 import dashboardReducer from "./ducks/Dashboard";
+import listsReducer from "./ducks/Lists";
 
 const reducers = combineReducers({
   signer: signerReducer,
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   signup: signupReducer,
   message: messageReducer,
   dashboard: dashboardReducer,
+  lists: listsReducer,
 });
 
 export default reducers;
