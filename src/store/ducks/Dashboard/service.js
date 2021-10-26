@@ -1,6 +1,12 @@
 import { api } from "../../../services/api";
 
-const dashboardGet = async () => {
+const dashboardGet = async (body) => {
+
+  const { startDate, endDate } = body;
+
+  console.log(startDate);
+  console.log(endDate);
+
   // const res = await api.get(`/validation/email/${token}`);
   return {
     chartCardFlag:[

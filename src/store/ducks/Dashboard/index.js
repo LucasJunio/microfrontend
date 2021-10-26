@@ -3,9 +3,9 @@ import { dashboardGet } from "./service";
 
 export const getDashboard = createAsyncThunk(
   "dashboard/getDashboard",
-  async (token, { rejectWithValue }) => {
+  async (body, { rejectWithValue }) => {
     try {
-      const { data } = await dashboardGet(token);
+      const { data } = await dashboardGet(body);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -113,30 +113,30 @@ const initialState = {
 const dashboard = createSlice({
   name: "dashboard",
   initialState,
-  extraReducers: (builder) => {
-    builder
-      .addCase(getDashboard.pending, (state) => {
-        return (state = { ...state, status: "loading" });
-      })
-      .addCase(getDashboard.fulfilled, (state, action) => {
-        return (state = {
-          ...state,
-          status: "completed",
-          message: action.payload.message,
-          chartCardFlag: action.payload.chartCardFlag, 
-          chartMovingAverage: action.payload.chartMovingAverage, 
-          valuePeriod: action.payload.valuePeriod, 
-          valueWay: action.payload.valueWay, 
-        });
-      })
-      .addCase(getDashboard.rejected, (state, action) => {
-        return (state = {
-          ...state,
-          status: "failed",
-          message: action.payload.message
-        });
-      });
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(getDashboard.pending, (state) => {
+  //       return (state = { ...state, status: "loading" });
+  //     })
+  //     .addCase(getDashboard.fulfilled, (state, action) => {
+  //       return (state = {
+  //         ...state,
+  //         status: "completed",
+  //         message: action.payload.message,
+  //         chartCardFlag: action.payload.chartCardFlag, 
+  //         chartMovingAverage: action.payload.chartMovingAverage, 
+  //         valuePeriod: action.payload.valuePeriod, 
+  //         valueWay: action.payload.valueWay, 
+  //       });
+  //     })
+  //     .addCase(getDashboard.rejected, (state, action) => {
+  //       return (state = {
+  //         ...state,
+  //         status: "failed",
+  //         message: action.payload.message
+  //       });
+  //     });
+  // },
 });
 
 export default dashboard.reducer;

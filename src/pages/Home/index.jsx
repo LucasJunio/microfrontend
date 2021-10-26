@@ -27,9 +27,11 @@ import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import ButtonTimer from "../../components/ButtonTimer";
 import { validationStatus } from "../../store/ducks/Validation";
 import { editCellphone, confirmTokenSMS } from "../../store/ducks/Message";
+import { getDashboard } from "../../store/ducks/Dashboard";
 import Page from "../../components/Page";
 
 export default function Dashboard() {
@@ -47,6 +49,12 @@ export default function Dashboard() {
 
   const [openModal, setOpenModal] = useState(false);
   const [openBackDrop, setOpenBackDrop] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  useEffect(() => {
+    checkDateValidation(startDate, endDate)
+  }, [startDate, endDate]);
 
   useEffect(() => {
     if (!!tokenSigner) {
@@ -101,6 +109,16 @@ export default function Dashboard() {
   const OnchangeCELLPHONE = (v) => {
     setCELLPHONE(v);
   };
+
+  const checkDateValidation = (startDate, endDate) => {
+    if ((new Date(startDate) > new Date(endDate)) || (new Date(endDate) < new Date(startDate))) {
+      enqueueSnackbar("Data inicial não pode ser maior que a data final", {
+        variant: "error",
+      });      
+    } else {
+      dispatch(getDashboard({startDate, endDate}));      
+    }
+  }
 
   const handleSendTokenSMS = () => {
     let tokens = { tokenSMS: token };
@@ -159,11 +177,56 @@ export default function Dashboard() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
+      <h3>Selecione um período:</h3>
+      <Grid container spacing={2} justifyContent="center">      
+        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+          <KeyboardDatePicker
+            id="emissao"
+            name="pessoa.emissao"
+            variant="dialog"
+            inputVariant="outlined"
+            margin="normal"
+            label="Data início"
+            size="small"
+            // className={classes.fieldCentralization}
+            maxDate={new Date}
+            format="dd/MM/yyyy"
+            value={startDate}
+            onChange={setStartDate}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+            invalidLabel="Date of purchase"
+            fullWidth
+            required
+          />
+        </Grid>        
+        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+          <KeyboardDatePicker
+            id="emissao"
+            name="pessoa.emissao"
+            variant="dialog"
+            inputVariant="outlined"
+            margin="normal"
+            label="Data fim"
+            size="small"
+            // className={classes.fieldCentralization}
+            maxDate={new Date}
+            format="dd/MM/yyyy"
+            value={endDate}
+            onChange={setEndDate}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+            invalidLabel="Date of purchase"
+            fullWidth
+            required
+          />
+        </Grid> 
+      </Grid>
+
       <Grid container spacing={2} justifyContent="center">
-
-
         <Grid item xs={12} lg={4}>
-
           <div style={{ position: 'absolute', paddingLeft: '10px' }}><h3>Gráfico1</h3></div>
           <Paper elevation={4} style={{ width: '100%', height: '100%', padding: '10px', paddingTop: '30px' }}>
             <ResponsiveContainer width="99%">
