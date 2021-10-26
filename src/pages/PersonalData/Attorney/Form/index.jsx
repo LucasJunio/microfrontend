@@ -24,6 +24,7 @@ import { userById, editUser } from "../../../../store/ducks/User";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import validationSchema from "./validateSchema";
+import { maskCel, maskCpf } from "../../../../utils/string/masks";
 
 const Form = () => {
   const classes = useStyles();
@@ -393,7 +394,7 @@ const Form = () => {
                                   disabled
                                   fullWidth
                                   required
-                                  value={formik.values.pessoa?.celular}
+                                  value={maskCel(formik.values.pessoa?.celular)}
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
                                   error={
@@ -525,7 +526,7 @@ const Form = () => {
                                   disabled
                                   fullWidth
                                   required
-                                  value={formik.values.pessoa?.cpf}
+                                  value={maskCpf(formik.values.pessoa?.cpf)}
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
                                   error={
