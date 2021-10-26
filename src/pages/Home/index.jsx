@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import { PhoneIphone, Edit } from "@material-ui/icons";
 import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel, VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, BarChart, Bar, Cell } from 'recharts';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import PropTypes from 'prop-types';
@@ -232,7 +232,7 @@ export default function Dashboard() {
             <ResponsiveContainer width="99%">
 
               <BarChart
-                data={chartMovingAverage}
+                data={chartTransactedAmount}
                 margin={{
                   top: 20,
                   right: 30,
@@ -241,10 +241,10 @@ export default function Dashboard() {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="bandeira" />
                 <YAxis />
-                <Bar dataKey="female" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
-                  {chartMovingAverage.map((entry, index) => (
+                <Bar dataKey="valor" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
+                  {chartTransactedAmount.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % 20]} />
                   ))}
                 </Bar>
@@ -258,28 +258,26 @@ export default function Dashboard() {
 
 
         <Grid item xs={12} lg={6}>
-
           <div style={{ position: 'absolute', paddingLeft: '10px' }}><h3>Gráfico2</h3></div>
           <Paper elevation={4} style={{ width: '100%', height: '100%', padding: '10px', paddingTop: '50px' }}>
-
             <ResponsiveContainer width="99%">
-              <LineChart
-                data={chartTransactedAmount}
+              <ComposedChart
+                data={chartMovingAverage}
                 margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
+                  top: 20,
+                  right: 20,
+                  bottom: 20,
+                  left: 20
                 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="data" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-              </LineChart>
+                <Bar dataKey="valor" barSize={30} fill="#413ea0" />
+                <Line type="monotone" dataKey="movel" stroke="#ff7300" />
+              </ComposedChart>
             </ResponsiveContainer>
           </Paper>
         </Grid>
