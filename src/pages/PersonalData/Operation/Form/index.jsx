@@ -82,7 +82,8 @@ const Form = () => {
       dispatch(editUser(values));
     },
   });
-
+  console.log(data);
+  console.log(data.length === 0);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -171,12 +172,12 @@ const Form = () => {
                                   }}
                                   onBlur={formik.handleBlur}
                                   error={
-                                    formik.touched.tarifa?.taxa &&
-                                    Boolean(formik.errors.tarifa?.taxa)
+                                    formik.touched.tarifa?.cobranca &&
+                                    Boolean(formik.errors.tarifa?.cobranca)
                                   }
                                   helperText={
-                                    formik.touched.tarifa?.taxa &&
-                                    formik.errors.tarifa?.taxa
+                                    formik.touched.tarifa?.cobranca &&
+                                    formik.errors.tarifa?.cobranca
                                   }
                                 />
                               </Grid>
