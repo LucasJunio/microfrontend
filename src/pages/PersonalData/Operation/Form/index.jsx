@@ -223,18 +223,22 @@ const Form = () => {
                             variant="outlined"
                             size="small"
                             disabled
-                            name="usuario.estabelecimento"
+                            name="usuario.numero_estabelecimento"
                             label="Número do estabelecimento"
-                            value={formik.values.usuario?.estabelecimento}
+                            value={
+                              formik.values.usuario?.numero_estabelecimento
+                            }
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             error={
-                              formik.touched.usuario?.estabelecimento &&
-                              Boolean(formik.errors.usuario?.estabelecimento)
+                              formik.touched.usuario?.numero_estabelecimento &&
+                              Boolean(
+                                formik.errors.usuario?.numero_estabelecimento
+                              )
                             }
                             helperText={
-                              formik.touched.usuario?.estabelecimento &&
-                              formik.errors.usuario?.estabelecimento
+                              formik.touched.usuario?.numero_estabelecimento &&
+                              formik.errors.usuario?.numero_estabelecimento
                             }
                             fullWidth
                             // required
