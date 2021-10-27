@@ -25,6 +25,11 @@ const initialState = {
 const validation = createSlice({
   name: "validation",
   initialState,
+  reducers: {
+    clearMessageAndStatus: (state) => {
+      return (state = { ...state, message: null, status: "idle" });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(validationStatus.pending, (state) => {
@@ -48,7 +53,6 @@ const validation = createSlice({
   },
 });
 
-// export const { addSelectedGroups, clearUser, clearSelectedGroups } =
-//   validation.actions;
+export const { clearMessageAndStatus } = validation.actions;
 
 export default validation.reducer;

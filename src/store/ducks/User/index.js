@@ -23,9 +23,16 @@ export const persistDocuments = createAsyncThunk(
 
 export const documentsByUser = createAsyncThunk(
   "user/documentsByUser",
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue, getState }) => {
     try {
-      const { data } = await getDocumentsByUser(id);
+      const {
+        signer: { token },
+      } = getState();
+      const payload = {
+        id,
+        token,
+      };
+      const { data } = await getDocumentsByUser(payload);
       return data;
     } catch (error) {
       if (!error.response) {

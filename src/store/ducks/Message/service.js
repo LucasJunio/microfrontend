@@ -1,15 +1,5 @@
 import { api } from "../../../services/api";
 
-// const resendToken = async (token) => {
-//   const res = await api.get(`/validation/sms/${token}`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-
-//   return res;
-// };
-
 const resendTokenSms = async (token) => {
   console.log(token);
   const res = await api.get(`/validation/resendsms`, {
@@ -35,7 +25,6 @@ const changeCellphone = async (putCellphone) => {
 };
 
 const sendTokenSMS = async (tokens) => {
-  console.log(tokens);
   const { tokenSMS, token } = tokens;
   const res = await api.get(`/validation/sms/${tokenSMS}`, {
     headers: {

@@ -31,9 +31,9 @@ const Upload = () => {
   } = useSelector((state) => {
     return state;
   });
-
   let readOnly = true;
   const [openModal, setOpenModal] = useState(false);
+  const [img, setImg] = useState([]);
 
   const handleModal = () => {
     setOpenModal(!openModal);
@@ -51,8 +51,12 @@ const Upload = () => {
     };
   }, []);
 
+  useEffect(() => {
+    imgData.length > 0 && setImg(imgData);
+  }, [imgData]);
+
   const obj = {};
-  imgData.forEach(({ categoria, status }) => {
+  img.forEach(({ categoria, status }) => {
     status = status ?? "";
     if (status.toLowerCase() === "reprovado" || !status) {
       readOnly = false;
@@ -85,8 +89,8 @@ const Upload = () => {
                   <br />
                   <Divider />
                 </Grid>
-                {imgData && imgData.length > 0 ? (
-                  imgData.map(({ base64, categoria, status, descricao }) => {
+                {img && img.length > 0 ? (
+                  img.map(({ base64, categoria, status, descricao }) => {
                     status = status ?? "";
                     return (
                       <Grid
@@ -135,7 +139,7 @@ const Upload = () => {
                   </Grid>
                 )}
                 <Grid item>
-                  <Grid container justify="flex-end">
+                  <Grid container justifyContent="flex-end">
                     <Grid item>
                       <Button
                         variant="contained"

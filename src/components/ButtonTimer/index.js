@@ -3,7 +3,7 @@ import Button from "components/CustomButtons/Button.js";
 import $ from "jquery";
 import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
-import { resendSms } from "../../store/ducks/Message";
+import { resendSms, clearMessageAndStatus } from "../../store/ducks/Message";
 
 const ButtonTimer = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,10 @@ const ButtonTimer = () => {
     } else if (status === "failed" && type === "SMS") {
       enqueueSnackbar("Token não validado", { variant: "error" });
     }
+
+    return () => {
+      dispatch(clearMessageAndStatus());
+    };
   }, [status]);
 
   const resendToken = () => {

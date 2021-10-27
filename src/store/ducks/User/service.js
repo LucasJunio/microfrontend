@@ -14,8 +14,12 @@ const uploadDocuments = async (body, dispatch) => {
   return res;
 };
 
-const getDocumentsByUser = async (id) => {
-  const res = await api.get(`documents/${id}`);
+const getDocumentsByUser = async ({ id, token }) => {
+  const res = await api.get(`documents/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res;
 };
 
