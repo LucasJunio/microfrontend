@@ -43,7 +43,6 @@ export const ModalValidateSms = () => {
   const [token, setTOKEN] = useState("");
 
   useEffect(() => {
-    console.log(message);
     if (!!tokenSigner) {
       validateSMSandEmail(tokenSigner, message);
     } else if (!!tokenSignup) {
@@ -93,7 +92,6 @@ export const ModalValidateSms = () => {
   }, [statusMessage]);
 
   const validateSMSandEmail = (token, currentMessage) => {
-    console.log(currentMessage);
     dispatch(validationStatus(token));
     setCELLPHONE(`(**) ****-${celular.toString().substring(7, 15)}`);
     if (currentMessage) {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
 import { useSnackbar } from "notistack";
 import {
@@ -18,141 +17,82 @@ import {
   Grid,
   Typography,
   Container,
-  Card, CardContent, Link
+  Card,
+  CardContent,
+  Link,
 } from "@material-ui/core";
-import { PhoneIphone, Edit } from "@material-ui/icons";
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryLabel, VictoryAnimation, VictoryLine, VictoryPie } from 'victory';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, BarChart, Bar, Cell } from 'recharts';
-import { scaleOrdinal } from 'd3-scale';
-import { schemeCategory10 } from 'd3-scale-chromatic';
-import PropTypes from 'prop-types';
+import {
+  VictoryChart,
+  VictoryBar,
+  VictoryTheme,
+  VictoryLabel,
+  VictoryAnimation,
+  VictoryLine,
+  VictoryPie,
+} from "victory";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  ComposedChart,
+  BarChart,
+  Bar,
+  Cell,
+} from "recharts";
+import { scaleOrdinal } from "d3-scale";
+import { schemeCategory10 } from "d3-scale-chromatic";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardDatePicker } from "@material-ui/pickers";
-import ButtonTimer from "../../components/ButtonTimer";
-import { validationStatus } from "../../store/ducks/Validation";
-import { editCellphone, confirmTokenSMS } from "../../store/ducks/Message";
 import { getDashboard } from "../../store/ducks/Dashboard";
 import Page from "../../components/Page";
 
 export default function Dashboard() {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
   const {
-    validation: { message, celular },
-    signer: { token: tokenSigner },
-    signup: { token: tokenSignup },
-    message: { status: statusMessage, message: messageCellphone, type },
-    dashboard: { chartTransactedAmount, chartMovingAverage, valuePeriod, valueWay },
+    dashboard: {
+      chartTransactedAmount,
+      chartMovingAverage,
+      valuePeriod,
+      valueWay,
+    },
   } = useSelector((state) => state);
 
-  const [openModal, setOpenModal] = useState(false);
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
-    checkDateValidation(startDate, endDate)
+    checkDateValidation(startDate, endDate);
   }, [startDate, endDate]);
 
-  useEffect(() => {
-    if (!!tokenSigner) {
-      validateSMSandEmail(tokenSigner);
-    } else if (!!tokenSignup) {
-      validateSMSandEmail(tokenSignup);
-    }
-  }, [tokenSigner, message, celular]);
-
-  useEffect(() => {
-    if (statusMessage === "loading" && type === "confirmTokenSMS") {
-      setOpenBackDrop(true);
-    } else if (statusMessage === "completed" && type === "confirmTokenSMS") {
-      setOpenBackDrop(false);
-      setOpenModal(false);
-      enqueueSnackbar(messageCellphone, {
-        variant: "success",
-      });
-    } else if (statusMessage === "failed" && type === "confirmTokenSMS") {
-      setOpenBackDrop(false);
-      let message = "Por favor, insira um token de SMS";
-      if (!!messageCellphone) {
-        message = messageCellphone;
-      }
-      enqueueSnackbar(message, {
-        variant: "error",
-      });
-    }
-  }, [statusMessage]);
-
-  useEffect(() => {
-    if (statusMessage === "loading" && type === "editCellphone") {
-      setOpenBackDrop(true);
-    } else if (statusMessage === "completed" && type === "editCellphone") {
-      setOpenBackDrop(false);
-      enqueueSnackbar(messageCellphone, {
-        variant: "success",
-      });
-    } else if (statusMessage === "failed" && type === "editCellphone") {
-      setOpenBackDrop(false);
-      enqueueSnackbar(messageCellphone, {
-        variant: "error",
-      });
-    }
-  }, [statusMessage]);
-
-  const [token, setTOKEN] = useState("");
-  const OnchangeTOKEN = (v) => {
-    setTOKEN(v.replace(/\D/g, ""));
-  };
-  const [cellphone, setCELLPHONE] = useState("");
-  const OnchangeCELLPHONE = (v) => {
-    setCELLPHONE(v);
-  };
-
   const checkDateValidation = (startDate, endDate) => {
-    if ((new Date(startDate) > new Date(endDate)) || (new Date(endDate) < new Date(startDate))) {
+    if (
+      new Date(startDate) > new Date(endDate) ||
+      new Date(endDate) < new Date(startDate)
+    ) {
       enqueueSnackbar("Data inicial não pode ser maior que a data final", {
         variant: "error",
-      });      
+      });
     } else {
-      dispatch(getDashboard({startDate, endDate}));      
+      dispatch(getDashboard({ startDate, endDate }));
     }
-  }
-
-  const handleSendTokenSMS = () => {
-    let tokens = { tokenSMS: token };
-    if (!!tokenSigner) {
-      tokens = { ...tokens, token: tokenSigner };
-      dispatch(confirmTokenSMS(tokens));
-    } else if (!!tokenSignup) {
-      tokens = { ...tokens, token: tokenSignup };
-      dispatch(confirmTokenSMS(tokens));
-    }
-  };
-
-  const changeCell = async () => {
-    let body = { celular: cellphone };
-    if (!!tokenSigner) {
-      body = { ...body, token: tokenSigner };
-      dispatch(editCellphone(body));
-    } else if (!!tokenSignup) {
-      body = { ...body, token: tokenSignup };
-      dispatch(editCellphone(body));
-    }
-  };
-
-  const validateSMSandEmail = (token) => {
-    dispatch(validationStatus(token));
-    setCELLPHONE(`(**) ****-${celular.toString().substring(7, 15)}`);
-    message === "SMS validado" || message === "SMS e Email validado"
-      ? setOpenModal(false)
-      : setOpenModal(true);
   };
 
   const getPath = (x, y, width, height) => `M${x},${y + height}
-          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${x + width / 2}, ${y}
-          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${
+    x + width / 2
+  }, ${y}
+          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${
+    y + height
+  } ${x + width}, ${y + height}
           Z`;
 
   const colors = scaleOrdinal(schemeCategory10).range();
@@ -178,7 +118,7 @@ export default function Dashboard() {
       </Backdrop>
 
       <h3>Selecione um período:</h3>
-      <Grid container spacing={2} justifyContent="center">      
+      <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
           <KeyboardDatePicker
             id="emissao"
@@ -189,7 +129,7 @@ export default function Dashboard() {
             label="Data início"
             size="small"
             // className={classes.fieldCentralization}
-            maxDate={new Date}
+            maxDate={new Date()}
             format="dd/MM/yyyy"
             value={startDate}
             onChange={setStartDate}
@@ -200,7 +140,7 @@ export default function Dashboard() {
             fullWidth
             required
           />
-        </Grid>        
+        </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
           <KeyboardDatePicker
             id="emissao"
@@ -211,7 +151,7 @@ export default function Dashboard() {
             label="Data fim"
             size="small"
             // className={classes.fieldCentralization}
-            maxDate={new Date}
+            maxDate={new Date()}
             format="dd/MM/yyyy"
             value={endDate}
             onChange={setEndDate}
@@ -222,15 +162,24 @@ export default function Dashboard() {
             fullWidth
             required
           />
-        </Grid> 
+        </Grid>
       </Grid>
 
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} lg={4}>
-          <div style={{ position: 'absolute', paddingLeft: '10px' }}><h3>Gráfico1</h3></div>
-          <Paper elevation={4} style={{ width: '100%', height: '100%', padding: '10px', paddingTop: '30px' }}>
+          <div style={{ position: "absolute", paddingLeft: "10px" }}>
+            <h3>Gráfico1</h3>
+          </div>
+          <Paper
+            elevation={4}
+            style={{
+              width: "100%",
+              height: "100%",
+              padding: "10px",
+              paddingTop: "30px",
+            }}
+          >
             <ResponsiveContainer width="99%">
-
               <BarChart
                 data={chartTransactedAmount}
                 margin={{
@@ -243,7 +192,12 @@ export default function Dashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="bandeira" />
                 <YAxis />
-                <Bar dataKey="valor" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
+                <Bar
+                  dataKey="valor"
+                  fill="#8884d8"
+                  shape={<TriangleBar />}
+                  label={{ position: "top" }}
+                >
                   {chartTransactedAmount.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % 20]} />
                   ))}
@@ -253,13 +207,19 @@ export default function Dashboard() {
           </Paper>
         </Grid>
 
-
-
-
-
         <Grid item xs={12} lg={6}>
-          <div style={{ position: 'absolute', paddingLeft: '10px' }}><h3>Gráfico2</h3></div>
-          <Paper elevation={4} style={{ width: '100%', height: '100%', padding: '10px', paddingTop: '50px' }}>
+          <div style={{ position: "absolute", paddingLeft: "10px" }}>
+            <h3>Gráfico2</h3>
+          </div>
+          <Paper
+            elevation={4}
+            style={{
+              width: "100%",
+              height: "100%",
+              padding: "10px",
+              paddingTop: "50px",
+            }}
+          >
             <ResponsiveContainer width="99%">
               <ComposedChart
                 data={chartMovingAverage}
@@ -267,7 +227,7 @@ export default function Dashboard() {
                   top: 20,
                   right: 20,
                   bottom: 20,
-                  left: 20
+                  left: 20,
                 }}
               >
                 <CartesianGrid stroke="#f5f5f5" />
@@ -283,132 +243,49 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} lg={2} xl={2}>
-          <Grid container direction='column' spacing={2} >
-
-
-
-
-
-            <Grid item >
-              <Paper elevation={4} style={{ padding: '20px', borderLeft: '5px solid #005882' }}>
-
-                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <Paper
+                elevation={4}
+                style={{ padding: "20px", borderLeft: "5px solid #005882" }}
+              >
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                >
                   Recent Deposits
                 </Typography>
                 <Typography component="p" variant="h4">
                   ${valuePeriod}
                 </Typography>
-                <Typography color="textSecondary" >
-                  on 15 March, 2019
-                </Typography>
-
+                <Typography color="textSecondary">on 15 March, 2019</Typography>
               </Paper>
             </Grid>
 
-
-
-
-
-            <Grid item >
-              <Paper elevation={4} style={{ padding: '20px', borderLeft: '5px solid #005882' }} >
-
-                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+            <Grid item>
+              <Paper
+                elevation={4}
+                style={{ padding: "20px", borderLeft: "5px solid #005882" }}
+              >
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+                >
                   Recent Deposits
                 </Typography>
                 <Typography component="p" variant="h4">
                   ${valuePeriod}
                 </Typography>
-                <Typography color="textSecondary" >
-                  on 15 March, 2019
-                </Typography>
-
+                <Typography color="textSecondary">on 15 March, 2019</Typography>
               </Paper>
             </Grid>
-
-
-
-
-
-
           </Grid>
         </Grid>
       </Grid>
-
-      <Dialog
-        open={openModal}
-        aria-labelledby="form-dialog-title"
-        data-keyboard="false"
-        data-backdrop="static"
-      >
-        <DialogTitle id="form-dialog-title">
-          Informe o Token enviado por SMS
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Informe o token enviado para seu celular para que confirme sua conta
-            no gateway de pagamentos Vileve.
-          </DialogContentText>
-          <Grid container>
-            <Grid item>
-              <TextField
-                style={{ float: "left", width: 90 }}
-                autoFocus
-                // margin="dense"
-                id="name"
-                label="Token"
-                type="text"
-                autoComplete="off"
-                variant="outlined"
-                inputProps={{
-                  maxLength: 6,
-                  onChange: (e) => OnchangeTOKEN(e.target.value),
-                  value: token,
-                }}
-              // fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <Paper
-                component="form"
-                className={classes.inputcell}
-                elevation={5}
-              >
-                <IconButton className={classes.iconButton} aria-label="menu">
-                  <PhoneIphone />
-                </IconButton>
-                <InputBase
-                  placeholder="********"
-                  inputProps={{
-                    maxLength: 11,
-                    onChange: (e) => OnchangeCELLPHONE(e.target.value),
-                    value: cellphone,
-                  }}
-                />
-                <IconButton
-                  type="button"
-                  onClick={changeCell}
-                  className={classes.iconButton}
-                  aria-label="celular"
-                >
-                  <Edit />
-                </IconButton>
-              </Paper>
-            </Grid>
-            <Grid item>
-              <ButtonTimer style={{ float: "left" }} />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleSendTokenSMS}
-            variant="contained"
-            color="primary"
-          >
-            Enviar
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Page >
+    </Page>
   );
 }
