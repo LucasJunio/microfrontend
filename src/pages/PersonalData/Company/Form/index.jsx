@@ -77,7 +77,6 @@ const Form = () => {
     },
   });
 
-  console.log(formik.values);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>

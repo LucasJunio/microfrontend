@@ -109,7 +109,6 @@ export const formatDate = (date) => {
       month: "numeric",
       day: "numeric",
     }).format(plusDay);
-    console.log(newDate);
     return newDate;
   }
   return date;

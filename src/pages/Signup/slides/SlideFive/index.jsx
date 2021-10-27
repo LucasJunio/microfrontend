@@ -17,7 +17,6 @@ export const SlideFive = ({ nextStep, previousStep, formik, waitCnpj }) => {
     let value = event.target.value;
     value = value.replace(/\D/g, "");
     if (value.length >= 14) {
-      console.log(value);
       waitCnpj(true);
       getCnpj(value).then((cnpj) => {
         if (!!cnpj) {

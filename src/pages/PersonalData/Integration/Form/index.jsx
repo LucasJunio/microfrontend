@@ -38,7 +38,6 @@ const Form = () => {
     signer: { userId },
     user: { type, status, dataUser, message },
   } = useSelector((state) => state);
-  console.log(dataUser);
   useEffect(() => {
     dispatch(userById(userId));
   }, []);
@@ -75,7 +74,6 @@ const Form = () => {
       delete values.tarifa;
       delete values.conta;
       delete values.empresa;
-      console.log(values);
       dispatch(editUser(values));
     },
   });

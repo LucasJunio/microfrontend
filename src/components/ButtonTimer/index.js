@@ -27,7 +27,6 @@ const ButtonTimer = () => {
   const resendToken = () => {
     setduration(durationTime + 1);
     setbuttonresend(true);
-    console.log(tokenSigner);
     if (!!tokenSignup) {
       dispatch(resendSms(tokenSignup));
     } else {

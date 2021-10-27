@@ -78,12 +78,10 @@ const Form = () => {
       delete values.endereco_cpf;
       delete values.endereco_cnpj;
       delete values.empresa;
-      console.log(values);
       dispatch(editUser(values));
     },
   });
-  console.log(data);
-  console.log(data.length === 0);
+
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -155,7 +153,7 @@ const Form = () => {
                                 <TextField
                                   label="Cobrança"
                                   id="taxa"
-                                  name="tarifa.taxa"
+                                  name="tarifa.cobranca"
                                   required
                                   variant="outlined"
                                   size="small"
