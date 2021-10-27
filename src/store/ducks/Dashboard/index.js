@@ -1,10 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { dashboardGet } from "./service";
+import { api } from "../../../services/api";
+
 
 export const getDashboard = createAsyncThunk(
   "dashboard/getDashboard",
   async (body, { rejectWithValue }) => {
     try {
+      // const { startDate, endDate } = body;
+
+      // const {data} = await api.get(`/dashboard?startdate=${startDate.toISOString().split('T')[0]}&enddate=${endDate.toISOString().split('T')[0]}`);
+
       const { data } = await dashboardGet(body);
       return data;
     } catch (error) {
@@ -19,101 +25,48 @@ export const getDashboard = createAsyncThunk(
 const initialState = {
   status: "idle",
   message: "",
-  chartMovingAverage:[
-    {
-      data: '11/02/1996',
-      valor: 100,
-      movel: 500,
-    },
-    {
-      data: '11/02/1996',
-      valor: 800,
-      movel: 239,
-    },
-    {
-      data: '11/02/1996',
-      valor: 50,
-      movel: 2000,
-    },
-    {
-      data: '11/02/1996',
-      valor: 1054,
-      movel: 55,
-    },
-    {
-      data: '11/02/1996',
-      valor: 585,
-      movel: 624,
-    },
-    {
-      data: '11/02/1996',
-      valor: 8,
-      movel: 963,
-    },
-    {
-      data: '11/02/1996',
-      valor: 87,
-      movel: 2414,
-    },
-    {
-      data: '11/02/1996',
-      valor: 77,
-      movel: 98,
-    },
-    {
-      data: '11/02/1996',
-      valor: 5,
-      movel: 1857,
-    },
-  ],
+  chartMovingAverage:[ {
+    data: '',
+    valor: 0,
+    movel: 0,
+  }, ],
   chartTransactedAmount:[
     {
-      bandeira: 'Mastercard',
-      valor: 2500,
+      bandeira: '',
+      valor: 0,
     },
-    {
-      bandeira: 'Amex',
-      valor: 1500,
-    },
-    {
-      bandeira: 'Visa',
-      valor: 800,
-    },
-    {
-      bandeira: 'Elo',
-      valor: 100,
-    },
+   
   ],
-  valuePeriod:"5,14",
-  valueWay:"1,14"
+  valuePeriod:"",
+  valueWay:""
 };
 const dashboard = createSlice({
   name: "dashboard",
   initialState,
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(getDashboard.pending, (state) => {
-  //       return (state = { ...state, status: "loading" });
-  //     })
-  //     .addCase(getDashboard.fulfilled, (state, action) => {
-  //       return (state = {
-  //         ...state,
-  //         status: "completed",
-  //         message: action.payload.message,
-  //         chartCardFlag: action.payload.chartCardFlag, 
-  //         chartMovingAverage: action.payload.chartMovingAverage, 
-  //         valuePeriod: action.payload.valuePeriod, 
-  //         valueWay: action.payload.valueWay, 
-  //       });
-  //     })
-  //     .addCase(getDashboard.rejected, (state, action) => {
-  //       return (state = {
-  //         ...state,
-  //         status: "failed",
-  //         message: action.payload.message
-  //       });
-  //     });
-  // },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getDashboard.pending, (state) => {
+        return (state = { ...state, status: "loading" });
+      })
+      .addCase(getDashboard.fulfilled, (state, action) => {
+        return (state = {
+          ...state,
+          status: "completed",
+          chartTransactedAmount: action.payload.message[0].chartTransactedAmount, 
+          chartMovingAverage: action.payload.message[0].chartMovingAverage, 
+          valuePeriod: action.payload.message[0].valuePeriod, 
+          valueWay: action.payload.message[0].valueWay, 
+        });
+      })
+      .addCase(getDashboard.rejected, (state, action) => {
+        return (state = {
+          ...state,
+          status: "failed",
+        });
+      });
+  },
 });
+
+console.log(initialState.chartMovingAverage);
 
 export default dashboard.reducer;

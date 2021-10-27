@@ -66,7 +66,9 @@ export default function Dashboard() {
   } = useSelector((state) => state);
 
   const [openBackDrop, setOpenBackDrop] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  let d = new Date();
+
+  const [startDate, setStartDate] = useState(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
   const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
@@ -151,7 +153,7 @@ export default function Dashboard() {
             label="Data fim"
             size="small"
             // className={classes.fieldCentralization}
-            maxDate={new Date()}
+            // maxDate={new Date}
             format="dd/MM/yyyy"
             value={endDate}
             onChange={setEndDate}
@@ -243,44 +245,45 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} lg={2} xl={2}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Paper
-                elevation={4}
-                style={{ padding: "20px", borderLeft: "5px solid #005882" }}
-              >
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  color="primary"
-                  gutterBottom
-                >
-                  Recent Deposits
+          <Grid container direction='column' spacing={2} >
+
+
+
+
+
+            <Grid item >
+              <Paper elevation={4} style={{ padding: '20px', borderLeft: '5px solid #27f227' }}>
+
+                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                  Valor Total Transacionado
                 </Typography>
                 <Typography component="p" variant="h4">
-                  ${valuePeriod}
+                  R${valuePeriod}
                 </Typography>
-                <Typography color="textSecondary">on 15 March, 2019</Typography>
+                <Typography color="textSecondary" >
+                  No período
+                </Typography>
+
               </Paper>
             </Grid>
 
-            <Grid item>
-              <Paper
-                elevation={4}
-                style={{ padding: "20px", borderLeft: "5px solid #005882" }}
-              >
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  color="primary"
-                  gutterBottom
-                >
-                  Recent Deposits
+
+
+
+
+            <Grid item >
+              <Paper elevation={4} style={{ padding: '20px', borderLeft: '5px solid #fa2419' }} >
+
+                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                  Billing
                 </Typography>
                 <Typography component="p" variant="h4">
-                  ${valuePeriod}
+                  R${valueWay}
                 </Typography>
-                <Typography color="textSecondary">on 15 March, 2019</Typography>
+                <Typography color="textSecondary" >
+                  Taxa cobrada
+                </Typography>
+
               </Paper>
             </Grid>
           </Grid>

@@ -71,8 +71,8 @@ export default function SignIn() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "administrador@vileve.com.br",
+      password: "AdminW@y!2021",
     },
     validationSchema,
     onSubmit: ({ email, password }) => {
