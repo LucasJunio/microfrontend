@@ -25,6 +25,7 @@ import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import validationSchema from "./validateSchema";
 import { maskCel, maskCpf } from "../../../../utils/string/masks";
+import bancos from "../../../../utils/data/banco";
 
 const Form = () => {
   const classes = useStyles();
@@ -747,6 +748,163 @@ const Form = () => {
                           </Grid>
                         </Grid>
                         <Grid item></Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+          <Grid item>
+            <Accordion defaultExpanded elevation={elevetionAccordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel-content-personal-data"
+                id="panel-header-personal-dataheader"
+              >
+                <Typography className={classes.heading}>Conta</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container direction="column">
+                  <Grid item>
+                    <Grid container justifyContent="space-between">
+                      <Grid item lg={5}>
+                        <Grid
+                          container
+                          direction="column"
+                          spacing={spaceColumn}
+                        >
+                          <Grid item>
+                            <Typography>Dados Bancários</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={2}>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                xl={12}
+                              >
+                                <TextField
+                                  id="bancopj"
+                                  name="conta.banco"
+                                  select
+                                  label="Banco"
+                                  variant="outlined"
+                                  size="small"
+                                  disabled
+                                  value={formik.values.conta?.banco}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  error={
+                                    formik.touched.conta?.banco &&
+                                    Boolean(formik.errors.conta?.banco)
+                                  }
+                                  helperText={
+                                    formik.touched.conta?.banco &&
+                                    formik.errors.conta?.banco
+                                  }
+                                  fullWidth
+                                  required
+                                >
+                                  {bancos.map(({ nomeBanco, numeroBanco }) => {
+                                    return (
+                                      <MenuItem
+                                        key={numeroBanco}
+                                        value={numeroBanco}
+                                      >
+                                        {nomeBanco}
+                                      </MenuItem>
+                                    );
+                                  })}
+                                </TextField>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <TextField
+                                  id="agencia"
+                                  name="conta.agencia"
+                                  label="Agência"
+                                  variant="outlined"
+                                  size="small"
+                                  disabled
+                                  fullWidth
+                                  value={formik.values.conta?.agencia}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  error={
+                                    formik.touched.conta?.agencia &&
+                                    Boolean(formik.errors.conta?.agencia)
+                                  }
+                                  helperText={
+                                    formik.touched.conta?.agencia &&
+                                    formik.errors.conta?.agencia
+                                  }
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <TextField
+                                  id="conta"
+                                  name="conta.conta"
+                                  label="Conta"
+                                  variant="outlined"
+                                  size="small"
+                                  disabled
+                                  fullWidth
+                                  value={formik.values.conta?.conta}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  error={
+                                    formik.touched.conta?.conta &&
+                                    Boolean(formik.errors.conta?.conta)
+                                  }
+                                  helperText={
+                                    formik.touched.conta?.conta &&
+                                    formik.errors.conta?.conta
+                                  }
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item>
+                            <Grid container spacing={2}>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                xl={12}
+                              >
+                                <TextField
+                                  id="pix"
+                                  name="conta.pix"
+                                  label="PIX"
+                                  variant="outlined"
+                                  size="small"
+                                  disabled
+                                  fullWidth
+                                  value={formik.values.conta?.pix}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  error={
+                                    formik.touched.conta?.pix &&
+                                    Boolean(formik.errors.conta?.pix)
+                                  }
+                                  helperText={
+                                    formik.touched.conta?.pix &&
+                                    formik.errors.conta?.pix
+                                  }
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>

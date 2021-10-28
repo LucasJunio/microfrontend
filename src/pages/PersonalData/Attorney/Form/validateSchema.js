@@ -30,32 +30,12 @@ const validationSchema = yup.object({
     mae: yup.string().required("Mãe é um campo obrigatório"),
     pai: yup.string().required("Pai é um campo obrigatório"),
   }),
-
-  // empresa: yup.object({
-  //   cnpj: yup.string().required("CNPJ é um campo obrigatório"),
-  //   cnae: yup.string().required("CNAE é um campo obrigatório"),
-  //   razao_social: yup.string().required("Razão social é um campo obrigatório"),
-  //   // telefone_fixo: yup
-  //   //   .string()
-  //   //   .required("Telefone fixo é um campo obrigatório"),
-  //   // celular_pj: yup.string().required("Celular CNPJ é um campo obrigatório"),
-  //   // telefone_fixo: yup.string().required("Telefone fixo é um campo obrigatório"),
-  //   nome_fantasia: yup
-  //     .string()
-  //     .required("Nome fantasia é um campo obrigatório"),
-  //   // site: yup.string().required("Site é um campo obrigatório"),
-  // }),
-
-  // endereco_cnpj: yup.object({
-  //   endereco: yup.string().required("Endereço é um campo obrigatório"),
-  //   cep: yup.string().required("CEP é um campo obrigatório"),
-  //   complemento: yup.string(),
-  //   bairro: yup.string().required("Bairro é um campo obrigatório"),
-  //   numero: yup.string().required("Numero é um campo obrigatório"),
-  //   cidade: yup.string().required("Cidade é um campo obrigatório"),
-  //   estado: yup.string().required("Estado é um campo obrigatório"),
-  // }),
-
+  conta: yup.object({
+    banco: yup.string().required("Estado é um campo obrigatório"),
+    agencia: yup.string().required("Agência é um campo obrigatório"),
+    conta: yup.string().required("Conta é um campo obrigatório"),
+    pix: yup.string().required("Pix é um campo obrigatório"),
+  }),
   endereco_cpf: yup.object({
     endereco: yup.string().required("Endereço é um campo obrigatório"),
     cep: yup.string().required("CEP é um campo obrigatório"),

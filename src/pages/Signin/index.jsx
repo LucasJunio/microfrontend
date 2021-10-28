@@ -93,7 +93,7 @@ export default function SignIn() {
         autoHideDuration: 2000,
       });
       if (state.signer.signed) {
-        history.push("/");
+        history.push("/dashboard");
       }
     } else if (state.signer.status === "loading") {
       setOpen(true);
@@ -231,7 +231,7 @@ export default function SignIn() {
             }}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" tabIndex="3"  color="primary" />}
+            control={<Checkbox value="remember" tabIndex="3" color="primary" />}
             label="Lembrar-me"
           />
           <Button
@@ -245,12 +245,12 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2"  onClick={handleClickOpen}>
+              <Link href="#" variant="body2" onClick={handleClickOpen}>
                 Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup"  variant="body2">
+              <Link href="/signup" variant="body2">
                 Não tem uma conta? Cadastre-se
               </Link>
             </Grid>
