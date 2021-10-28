@@ -201,6 +201,7 @@ export default function Dashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="bandeira" />
                 <YAxis />
+                <Tooltip />
                 <Bar
                   dataKey="valor"
                   fill="#8884d8"
