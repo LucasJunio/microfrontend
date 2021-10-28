@@ -118,13 +118,20 @@ export default function Dashboard() {
       <Backdrop className={classes.backdrop} open={openBackDrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
-
-      <h3>Selecione um período:</h3>
+      <Paper
+            elevation={4}
+            style={{
+              width: "100%",
+              height: "100%",
+              padding: "10px",
+              paddingTop: "30px",
+            }}
+          >
       <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+        <Grid item xs={12} sm={6} md={6} lg={3} xl={2}><h3>Selecione um período:</h3></Grid>
+        <Grid item xs={12}  lg={4} xl={4}>
           <KeyboardDatePicker
-            id="emissao"
-            name="pessoa.emissao"
+            id="startdate"
             variant="dialog"
             inputVariant="outlined"
             margin="normal"
@@ -143,10 +150,9 @@ export default function Dashboard() {
             required
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+        <Grid item xs={12}  lg={4} xl={4}>
           <KeyboardDatePicker
-            id="emissao"
-            name="pessoa.emissao"
+            id="enddate"
             variant="dialog"
             inputVariant="outlined"
             margin="normal"
@@ -166,6 +172,9 @@ export default function Dashboard() {
           />
         </Grid>
       </Grid>
+      </Paper>
+
+      <br/>
 
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} lg={4}>
