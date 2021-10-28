@@ -123,7 +123,7 @@ export const maskRealMoney = (value) => {
     realFormated = realFormated.replace(".", ",");
     realFormated = realFormated.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
     realFormated = realFormated.replace(/(\d)(\d{3}),/g, "$1.$2,");
-    return `R$: ${realFormated}`;
+    return `R$ ${realFormated}`;
   }
   return "";
 };
