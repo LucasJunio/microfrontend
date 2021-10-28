@@ -202,11 +202,12 @@ export default function Dashboard() {
                 <XAxis dataKey="bandeira" />
                 <YAxis />
                 <Tooltip />
+                
                 <Bar
                   dataKey="valor"
                   fill="#8884d8"
-                  shape={<TriangleBar />}
-                  label={{ position: "top" }}
+                  name="R$"
+                  label={{ position: "top" }}                  
                 >
                   {chartTransactedAmount.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % 20]} />
@@ -245,7 +246,7 @@ export default function Dashboard() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="valor" barSize={30} fill="#413ea0" />
+                <Bar dataKey="valor" name="R$" barSize={30} fill="#413ea0" />
                 <Line type="monotone" dataKey="movel" stroke="#ff7300" />
               </ComposedChart>
             </ResponsiveContainer>
