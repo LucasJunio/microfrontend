@@ -67,9 +67,7 @@ export default function Dashboard() {
   } = useSelector((state) => state);
 
   const [openBackDrop, setOpenBackDrop] = useState(false);
-  let d = new Date();
-
-  const [startDate, setStartDate] = useState(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+  const [startDate, setStartDate] = useState(new Date((new Date()).getFullYear(), (new Date()).getMonth(), 1));
   const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
@@ -125,7 +123,6 @@ export default function Dashboard() {
               width: "100%",
               height: "100%",
               padding: "10px",
-              paddingTop: "30px",
             }}
           >
       <Grid container spacing={2} justifyContent="center">
