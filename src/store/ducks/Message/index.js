@@ -55,6 +55,11 @@ const initialState = {
 const message = createSlice({
   name: "message",
   initialState,
+  reducers: {
+    clearMessageAndStatus: (state) => {
+      return (state = { ...state, message: null, status: "idle", type: "" });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(resendSms.pending, (state) => {
@@ -125,4 +130,5 @@ const message = createSlice({
   },
 });
 
+export const { clearMessageAndStatus } = message.actions;
 export default message.reducer;

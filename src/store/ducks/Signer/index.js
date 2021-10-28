@@ -20,7 +20,7 @@ export const recoveryPassword = createAsyncThunk(
   "signer/recoveryPassword",
   async (body, { rejectWithValue }) => {
     try {
-      const { data }  = await recoverPassword(body);
+      const { data } = await recoverPassword(body);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -35,7 +35,7 @@ export const sendEmailRecovery = createAsyncThunk(
   "signer/sendEmailRecovery",
   async (body, { rejectWithValue }) => {
     try {
-      const { data }  = await sendEmailRecover(body);
+      const { data } = await sendEmailRecover(body);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -52,7 +52,10 @@ const initialState = {
   status: "idle",
   message: null,
   statusMessage: null,
-  type: null, 
+  userName: null,
+  userId: null,
+  type: null,
+  cnpj: null,
 };
 const signer = createSlice({
   name: "signer",
@@ -64,12 +67,19 @@ const signer = createSlice({
     clearMessage(state) {
       return (state = { ...state, message: null });
     },
+    signed(state, action) {
+      return (state = {
+        ...state,
+        token: action.payload.token,
+        signed: true,
+        userId: action.payload.id,
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(signin.pending, (state) => {
         return (state = { ...state, status: "loading" });
-        // state.status = "loading";
       })
       .addCase(signin.fulfilled, (state, action) => {
         return (state = {
@@ -78,7 +88,10 @@ const signer = createSlice({
           token: action.payload.token,
           signed: true,
           statusMessage: action.payload.name,
-          message: action.payload.message
+          message: action.payload.message,
+          userName: action.payload.userName,
+          userId: action.payload.userId,
+          cnpj: action.payload.cnpj,
         });
       })
       .addCase(signin.rejected, (state, action) => {
@@ -88,7 +101,7 @@ const signer = createSlice({
           message: action.payload.message,
           statusMessage: action.payload.name,
         });
-      })           
+      })
       .addCase(recoveryPassword.pending, (state) => {
         return (state = { ...state, status: "loading" });
       })
@@ -98,7 +111,7 @@ const signer = createSlice({
           status: "completed",
           message: action.payload.message,
           statusMessage: action.payload.name,
-          type: "recoveryPassword"
+          type: "recoveryPassword",
         });
       })
       .addCase(recoveryPassword.rejected, (state, action) => {
@@ -131,7 +144,7 @@ const signer = createSlice({
   },
 });
 
-export const { logOut, clearMessage } = signer.actions;
+export const { logOut, clearMessage, signed } = signer.actions;
 // export const { increment, decrement } = systemUser.actions;
 
 export default signer.reducer;

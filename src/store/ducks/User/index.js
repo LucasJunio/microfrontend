@@ -1,17 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  getUsers,
-  getRelatedGroups,
+  uploadDocuments,
+  getDocumentsByUser,
   getUserById,
-  postUser,
-  editUserById,
+  putEditUser,
 } from "./service";
 
-export const userList = createAsyncThunk(
-  "user/userList",
-  async (_, { rejectWithValue }) => {
+export const persistDocuments = createAsyncThunk(
+  "user/persistDocuments",
+  async (body, { rejectWithValue, dispatch }) => {
     try {
-      const { data } = await getUsers();
+      const { data } = await uploadDocuments(body, dispatch);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -22,11 +21,18 @@ export const userList = createAsyncThunk(
   }
 );
 
-export const relatedGroups = createAsyncThunk(
-  "user/relatedGroups",
-  async (userId, { rejectWithValue }) => {
+export const documentsByUser = createAsyncThunk(
+  "user/documentsByUser",
+  async (id, { rejectWithValue, getState }) => {
     try {
-      const { data } = await getRelatedGroups(userId);
+      const {
+        signer: { token },
+      } = getState();
+      const payload = {
+        id,
+        token,
+      };
+      const { data } = await getDocumentsByUser(payload);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -37,11 +43,26 @@ export const relatedGroups = createAsyncThunk(
   }
 );
 
-export const createUser = createAsyncThunk(
-  "user/createUser",
+export const userById = createAsyncThunk(
+  "user/userById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await getUserById(id);
+      return data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const editUser = createAsyncThunk(
+  "user/editUser",
   async (body, { rejectWithValue }) => {
     try {
-      const { data } = await postUser(body);
+      const { data } = await putEditUser(body);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -52,139 +73,179 @@ export const createUser = createAsyncThunk(
   }
 );
 
-export const getOnlyUser = createAsyncThunk("user/getOnlyUser", async (id) => {
-  const { data } = await getUserById(id);
-  return data;
-});
-
-export const editUser = createAsyncThunk("user/editUserById", async (body) => {
-  const { data } = await editUserById(body);
-  return data;
-});
-
 const initialState = {
-  data: [],
-  relatedGroups: [],
-  selectedRelatedGroups: [],
-  newUser: [],
-  currentUser: [
-    {
-      email: "",
-      nome: "",
-      cpf: "",
-      status: "",
-    },
-  ],
   message: null,
   status: "idle",
+  percentUploadImg: 0,
+  imgData: [],
+  dataUser: {
+    usuario: {
+      nome: "",
+      email: "",
+      client_id: "",
+      cliente_secret: "",
+      base_64: "",
+      status: "",
+      numero_estabelecimento: "",
+      terminal: "",
+    },
+    pessoa: {
+      cpf: "",
+      celular: "",
+      nascimento: "",
+      naturalidade: "",
+      nacionalidade: "",
+      estado_civil: "",
+      rg: "",
+      emissor: "",
+      emissao: "",
+      sexo: "",
+      mae: "",
+      pai: "",
+    },
+    empresa: {
+      cnpj: "",
+      cnae: 0,
+      razao_social: "",
+      telefone_fixo: "",
+      celular: "",
+      nome_fantasia: "",
+      site: "",
+    },
+    conta: {
+      banco: "",
+      agencia: "",
+      conta: "",
+      operacao: "",
+      pix: "",
+    },
+    endereco_cnpj: {
+      cep: "",
+      endereco: "",
+      complemento: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+    },
+    endereco_cpf: {
+      cep: "",
+      complemento: "",
+      endereco: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+    },
+    tarifa: {
+      risco: "",
+      periodo: "",
+      observacao: "",
+      segmento: "",
+      tipo_cobranca: "",
+      faturamento: "",
+      tipo_cobranca: "",
+    },
+  },
+  type: "",
 };
 
 const user = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addSelectedGroups(state, action) {
-      return (state = { ...state, selectedRelatedGroups: action.payload });
+    percentUploadImg: (state, action) => {
+      return (state = { ...state, percentUploadImg: action.payload });
     },
-    clearSelectedGroups(state) {
-      return (state = { ...state, selectedRelatedGroups: [] });
+    clearImgUpload: (state) => {
+      return (state = { ...state, percentUploadImg: 0, imgData: [] });
     },
-    clearUser(state) {
+    clearUser: (state) => {
       return (state = {
         ...state,
-        newUser: [],
-        message: "",
-        relatedGroups: [],
         status: "idle",
+        message: "",
+        type: "",
       });
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(userList.pending, (state) => {
+      .addCase(persistDocuments.pending, (state) => {
         return (state = { ...state, status: "loading" });
       })
-      .addCase(userList.fulfilled, (state, action) => {
+      .addCase(persistDocuments.fulfilled, (state, action) => {
         return (state = {
           ...state,
           status: "completed",
-          data: action.payload.message,
+          message: action.payload.message,
         });
       })
-      .addCase(userList.rejected, (state, action) => {
-        return (state = { ...state, status: "failed" });
-      })
-      .addCase(relatedGroups.pending, (state) => {
-        return (state = { ...state, status: "loading" });
-      })
-      .addCase(relatedGroups.fulfilled, (state, action) => {
-        return {
-          ...state,
-          relatedGroups: action.payload.message,
-          status: "completed",
-        };
-      })
-      .addCase(relatedGroups.rejected, (state, action) => {
+      .addCase(persistDocuments.rejected, (state, action) => {
         return (state = {
           ...state,
           status: "failed",
           message: action.payload.message,
         });
       })
-      .addCase(createUser.pending, (state) => {
+      .addCase(documentsByUser.pending, (state) => {
         return (state = { ...state, status: "loading" });
       })
-      .addCase(createUser.fulfilled, (state, action) => {
-        if (!!action.payload) {
-          return (state = {
-            ...state,
-            newUser: action.payload.message,
-            status: "created",
-          });
-        }
-        return (state = { ...state, status: "idle" });
-      })
-      .addCase(createUser.rejected, (state, action) => {
+      .addCase(documentsByUser.fulfilled, (state, action) => {
         return (state = {
           ...state,
-          message: action.payload.message,
+          status: "completed",
+          imgData: action.payload.message,
+        });
+      })
+      .addCase(documentsByUser.rejected, (state, action) => {
+        return (state = {
+          ...state,
           status: "failed",
+          imgData: action.payload.message,
         });
       })
-      .addCase(getOnlyUser.pending, (state) => {
-        return (state = { ...state, status: "loading" });
+      .addCase(userById.pending, (state) => {
+        return (state = { ...state, status: "loading", type: "userById" });
       })
-      .addCase(getOnlyUser.fulfilled, (state, action) => {
+      .addCase(userById.fulfilled, (state, action) => {
         return (state = {
           ...state,
-          currentUser: action.payload.message,
-          status: "idle",
+          status: "completed",
+          dataUser: action.payload.message,
+          type: "userById",
         });
       })
-      .addCase(getOnlyUser.rejected, (state) => {
-        return (state = { ...state, status: "failed" });
+      .addCase(userById.rejected, (state, action) => {
+        return (state = {
+          ...state,
+          status: "failed",
+          message: action.payload.message,
+          type: "userById",
+        });
       })
       .addCase(editUser.pending, (state) => {
-        return (state = { ...state, status: "loading" });
+        return (state = { ...state, status: "loading", type: "editUser" });
       })
       .addCase(editUser.fulfilled, (state, action) => {
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
+          message: "Atualizado com sucesso",
+          type: "editUser",
         });
       })
-      .addCase(editUser.rejected, (state, action) => {
+      .addCase(editUser.rejected, (state) => {
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: "Algo deu errado, tente novamente",
+          type: "editUser",
         });
       });
   },
 });
 
-export const { addSelectedGroups, clearUser, clearSelectedGroups } =
-  user.actions;
+export const { percentUploadImg, clearImgUpload, clearUser } = user.actions;
 
 export default user.reducer;

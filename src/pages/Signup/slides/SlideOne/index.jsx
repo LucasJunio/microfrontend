@@ -27,10 +27,10 @@ export const SlideOne = ({ nextStep, formik }) => {
   });
   return (
     <Grid item xs={12} md={12}>
-      <Grid container justify="center" alignItems="center" spacing={5}>
+      <Grid container justifyContent="center" alignItems="center" spacing={5}>
         <Hidden only={["xs", "sm"]}>
           <Grid item md={6}>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justifyContent="center" alignItems="center">
               <img src={manPc} className={classes.manPc} alt="logotipo" />
             </Grid>
           </Grid>
@@ -140,7 +140,7 @@ export const SlideOne = ({ nextStep, formik }) => {
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <Grid container justify="flex-end" alignItems="center">
+                <Grid container justifyContent="flex-end" alignItems="center">
                   <Grid item>
                     <Button
                       variant="contained"

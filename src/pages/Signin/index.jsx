@@ -93,7 +93,7 @@ export default function SignIn() {
         autoHideDuration: 2000,
       });
       if (state.signer.signed) {
-        history.push('/');
+        history.push("/dashboard");
       }
     } else if (state.signer.status === 'loading') {
       setOpen(true);
@@ -184,8 +184,9 @@ export default function SignIn() {
         </Typography> */}
         <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            tabIndex="0"
+            margin="normal"
             required
             fullWidth
             id='email'
@@ -199,8 +200,9 @@ export default function SignIn() {
             helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            tabIndex="1"
+            margin="normal"
             required
             fullWidth
             name='password'
@@ -217,7 +219,8 @@ export default function SignIn() {
               endAdornment: (
                 <InputAdornment position='end'>
                   <IconButton
-                    aria-label='toggle password visibility'
+                    tabIndex="2"
+                    aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
                   >
@@ -228,8 +231,8 @@ export default function SignIn() {
             }}
           />
           <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Lembrar-me'
+            control={<Checkbox value="remember" tabIndex="3" color="primary" />}
+            label="Lembrar-me"
           />
           <Button
             type='submit'

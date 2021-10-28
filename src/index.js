@@ -7,7 +7,13 @@ import { persistStore } from "redux-persist";
 import store from "./store";
 
 let persistor = persistStore(store);
- 
+
+// TODO: Limpar o store quando isReload for do tipo "reload"
+// const [isReload] = performance
+//   .getEntriesByType("navigation")
+//   .map((nav) => nav.type);
+// console.log(isReload);
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

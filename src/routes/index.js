@@ -3,11 +3,11 @@ import Signin from "pages/Signin";
 import Email from "pages/Email";
 import Signup from "pages/Signup";
 import RecoveryPassword from "pages/RecoveryPassword";
-// import RegisterList from "../pages/Customer/ApproveRegister/ListView";
-// import UserList from "../pages/UserSystem/User/ListView";
-// import User from "../pages/UserSystem/User/FormView";
-// import GroupList from "../pages/UserSystem/Group/ListView";
-// import EditUser from "../pages/UserSystem/User/EditView";
+import Documents from "pages/PersonalData/Documents";
+import Attorney from "pages/PersonalData/Attorney";
+import Company from "pages/PersonalData/Company";
+import Integration from "pages/PersonalData/Integration";
+import Operation from "pages/PersonalData/Operation";
 
 export const routes = [
   { path: "/email/:token", title: "Email", component: Email, private: false },
@@ -20,13 +20,34 @@ export const routes = [
     component: RecoveryPassword,
     private: false,
   },
-  // { path: "/userList", title: "Usuário", component: UserList },
-  // {
-  //   path: "/userConfig",
-  //   title: "Configuração de Usuário",
-  //   component: User,
-  // },
-  // { path: "/groupList", title: "Grupo", component: GroupList },
-  // { path: "/registerList", title: "Grupo", component: RegisterList },
-  // { path: "/editUser/:id", title: "EditUser", component: EditUser },
+  {
+    path: "/Attorney",
+    title: "Attorney",
+    component: Attorney,
+    private: true,
+  },
+  {
+    path: "/company",
+    title: "Company",
+    component: Company,
+    private: true,
+  },
+  {
+    path: "/documents",
+    title: "Personal Documents",
+    component: Documents,
+    private: true,
+  },
+  {
+    path: "/operation",
+    title: "Operation",
+    component: Operation,
+    private: true,
+  },
+  {
+    path: "/integration",
+    title: "Integration",
+    component: Integration,
+    private: true,
+  },
 ];

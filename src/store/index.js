@@ -1,22 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import {
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import Validation from "./ducks/Validation";
-import reducers from "./reducers";
+import { configureStore } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import reducers from './reducers';
 
 const persistConfig = {
-  key: "vileveWay-Client",
+  key: 'vileveWay-Client',
   version: 1,
   storage,
-  blacklist: ["signup", "message", "validation"],
+  blacklist: ['signup', 'message', 'validation'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -25,9 +16,7 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
     }),
 });
 

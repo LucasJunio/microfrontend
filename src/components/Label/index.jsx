@@ -1,11 +1,11 @@
-import React from 'react';
-import clsx from 'clsx';
-import { useStyles } from './styles';
+import React from "react";
+import clsx from "clsx";
+import { useStyles } from "./styles";
 
 // Type of colors
 // 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'draft' | 'info'
 
-export const Label = ({ children, color = 'secondary' }) => {
+const Label = ({ children, color = "secondary" }) => {
   const classes = useStyles();
   return <span className={clsx([classes[color]])}>{children}</span>;
 };

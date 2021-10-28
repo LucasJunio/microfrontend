@@ -6,7 +6,8 @@ const api = axios.create({
 });
 
 const apiRecovery = axios.create({
-  baseURL: "https://apirecoverypassword-backend-lb-develop.vileveway.com.br/api/v1",
+  baseURL:
+    "https://apirecoverypassword-backend-lb-develop.vileveway.com.br/api/v1",
 });
 
 export { api, apiRecovery };

@@ -23,25 +23,25 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    return () => {};
+    return () => { };
   });
 
   return (
     <Grid item md={12}>
       <div className={classes.divCentralization}>
-        <Grid container justify="center" alignItems="center" spacing={2}>
+        <Grid container justifyContent="center" alignItems="center" spacing={2}>
           <Hidden only={["xs", "sm"]}>
             <Grid item md={6}>
-              <Grid container justify="center" alignItems="center">
+              <Grid container justifyContent="center" alignItems="center">
                 <img src={manPc} alt="logotipo" className={classes.manPc} />
               </Grid>
             </Grid>
           </Hidden>
           <Grid item md={3}>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justifyContent="center" alignItems="center">
               <Grid item>
                 <CardM className={classes.cardPJPF}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => nextStep()}>
                     <CardMedia
                       className={classes.media}
                       image={bg_card_gateway}
@@ -54,7 +54,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                       <Typography
                         variant="body2"
                         color="textSecondary"
-                        component="p"
+                        component="span"
                       >
                         Clique abaixo para contratar o produto Vileve
                         Assitência.
@@ -77,10 +77,10 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
             </Grid>
           </Grid>
           <Grid item md={3}>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justifyContent="center" alignItems="center">
               <Grid item>
                 <CardM className={classes.cardPJPF}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => StepPF()}>
                     <CardMedia
                       className={classes.media}
                       image={bg_card_vileve}
@@ -93,7 +93,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
                       <Typography
                         variant="body2"
                         color="textSecondary"
-                        component="p"
+                        component={"span"}
                       >
                         Clique abaixo para contratar o produto Vileve
                         Assitência.
@@ -116,7 +116,7 @@ export const SlideTwo = ({ nextStep, StepPF, previousStep }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid container justify="flex-end" alignItems="center">
+        <Grid container justifyContent="flex-end" alignItems="center">
           <Grid item>
             <div>
               <Button
