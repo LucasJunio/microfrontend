@@ -51,6 +51,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { getDashboard } from "../../store/ducks/Dashboard";
 import Page from "../../components/Page";
+import { maskRealMoney } from "../../utils/string/masks"
 
 export default function Dashboard() {
   const { enqueueSnackbar } = useSnackbar();
@@ -267,7 +268,7 @@ export default function Dashboard() {
                   Valor Total Transacionado
                 </Typography>
                 <Typography component="p" variant="h4">
-                  R${valuePeriod}
+                  { maskRealMoney(valuePeriod) }                  
                 </Typography>
                 <Typography color="textSecondary" >
                   No período
@@ -287,7 +288,7 @@ export default function Dashboard() {
                   Billing
                 </Typography>
                 <Typography component="p" variant="h4">
-                  R${valueWay}
+                  { maskRealMoney(valueWay) }
                 </Typography>
                 <Typography color="textSecondary" >
                   Taxa cobrada
