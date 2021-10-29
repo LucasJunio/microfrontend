@@ -130,54 +130,31 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                     <KeyboardDatePicker
                       id="nascimentoPf"
                       name="nascimentoPf"
+                      variant="dialog"
                       margin="normal"
-                      label="NASCIMENTO"
+                      label="DATA DE NASCIMENTO"
                       className={classes.fieldCentralization}
                       format="dd/MM/yyyy"
-                      value={selectedDateNasc}
-                      onChange={(date, value) => {
-                        handleDateChangeNasci(date, value);
-                      }}
+                      value={formik.values.nascimentoPf}
+                      onChange={(date) =>
+                        formik.setFieldValue("nascimentoPf", date)
+                      }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.nascimentoPf &&
+                        Boolean(formik.errors.nascimentoPf)
+                      }
+                      helperText={
+                        formik.touched.nascimentoPf &&
+                        formik.errors.nascimentoPf
+                      }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.nascimentoPf &&
-                        Boolean(formik.errors.nascimentoPf)
-                      }
-                      helperText={
-                        formik.touched.nascimentoPf &&
-                        formik.errors.nascimentoPf
-                      }
-                      inputProps={{ maxLength: 20 }}
+                      invalidLabel="Insira uma"
                       fullWidth
                       required
                     />
-                    {/* <TextField
-                      id="nascimentoPf"
-                      name="nascimentoPf"
-                      label="NASCIMENTO"
-                      value={formik.values.nascimentoPf}
-                      onChange={(e) =>
-                        formik.setFieldValue(
-                          e.target.id,
-                          maskDate(e.target.value)
-                        )
-                      }
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.nascimentoPf &&
-                        Boolean(formik.errors.nascimentoPf)
-                      }
-                      helperText={
-                        formik.touched.nascimentoPf &&
-                        formik.errors.nascimentoPf
-                      }
-                      inputProps={{ maxLength: 10 }}
-                      fullWidth
-                      required
-                    /> */}
                   </Grid>
                 </Grid>
               </Grid>
@@ -304,11 +281,11 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={
-                        formik.touched.emissaoPf &&
-                        Boolean(formik.errors.emissaoPf)
+                        formik.touched.emissorPf &&
+                        Boolean(formik.errors.emissorPf)
                       }
                       helperText={
-                        formik.touched.emissaoPf && formik.errors.emissaoPf
+                        formik.touched.emissorPf && formik.errors.emissorPf
                       }
                       required
                       fullWidth
@@ -318,52 +295,30 @@ export const SlideSeven = ({ nextStep, previousStep, formik }) => {
                     <KeyboardDatePicker
                       id="emissaoPf"
                       name="emissaoPf"
+                      variant="dialog"
                       margin="normal"
-                      label="DATA EMISSAO"
+                      label="DATA DE EMISSÃO"
                       className={classes.fieldCentralization}
                       format="dd/MM/yyyy"
-                      value={selectedDateEmissao}
-                      onChange={(date, value) => {
-                        handleDateChangeEmissao(date, value);
-                      }}
+                      value={formik.values.emissaoPf}
+                      onChange={(date) =>
+                        formik.setFieldValue("emissaoPf", date)
+                      }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.emissaoPf &&
+                        Boolean(formik.errors.emissaoPf)
+                      }
+                      helperText={
+                        formik.touched.emissaoPf && formik.errors.emissaoPf
+                      }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.emissaoPf &&
-                        Boolean(formik.errors.emissaoPf)
-                      }
-                      helperText={
-                        formik.touched.emissaoPf && formik.errors.emissaoPf
-                      }
-                      inputProps={{ maxLength: 20 }}
+                      invalidLabel="Insira uma data"
                       fullWidth
                       required
                     />
-                    {/* <TextField
-                      id='emissaoPf'
-                      name='emissaoPf'
-                      label='DATA EMISSAO'
-                      value={formik.values.emissaoPf}
-                      onChange={(e) =>
-                        formik.setFieldValue(
-                          e.target.id,
-                          maskDate(e.target.value)
-                        )
-                      }
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.emissaoPf &&
-                        Boolean(formik.errors.emissaoPf)
-                      }
-                      helperText={
-                        formik.touched.emissaoPf && formik.errors.emissaoPf
-                      }
-                      inputProps={{ maxLength: 10 }}
-                      fullWidth
-                      required
-                    /> */}
                   </Grid>
                   <Grid item xs={12} md={2}>
                     <TextField
