@@ -32,7 +32,7 @@ import { useStyles } from "./styles";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import "./stylepagination.scss";
-import { maskNumber } from "../../utils/string/masks";
+import { maskNumber, formatDate } from "../../utils/string/masks";
 import { validateCpf } from "../../utils/string/validateCpf";
 import { createCnpj, createPf } from "store/ducks/Signup";
 
@@ -108,7 +108,8 @@ export default function SectionCarousel() {
     nascimento: yup
       .string()
       .required("Data de nascimento é obrigatória")
-      .trim(),
+      .trim()
+      .nullable(),
     naturalidade: yup
       .string()
       .required("O campo naturalidade é obrigatório")
@@ -121,7 +122,7 @@ export default function SectionCarousel() {
       .trim()
       .min(5, "Rg deve ter no minimo 5 caracteries"),
     emissor: yup.string().required("O campo emissor é obrigatório").trim(),
-    emissao: yup.string().required("O campo emissao é obrigatório"),
+    emissao: yup.string().required("O campo emissao é obrigatório").nullable(),
     sexo: yup.string().required("O campo sexo é obrigatório"),
     mae: yup.string().required("Campo mãe é obrigatório").trim(),
     pai: yup.string().required("Campo pai é obrigatório").trim(),
@@ -171,7 +172,8 @@ export default function SectionCarousel() {
     nascimentoPf: yup
       .string()
       .required("Data de nascimento é obrigatória")
-      .trim(),
+      .trim()
+      .nullable(),
     naturalidadePf: yup
       .string()
       .required("O campo naturalidade é obrigatório")
@@ -186,7 +188,10 @@ export default function SectionCarousel() {
       .trim()
       .min(5, "Rg deve ter no minimo 5 caracteries"),
     emissorPf: yup.string().required("O campo emissor é obrigatório").trim(),
-    emissaoPf: yup.string().required("O campo emissao é obrigatório"),
+    emissaoPf: yup
+      .string()
+      .required("O campo emissao é obrigatório")
+      .nullable(),
     sexoPf: yup.string().required("O campo sexo é obrigatório"),
     maePf: yup.string().required("Campo mãe é obrigatório").trim(),
     paiPf: yup.string().required("Campo pai é obrigatório").trim(),
@@ -546,13 +551,13 @@ export default function SectionCarousel() {
                   pessoa: {
                     cpf: maskNumber(values.cpf),
                     celular: maskNumber(values.celular),
-                    nascimento: values.nascimento,
+                    nascimento: formatDate(values.nascimento),
                     naturalidade: values.naturalidade,
                     nacionalidade: values.nacionalidade,
                     estado_civil: values.estado_civil,
                     rg: values.rg,
                     emissor: values.emissor,
-                    emissao: values.emissao,
+                    emissao: formatDate(values.emissao),
                     sexo: values.sexo,
                     mae: values.mae,
                     pai: values.pai,
@@ -604,13 +609,13 @@ export default function SectionCarousel() {
                   pessoa: {
                     cpf: maskNumber(values.cpfPf),
                     celular: maskNumber(values.celularPf),
-                    nascimento: values.nascimentoPf,
+                    nascimento: formatDate(values.nascimentoPf),
                     naturalidade: values.naturalidadePf,
                     nacionalidade: values.nacionalidadePf,
                     estado_civil: values.estadoCivilPf,
                     rg: values.rgPf,
                     emissor: values.emissorPf,
-                    emissao: values.emissaoPf,
+                    emissao: formatDate(values.emissaoPf),
                     sexo: values.sexoPf,
                     mae: values.maePf,
                     pai: values.paiPf,
