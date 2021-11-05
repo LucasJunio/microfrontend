@@ -151,20 +151,20 @@ export default function SignIn() {
           <DialogContentText id="alert-dialog-slide-description">
             Digite seu e-mail de cadastro abaixo e clique em enviar. <br /> Nós
             lhe enviaremos um e-mail com link para recadastrar sua senha.
-            <TextField
-              margin="normal"
-              fullWidth
-              id="outlined-required"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
           </DialogContentText>
+          <TextField
+            margin="normal"
+            fullWidth
+            id="outlined-required"
+            label="Email"
+            name="email"
+            autoComplete="email"
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
