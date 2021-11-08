@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -20,33 +20,33 @@ import {
   InputAdornment,
   IconButton,
   CircularProgress,
-} from '@material-ui/core';
-import sha256 from 'crypto-js/sha256';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { useSnackbar } from 'notistack';
-import logo from '../../assets/images/logo_vileve_way.png';
-import { useStyles } from './styles';
-import { useHistory } from 'react-router-dom';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { signin, sendEmailRecovery } from '../../store/ducks/Signer';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@material-ui/core";
+import sha256 from "crypto-js/sha256";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { useSnackbar } from "notistack";
+import logo from "../../assets/images/logo_vileve_way.png";
+import { useStyles } from "./styles";
+import { useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { signin, sendEmailRecovery } from "../../store/ducks/Signer";
+import { useDispatch, useSelector } from "react-redux";
 
 function Copyright() {
   return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href='https://vileve.com.br/'>
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://vileve.com.br/">
         Vileve
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function SignIn() {
@@ -64,15 +64,15 @@ export default function SignIn() {
   const validationSchema = yup.object({
     email: yup
       .string()
-      .email('Não é um email valido')
-      .required('O campo email é obrigatório'),
-    password: yup.string().required('O campo senha é obrigatório'),
+      .email("Não é um email valido")
+      .required("O campo email é obrigatório"),
+    password: yup.string().required("O campo senha é obrigatório"),
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema,
     onSubmit: ({ email, password }) => {
@@ -86,7 +86,7 @@ export default function SignIn() {
   });
 
   useEffect(() => {
-    if (state.signer.status === 'completed') {
+    if (state.signer.status === "completed") {
       setOpen(false);
       enqueueSnackbar(state.signer.message, {
         variant: state.signer.statusMessage,
@@ -95,12 +95,12 @@ export default function SignIn() {
       if (state.signer.signed) {
         history.push("/dashboard");
       }
-    } else if (state.signer.status === 'loading') {
+    } else if (state.signer.status === "loading") {
       setOpen(true);
-    } else if (state.signer.status === 'failed') {
+    } else if (state.signer.status === "failed") {
       setOpen(false);
       enqueueSnackbar(state.signer.message, {
-        variant: 'error',
+        variant: "error",
       });
     }
   }, [state.signer.status, state.signer.message]);
@@ -124,7 +124,7 @@ export default function SignIn() {
   const handleSend = () => {
     const body = {
       email: formik.values.email,
-      product: 'sb-vilevewayclient',
+      product: "sb-vilevewayclient",
     };
     dispatch(sendEmailRecovery(body));
     setOpenDialog(false);
@@ -132,39 +132,39 @@ export default function SignIn() {
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <Backdrop className={classes.backdrop} open={open}>
-        <CircularProgress color='primary' />
+        <CircularProgress color="primary" />
       </Backdrop>
 
       <Dialog
         open={openDialog}
         TransitionComponent={Transition}
         keepMounted
-        aria-labelledby='alert-dialog-slide-title'
-        aria-describedby='alert-dialog-slide-description'
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id='alert-dialog-slide-title'>
-          {'Esqueci a senha'}
+        <DialogTitle id="alert-dialog-slide-title">
+          {"Esqueci a senha"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-slide-description'>
+          <DialogContentText id="alert-dialog-slide-description">
             Digite seu e-mail de cadastro abaixo e clique em enviar. <br /> Nós
             lhe enviaremos um e-mail com link para recadastrar sua senha.
-            <TextField
-              margin='normal'
-              fullWidth
-              id='outlined-required'
-              label='Email'
-              name='email'
-              autoComplete='email'
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
           </DialogContentText>
+          <TextField
+            margin="normal"
+            fullWidth
+            id="outlined-required"
+            label="Email"
+            name="email"
+            autoComplete="email"
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
@@ -175,7 +175,7 @@ export default function SignIn() {
       <CssBaseline />
 
       <div className={classes.paper}>
-        <img src={logo} className={classes.logo} alt='logotipo vileve way' />
+        <img src={logo} className={classes.logo} alt="logotipo vileve way" />
         {/* <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar> */}
@@ -189,10 +189,10 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id='email'
-            label='Email'
-            name='email'
-            autoComplete='email'
+            id="email"
+            label="Email"
+            name="email"
+            autoComplete="email"
             onBlur={formik.handleBlur}
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -205,19 +205,19 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            name='password'
-            label='Senha'
-            type={showPassword ? 'text' : 'password'}
-            id='password'
+            name="password"
+            label="Senha"
+            type={showPassword ? "text" : "password"}
+            id="password"
             onBlur={formik.handleBlur}
-            autoComplete='current-password'
+            autoComplete="current-password"
             value={formik.values.password}
             onChange={formik.handleChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
             InputProps={{
               endAdornment: (
-                <InputAdornment position='end'>
+                <InputAdornment position="end">
                   <IconButton
                     tabIndex="2"
                     aria-label="toggle password visibility"
@@ -235,22 +235,22 @@ export default function SignIn() {
             label="Lembrar-me"
           />
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
           >
             Entrar
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href='#' variant='body2' onClick={handleClickOpen}>
+              <Link href="#" variant="body2" onClick={handleClickOpen}>
                 Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
-              <Link href='/signup' variant='body2'>
+              <Link href="/signup" variant="body2">
                 Não tem uma conta? Cadastre-se
               </Link>
             </Grid>
