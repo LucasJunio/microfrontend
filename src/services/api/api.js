@@ -44,22 +44,4 @@ const getCnpj = async (value) => {
   }
 };
 
-const postCnpj = async (body) => {
-  try {
-    const res = await axios.post(`${url}/signup/cnpj`, body);
-    return { sucess: true, res: res.data };
-  } catch (error) {
-    return { sucess: false, res: error.response.data.message };
-  }
-};
-
-const postPf = async (body) => {
-  try {
-    const res = await axios.post(`${url}/signup/cpf`, body);
-    return { sucess: true, res: res.data };
-  } catch (error) {
-    return { sucess: false, res: error.response.data.message };
-  }
-};
-
-export { getCountries, getCep, getCnpj, postCnpj, postPf };
+export { getCountries, getCep, getCnpj };
