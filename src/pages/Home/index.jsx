@@ -67,9 +67,7 @@ export default function Dashboard() {
   } = useSelector((state) => state);
 
   const [openBackDrop, setOpenBackDrop] = useState(false);
-  let d = new Date();
-
-  const [startDate, setStartDate] = useState(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+  const [startDate, setStartDate] = useState(new Date((new Date()).getFullYear(), (new Date()).getMonth(), 1));
   const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
@@ -125,7 +123,6 @@ export default function Dashboard() {
               width: "100%",
               height: "100%",
               padding: "10px",
-              paddingTop: "30px",
             }}
           >
       <Grid container spacing={2} justifyContent="center">
@@ -204,11 +201,13 @@ export default function Dashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="bandeira" />
                 <YAxis />
+                <Tooltip />
+                
                 <Bar
                   dataKey="valor"
                   fill="#8884d8"
-                  shape={<TriangleBar />}
-                  label={{ position: "top" }}
+                  name="R$"
+                  label={{ position: "top" }}                  
                 >
                   {chartTransactedAmount.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % 20]} />
@@ -247,7 +246,7 @@ export default function Dashboard() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="valor" barSize={30} fill="#413ea0" />
+                <Bar dataKey="valor" name="R$" barSize={30} fill="#413ea0" />
                 <Line type="monotone" dataKey="movel" stroke="#ff7300" />
               </ComposedChart>
             </ResponsiveContainer>

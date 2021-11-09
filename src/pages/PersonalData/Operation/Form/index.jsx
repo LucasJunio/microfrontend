@@ -140,10 +140,13 @@ const Form = () => {
                                   required
                                 >
                                   {data.length > 0 &&
-                                    data.map(({ valor }) => {
+                                    data.map(({ label, valor_interno }) => {
                                       return (
-                                        <MenuItem key={valor} value={valor}>
-                                          {valor}
+                                        <MenuItem
+                                          key={label}
+                                          value={valor_interno}
+                                        >
+                                          {label}
                                         </MenuItem>
                                       );
                                     })}

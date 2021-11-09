@@ -18,12 +18,7 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 export const SlideThree = ({ nextStep, previousStep, formik }) => {
   const classes = useStyles();
   const [countries, setCountries] = useState([]);
-  const [selectedDateNasc, setSelectedDateNac] = React.useState(
-    new Date("01/01/1980")
-  );
-  const [selectedDateEmissao, setSelectedDateEmissao] = React.useState(
-    new Date("01/01/2010")
-  );
+
   useEffect(() => {
     const countriesNames = async () => {
       setCountries(await getCountries());
@@ -38,18 +33,6 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
 
   const handleNationality = (event, value) => {
     formik.setFieldValue("nacionalidade", value);
-  };
-
-  const handleDateChangeNasci = (date, value) => {
-    const newDate = formatDate(date);
-    setSelectedDateNac(date);
-    formik.setFieldValue("nascimento", newDate);
-  };
-
-  const handleDateChangeEmissao = (date, value) => {
-    const newDate = formatDate(date);
-    setSelectedDateEmissao(date);
-    formik.setFieldValue("emissao", newDate);
   };
 
   return (
@@ -129,17 +112,15 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                     <KeyboardDatePicker
                       id="nascimento"
                       name="nascimento"
+                      variant="dialog"
                       margin="normal"
-                      label="Nascimento"
+                      label="DATA DE NASCIMENTO"
                       className={classes.fieldCentralization}
                       format="dd/MM/yyyy"
-                      value={selectedDateNasc}
-                      onChange={(date, value) => {
-                        handleDateChangeNasci(date, value);
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
+                      value={formik.values.nascimento}
+                      onChange={(date) =>
+                        formik.setFieldValue("nascimento", date)
+                      }
                       onBlur={formik.handleBlur}
                       error={
                         formik.touched.nascimento &&
@@ -148,7 +129,10 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       helperText={
                         formik.touched.nascimento && formik.errors.nascimento
                       }
-                      inputProps={{ maxLength: 20 }}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      invalidLabel="Insira uma"
                       fullWidth
                       required
                     />
@@ -291,17 +275,13 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                     <KeyboardDatePicker
                       id="emissao"
                       name="emissao"
+                      variant="dialog"
                       margin="normal"
-                      label="DATA EMISSAO"
+                      label="DATA DE EMISSÃO"
                       className={classes.fieldCentralization}
                       format="dd/MM/yyyy"
-                      value={selectedDateEmissao}
-                      onChange={(date, value) => {
-                        handleDateChangeEmissao(date, value);
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
+                      value={formik.values.emissao}
+                      onChange={(date) => formik.setFieldValue("emissao", date)}
                       onBlur={formik.handleBlur}
                       error={
                         formik.touched.emissao && Boolean(formik.errors.emissao)
@@ -309,7 +289,10 @@ export const SlideThree = ({ nextStep, previousStep, formik }) => {
                       helperText={
                         formik.touched.emissao && formik.errors.emissao
                       }
-                      inputProps={{ maxLength: 20 }}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      invalidLabel="Insira uma data"
                       fullWidth
                       required
                     />
