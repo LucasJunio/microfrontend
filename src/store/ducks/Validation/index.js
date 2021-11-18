@@ -39,15 +39,15 @@ const validation = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
-          celular: action.payload.celular,
+          message: action.payload?.message,
+          celular: action.payload?.celular,
         });
       })
       .addCase(validationStatus.rejected, (state, action) => {
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       });
   },

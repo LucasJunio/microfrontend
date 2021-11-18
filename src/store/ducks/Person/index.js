@@ -41,7 +41,7 @@ const group = createSlice({
         state.status = "loading";
       })
       .addCase(listGroups.fulfilled, (state, action) => {
-        if (!!action.payload) state.data = action.payload.message;
+        if (!!action.payload) state.data = action.payload?.message;
         state.status = "idle";
       })
       .addCase(listGroups.rejected, (state) => {
@@ -66,7 +66,7 @@ const group = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       });
   },

@@ -69,7 +69,7 @@ const message = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
+          message: action.payload?.message,
           type: "SMS",
         });
       })
@@ -77,7 +77,7 @@ const message = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
           type: "SMS",
         });
       })
@@ -92,7 +92,7 @@ const message = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
+          message: action.payload?.message,
           type: "editCellphone",
         });
       })
@@ -100,7 +100,7 @@ const message = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
           type: "editCellphone",
         });
       })
@@ -115,7 +115,7 @@ const message = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
+          message: action.payload?.message,
           type: "confirmTokenSMS",
         });
       })
@@ -123,7 +123,7 @@ const message = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
           type: "confirmTokenSMS",
         });
       });

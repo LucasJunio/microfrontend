@@ -52,9 +52,9 @@ const signup = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          token: action.payload.token,
+          token: action.payload?.token,
           signed: true,
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       })
       .addCase(createCnpj.rejected, (state, action) => {
@@ -62,7 +62,7 @@ const signup = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       })
       .addCase(createPf.pending, (state) => {
@@ -72,9 +72,9 @@ const signup = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          token: action.payload.token,
+          token: action.payload?.token,
           signed: true,
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       })
       .addCase(createPf.rejected, (state, action) => {

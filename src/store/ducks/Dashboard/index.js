@@ -25,20 +25,20 @@ export const getDashboard = createAsyncThunk(
 const initialState = {
   status: "idle",
   message: "",
-  chartMovingAverage:[ {
+  chartMovingAverage: [{
     data: '',
     valor: 0,
     movel: 0,
-  }, ],
-  chartTransactedAmount:[
+  },],
+  chartTransactedAmount: [
     {
       bandeira: '',
       valor: 0,
     },
-   
+
   ],
-  valuePeriod:"",
-  valueWay:""
+  valuePeriod: "",
+  valueWay: ""
 };
 const dashboard = createSlice({
   name: "dashboard",
@@ -52,10 +52,10 @@ const dashboard = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          chartTransactedAmount: action.payload.message[0].chartTransactedAmount, 
-          chartMovingAverage: action.payload.message[0].chartMovingAverage, 
-          valuePeriod: action.payload.message[0].valuePeriod, 
-          valueWay: action.payload.message[0].valueWay, 
+          chartTransactedAmount: action.payload?.message[0].chartTransactedAmount,
+          chartMovingAverage: action.payload?.message[0].chartMovingAverage,
+          valuePeriod: action.payload?.message[0].valuePeriod,
+          valueWay: action.payload?.message[0].valueWay,
         });
       })
       .addCase(getDashboard.rejected, (state, action) => {

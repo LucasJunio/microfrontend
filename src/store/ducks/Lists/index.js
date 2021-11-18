@@ -36,7 +36,7 @@ const lists = createSlice({
           ...state,
           status: "completed",
           type: "list",
-          data: action.payload.message,
+          data: action.payload?.message,
         });
       })
       .addCase(getListWhereClause.rejected, (state) => {
@@ -45,7 +45,7 @@ const lists = createSlice({
           status: "failed",
           type: "list",
 
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       });
   },

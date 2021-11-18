@@ -32,14 +32,14 @@ const email = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message
+          message: action.payload?.message
         });
       })
       .addCase(emailValidation.rejected, (state, action) => {
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message
+          message: action.payload?.message
         });
       });
   },
