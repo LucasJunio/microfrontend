@@ -80,7 +80,7 @@ export default function RecoveryPassword() {
       const body = {
         id : JSON.parse(decodedData).id,
         password: sha256(password).toString().trim(),
-        product: "sb-vilevewayclient"        
+        product: "dev-vilevewayclient"        
       };
       dispatch(await recoveryPassword(body));
     },

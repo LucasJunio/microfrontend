@@ -124,7 +124,7 @@ export default function SignIn() {
   const handleSend = () => {
     const body = {
       email: formik.values.email,
-      product: "sb-vilevewayclient",
+      product: "dev-vilevewayclient",
     };
     dispatch(sendEmailRecovery(body));
     setOpenDialog(false);
