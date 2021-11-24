@@ -8,6 +8,7 @@ import messageReducer from "./ducks/Message";
 import userReducer from "./ducks/User";
 import dashboardReducer from "./ducks/Dashboard";
 import listsReducer from "./ducks/Lists";
+import embedReducer from "./ducks/Embed";
 
 const reducers = combineReducers({
   signer: signerReducer,
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   message: messageReducer,
   dashboard: dashboardReducer,
   lists: listsReducer,
+  embed: embedReducer,
 });
 
 export default reducers;

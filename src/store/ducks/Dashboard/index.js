@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { dashboardGet } from "./service";
 import { api } from "../../../services/api";
 
-
 export const getDashboard = createAsyncThunk(
   "dashboard/getDashboard",
   async (body, { rejectWithValue }) => {
@@ -25,20 +24,21 @@ export const getDashboard = createAsyncThunk(
 const initialState = {
   status: "idle",
   message: "",
-  chartMovingAverage: [{
-    data: '',
-    valor: 0,
-    movel: 0,
-  },],
+  chartMovingAverage: [
+    {
+      data: "",
+      valor: 0,
+      movel: 0,
+    },
+  ],
   chartTransactedAmount: [
     {
-      bandeira: '',
+      bandeira: "",
       valor: 0,
     },
-
   ],
   valuePeriod: "",
-  valueWay: ""
+  valueWay: "",
 };
 const dashboard = createSlice({
   name: "dashboard",
@@ -52,7 +52,8 @@ const dashboard = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          chartTransactedAmount: action.payload?.message[0].chartTransactedAmount,
+          chartTransactedAmount:
+            action.payload?.message[0].chartTransactedAmount,
           chartMovingAverage: action.payload?.message[0].chartMovingAverage,
           valuePeriod: action.payload?.message[0].valuePeriod,
           valueWay: action.payload?.message[0].valueWay,
@@ -66,7 +67,5 @@ const dashboard = createSlice({
       });
   },
 });
-
-console.log(initialState.chartMovingAverage);
 
 export default dashboard.reducer;

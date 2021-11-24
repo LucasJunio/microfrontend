@@ -5,31 +5,29 @@ import {
   AccordionSummary,
   AccordionDetails,
   Button,
-  Divider,
   Grid,
-  Hidden,
-  MenuItem,
   Typography,
   TextField,
   Backdrop,
   CircularProgress,
 } from "@material-ui/core";
 import { Save } from "@material-ui/icons";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import countries from "../../../../utils/data/countries";
 import { ExpandMore } from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import BeautifulCode from "components/BeautifulCode";
 import { useSelector, useDispatch } from "react-redux";
 import { userById, editUser } from "../../../../store/ducks/User";
+import { getEmbedCode } from "../../../../store/ducks/Embed";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import validationSchema from "./validateSchema";
+import { setDate } from "date-fns";
 
 const Form = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
+  const [code, setCode] = useState([{ code: "Carregando" }]);
 
   const spaceColumn = 2;
   const elevetionAccordion = 3;
@@ -37,10 +35,17 @@ const Form = () => {
   const {
     signer: { userId },
     user: { type, status, dataUser, message },
+    embed: { data },
   } = useSelector((state) => state);
+
   useEffect(() => {
+    dispatch(getEmbedCode());
     dispatch(userById(userId));
   }, []);
+
+  useEffect(() => {
+    data.length > 0 && setCode([...data]);
+  }, [data]);
 
   useEffect(() => {
     if (status === "loading" && (type === "userById" || type === "editUser")) {
@@ -78,10 +83,7 @@ const Form = () => {
     },
   });
 
-  const handleNationality = (event, value) => {
-    formik.setFieldValue("pessoa.nacionalidade", value);
-  };
-
+  console.log(data);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -98,7 +100,7 @@ const Form = () => {
                 id="panel-header-personal-data"
               >
                 <Typography variant="h2" className={classes.heading}>
-                  Sensedia
+                  Dados Integração
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -112,6 +114,41 @@ const Form = () => {
                           spacing={spaceColumn}
                         >
                           <Grid item>
+                            <Grid container spacing={2}>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                xl={12}
+                              >
+                                <TextField
+                                  label="Código Cliente"
+                                  id="guuid"
+                                  name="usuario.guuid"
+                                  required
+                                  variant="outlined"
+                                  size="small"
+                                  disabled
+                                  fullWidth
+                                  rows={10}
+                                  value={formik.values.usuario?.guuid}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  error={
+                                    formik.touched.usuario?.guuid &&
+                                    Boolean(formik.errors.usuario?.guuid)
+                                  }
+                                  helperText={
+                                    formik.touched.usuario?.guuid &&
+                                    formik.errors.usuario?.guuid
+                                  }
+                                />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          {/* <Grid item>
                             <Grid container spacing={2}>
                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                 <TextField
@@ -162,7 +199,7 @@ const Form = () => {
                                 />
                               </Grid>
                             </Grid>
-                          </Grid>
+                          </Grid> */}
 
                           <Grid item>
                             <Grid container spacing={2}>
@@ -175,7 +212,7 @@ const Form = () => {
                                 xl={12}
                               >
                                 <TextField
-                                  label="Base 64"
+                                  label="Code Base 64"
                                   id="base_64"
                                   name="usuario.base_64"
                                   required
@@ -183,7 +220,6 @@ const Form = () => {
                                   size="small"
                                   disabled
                                   fullWidth
-                                  multiline
                                   rows={10}
                                   value={formik.values.usuario?.base_64}
                                   onChange={formik.handleChange}
@@ -205,6 +241,22 @@ const Form = () => {
                     </Grid>
                   </Grid>
                 </Grid>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+          <Grid item>
+            <Accordion defaultExpanded elevation={elevetionAccordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel-content-personal-data"
+                id="panel-header-personal-data"
+              >
+                <Typography variant="h2" className={classes.heading}>
+                  Checkout Transparente
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <BeautifulCode code={code[0].code} />
               </AccordionDetails>
             </Accordion>
           </Grid>
