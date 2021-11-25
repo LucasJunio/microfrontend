@@ -85,21 +85,21 @@ const signer = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          token: action.payload.token,
+          token: action.payload?.token,
           signed: true,
-          statusMessage: action.payload.name,
-          message: action.payload.message,
-          userName: action.payload.userName,
-          userId: action.payload.userId,
-          cnpj: action.payload.cnpj,
+          statusMessage: action.payload?.name,
+          message: action.payload?.message,
+          userName: action.payload?.userName,
+          userId: action.payload?.userId,
+          cnpj: action.payload?.cnpj,
         });
       })
       .addCase(signin.rejected, (state, action) => {
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
-          statusMessage: action.payload.name,
+          message: action.payload?.message,
+          statusMessage: action.payload?.name,
         });
       })
       .addCase(recoveryPassword.pending, (state) => {
@@ -109,8 +109,8 @@ const signer = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
-          statusMessage: action.payload.name,
+          message: action.payload?.message,
+          statusMessage: action.payload?.name,
           type: "recoveryPassword",
         });
       })
@@ -118,8 +118,8 @@ const signer = createSlice({
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
-          statusMessage: action.payload.name,
+          message: action.payload?.message,
+          statusMessage: action.payload?.name,
         });
       })
       .addCase(sendEmailRecovery.pending, (state) => {
@@ -129,16 +129,16 @@ const signer = createSlice({
         return (state = {
           ...state,
           status: "completed",
-          message: action.payload.message,
-          statusMessage: action.payload.name,
+          message: action.payload?.message,
+          statusMessage: action.payload?.name,
         });
       })
       .addCase(sendEmailRecovery.rejected, (state, action) => {
         return (state = {
           ...state,
           status: "failed",
-          message: action.payload.message,
-          statusMessage: action.payload.name,
+          message: action.payload?.message,
+          statusMessage: action.payload?.name,
         });
       });
   },

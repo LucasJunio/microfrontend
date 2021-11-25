@@ -181,14 +181,14 @@ const user = createSlice({
         return (state = {
           ...state,
           status: 'completed',
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       })
       .addCase(persistDocuments.rejected, (state, action) => {
         return (state = {
           ...state,
           status: 'failed',
-          message: action.payload.message,
+          message: action.payload?.message,
         });
       })
       .addCase(documentsByUser.pending, (state) => {
@@ -198,14 +198,14 @@ const user = createSlice({
         return (state = {
           ...state,
           status: 'completed',
-          imgData: action.payload.message,
+          imgData: action.payload?.message,
         });
       })
       .addCase(documentsByUser.rejected, (state, action) => {
         return (state = {
           ...state,
           status: 'failed',
-          imgData: action.payload.message,
+          imgData: action.payload?.message,
         });
       })
       .addCase(userById.pending, (state) => {
@@ -215,7 +215,7 @@ const user = createSlice({
         return (state = {
           ...state,
           status: 'completed',
-          dataUser: action.payload.message,
+          dataUser: action.payload?.message,
           type: 'userById',
         });
       })
@@ -223,7 +223,7 @@ const user = createSlice({
         return (state = {
           ...state,
           status: 'failed',
-          message: action.payload.message,
+          message: action.payload?.message,
           type: 'userById',
         });
       })
