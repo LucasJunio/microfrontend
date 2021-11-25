@@ -3,9 +3,11 @@ import "./highlith.css";
 import marked from "marked";
 import hljs from "highlight.js";
 
-const BeautifulCode = ({ code }) => {
+const BeautifulCode = ({ codeSource }) => {
   const MARKDOWN_TEXT = `
-\`\`\`${code}\`\`\`
+\`\`\`javascript
+${codeSource}
+\`\`\`
 `;
 
   marked.setOptions({
@@ -17,7 +19,10 @@ const BeautifulCode = ({ code }) => {
 
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: marked(MARKDOWN_TEXT) }} />
+      <div
+        style={{ height: "300px", overflow: "auto" }}
+        dangerouslySetInnerHTML={{ __html: marked(MARKDOWN_TEXT) }}
+      />
     </div>
   );
 };

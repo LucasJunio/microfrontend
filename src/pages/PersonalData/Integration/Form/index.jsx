@@ -20,7 +20,6 @@ import { getEmbedCode } from "../../../../store/ducks/Embed";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import validationSchema from "./validateSchema";
-import { setDate } from "date-fns";
 
 const Form = () => {
   const classes = useStyles();
@@ -44,7 +43,10 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    data.length > 0 && setCode([...data]);
+    if (data.length > 0) {
+      const decodedData = Buffer.from(data[0].code, "base64");
+      setCode([{ code: decodedData }]);
+    }
   }, [data]);
 
   useEffect(() => {
@@ -83,7 +85,6 @@ const Form = () => {
     },
   });
 
-  console.log(data);
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={open}>
@@ -256,7 +257,7 @@ const Form = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <BeautifulCode code={code[0].code} />
+                <BeautifulCode codeSource={code[0].code} />
               </AccordionDetails>
             </Accordion>
           </Grid>
