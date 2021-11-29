@@ -58,7 +58,6 @@ const signup = createSlice({
         });
       })
       .addCase(createCnpj.rejected, (state, action) => {
-        console.log(action);
         return (state = {
           ...state,
           status: "failed",
@@ -78,7 +77,6 @@ const signup = createSlice({
         });
       })
       .addCase(createPf.rejected, (state, action) => {
-        console.log(action);
         return (state = {
           ...state,
           status: "failed",

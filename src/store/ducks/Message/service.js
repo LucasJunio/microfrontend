@@ -1,7 +1,6 @@
 import { api } from "../../../services/api";
 
 const resendTokenSms = async (token) => {
-  console.log(token);
   const res = await api.get(`/validation/resendsms`, {
     headers: {
       Authorization: `Bearer ${token}`,

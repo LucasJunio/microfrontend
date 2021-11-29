@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -6,22 +6,22 @@ import {
   CardContent,
   Divider,
   Typography,
-} from '@material-ui/core';
-import { Save } from '@material-ui/icons';
-import ImgUpload from 'components/ImgUpload';
-import ProgressBarLinear from 'components/ProgressBarLinear';
-import SkeletonImgDocuments from 'components/SkeletonImgDocuments';
-import TransitionsModal from 'components/Modal';
-import { useStyles } from './styles';
-import { useFormik } from 'formik';
+} from "@material-ui/core";
+import { Save } from "@material-ui/icons";
+import ImgUpload from "components/ImgUpload";
+import ProgressBarLinear from "components/ProgressBarLinear";
+import SkeletonImgDocuments from "components/SkeletonImgDocuments";
+import TransitionsModal from "components/Modal";
+import { useStyles } from "./styles";
+import { useFormik } from "formik";
 import {
   persistDocuments,
   clearImgUpload,
   clearPercentUpload,
   documentsByUser,
-} from '../../../../../store/ducks/User';
-import { useDispatch, useSelector } from 'react-redux';
-import { createObjectDocuments } from '../../../../../utils/img/imgUpload';
+} from "../../../../../store/ducks/User";
+import { useDispatch, useSelector } from "react-redux";
+import { createObjectDocuments } from "../../../../../utils/img/imgUpload";
 
 const Upload = () => {
   const classes = useStyles();
@@ -38,14 +38,11 @@ const Upload = () => {
 
   const handleModal = () => {
     dispatch(clearPercentUpload());
-    console.log('Persent da modal');
-    console.log(percentUploadImg);
     setOpenModal(!openModal);
     dispatch(documentsByUser(userId));
   };
 
   useEffect(() => {
-    console.log(percentUploadImg);
     percentUploadImg === 100 && handleModal();
   }, [percentUploadImg]);
 
@@ -62,8 +59,8 @@ const Upload = () => {
 
   const obj = {};
   img.forEach(({ categoria, status }) => {
-    status = status ?? '';
-    if (status.toLowerCase() === 'reprovado' || !status) {
+    status = status ?? "";
+    if (status.toLowerCase() === "reprovado" || !status) {
       readOnly = false;
     }
     obj[categoria] = categoria;
@@ -75,7 +72,7 @@ const Upload = () => {
     },
 
     onSubmit: (values) => {
-      const body = createObjectDocuments(values, userId, 'vilevewayclient');
+      const body = createObjectDocuments(values, userId, "vilevewayclient");
       dispatch(persistDocuments(body));
     },
   });
@@ -96,7 +93,7 @@ const Upload = () => {
                 </Grid>
                 {img && img.length > 0 ? (
                   img.map(({ base64, categoria, status, descricao }) => {
-                    status = status ?? '';
+                    status = status ?? "";
                     return (
                       <Grid
                         item
@@ -114,7 +111,7 @@ const Upload = () => {
                           category={categoria}
                           base64={base64 && `data:image/png;base64,${base64}`}
                           showButton={
-                            !status || status.toLowerCase() === 'reprovado'
+                            !status || status.toLowerCase() === "reprovado"
                               ? true
                               : false
                           }
