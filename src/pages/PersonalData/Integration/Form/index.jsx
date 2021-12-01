@@ -257,7 +257,16 @@ const Form = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <BeautifulCode codeSource={code[0].code} />
+                <div
+                  style={{
+                    height: "250px",
+                    width: "500px",
+                    overflowY: "auto",
+                    overflowX: "scroll",
+                  }}
+                >
+                  <BeautifulCode codeSource={code[0].code} />
+                </div>
               </AccordionDetails>
             </Accordion>
           </Grid>

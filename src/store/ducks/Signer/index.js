@@ -95,6 +95,13 @@ const signer = createSlice({
         });
       })
       .addCase(signin.rejected, (state, action) => {
+        if (action.error?.code === "ECONNABORTED") {
+          return (state = {
+            ...state,
+            status: "failed",
+            message: "Tempo expirador! Por favor, tente novamente",
+          });
+        }
         return (state = {
           ...state,
           status: "failed",
